@@ -435,6 +435,42 @@ const Footer = () => {
   );
 };
 
+// --- NAVEGACIÓN PRINCIPAL ---
+const MainNav: React.FC<{
+  currentView: string;
+  setCurrentView: (view: 'home' | 'work' | 'services') => void;
+  isHome?: boolean;
+  navRef?: React.RefObject<HTMLElement | null>;
+  bgColor?: string;
+}> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-white' }) => {
+  return (
+    <nav 
+      ref={navRef} 
+      className={`${isHome ? 'fixed top-0 left-0 w-full z-50 bg-transparent py-8 md:py-12' : `sticky top-0 z-40 w-full ${bgColor} py-7 md:py-8 border-b border-gray-100/50`} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4 transition-colors duration-200`}
+    >
+      <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4`}>
+        <button onClick={() => setCurrentView('home')} className="flex items-center gap-3.5 sm:gap-4 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
+          <HenriBarrettSun className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-current shrink-0" />
+          <span className="font-bold text-[1.1rem] sm:text-[1.25rem] md:text-[1.4rem] tracking-tight uppercase leading-none whitespace-nowrap">HENRI BARRETT®</span>
+        </button>
+        
+        <div className="flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] font-medium tracking-[0.03em] overflow-x-auto no-scrollbar py-1">
+          <button onClick={() => setCurrentView('home')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'home' ? 'font-bold' : ''}`}>About Us</button>
+          <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
+          <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
+          <a href="#quicklys" className="hover:opacity-60 transition-opacity whitespace-nowrap">Quicklys</a>
+          <a href="#contact" className="hover:opacity-60 transition-opacity whitespace-nowrap">Contact</a>
+        </div>
+
+        <a href="#work-with-us" className="relative group text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold pb-1.5 tracking-[0.03em] transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap">
+          Work with us
+          <span className="absolute bottom-0 left-0 w-full h-[2px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>
+        </a>
+      </div>
+    </nav>
+  );
+};
+
 // --- APP PRINCIPAL ---
 export const App: React.FC = () => {
   const mainContainerRef = useRef<HTMLDivElement>(null);
@@ -443,6 +479,7 @@ export const App: React.FC = () => {
   const finalPlaceholderRef = useRef<HTMLDivElement>(null);
   const infoBarRef = useRef<HTMLDivElement>(null);
   const workTextRef = useRef<HTMLSpanElement>(null);
+  const servicesMarqueeRef = useRef<HTMLDivElement>(null);
   const hubImageRef = useRef<HTMLImageElement>(null);
   const hubSectionRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -451,9 +488,10 @@ export const App: React.FC = () => {
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
+  const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setCurrentView] = useState<'work' | 'home'>('work');
+  const [currentView, setCurrentView] = useState<'work' | 'home' | 'services'>('home');
   const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -680,6 +718,13 @@ export const App: React.FC = () => {
         workTextRef.current.style.transform = `translate3d(0, ${parallaxY}px, 0)`;
       }
 
+      if (servicesMarqueeRef.current) {
+        // Move horizontally based on scroll
+        // Slow down the movement by multiplying scroll by a factor, e.g. -0.5
+        const moveX = -currentScrollY.current * 0.8;
+        servicesMarqueeRef.current.style.transform = `translate3d(${moveX}px, 0, 0)`;
+      }
+
       if (hubSectionRef.current && hubImageRef.current) {
          const rect = hubSectionRef.current.getBoundingClientRect();
          if (rect.top < windowHeight && rect.bottom > 0) {
@@ -706,46 +751,7 @@ export const App: React.FC = () => {
     return (
       <div className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <header className="w-full bg-white text-black sticky top-0 z-40 px-6 sm:px-10 md:px-16 py-7 md:py-8 flex items-center justify-between border-b border-transparent gap-4">
-          {/* Logo */}
-          <button 
-            onClick={() => setCurrentView('home')} 
-            className="flex items-center gap-3.5 text-left group cursor-pointer focus:outline-none shrink-0"
-            title="Ir a inicio (About us)"
-          >
-            <HenriBarrettSun className="w-7 h-7 md:w-8 md:h-8 text-black group-hover:rotate-45 transition-transform duration-500 shrink-0" />
-            <span className="font-extrabold text-[1.05rem] md:text-[1.25rem] tracking-tight uppercase leading-none text-black whitespace-nowrap">
-              HENRI BARRETT®
-            </span>
-          </button>
-
-          {/* Center Links (Visible en todas las vistas) */}
-          <nav className="flex items-center gap-4 sm:gap-7 md:gap-10 lg:gap-14 text-[0.92rem] sm:text-[1rem] md:text-[1.05rem] font-medium text-black overflow-x-auto no-scrollbar py-1">
-            <button 
-              onClick={() => setCurrentView('home')} 
-              className="hover:opacity-60 transition-opacity text-black/80 hover:text-black cursor-pointer whitespace-nowrap"
-            >
-              About us
-            </button>
-            <button 
-              onClick={() => setCurrentView('work')} 
-              className="font-bold text-black cursor-pointer relative whitespace-nowrap"
-            >
-              Work
-            </button>
-            <a href="#services" className="hover:opacity-60 transition-opacity text-black/80 hover:text-black whitespace-nowrap">Services</a>
-            <a href="#quicklys" className="hover:opacity-60 transition-opacity text-black/80 hover:text-black whitespace-nowrap">Quicklys</a>
-            <a href="#contact" className="hover:opacity-60 transition-opacity text-black/80 hover:text-black whitespace-nowrap">Contact</a>
-          </nav>
-
-          {/* Right: Work with us */}
-          <a 
-            href="#work-with-us" 
-            className="relative text-[0.92rem] sm:text-[1rem] md:text-[1.05rem] font-bold text-black border-b-[1.5px] border-black pb-0.5 hover:opacity-70 transition-opacity tracking-tight shrink-0 whitespace-nowrap"
-          >
-            Work with us
-          </a>
-        </header>
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
         {/* TIRA DE MARQUEE: "OUR WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
         <div className="w-full overflow-hidden py-4 sm:py-6 select-none bg-white border-y border-transparent">
@@ -996,31 +1002,85 @@ export const App: React.FC = () => {
     );
   }
 
+  if (currentView === 'services') {
+    return (
+      <div className="w-full min-h-screen bg-[#F5F5F5] text-black font-sans selection:bg-black selection:text-white pb-32">
+        {/* HEADER (NAVBAR) */}
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-[#F5F5F5]" />
+
+        {/* HERO SERVICES BLOCK */}
+        <div className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden">
+          {/* Marquee WHAT WE DO */}
+          <div className="w-full overflow-hidden select-none">
+            <div ref={servicesMarqueeRef} className="flex w-max whitespace-nowrap will-change-transform">
+              {/* Repeat a few times to ensure it covers the screen even when scrolling */}
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex items-center gap-10 md:gap-16 pr-10 md:pr-16 shrink-0">
+                  <HenriBarrettSun className="w-[12vw] h-[12vw] md:w-[8vw] md:h-[8vw] text-black shrink-0" />
+                  <span className="text-[20vw] md:text-[16vw] font-normal tracking-[-0.03em] uppercase leading-[0.8] text-black">WHAT WE DO</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full max-w-[1200px] px-6 sm:px-10 md:px-16 mt-20 md:mt-28">
+            <p className="text-[32px] sm:text-[42px] md:text-[54px] lg:text-[62px] leading-[1.05] tracking-[-0.035em] text-[#1a1a1a] font-normal">
+              Henri Barrett is more than just an agency; it's a movement, a mindset. We're here to change narratives, elevate brands, and make a lasting imprint in the world of design and creativity.
+            </p>
+          </div>
+
+          <div className="w-full max-w-[1500px] px-6 sm:px-10 md:px-16 mx-auto mt-20 md:mt-32 flex justify-between items-end">
+            <a href="#work-together" className="text-xl sm:text-2xl tracking-tight text-black border-b border-black pb-1 hover:opacity-70 transition-opacity">
+              Lets work together ↓
+            </a>
+            <span className="text-sm sm:text-base font-bold text-black">
+              (SCROLL)
+            </span>
+          </div>
+        </div>
+
+        {/* RE-INSERTED VIDEO BLOCK */}
+        <div className="w-full mt-16 md:mt-24 mb-20 flex justify-center !opacity-100" style={{ opacity: 1 }}>
+           <div className="w-full aspect-video relative overflow-hidden bg-black/5 !opacity-100" style={{ opacity: 1 }}>
+             <iframe 
+               id="vimeo-iframe"
+               src={`https://player.vimeo.com/video/1039783531?autoplay=1&autopause=0&loop=1&title=0&portrait=0&byline=0&controls=0&keyboard=0&speed=0&quality=4k&muted=${showVideoOverlay ? '1' : '0'}`} 
+               width="1920" 
+               height="1080" 
+               className="absolute top-0 left-0 w-full h-full object-cover"
+               frameBorder="0" 
+               allow="autoplay; fullscreen; picture-in-picture" 
+               allowFullScreen
+               loading="lazy"
+             ></iframe>
+             
+             {showVideoOverlay && (
+               <div 
+                 className="absolute inset-0 z-10 bg-black/80 flex items-center justify-center cursor-pointer transition-opacity duration-300"
+                 onClick={() => {
+                   setShowVideoOverlay(false);
+                   const iframe = document.getElementById('vimeo-iframe');
+                   if (iframe && iframe.requestFullscreen) {
+                     iframe.requestFullscreen().catch(err => console.error("Error attempting to enable fullscreen:", err));
+                   }
+                 }}
+               >
+                 <button className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white text-black flex items-center justify-center text-sm sm:text-lg font-bold tracking-widest hover:scale-105 transition-transform duration-300">
+                   PLAY
+                 </button>
+               </div>
+             )}
+           </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div ref={mainContainerRef} className="w-full transition-colors duration-200" style={{ backgroundColor: '#ffffff', height: pageHeight ? `${pageHeight}px` : '100vh' }}>
       
       {/* NAVEGACIÓN */}
-      <nav ref={navRef} className="fixed top-0 left-0 w-full z-50 px-6 sm:px-10 md:px-16 py-8 md:py-12 bg-transparent flex items-center justify-between gap-4">
-        <div className="w-full max-w-[1400px] mx-auto flex justify-between items-center text-current gap-4">
-            <button onClick={() => setCurrentView('home')} className="flex items-center gap-3.5 sm:gap-4 text-left cursor-pointer focus:outline-none shrink-0">
-                <HenriBarrettSun className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-current shrink-0" />
-                <span className="font-bold text-[1.1rem] sm:text-[1.25rem] md:text-[1.4rem] tracking-tight uppercase leading-none whitespace-nowrap">HENRI BARRETT®</span>
-            </button>
-            
-            <div className="flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] font-medium tracking-[0.03em] overflow-x-auto no-scrollbar py-1">
-                <button onClick={() => setCurrentView('home')} className="hover:opacity-60 transition-opacity font-bold cursor-pointer whitespace-nowrap">About us</button>
-                <button onClick={() => setCurrentView('work')} className="hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap">Work</button>
-                <a href="#services" className="hover:opacity-60 transition-opacity whitespace-nowrap">Services</a>
-                <a href="#quicklys" className="hover:opacity-60 transition-opacity whitespace-nowrap">Quicklys</a>
-                <a href="#contact" className="hover:opacity-60 transition-opacity whitespace-nowrap">Contact</a>
-            </div>
-
-            <a href="#work-with-us" className="relative group text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold pb-1.5 tracking-[0.03em] transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap">
-                Work with us
-                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>
-            </a>
-        </div>
-      </nav>
+      <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
 
       {/* VIDEO CLIP LAYER */}
       <div ref={videoContainerRef} className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none" style={{ clipPath: 'inset(100vh 50% 0 50%)' }}>
