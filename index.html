@@ -68,6 +68,40 @@
       .animate-marquee-down-alt {
         animation: marquee-down 36s linear infinite;
       }
+      @keyframes glitch-slice-1 {
+        0% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 1px); }
+        20% { clip-path: inset(80% 0 5% 0); transform: translate(3px, -2px); }
+        40% { clip-path: inset(10% 0 70% 0); transform: translate(-3px, 2px); }
+        60% { clip-path: inset(60% 0 25% 0); transform: translate(4px, -1px); }
+        80% { clip-path: inset(30% 0 50% 0); transform: translate(-2px, -1px); }
+        100% { clip-path: inset(50% 0 30% 0); transform: translate(0, 0); }
+      }
+      @keyframes glitch-slice-2 {
+        0% { clip-path: inset(45% 0 35% 0); transform: translate(4px, -1px); }
+        20% { clip-path: inset(15% 0 65% 0); transform: translate(-3px, 2px); }
+        40% { clip-path: inset(75% 0 10% 0); transform: translate(2px, -2px); }
+        60% { clip-path: inset(5% 0 85% 0); transform: translate(-4px, 1px); }
+        80% { clip-path: inset(55% 0 20% 0); transform: translate(3px, 0); }
+        100% { clip-path: inset(25% 0 55% 0); transform: translate(0, 0); }
+      }
+      @keyframes glitch-flicker {
+        0%, 100% { opacity: 1; transform: translate(0, 0); }
+        10% { opacity: 0.3; transform: translate(-3px, 1px); }
+        25% { opacity: 0.9; transform: translate(2px, -2px) skewX(1deg); }
+        40% { opacity: 0.1; transform: translate(-4px, 2px); }
+        55% { opacity: 0.85; transform: translate(3px, -1px) skewX(-1.5deg); }
+        70% { opacity: 0.2; transform: translate(-2px, -2px); }
+        85% { opacity: 0.95; transform: translate(1px, 2px); }
+      }
+      .animate-glitch-flicker {
+        animation: glitch-flicker 0.25s infinite;
+      }
+      .animate-glitch-1 {
+        animation: glitch-slice-1 0.3s infinite ease-in-out alternate-reverse;
+      }
+      .animate-glitch-2 {
+        animation: glitch-slice-2 0.25s infinite ease-in-out alternate-reverse;
+      }
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
