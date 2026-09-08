@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sun, MoveUpRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw } from 'lucide-react';
+import { Sun, MoveUpRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 
 // --- LOGO EMBLEMA HENRI BARRETT (SOL RADIAL DE LA MARCA) ---
 export const HenriBarrettSun: React.FC<{ className?: string }> = ({ className = "w-8 h-8" }) => {
@@ -87,153 +87,250 @@ interface ReelItem {
   title: string;
   client: string;
   videoUrl: string;
-  posterUrl: string;
+  posterUrl?: string;
+  instagramUrl: string;
+  instagramShortcode?: string;
 }
+
+export const extractInstagramShortcode = (urlOrCode: string): string => {
+  if (!urlOrCode) return '';
+  const clean = urlOrCode.trim();
+  const match = clean.match(/(?:instagram\.com\/(?:reel|p|tv)\/|instagram\.com\/[^/]+\/reel\/)([A-Za-z0-9_-]+)/);
+  if (match) return match[1];
+  if (/^[A-Za-z0-9_-]{8,25}$/.test(clean)) return clean;
+  return '';
+};
 
 const REELS_COL_1: ReelItem[] = [
   {
     id: 'r1',
-    title: 'Umana Dynamic Visuals',
-    client: 'Umana Brand',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-in-neon-light-39878-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop'
+    title: 'Barrett Sessions #11 • Acoustic & Experimental Audio',
+    client: 'Barrett Sessions Live',
+    videoUrl: '/videos/hb_reel_1.mp4',
+    posterUrl: '/videos/hb_reel_1_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r2',
-    title: 'Festival Energy 2026',
-    client: 'Rappi Fest',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-the-rain-41558-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop'
+    title: 'Culture Clash Lima • Urban Summit & Street Expression',
+    client: 'Culture Clash Fest',
+    videoUrl: '/videos/hb_reel_2.mp4',
+    posterUrl: '/videos/hb_reel_2_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r3',
-    title: 'Botanical Calm Care',
-    client: 'Petco Brand',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-walking-in-a-forest-41584-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=800&auto=format&fit=crop'
+    title: 'Kotex Agilidad Real-Time Strategy',
+    client: 'Kotex Latam',
+    videoUrl: '/videos/hb_reel_3.mp4',
+    posterUrl: '/videos/hb_reel_3_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r4',
-    title: 'Studio Sessions Live',
-    client: 'Barrett Sessions',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-skater-skating-outdoors-42861-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop'
+    title: 'Studio Showreel 2026 • Brand Architecture & Visual Lab',
+    client: 'Henri Barrett Studio',
+    videoUrl: '/videos/hb_reel_4.mp4',
+    posterUrl: '/videos/hb_reel_4_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   }
 ];
 
 const REELS_COL_2: ReelItem[] = [
   {
     id: 'r5',
-    title: 'Kinetic Movement',
-    client: 'Nike Forward',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-on-the-beach-40078-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop'
+    title: 'Nike Lima Forward • Kinetic Stride & Velocity',
+    client: 'Nike Peru',
+    videoUrl: '/videos/hb_reel_5.mp4',
+    posterUrl: '/videos/hb_reel_5_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r6',
-    title: 'Heritage & Origin',
+    title: 'Pisco Tacama • Origin & Heritage Distillation',
     client: 'Pisco Tacama',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-woman-in-a-pool-1259-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=800&auto=format&fit=crop'
+    videoUrl: '/videos/hb_reel_6.mp4',
+    posterUrl: '/videos/hb_reel_6_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r7',
-    title: 'Analog Film Craft',
-    client: 'HB Studio Lab',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-vintage-film-camera-42880-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop'
+    title: 'HB Typography Drop • Kinetic Glyphs System',
+    client: 'HB Studio Type',
+    videoUrl: '/videos/hb_reel_7.mp4',
+    posterUrl: '/videos/hb_reel_7_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r8',
-    title: 'Appetite In 3D Motion',
-    client: 'Yummy Delivery',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-drawing-on-a-tablet-42884-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop'
+    title: 'PedidosYa Quick Bites • 3D Motion & Appetite Appeal',
+    client: 'PedidosYa',
+    videoUrl: '/videos/hb_reel_8.mp4',
+    posterUrl: '/videos/hb_reel_8_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   }
 ];
 
 const REELS_COL_3: ReelItem[] = [
   {
     id: 'r9',
-    title: 'Financial Innovation',
-    client: 'Interbank Hub',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-in-neon-light-39878-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop'
+    title: 'Interbank InLab • Digital Hub & Experience Architecture',
+    client: 'Interbank InLab',
+    videoUrl: '/videos/hb_reel_9.mp4',
+    posterUrl: '/videos/hb_reel_9_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r10',
-    title: 'Summer Stage Live',
-    client: 'Heineken Fest',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-the-rain-41558-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=800&auto=format&fit=crop'
+    title: 'Heineken Silver • Nightlife Brand Activation',
+    client: 'Heineken Peru',
+    videoUrl: '/videos/hb_reel_10.mp4',
+    posterUrl: '/videos/hb_reel_10_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r11',
-    title: 'Spatial Audio Stream',
-    client: 'Spotify Greenroom',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-skater-skating-outdoors-42861-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=800&auto=format&fit=crop'
+    title: 'Navidad Tottus • Historias Microformato & Unión',
+    client: 'Tottus Peru',
+    videoUrl: '/videos/hb_reel_11.mp4',
+    posterUrl: '/videos/hb_reel_11_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r12',
-    title: 'Chromatic Harmony',
-    client: 'Barrett Lab',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-walking-in-a-forest-41584-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop'
+    title: 'Barrett Lab 3D • Generative Sculpture & Motion',
+    client: 'HB Visual Lab',
+    videoUrl: '/videos/hb_reel_12.mp4',
+    posterUrl: '/videos/hb_reel_12_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   }
 ];
 
 const REELS_COL_4: ReelItem[] = [
   {
     id: 'r13',
-    title: 'Sonic Landscape',
-    client: 'HB Music Dept',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-on-the-beach-40078-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=800&auto=format&fit=crop'
+    title: 'Precio Uno Bodas de Oro • Retail Identity & Orgullo',
+    client: 'Precio Uno',
+    videoUrl: '/videos/hb_reel_13.mp4',
+    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r14',
-    title: 'Digital Sculpture 3D',
-    client: 'Quicklys 04',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-drawing-on-a-tablet-42884-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop'
+    title: 'Alicorp Primor • Dynamic Color & Motion Packaging',
+    client: 'Alicorp',
+    videoUrl: '/videos/hb_reel_14.mp4',
+    posterUrl: '/videos/hb_reel_14_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r15',
-    title: 'Editorial Typography',
-    client: 'Brand Drop',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-vintage-film-camera-42880-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&auto=format&fit=crop'
+    title: 'Barrett Street Culture • Raw Identity Drop Lima',
+    client: 'Henri Barrett Studio',
+    videoUrl: '/videos/hb_reel_15.mp4',
+    posterUrl: '/videos/hb_reel_15_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r16',
-    title: 'Atmospheric Motion',
-    client: 'Festival Reel',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-woman-in-a-pool-1259-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop'
+    title: 'Barrett Sessions Live Set • Sonic Mood & Ambience',
+    client: 'Barrett Sessions',
+    videoUrl: '/videos/hb_reel_16.mp4',
+    posterUrl: '/videos/hb_reel_16_thumb.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
+    instagramShortcode: 'C_q83H-O_Z1'
   }
 ];
+
+export const LoopedReelVideo: React.FC<{
+  src: string;
+  poster?: string;
+  className?: string;
+  muted?: boolean;
+}> = ({ src, poster, className = '', muted = true }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.defaultMuted = muted;
+    video.muted = muted;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    const p = video.play();
+    if (p !== undefined) {
+      p.catch(() => {});
+    }
+  }, [src, muted]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      autoPlay
+      loop
+      muted={muted}
+      playsInline
+      preload="auto"
+      onLoadedMetadata={(e) => {
+        e.currentTarget.defaultMuted = muted;
+        e.currentTarget.muted = muted;
+        e.currentTarget.play().catch(() => {});
+      }}
+      onCanPlay={(e) => {
+        e.currentTarget.play().catch(() => {});
+      }}
+      className={className}
+    />
+  );
+};
 
 const ReelCard: React.FC<{ reel: ReelItem; onSelect: () => void }> = ({ reel, onSelect }) => {
   return (
     <div
       onClick={onSelect}
-      className="relative aspect-[9/16] w-full rounded-[22px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden bg-[#d8d8d8] group cursor-pointer shadow-sm select-none border border-black/5"
+      className="relative aspect-[9/16] w-full rounded-[22px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden bg-black group cursor-pointer shadow-sm select-none border border-black/5"
     >
-      <video
+      <LoopedReelVideo
         src={reel.videoUrl}
         poster={reel.posterUrl}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
+
+      {/* Badge permanente de Instagram @henribarrettstudio */}
+      <div className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-medium tracking-wide flex items-center gap-1.5 z-10">
+        <Instagram className="w-2.5 h-2.5 text-pink-400" />
+        <span>@henribarrettstudio</span>
+      </div>
+
       {/* Gradiente sutil y metadata al hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-white pointer-events-none">
-        <span className="text-[11px] sm:text-xs uppercase tracking-wider text-white/80 font-bold">{reel.client}</span>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-white pointer-events-none">
+        <div className="flex items-center gap-1.5 mb-1">
+          <Instagram className="w-3 h-3 text-[#E1306C]" />
+          <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-white/80 font-bold">{reel.client}</span>
+        </div>
         <span className="text-sm sm:text-base font-semibold leading-tight line-clamp-2 mt-0.5">{reel.title}</span>
+        <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-white/90 font-medium">
+          <span className="underline underline-offset-2">Ver Reel @henribarrettstudio</span>
+          <MoveUpRight className="w-3 h-3" />
+        </div>
       </div>
 
       {/* Indicador 'REEL' */}
@@ -246,11 +343,117 @@ const ReelCard: React.FC<{ reel: ReelItem; onSelect: () => void }> = ({ reel, on
 };
 
 const QuicklysMasonryReels: React.FC = () => {
+  const [cols, setCols] = useState<{ col1: ReelItem[]; col2: ReelItem[]; col3: ReelItem[]; col4: ReelItem[] }>(() => {
+    try {
+      const saved = localStorage.getItem('hb_studio_reels_data_v3');
+      if (saved && !saved.includes('mixkit.co')) {
+        const parsed = JSON.parse(saved);
+        if (parsed.col1 && parsed.col2 && parsed.col3 && parsed.col4) {
+          return parsed;
+        }
+      }
+      localStorage.removeItem('hb_studio_reels_data');
+    } catch (e) {
+      console.error(e);
+    }
+    return { col1: REELS_COL_1, col2: REELS_COL_2, col3: REELS_COL_3, col4: REELS_COL_4 };
+  });
+
   const [selectedReel, setSelectedReel] = useState<ReelItem | null>(null);
+  const [viewMode, setViewMode] = useState<'embed' | 'video'>('embed');
   const [isMuted, setIsMuted] = useState(true);
+  const [isManagerOpen, setIsManagerOpen] = useState(false);
+  const [isEditingCurrentUrl, setIsEditingCurrentUrl] = useState(false);
+  const [currentUrlInput, setCurrentUrlInput] = useState('');
+  const [saveToast, setSaveToast] = useState(false);
+
+  // Actualizar la URL de un Reel y persistir en localStorage
+  const handleUpdateReel = (reelId: string, newUrl: string) => {
+    const code = extractInstagramShortcode(newUrl);
+    const updateList = (list: ReelItem[]) =>
+      list.map(item => (item.id === reelId ? { ...item, instagramUrl: newUrl, instagramShortcode: code || item.instagramShortcode } : item));
+
+    const updated = {
+      col1: updateList(cols.col1),
+      col2: updateList(cols.col2),
+      col3: updateList(cols.col3),
+      col4: updateList(cols.col4),
+    };
+
+    setCols(updated);
+    try {
+      localStorage.setItem('hb_studio_reels_data_v3', JSON.stringify(updated));
+      localStorage.removeItem('hb_studio_reels_data');
+    } catch (e) {
+      console.error(e);
+    }
+
+    if (selectedReel && selectedReel.id === reelId) {
+      setSelectedReel({ ...selectedReel, instagramUrl: newUrl, instagramShortcode: code || selectedReel.instagramShortcode });
+    }
+
+    setSaveToast(true);
+    setTimeout(() => setSaveToast(false), 2800);
+  };
+
+  const handleResetDefaults = () => {
+    setCols({ col1: REELS_COL_1, col2: REELS_COL_2, col3: REELS_COL_3, col4: REELS_COL_4 });
+    try {
+      localStorage.removeItem('hb_studio_reels_data');
+      localStorage.removeItem('hb_studio_reels_data_v3');
+    } catch (e) {
+      console.error(e);
+    }
+    setSaveToast(true);
+    setTimeout(() => setSaveToast(false), 2800);
+  };
+
+  const currentShortcode = selectedReel ? (extractInstagramShortcode(selectedReel.instagramUrl) || selectedReel.instagramShortcode || 'C_q83H-O_Z1') : '';
 
   return (
     <div className="w-full relative bg-white overflow-hidden pt-2 sm:pt-4 pb-0 mb-0">
+      {/* HEADER DE CONEXIÓN A INSTAGRAM @HENRIBARRETTSTUDIO */}
+      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[2.5px] flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
+              <Instagram className="w-5 h-5 text-black" />
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-base sm:text-lg font-bold text-black tracking-tight">@henribarrettstudio</span>
+              <span className="w-3.5 h-3.5 rounded-full bg-[#0095f6] text-white flex items-center justify-center text-[8px] font-bold">✓</span>
+              <span className="px-2 py-0.5 rounded-full bg-black/5 text-[#555] text-[10px] font-semibold uppercase tracking-wider">Reels En Vivo</span>
+            </div>
+            <p className="text-xs text-[#666666]">Reels oficiales • Brand Architecture & Creative Direction</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* BOTÓN PARA GESTIONAR / PEGAR REELS DE INSTAGRAM */}
+          <button
+            onClick={() => setIsManagerOpen(true)}
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-white border border-black/15 text-black hover:bg-black hover:text-white text-xs sm:text-sm font-medium transition-all shadow-xs cursor-pointer"
+          >
+            <Settings2 className="w-3.5 h-3.5 text-[#E1306C]" />
+            <span>Vincular Reels de Instagram</span>
+          </button>
+
+          {/* BOTÓN DIRECTO A INSTAGRAM */}
+          <a 
+            href="https://www.instagram.com/henribarrettstudio/reels/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black text-white text-xs sm:text-sm font-medium hover:bg-black/80 transition-colors w-fit self-start sm:self-auto cursor-pointer shadow-xs"
+          >
+            <Instagram className="w-4 h-4" />
+            <span>Ver perfil en Instagram</span>
+            <MoveUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
       {/* 4 COLUMNAS DE REELS MASONRY IRREGULAR (RELACIÓN 9:16) */}
       <div className="relative w-full h-[680px] sm:h-[820px] md:h-[940px] lg:h-[1040px] overflow-hidden">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 px-3 sm:px-6 md:px-8 h-full w-full">
@@ -261,7 +464,7 @@ const QuicklysMasonryReels: React.FC = () => {
               className="flex flex-col gap-3 sm:gap-4 md:gap-5 animate-marquee-down will-change-transform"
               style={{ animationDuration: '34s' }}
             >
-              {[...REELS_COL_1, ...REELS_COL_1].map((reel, idx) => (
+              {[...cols.col1, ...cols.col1].map((reel, idx) => (
                 <ReelCard key={`c1-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
@@ -273,7 +476,7 @@ const QuicklysMasonryReels: React.FC = () => {
               className="flex flex-col gap-3 sm:gap-4 md:gap-5 animate-marquee-up will-change-transform -mt-20 sm:-mt-32 md:-mt-40"
               style={{ animationDuration: '30s' }}
             >
-              {[...REELS_COL_2, ...REELS_COL_2].map((reel, idx) => (
+              {[...cols.col2, ...cols.col2].map((reel, idx) => (
                 <ReelCard key={`c2-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
@@ -285,7 +488,7 @@ const QuicklysMasonryReels: React.FC = () => {
               className="flex flex-col gap-3 sm:gap-4 md:gap-5 animate-marquee-down-alt will-change-transform -mt-10 sm:-mt-16"
               style={{ animationDuration: '38s' }}
             >
-              {[...REELS_COL_3, ...REELS_COL_3].map((reel, idx) => (
+              {[...cols.col3, ...cols.col3].map((reel, idx) => (
                 <ReelCard key={`c3-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
@@ -297,7 +500,7 @@ const QuicklysMasonryReels: React.FC = () => {
               className="flex flex-col gap-3 sm:gap-4 md:gap-5 animate-marquee-up-alt will-change-transform -mt-28 sm:-mt-40 md:-mt-52"
               style={{ animationDuration: '33s' }}
             >
-              {[...REELS_COL_4, ...REELS_COL_4].map((reel, idx) => (
+              {[...cols.col4, ...cols.col4].map((reel, idx) => (
                 <ReelCard key={`c4-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
@@ -306,56 +509,660 @@ const QuicklysMasonryReels: React.FC = () => {
         </div>
       </div>
 
-      {/* MODAL EXPANDIDO DEL REEL CON AUDIO Y CONTROLES */}
+      {/* MODAL REPRODUCTOR DE REEL ESTILO INSTAGRAM (@HENRIBARRETTSTUDIO) */}
       {selectedReel && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-          onClick={() => setSelectedReel(null)}
+          className="fixed inset-0 z-[100] bg-black/92 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 md:p-6 animate-fade-in"
+          onClick={() => {
+            setSelectedReel(null);
+            setIsEditingCurrentUrl(false);
+          }}
         >
           <div 
-            className="relative w-full max-w-[400px] aspect-[9/16] bg-black rounded-[28px] overflow-hidden shadow-2xl border border-white/10"
+            className="relative w-full max-w-[430px] h-[90vh] max-h-[780px] bg-black rounded-[28px] sm:rounded-[32px] overflow-hidden shadow-2xl border border-white/10 flex flex-col justify-between select-none"
             onClick={(e) => e.stopPropagation()}
           >
-            <video
-              src={selectedReel.videoUrl}
-              poster={selectedReel.posterUrl}
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full h-full object-cover"
-            />
+            {/* CONTENIDO DEL REPRODUCTOR (EMBED NATIVO O VIDEO 9:16) */}
+            <div className="relative w-full h-full overflow-hidden bg-black flex items-center justify-center">
+              {viewMode === 'embed' ? (
+                <iframe
+                  key={currentShortcode}
+                  src={`https://www.instagram.com/reel/${currentShortcode}/embed/`}
+                  className="w-full h-full border-0 bg-white"
+                  scrolling="no"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen
+                  title={selectedReel.title}
+                />
+              ) : (
+                <LoopedReelVideo
+                  src={selectedReel.videoUrl}
+                  poster={selectedReel.posterUrl}
+                  muted={isMuted}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
 
-            {/* Controles del Modal */}
-            <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
-                title={isMuted ? "Activar audio" : "Silenciar"}
-              >
-                {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-              </button>
-              <button
-                onClick={() => setSelectedReel(null)}
-                className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
-                title="Cerrar"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {/* OVERLAY PARA EDITAR / PEGAR URL DE INSTAGRAM DE ESTE REEL */}
+              {isEditingCurrentUrl && (
+                <div className="absolute inset-0 z-40 bg-black/95 backdrop-blur-md p-6 flex flex-col justify-center text-white">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[1.5px] flex items-center justify-center shrink-0">
+                      <div className="w-full h-full bg-black rounded-full flex items-center justify-center">
+                        <Instagram className="w-4 h-4 text-pink-400" />
+                      </div>
+                    </div>
+                    <h4 className="text-sm font-bold">Vincular URL de Instagram</h4>
+                  </div>
+                  <p className="text-xs text-white/70 mb-4">
+                    Pega el enlace de cualquier Reel de <strong className="text-white">@henribarrettstudio</strong> para reproducirlo aquí con el reproductor oficial:
+                  </p>
+                  <input
+                    type="text"
+                    value={currentUrlInput}
+                    onChange={(e) => setCurrentUrlInput(e.target.value)}
+                    placeholder="https://www.instagram.com/reel/C_q83H-O_Z1/ ..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs placeholder:text-white/40 focus:outline-hidden focus:border-white mb-3"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        if (currentUrlInput.trim()) {
+                          handleUpdateReel(selectedReel.id, currentUrlInput.trim());
+                          setViewMode('embed');
+                        }
+                        setIsEditingCurrentUrl(false);
+                      }}
+                      className="flex-1 py-2.5 bg-gradient-to-r from-[#833ab4] to-[#fd1d1d] text-white rounded-xl text-xs font-semibold hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Guardar y Reproducir</span>
+                    </button>
+                    <button
+                      onClick={() => setIsEditingCurrentUrl(false)}
+                      className="px-4 py-2.5 bg-white/15 text-white rounded-xl text-xs hover:bg-white/25 transition-colors cursor-pointer"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Metadata inferior del modal */}
-            <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/95 via-black/50 to-transparent z-10 flex flex-col gap-1 text-white pointer-events-none">
-              <span className="text-xs uppercase tracking-widest text-white/70 font-semibold">{selectedReel.client}</span>
-              <h3 className="text-xl font-bold">{selectedReel.title}</h3>
-              <p className="text-xs text-white/50 mt-1">Henri Barrett® Quicklys • Reel 9:16</p>
+            {/* BARRA SUPERIOR FLOTANTE DEL MODAL */}
+            <div className="absolute top-0 left-0 right-0 z-30 p-3.5 bg-gradient-to-b from-black/90 via-black/50 to-transparent flex items-center justify-between pointer-events-auto">
+              {/* SELECTOR DE MODO: EMBED OFICIAL vs VIDEO 9:16 */}
+              <div className="flex items-center bg-black/65 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-md">
+                <button
+                  onClick={() => setViewMode('embed')}
+                  className={`px-3 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    viewMode === 'embed'
+                      ? 'bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white shadow-xs'
+                      : 'text-white/70 hover:text-white'
+                  }`}
+                  title="Reproductor Embebido Oficial de Instagram"
+                >
+                  <Instagram className="w-3 h-3" />
+                  <span>Instagram Embed</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('video')}
+                  className={`px-3 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                    viewMode === 'video' ? 'bg-white text-black shadow-xs' : 'text-white/70 hover:text-white'
+                  }`}
+                  title="Reproducción de video optimizada"
+                >
+                  <Play className="w-2.5 h-2.5 fill-current" />
+                  <span>Video 9:16</span>
+                </button>
+              </div>
+
+              {/* CONTROLES DE LA DERECHA */}
+              <div className="flex items-center gap-2">
+                {viewMode === 'video' && (
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
+                    title={isMuted ? "Activar audio" : "Silenciar"}
+                  >
+                    {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    setSelectedReel(null);
+                    setIsEditingCurrentUrl(false);
+                  }}
+                  className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
+                  title="Cerrar"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* PIE INFERIOR DEL REEL: METADATA Y ACCIONES */}
+            <div className="relative z-20 p-4 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex flex-col gap-2 text-white">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <span className="text-[10px] uppercase tracking-widest text-[#0095f6] font-bold">{selectedReel.client}</span>
+                  <h3 className="text-sm sm:text-base font-bold leading-tight mt-0.5">{selectedReel.title}</h3>
+                </div>
+
+                {/* BOTÓN PARA EDITAR URL DE ESTE REEL */}
+                <button
+                  onClick={() => {
+                    setCurrentUrlInput(selectedReel.instagramUrl);
+                    setIsEditingCurrentUrl(true);
+                  }}
+                  className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10px] font-medium flex items-center gap-1 shrink-0 cursor-pointer border border-white/10"
+                  title="Cambiar URL de Instagram para este Reel"
+                >
+                  <Edit3 className="w-3 h-3 text-pink-400" />
+                  <span>Pegar URL</span>
+                </button>
+              </div>
+
+              {/* BOTÓN CTA DIRECTO A INSTAGRAM */}
+              <a
+                href={selectedReel.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 flex items-center justify-center gap-2 w-full py-2 px-4 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-90 text-white rounded-full font-bold text-[11px] uppercase tracking-wider transition-opacity shadow-md cursor-pointer"
+              >
+                <Instagram className="w-3.5 h-3.5" />
+                <span>Abrir en Instagram @henribarrettstudio</span>
+                <MoveUpRight className="w-3 h-3" />
+              </a>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* MODAL DE GESTIÓN Y VINCULACIÓN DE REELS DE INSTAGRAM */}
+      {isManagerOpen && (
+        <div 
+          className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-in"
+          onClick={() => setIsManagerOpen(false)}
+        >
+          <div 
+            className="relative w-full max-w-[860px] max-h-[88vh] bg-[#121212] text-white rounded-[28px] overflow-hidden shadow-2xl border border-white/15 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* CABECERA */}
+            <div className="p-5 sm:p-6 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[2px] flex items-center justify-center shrink-0">
+                  <div className="w-full h-full bg-black rounded-full flex items-center justify-center">
+                    <Instagram className="w-5 h-5 text-pink-400" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">Vincular Reels Oficiales @henribarrettstudio</h3>
+                  <p className="text-xs text-white/60">Pega los enlaces públicos de tus Reels de Instagram para reproducirlos embebidos directamente en la web</p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsManagerOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* CONTENIDO SCROLLEABLE */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-4 max-h-[calc(88vh-160px)]">
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-white/80 leading-relaxed flex items-start gap-3">
+                <Instagram className="w-5 h-5 text-pink-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-white">¿Cómo funciona la integración?</strong>
+                  <p className="mt-1">
+                    Instagram permite incrustar sus Reels a través de su reproductor oficial (<code className="bg-white/10 px-1 py-0.5 rounded text-pink-300">/embed/</code>). Al ingresar cualquier URL de Reel de tu cuenta (ej. <code className="bg-white/10 px-1 py-0.5 rounded text-pink-300">https://www.instagram.com/reel/C_q83H-O_Z1/</code>), el reproductor nativo de Instagram se cargará automáticamente aquí con el video, audio, me gusta y enlace directo al perfil.
+                  </p>
+                </div>
+              </div>
+
+              {/* LISTADO DE LOS REELS DE LAS 4 COLUMNAS */}
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-white/50">Reels Activos de la Grilla (Slots 1 a 16)</h4>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[...cols.col1, ...cols.col2, ...cols.col3, ...cols.col4].map((reel) => {
+                    const shortcode = extractInstagramShortcode(reel.instagramUrl) || reel.instagramShortcode;
+                    return (
+                      <div key={reel.id} className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col gap-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 overflow-hidden">
+                            <div className="w-9 h-12 rounded-lg overflow-hidden bg-black shrink-0 relative">
+                              <LoopedReelVideo
+                                src={reel.videoUrl}
+                                poster={reel.posterUrl}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="truncate">
+                              <span className="text-[10px] uppercase font-bold text-pink-400">{reel.client}</span>
+                              <h5 className="text-xs font-medium text-white truncate">{reel.title}</h5>
+                            </div>
+                          </div>
+                          {shortcode && (
+                            <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono shrink-0">
+                              {shortcode}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="relative flex-1">
+                            <input
+                              type="text"
+                              defaultValue={reel.instagramUrl}
+                              placeholder="https://www.instagram.com/reel/..."
+                              onBlur={(e) => {
+                                if (e.target.value.trim() && e.target.value !== reel.instagramUrl) {
+                                  handleUpdateReel(reel.id, e.target.value.trim());
+                                }
+                              }}
+                              className="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-white/15 text-white text-xs placeholder:text-white/30 focus:outline-hidden focus:border-pink-500"
+                            />
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSelectedReel(reel);
+                              setViewMode('embed');
+                              setIsManagerOpen(false);
+                            }}
+                            className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium shrink-0 flex items-center gap-1 transition-colors cursor-pointer"
+                            title="Probar reproducción"
+                          >
+                            <Play className="w-3 h-3 fill-current" />
+                            <span>Probar</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* PIE CON ACCIONES */}
+            <div className="p-4 sm:p-5 border-t border-white/10 bg-black/30 flex flex-wrap items-center justify-between gap-3">
+              <button
+                onClick={handleResetDefaults}
+                className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-white transition-colors cursor-pointer"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Restablecer Reels originales</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsManagerOpen(false)}
+                  className="px-5 py-2 rounded-full bg-white text-black hover:bg-white/90 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Listo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TOAST DE GUARDADO */}
+      {saveToast && (
+        <div className="fixed bottom-6 right-6 z-[150] px-4 py-3 rounded-2xl bg-black/90 border border-white/20 text-white text-xs font-semibold shadow-2xl flex items-center gap-2.5 animate-fade-in backdrop-blur-md">
+          <Check className="w-4 h-4 text-emerald-400" />
+          <span>¡Reels actualizados y guardados en tu navegador!</span>
         </div>
       )}
     </div>
   );
 };
+
+const QuicklysDoubleMarquee: React.FC = () => {
+  const marqueeItems = [
+    'CREATIVITY',
+    'CURIOSITY IS SEXY',
+    'ALWAYS'
+  ];
+
+  return (
+    <div className="w-full overflow-hidden mt-6 sm:mt-10 md:mt-14 mb-4 sm:mb-6 flex flex-col gap-2 sm:gap-4 select-none bg-white">
+      {/* TIRA 1: HACIA LA DERECHA */}
+      <div className="w-full overflow-hidden">
+        <div className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform" style={{ animationDuration: '36s' }}>
+          {[0, 1].map((setIdx) => (
+            <div key={`d-right-${setIdx}`} className="flex items-center shrink-0">
+              {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+                <div key={`m-r-${setIdx}-${idx}`} className="flex items-center shrink-0">
+                  <span 
+                    className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[136px] font-light uppercase tracking-[-0.03em] text-black leading-none"
+                    style={{
+                      fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
+                      fontWeight: 300
+                    }}
+                  >
+                    {item}
+                  </span>
+                  <HenriBarrettSun className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* TIRA 2: HACIA LA IZQUIERDA */}
+      <div className="w-full overflow-hidden">
+        <div className="flex w-max whitespace-nowrap animate-marquee-left will-change-transform" style={{ animationDuration: '36s' }}>
+          {[0, 1].map((setIdx) => (
+            <div key={`d-left-${setIdx}`} className="flex items-center shrink-0">
+              {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+                <div key={`m-l-${setIdx}-${idx}`} className="flex items-center shrink-0">
+                  <span 
+                    className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[136px] font-light uppercase tracking-[-0.03em] text-black leading-none"
+                    style={{
+                      fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
+                      fontWeight: 300
+                    }}
+                  >
+                    {item}
+                  </span>
+                  <HenriBarrettSun className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BrandHeineken = () => (
+  <div className="flex flex-col items-center justify-center text-[#737373] hover:text-black transition-colors shrink-0 select-none">
+    <div className="flex items-center gap-1.5 mb-0.5">
+      <span className="text-[8px] font-bold tracking-wider uppercase">EST.</span>
+      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+      </svg>
+      <span className="text-[8px] font-bold tracking-wider uppercase">1873</span>
+    </div>
+    <div className="flex items-start">
+      <span className="text-2xl sm:text-[28px] font-black tracking-[-0.03em] font-sans">
+        Heineken
+      </span>
+      <span className="text-[9px] font-bold ml-0.5 mt-0.5">®</span>
+    </div>
+  </div>
+);
+
+const BrandFlorDeCana = () => (
+  <div className="flex flex-col items-center justify-center text-[#737373] hover:text-black transition-colors shrink-0 select-none">
+    <div className="flex flex-col items-center -mb-0.5">
+      <svg className="w-12 h-3.5 fill-none stroke-current stroke-[1.4]" viewBox="0 0 50 14">
+        <path d="M4 13 Q15 4 25 1 Q35 4 46 13" />
+        <path d="M11 13 Q19 6 25 3.5 Q31 6 39 13" />
+        <path d="M17 13 Q21 8 25 6 Q29 8 33 13" />
+      </svg>
+      <span className="text-[6.5px] font-bold tracking-[0.22em] uppercase -mt-0.5">RON</span>
+    </div>
+    <div className="flex items-center">
+      <span className="text-2xl sm:text-[28px] italic font-serif font-bold tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
+        Flor de Caña
+      </span>
+      <span className="text-[8px] ml-0.5">®</span>
+    </div>
+    <span className="text-[6.5px] font-bold tracking-[0.25em] uppercase text-[#888] -mt-0.5">
+      EST. 1890
+    </span>
+  </div>
+);
+
+const BrandCientifica = () => (
+  <div className="flex flex-col justify-center text-[#737373] hover:text-black transition-colors shrink-0 select-none">
+    <span className="text-[8px] font-bold tracking-[0.25em] uppercase leading-none">
+      UNIVERSIDAD
+    </span>
+    <div className="flex items-baseline leading-none my-1">
+      <span className="text-2xl sm:text-[28px] font-black tracking-[-0.02em] font-sans uppercase">
+        CIENTÍFIC
+      </span>
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-none stroke-current stroke-[3.5] ml-0.5 inline-block -translate-y-0.5" viewBox="0 0 24 24">
+        <path d="M3 21 L12 3 L21 21" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+    <span className="text-[7px] font-bold tracking-[0.22em] uppercase text-right leading-none">
+      DEL SUR
+    </span>
+  </div>
+);
+
+const BrandTanqueray = () => (
+  <div className="flex items-center justify-center text-[#737373] hover:text-black transition-colors shrink-0 select-none px-2">
+    <span 
+      className="text-3xl sm:text-4xl italic font-serif tracking-tight"
+      style={{ fontFamily: '"Playfair Display", "Baskerville", "Times New Roman", Georgia, serif', fontWeight: 600 }}
+    >
+      Tanqueray
+    </span>
+  </div>
+);
+
+const BrandOakberry = () => (
+  <div className="flex items-center justify-center text-[#737373] hover:text-black transition-colors shrink-0 select-none px-2">
+    <span 
+      className="text-2xl sm:text-[30px] font-black italic tracking-[0.08em] uppercase font-serif"
+      style={{
+        WebkitTextStroke: '1.2px #737373',
+        color: 'transparent',
+      }}
+    >
+      OAKBERRY
+    </span>
+  </div>
+);
+
+const TrustedByVisionariesSection = () => {
+  const brandSet = (
+    <div className="flex items-center gap-16 sm:gap-24 md:gap-28 lg:gap-32 shrink-0 pr-16 sm:pr-24 md:pr-28 lg:pr-32">
+      <BrandHeineken />
+      <BrandFlorDeCana />
+      <BrandCientifica />
+      <BrandTanqueray />
+      <BrandOakberry />
+    </div>
+  );
+
+  return (
+    <section className="w-full pt-6 sm:pt-10 pb-20 sm:pb-28 overflow-hidden">
+      <div className="w-full px-6 sm:px-10 md:px-16 lg:px-20 max-w-[1500px] mx-auto mb-10 sm:mb-14">
+        <h3 className="text-sm sm:text-base font-bold tracking-tight text-black uppercase select-none">
+          (TRUSTED BY VISIONARIES)
+        </h3>
+      </div>
+
+      <div className="w-full overflow-hidden select-none">
+        <div 
+          className="flex w-max animate-marquee-right items-center" 
+          style={{ animationDuration: '30s' }}
+        >
+          {/* Half 1 (50% del ancho del carrusel) */}
+          <div className="flex items-center shrink-0">
+            {brandSet}
+            {brandSet}
+          </div>
+          {/* Half 2 (50% del ancho del carrusel para loop infinito de izquierda a derecha) */}
+          <div className="flex items-center shrink-0">
+            {brandSet}
+            {brandSet}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ServicesPillarsSection = () => {
+  const pillars = [
+    {
+      num: '01',
+      title: 'BRAND STRATEGY',
+      subhead: "Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.",
+      text1: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      text2: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      videoSrc: '/videos/service_01.mp4',
+      posterSrc: '/videos/service_01_thumb.jpg',
+    },
+    {
+      num: '02',
+      title: 'BRAND CULTURE',
+      subhead: "Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.",
+      text1: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      text2: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      videoSrc: '/videos/service_02.mp4',
+      posterSrc: '/videos/service_02_thumb.jpg',
+    },
+    {
+      num: '03',
+      title: 'BRAND IDENTITY',
+      subhead: "Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.",
+      text1: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      text2: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      videoSrc: '/videos/service_03.mp4',
+      posterSrc: '/videos/service_03_thumb.jpg',
+    },
+    {
+      num: '04',
+      title: 'BRAND ACTIVATION',
+      subhead: "Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.",
+      text1: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      text2: "We make their life easier and their brands louder through creativity, design and experimentation.",
+      videoSrc: '/videos/service_04.mp4',
+      posterSrc: '/videos/service_04_thumb.jpg',
+    },
+  ];
+
+  return (
+    <section className="w-full border-t border-black/15">
+      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+        {pillars.map((item, index) => (
+          <div 
+            key={item.num}
+            className={`py-14 sm:py-20 md:py-24 ${index < pillars.length - 1 ? 'border-b border-black/15' : 'border-b border-black/15'}`}
+          >
+            {/* CABECERA: TÍTULO Y NÚMERO */}
+            <div className="flex items-baseline justify-between gap-4 select-none">
+              <h2 className="text-[8.5vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[4.6vw] font-normal uppercase tracking-[-0.035em] text-black leading-none">
+                {item.title}
+              </h2>
+              <span className="text-[8.5vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[4.6vw] font-normal tracking-[-0.03em] text-black leading-none">
+                {item.num}
+              </span>
+            </div>
+
+            {/* CONTENIDO INFERIOR: TEXTOS A LA IZQUIERDA Y RECUADRO DE MEDIA A LA DERECHA */}
+            <div className="mt-10 sm:mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
+              {/* COLUMNA IZQUIERDA: TITULAR SECUNDARIO Y PÁRRAFOS */}
+              <div className="md:col-span-8 flex flex-col justify-between h-full">
+                <h3 className="text-2xl sm:text-3xl md:text-[36px] lg:text-[42px] leading-[1.12] tracking-[-0.03em] font-normal text-black max-w-[24ch]">
+                  {item.subhead}
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 mt-10 sm:mt-14 md:mt-20 max-w-[62ch]">
+                  <p className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal">
+                    {item.text1}
+                  </p>
+                  <p className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal">
+                    {item.text2}
+                  </p>
+                </div>
+              </div>
+
+              {/* COLUMNA DERECHA: RECUADRO DE MEDIA / VIDEO PROVISIONAL */}
+              <div className="md:col-span-4 flex md:justify-end">
+                <div className="w-full max-w-[320px] sm:max-w-[360px] md:max-w-none md:w-[280px] lg:w-[330px] aspect-[4/5] bg-[#D8D8D8] overflow-hidden shrink-0 border border-black/5 shadow-xs">
+                  <LoopedReelVideo
+                    src={item.videoSrc}
+                    poster={item.posterSrc}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const SpacesWeWorkInSection = () => {
+  const spaces = [
+    'Branding',
+    'Event',
+    'Social Media Content',
+    'Multimedia Content',
+    'Strategy',
+    '3D',
+    'Web Design',
+  ];
+
+  return (
+    <section className="w-full pt-16 sm:pt-24 md:pt-32 pb-24 md:pb-36 px-6 sm:px-10 md:px-16 lg:px-20 max-w-[1500px] mx-auto">
+      {/* TÍTULO GRANDE DISPLAY */}
+      <h2 className="text-[13vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.035em] text-black leading-[0.88] select-none">
+        <div>SPACES WE</div>
+        <div className="mt-2 sm:mt-3">WORK IN</div>
+      </h2>
+
+      {/* CUADRÍCULA INFERIOR: RECUADRO CON TRUSTED BY VISIONARIES Y LISTADO */}
+      <div className="mt-16 sm:mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
+        {/* COLUMNA IZQUIERDA: ETIQUETA Y RECUADRO DE MEDIA */}
+        <div className="md:col-span-5 flex flex-col">
+          <span className="text-xs sm:text-sm font-bold tracking-tight text-black uppercase mb-6 sm:mb-8 select-none">
+            (TRUSTED BY VISIONARIES)
+          </span>
+
+          <div className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] aspect-[4/5] bg-[#D8D8D8] overflow-hidden border border-black/5 shadow-xs">
+            <LoopedReelVideo
+              src="/videos/spaces_preview.mp4"
+              poster="/videos/spaces_preview_thumb.jpg"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* COLUMNA DERECHA: LISTADO DE DISCIPLINAS Y ENLACE */}
+        <div className="md:col-span-7 flex flex-col md:pl-6 lg:pl-10">
+          <ul className="flex flex-col gap-2.5 sm:gap-4 md:gap-5">
+            {spaces.map((space) => (
+              <li 
+                key={space}
+                className="text-3xl sm:text-4xl md:text-[44px] lg:text-[50px] font-normal tracking-[-0.03em] leading-[1.18] text-black hover:opacity-60 transition-opacity cursor-default select-none"
+              >
+                {space}
+              </li>
+            ))}
+          </ul>
+
+          <div className="pt-12 sm:pt-16 md:pt-20 mt-auto">
+            <a 
+              href="#work-together"
+              className="inline-flex items-center gap-1.5 text-base sm:text-lg tracking-tight text-black border-b border-black/60 pb-0.5 hover:border-black hover:opacity-70 transition-all font-normal"
+            >
+              <span>Lets work together</span>
+              <span className="text-lg leading-none">↓</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const LogosGroup = () => {
   const logos = [
     <span key="1" className="text-2xl font-black text-gray-800 tracking-tighter uppercase">Heineken</span>,
@@ -1458,19 +2265,17 @@ export const QuicklysArticlesSection: React.FC = () => {
           {/* ARTÍCULO 1: ALINEADO A LA DERECHA (BRAND) */}
           <div className="w-full flex justify-end">
             <article 
-              className="w-full sm:w-[85%] md:w-[62%] lg:w-[54%] max-w-[620px] flex flex-col group cursor-pointer"
+              className="w-full sm:w-[85%] md:w-[62%] lg:w-[54%] max-w-[620px] flex flex-col group cursor-none"
               onClick={() => setSelectedArticle(QUICKLYS_ARTICLES[0])}
+              onMouseEnter={(e) => {
+                if (cursorRef.current) {
+                  cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                }
+                setIsHovering(true);
+              }}
+              onMouseLeave={() => setIsHovering(false)}
             >
-              <div 
-                className="w-full aspect-square relative bg-[#ECECEC] overflow-hidden cursor-none shadow-sm"
-                onMouseEnter={(e) => {
-                  if (cursorRef.current) {
-                    cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                  }
-                  setIsHovering(true);
-                }}
-                onMouseLeave={() => setIsHovering(false)}
-              >
+              <div className="w-full aspect-square relative bg-[#ECECEC] overflow-hidden shadow-sm">
                 {/* BADGE DE CATEGORÍA */}
                 <div className="absolute top-5 left-5 z-20 pointer-events-none">
                   <span className="inline-flex items-center px-4 py-1 rounded-full text-xs sm:text-sm font-medium text-white bg-[#FF1A1A] shadow-sm">
@@ -1500,19 +2305,17 @@ export const QuicklysArticlesSection: React.FC = () => {
           {/* ARTÍCULO 2: ALINEADO A LA IZQUIERDA (EVENT, ESCALONADO) */}
           <div className="w-full flex justify-start mt-16 sm:mt-24 md:mt-32 lg:mt-40">
             <article 
-              className="w-full sm:w-[90%] md:w-[70%] lg:w-[64%] max-w-[740px] flex flex-col group cursor-pointer"
+              className="w-full sm:w-[90%] md:w-[70%] lg:w-[64%] max-w-[740px] flex flex-col group cursor-none"
               onClick={() => setSelectedArticle(QUICKLYS_ARTICLES[1])}
+              onMouseEnter={(e) => {
+                if (cursorRef.current) {
+                  cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                }
+                setIsHovering(true);
+              }}
+              onMouseLeave={() => setIsHovering(false)}
             >
-              <div 
-                className="w-full aspect-[16/10] sm:aspect-[4/2.7] relative bg-[#ECECEC] overflow-hidden cursor-none shadow-sm"
-                onMouseEnter={(e) => {
-                  if (cursorRef.current) {
-                    cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                  }
-                  setIsHovering(true);
-                }}
-                onMouseLeave={() => setIsHovering(false)}
-              >
+              <div className="w-full aspect-[16/10] sm:aspect-[4/2.7] relative bg-[#ECECEC] overflow-hidden shadow-sm">
                 {/* BADGE DE CATEGORÍA */}
                 <div className="absolute top-5 left-5 z-20 pointer-events-none">
                   <span className="inline-flex items-center px-4 py-1 rounded-full text-xs sm:text-sm font-medium text-white bg-[#902BF5] shadow-sm">
@@ -1555,14 +2358,16 @@ export const QuicklysArticlesSection: React.FC = () => {
       <div
         ref={cursorRef}
         id="quicklys-article-cursor"
-        className={`fixed top-0 left-0 pointer-events-none z-[999] hidden md:block will-change-transform ${
-          isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-        } transition-all duration-200 ease-out`}
-        style={{ transform: 'translate3d(-200px, -200px, 0)' }}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block will-change-transform"
+        style={{ transform: 'translate3d(-200px, -200px, 0)', transition: 'none' }}
         aria-hidden="true"
       >
-        <div className="-translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex items-center justify-center border border-white/20 p-2 text-center">
-          <span className="text-[12px] sm:text-[13px] font-semibold tracking-wider uppercase leading-tight select-none">
+        <div 
+          className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex items-center justify-center border border-white/20 p-2 text-center transition-all duration-200 ease-out ${
+            isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'
+          }`}
+        >
+          <span className="text-[12px] sm:text-[13px] font-bold tracking-widest uppercase leading-tight select-none font-sans">
             read now
           </span>
         </div>
@@ -1636,7 +2441,8 @@ interface QuicklysReelItem {
   title: string;
   category: string;
   videoUrl: string;
-  posterUrl: string;
+  posterUrl?: string;
+  instagramUrl?: string;
 }
 
 const CULTURE_CLASH_REELS: QuicklysReelItem[] = [
@@ -1644,36 +2450,36 @@ const CULTURE_CLASH_REELS: QuicklysReelItem[] = [
     id: 'cc-1',
     title: 'Urban Creative Summit',
     category: 'Culture Clash 01',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-skater-skating-outdoors-42861-large.mp4',
-    posterUrl: '/images/reel_culture_clash_1788900687511.jpg',
+    videoUrl: '/videos/hb_reel_2.mp4',
+    posterUrl: '/videos/hb_reel_2_thumb.jpg',
   },
   {
     id: 'cc-2',
     title: 'Kinetic Movement & Sound',
     category: 'Culture Clash 02',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-the-rain-41558-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_15.mp4',
+    posterUrl: '/videos/hb_reel_15_thumb.jpg',
   },
   {
     id: 'cc-3',
     title: 'Underground Typography',
     category: 'Culture Clash 03',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-vintage-film-camera-42880-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_7.mp4',
+    posterUrl: '/videos/hb_reel_7_thumb.jpg',
   },
   {
     id: 'cc-4',
     title: 'Studio Creative Collective',
     category: 'Culture Clash 04',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-woman-in-a-pool-1259-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_4.mp4',
+    posterUrl: '/videos/hb_reel_4_thumb.jpg',
   },
   {
     id: 'cc-5',
     title: 'Raw Street Identity',
     category: 'Culture Clash 05',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-walking-in-a-forest-41584-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_1.mp4',
+    posterUrl: '/videos/hb_reel_1_thumb.jpg',
   }
 ];
 
@@ -1682,88 +2488,335 @@ const NIKE_RUNNING_REELS: QuicklysReelItem[] = [
     id: 'nr-1',
     title: 'Night Run City Sprint',
     category: 'Nike Running 01',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-on-the-beach-40078-large.mp4',
-    posterUrl: '/images/reel_nike_running_1788900698753.jpg',
+    videoUrl: '/videos/hb_reel_5.mp4',
+    posterUrl: '/videos/hb_reel_5_thumb.jpg',
   },
   {
     id: 'nr-2',
     title: 'Kinetic Stride Velocity',
     category: 'Nike Running 02',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fashion-model-posing-in-neon-light-39878-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_3.mp4',
+    posterUrl: '/videos/hb_reel_3_thumb.jpg',
   },
   {
     id: 'nr-3',
     title: 'Midnight Urban Endurance',
     category: 'Nike Running 03',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-the-rain-41558-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_10.mp4',
+    posterUrl: '/videos/hb_reel_10_thumb.jpg',
   },
   {
     id: 'nr-4',
     title: 'Dynamic Pace & Form',
     category: 'Nike Running 04',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-drawing-on-a-tablet-42884-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_12.mp4',
+    posterUrl: '/videos/hb_reel_12_thumb.jpg',
   },
   {
     id: 'nr-5',
     title: 'Breath, Heartbeat & Motion',
     category: 'Nike Running 05',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-walking-in-a-forest-41584-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_8.mp4',
+    posterUrl: '/videos/hb_reel_8_thumb.jpg',
   },
   {
     id: 'nr-6',
     title: 'Technical Precision Gear',
     category: 'Nike Running 06',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-vintage-film-camera-42880-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_6.mp4',
+    posterUrl: '/videos/hb_reel_6_thumb.jpg',
   },
   {
     id: 'nr-7',
     title: 'Metropolitan Horizon Run',
     category: 'Nike Running 07',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-skater-skating-outdoors-42861-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_9.mp4',
+    posterUrl: '/videos/hb_reel_9_thumb.jpg',
   },
   {
     id: 'nr-8',
     title: 'Finish Line Transcendence',
     category: 'Nike Running 08',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-woman-in-a-pool-1259-large.mp4',
-    posterUrl: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=800&auto=format&fit=crop',
+    videoUrl: '/videos/hb_reel_14.mp4',
+    posterUrl: '/videos/hb_reel_14_thumb.jpg',
   }
+];
+
+const NAVIDAD_TOTTUS_REELS: QuicklysReelItem[] = [
+  {
+    id: 'nt-1',
+    title: 'Navidad Mágica Tottus 01',
+    category: 'Tottus 01',
+    videoUrl: '/videos/hb_reel_11.mp4',
+    posterUrl: '/videos/hb_reel_11_thumb.jpg',
+  },
+  {
+    id: 'nt-2',
+    title: 'Celebración en Familia 02',
+    category: 'Tottus 02',
+    videoUrl: '/videos/hb_reel_6.mp4',
+    posterUrl: '/videos/hb_reel_6_thumb.jpg',
+  },
+  {
+    id: 'nt-3',
+    title: 'Cena & Unión Navideña 03',
+    category: 'Tottus 03',
+    videoUrl: '/videos/hb_reel_13.mp4',
+    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+  },
+  {
+    id: 'nt-4',
+    title: 'Espíritu Festivo 04',
+    category: 'Tottus 04',
+    videoUrl: '/videos/hb_reel_2.mp4',
+    posterUrl: '/videos/hb_reel_2_thumb.jpg',
+  },
+  {
+    id: 'nt-5',
+    title: 'Momentos Tottus 05',
+    category: 'Tottus 05',
+    videoUrl: '/videos/hb_reel_1.mp4',
+    posterUrl: '/videos/hb_reel_1_thumb.jpg',
+  },
+  {
+    id: 'nt-6',
+    title: 'Tradición y Alegría 06',
+    category: 'Tottus 06',
+    videoUrl: '/videos/hb_reel_10.mp4',
+    posterUrl: '/videos/hb_reel_10_thumb.jpg',
+  },
+  {
+    id: 'nt-7',
+    title: 'Regalos & Sonrisas 07',
+    category: 'Tottus 07',
+    videoUrl: '/videos/hb_reel_7.mp4',
+    posterUrl: '/videos/hb_reel_7_thumb.jpg',
+  },
+  {
+    id: 'nt-8',
+    title: 'Calidez Humana 08',
+    category: 'Tottus 08',
+    videoUrl: '/videos/hb_reel_16.mp4',
+    posterUrl: '/videos/hb_reel_16_thumb.jpg',
+  },
+  {
+    id: 'nt-9',
+    title: 'Luces de Nochebuena 09',
+    category: 'Tottus 09',
+    videoUrl: '/videos/hb_reel_5.mp4',
+    posterUrl: '/videos/hb_reel_5_thumb.jpg',
+  },
+  {
+    id: 'nt-10',
+    title: 'Unidos en Fiesta 10',
+    category: 'Tottus 10',
+    videoUrl: '/videos/hb_reel_4.mp4',
+    posterUrl: '/videos/hb_reel_4_thumb.jpg',
+  },
+];
+
+const PRECIO_UNO_REELS: QuicklysReelItem[] = [
+  {
+    id: 'pu-1',
+    title: 'Bodas de Oro Aniversario 01',
+    category: 'Precio Uno 01',
+    videoUrl: '/videos/hb_reel_13.mp4',
+    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+  },
+  {
+    id: 'pu-2',
+    title: 'Crecimiento y Trayectoria 02',
+    category: 'Precio Uno 02',
+    videoUrl: '/videos/hb_reel_14.mp4',
+    posterUrl: '/videos/hb_reel_14_thumb.jpg',
+  },
+  {
+    id: 'pu-3',
+    title: 'Homenaje a Colaboradores 03',
+    category: 'Precio Uno 03',
+    videoUrl: '/videos/hb_reel_3.mp4',
+    posterUrl: '/videos/hb_reel_3_thumb.jpg',
+  },
+  {
+    id: 'pu-4',
+    title: 'Celebración Dorada 04',
+    category: 'Precio Uno 04',
+    videoUrl: '/videos/hb_reel_8.mp4',
+    posterUrl: '/videos/hb_reel_8_thumb.jpg',
+  },
+];
+
+interface QuicklysArticleItem {
+  id: string;
+  category: 'Branding' | 'Event' | 'Social' | 'Illustration';
+  title: string;
+  imageUrl: string;
+  readTime?: string;
+  date?: string;
+  content?: string[];
+}
+
+const ALL_QUICKLYS_ARTICLES: QuicklysArticleItem[] = [
+  {
+    id: 'art-1',
+    category: 'Branding',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=900&auto=format&fit=crop',
+    readTime: '4 min read',
+    date: 'Sep 2026',
+    content: [
+      'In an era where generative intelligence can synthesize infinite visual variations in seconds, true brand vision remains fundamentally human. What distinguishes enduring iconography from visual static is intentionality, cultural depth, and visceral resonance.',
+      'Visionary branding is never merely algorithmic pattern-matching. It requires the audacity to introduce dissonance, poetry, and authentic perspective that challenges the status quo rather than flattening into statistical averages.'
+    ]
+  },
+  {
+    id: 'art-2',
+    category: 'Event',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=900&auto=format&fit=crop',
+    readTime: '5 min read',
+    date: 'Aug 2026',
+    content: [
+      'During our keynote presentation at the Creative Summit, our founding partners dismantled prevailing assumptions regarding synthetic aesthetics in contemporary brand design.',
+      'The keynote featured live case studies demonstrating how automated rendering workflows allow creative directors to devote more energy to brand soul, philosophical positioning, and typography rigor.'
+    ]
+  },
+  {
+    id: 'art-3',
+    category: 'Social',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop',
+    readTime: '3 min read',
+    date: 'Jul 2026',
+    content: [
+      'In digital spaces overwhelmed by algorithmic feeds, authenticity has become the ultimate luxury. Brands that succeed are those that embrace idiosyncrasy over homogenized content factories.',
+      'Community connection is forged through vulnerability, cultural specificity, and uncompromising creative direction.'
+    ]
+  },
+  {
+    id: 'art-4',
+    category: 'Illustration',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=900&auto=format&fit=crop',
+    readTime: '4 min read',
+    date: 'Jun 2026',
+    content: [
+      'The stroke of a human hand carries micro-imperfections that machine learning models systematically smooth away. Yet it is precisely in those imperfections that emotional warmth resides.',
+      'We explore how contemporary illustration reclaims tactile aesthetics amidst the hyper-digital landscape.'
+    ]
+  },
+  {
+    id: 'art-5',
+    category: 'Branding',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=900&auto=format&fit=crop',
+    readTime: '6 min read',
+    date: 'May 2026',
+    content: [
+      'Typography, grid architecture, and negative space form the timeless tripod of brand dignity. When applied with relentless rigor, they outlast every passing digital fad.',
+      'Our case analysis explores architectural identity systems that scale seamlessly across physical monoliths and mobile touchpoints.'
+    ]
+  },
+  {
+    id: 'art-6',
+    category: 'Event',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=900&auto=format&fit=crop',
+    readTime: '4 min read',
+    date: 'Apr 2026',
+    content: [
+      'Experiential brand architecture translates corporate philosophies into physical sensations. Lighting, acoustics, and kinetic structures command visceral reactions that screens cannot emulate.',
+      'Here is our blueprint for orchestrating brand environments that leave indelible impressions.'
+    ]
+  },
+  {
+    id: 'art-7',
+    category: 'Social',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=900&auto=format&fit=crop',
+    readTime: '3 min read',
+    date: 'Mar 2026',
+    content: [
+      'Why micro-movements on social feeds drive macro-shifts in cultural perception. A breakdown of dynamic motion systems that capture focus within milliseconds.',
+      'Motion is not decorative; it is the rhythm of contemporary communication.'
+    ]
+  },
+  {
+    id: 'art-8',
+    category: 'Illustration',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=900&auto=format&fit=crop',
+    readTime: '5 min read',
+    date: 'Feb 2026',
+    content: [
+      'From classical printmaking techniques to algorithmic vector interpolation: how historical craft methodologies inform cutting-edge visual experimentation.',
+      'A deep dive into cross-disciplinary craftsmanship at Henri Barrett.'
+    ]
+  },
+  {
+    id: 'art-9',
+    category: 'Branding',
+    title: 'Can artificial intelligence make visionary brands?',
+    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=900&auto=format&fit=crop',
+    readTime: '4 min read',
+    date: 'Jan 2026',
+    content: [
+      'Can artificial intelligence create iconic symbols that endure for fifty years? Our designers test neural models against human semioticians.',
+      'The findings reveal where synthetic tools excel and where human wisdom is irreplaceable.'
+    ]
+  },
 ];
 
 export const AllQuicklysSection: React.FC = () => {
   const [cultureIndex, setCultureIndex] = useState(0);
   const [nikeIndex, setNikeIndex] = useState(0);
-  const [activeCursor, setActiveCursor] = useState<{ visible: boolean; direction: 'right' | 'left' }>({
+  const [tottusIndex, setTottusIndex] = useState(0);
+  const [precioUnoIndex, setPrecioUnoIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [visibleArticlesCount, setVisibleArticlesCount] = useState<number>(6);
+  const [activeCursor, setActiveCursor] = useState<{
+    visible: boolean;
+    mode: 'arrow' | 'read_now';
+    direction: 'right' | 'left';
+  }>({
     visible: false,
+    mode: 'arrow',
     direction: 'right',
   });
+  const [selectedGridArticle, setSelectedGridArticle] = useState<QuicklysArticleItem | null>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const cultureTrackRef = useRef<HTMLDivElement>(null);
   const nikeTrackRef = useRef<HTMLDivElement>(null);
+  const tottusTrackRef = useRef<HTMLDivElement>(null);
+  const precioUnoTrackRef = useRef<HTMLDivElement>(null);
   const [cardStep, setCardStep] = useState(280);
 
-  // Lista extendida para efecto de ruleta infinita continua
-  const infiniteCultureReels = Array.from({ length: 60 }, (_, i) => CULTURE_CLASH_REELS[i % CULTURE_CLASH_REELS.length]);
-  const infiniteNikeReels = Array.from({ length: 64 }, (_, i) => NIKE_RUNNING_REELS[i % NIKE_RUNNING_REELS.length]);
+  // Listas extendidas para efecto de ruleta infinita continua
+  const infiniteCultureReels = Array.from({ length: 120 }, (_, i) => CULTURE_CLASH_REELS[i % CULTURE_CLASH_REELS.length]);
+  const infiniteNikeReels = Array.from({ length: 128 }, (_, i) => NIKE_RUNNING_REELS[i % NIKE_RUNNING_REELS.length]);
+  const infiniteTottusReels = Array.from({ length: 120 }, (_, i) => NAVIDAD_TOTTUS_REELS[i % NAVIDAD_TOTTUS_REELS.length]);
+  const infinitePrecioUnoReels = Array.from({ length: 120 }, (_, i) => PRECIO_UNO_REELS[i % PRECIO_UNO_REELS.length]);
+
+  const getStep = () => (typeof window !== 'undefined' && window.innerWidth < 640 ? 2 : 3);
 
   useEffect(() => {
     const updateCardStep = () => {
-      const track = cultureTrackRef.current || nikeTrackRef.current;
+      const track = cultureTrackRef.current || nikeTrackRef.current || tottusTrackRef.current || precioUnoTrackRef.current;
       if (track && track.children[0]) {
         const card = track.children[0] as HTMLElement;
         const gap = window.innerWidth >= 640 ? 8 : 6;
-        setCardStep(card.offsetWidth + gap);
+        if (card.offsetWidth > 0) {
+          setCardStep(card.offsetWidth + gap);
+        }
       }
     };
     updateCardStep();
+    const timer = setTimeout(updateCardStep, 150);
     window.addEventListener('resize', updateCardStep);
-    return () => window.removeEventListener('resize', updateCardStep);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateCardStep);
+    };
   }, []);
 
   useEffect(() => {
@@ -1777,7 +2830,7 @@ export const AllQuicklysSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="w-full bg-white relative block pb-32 sm:pb-40 md:pb-48 select-none">
+    <section className="w-full bg-white relative block pb-6 sm:pb-8 md:pb-10 select-none">
       {/* TÍTULO GRANDE DISPLAY: ALL QUICKLYS */}
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-12 sm:pt-16 md:pt-24 pb-14 sm:pb-20 md:pb-24">
         <h2 
@@ -1826,6 +2879,18 @@ export const AllQuicklysSection: React.FC = () => {
               <p className="text-sm sm:text-base md:text-[17px] text-[#555555] leading-relaxed max-w-sm">
                 In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
               </p>
+
+              {/* ENLACE INSTAGRAM @HENRIBARRETTSTUDIO */}
+              <a
+                href="https://www.instagram.com/henribarrettstudio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full border border-black/15 text-xs font-semibold uppercase tracking-wider text-black hover:bg-black hover:text-white transition-all w-fit cursor-pointer"
+              >
+                <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                <span>Reels @henribarrettstudio</span>
+                <MoveUpRight className="w-3 h-3 ml-0.5" />
+              </a>
             </div>
 
             {/* CONTADOR */}
@@ -1839,31 +2904,30 @@ export const AllQuicklysSection: React.FC = () => {
           {/* COLUMNA DERECHA: RULETA INFINITA DE REELS 9:16 (MEDIANIL ESTRECHO, SIN TEXTO, SOLO VIDEO) */}
           <div 
             className="w-full lg:w-[65%] overflow-hidden relative cursor-none select-none rounded-[28px]"
-            onMouseEnter={() => setActiveCursor({ visible: true, direction: 'right' })}
-            onMouseLeave={() => setActiveCursor({ visible: false, direction: 'right' })}
-            onClick={() => setCultureIndex(prev => prev + 2)}
+            onMouseEnter={() => setActiveCursor({ visible: true, mode: 'arrow', direction: 'right' })}
+            onMouseLeave={() => setActiveCursor({ visible: false, mode: 'arrow', direction: 'right' })}
+            onClick={() => setCultureIndex(prev => prev + getStep())}
           >
             <div 
               ref={cultureTrackRef}
               className="flex gap-1.5 sm:gap-2 will-change-transform"
               style={{
                 transform: `translate3d(-${cultureIndex * cardStep}px, 0, 0)`,
-                transition: 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)'
+                transition: 'transform 0.55s cubic-bezier(0.2, 1, 0.3, 1)'
               }}
             >
               {infiniteCultureReels.map((reel, idx) => (
                 <div 
                   key={`${reel.id}-${idx}`}
-                  className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-[#ECECEC] relative shadow-xs border border-black/5"
+                  className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
                 >
-                  <video
+                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
+                    <Instagram className="w-2.5 h-2.5 text-pink-400" />
+                    <span>@henribarrettstudio</span>
+                  </div>
+                  <LoopedReelVideo
                     src={reel.videoUrl}
                     poster={reel.posterUrl}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
                     className="w-full h-full object-cover pointer-events-none select-none"
                   />
                 </div>
@@ -1881,31 +2945,30 @@ export const AllQuicklysSection: React.FC = () => {
           <div className="w-full lg:w-[65%] relative">
             <div 
               className="w-full overflow-hidden relative cursor-none select-none rounded-[28px]"
-              onMouseEnter={() => setActiveCursor({ visible: true, direction: 'left' })}
-              onMouseLeave={() => setActiveCursor({ visible: false, direction: 'left' })}
-              onClick={() => setNikeIndex(prev => prev + 2)}
+              onMouseEnter={() => setActiveCursor({ visible: true, mode: 'arrow', direction: 'left' })}
+              onMouseLeave={() => setActiveCursor({ visible: false, mode: 'arrow', direction: 'left' })}
+              onClick={() => setNikeIndex(prev => prev + getStep())}
             >
               <div 
                 ref={nikeTrackRef}
                 className="flex gap-1.5 sm:gap-2 will-change-transform"
                 style={{
                   transform: `translate3d(-${nikeIndex * cardStep}px, 0, 0)`,
-                  transition: 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)'
+                  transition: 'transform 0.55s cubic-bezier(0.2, 1, 0.3, 1)'
                 }}
               >
                 {infiniteNikeReels.map((reel, idx) => (
                   <div 
                     key={`${reel.id}-${idx}`}
-                    className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-[#ECECEC] relative shadow-xs border border-black/5"
+                    className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
                   >
-                    <video
+                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
+                      <Instagram className="w-2.5 h-2.5 text-pink-400" />
+                      <span>@henribarrettstudio</span>
+                    </div>
+                    <LoopedReelVideo
                       src={reel.videoUrl}
                       poster={reel.posterUrl}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="metadata"
                       className="w-full h-full object-cover pointer-events-none select-none"
                     />
                   </div>
@@ -1950,6 +3013,18 @@ export const AllQuicklysSection: React.FC = () => {
               <p className="text-sm sm:text-base md:text-[17px] text-[#555555] leading-relaxed max-w-sm">
                 In a world increasingly driven by technology, we anchor ourselves in genuine human connection.
               </p>
+
+              {/* ENLACE INSTAGRAM @HENRIBARRETTSTUDIO */}
+              <a
+                href="https://www.instagram.com/henribarrettstudio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full border border-black/15 text-xs font-semibold uppercase tracking-wider text-black hover:bg-black hover:text-white transition-all w-fit cursor-pointer"
+              >
+                <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                <span>Reels @henribarrettstudio</span>
+                <MoveUpRight className="w-3 h-3 ml-0.5" />
+              </a>
             </div>
 
             {/* CONTADOR */}
@@ -1962,26 +3037,374 @@ export const AllQuicklysSection: React.FC = () => {
 
         </div>
 
+        {/* BLOQUE 3: NAVIDAD CON TOTTUS (INFO A LA IZQUIERDA, 3 REELS A LA DERECHA) */}
+        <div className="w-full flex flex-col lg:flex-row items-stretch justify-between gap-10 lg:gap-14 relative">
+          
+          {/* COLUMNA IZQUIERDA: INFORMACIÓN */}
+          <div className="w-full lg:w-[35%] flex flex-col justify-between shrink-0">
+            <div>
+              {/* BADGES + ICONOS DE SOL */}
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white bg-[#8C30F5] shadow-xs">
+                  Event
+                </span>
+                <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-black bg-[#2463EB] shadow-xs">
+                  In Progress
+                </span>
+                <div className="flex items-center gap-1.5 ml-1 text-black">
+                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                </div>
+              </div>
+
+              {/* TÍTULO */}
+              <h3 
+                className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight text-black mt-8 sm:mt-10 mb-5 leading-[1.08]"
+                style={{
+                  fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif'
+                }}
+              >
+                NAVIDAD<br />CON TOTTUS
+              </h3>
+
+              {/* DESCRIPCIÓN */}
+              <p className="text-sm sm:text-base md:text-[17px] text-[#555555] leading-relaxed max-w-sm">
+                In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
+              </p>
+
+              {/* ENLACE INSTAGRAM @HENRIBARRETTSTUDIO */}
+              <a
+                href="https://www.instagram.com/henribarrettstudio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full border border-black/15 text-xs font-semibold uppercase tracking-wider text-black hover:bg-black hover:text-white transition-all w-fit cursor-pointer"
+              >
+                <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                <span>Reels @henribarrettstudio</span>
+                <MoveUpRight className="w-3 h-3 ml-0.5" />
+              </a>
+            </div>
+
+            {/* CONTADOR */}
+            <div className="flex items-center gap-6 mt-10 sm:mt-14 pt-4">
+              <span className="text-base sm:text-lg font-bold tracking-wider text-black">
+                {((tottusIndex % NAVIDAD_TOTTUS_REELS.length) + 1)} — {NAVIDAD_TOTTUS_REELS.length}
+              </span>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA: RULETA INFINITA DE REELS 9:16 */}
+          <div 
+            className="w-full lg:w-[65%] overflow-hidden relative cursor-none select-none rounded-[28px]"
+            onMouseEnter={() => setActiveCursor({ visible: true, mode: 'arrow', direction: 'right' })}
+            onMouseLeave={() => setActiveCursor({ visible: false, mode: 'arrow', direction: 'right' })}
+            onClick={() => setTottusIndex(prev => prev + getStep())}
+          >
+            <div 
+              ref={tottusTrackRef}
+              className="flex gap-1.5 sm:gap-2 will-change-transform"
+              style={{
+                transform: `translate3d(-${tottusIndex * cardStep}px, 0, 0)`,
+                transition: 'transform 0.55s cubic-bezier(0.2, 1, 0.3, 1)'
+              }}
+            >
+              {infiniteTottusReels.map((reel, idx) => (
+                <div 
+                  key={`${reel.id}-${idx}`}
+                  className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
+                >
+                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
+                    <Instagram className="w-2.5 h-2.5 text-pink-400" />
+                    <span>@henribarrettstudio</span>
+                  </div>
+                  <LoopedReelVideo
+                    src={reel.videoUrl}
+                    poster={reel.posterUrl}
+                    className="w-full h-full object-cover pointer-events-none select-none"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+
+        {/* BLOQUE 4: LAS BODAS DE ORO DE PRECIO UNO (REELS A LA IZQUIERDA, INFO A LA DERECHA - INVERTIDO) */}
+        <div className="w-full flex flex-col-reverse lg:flex-row items-stretch justify-between gap-10 lg:gap-14 relative">
+          
+          {/* COLUMNA IZQUIERDA: RULETA INFINITA DE REELS 9:16 */}
+          <div className="w-full lg:w-[65%] relative">
+            <div 
+              className="w-full overflow-hidden relative cursor-none select-none rounded-[28px]"
+              onMouseEnter={() => setActiveCursor({ visible: true, mode: 'arrow', direction: 'left' })}
+              onMouseLeave={() => setActiveCursor({ visible: false, mode: 'arrow', direction: 'left' })}
+              onClick={() => setPrecioUnoIndex(prev => prev + getStep())}
+            >
+              <div 
+                ref={precioUnoTrackRef}
+                className="flex gap-1.5 sm:gap-2 will-change-transform"
+                style={{
+                  transform: `translate3d(-${precioUnoIndex * cardStep}px, 0, 0)`,
+                  transition: 'transform 0.55s cubic-bezier(0.2, 1, 0.3, 1)'
+                }}
+              >
+                {infinitePrecioUnoReels.map((reel, idx) => (
+                  <div 
+                    key={`${reel.id}-${idx}`}
+                    className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
+                  >
+                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
+                      <Instagram className="w-2.5 h-2.5 text-pink-400" />
+                      <span>@henribarrettstudio</span>
+                    </div>
+                    <LoopedReelVideo
+                      src={reel.videoUrl}
+                      poster={reel.posterUrl}
+                      className="w-full h-full object-cover pointer-events-none select-none"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA: INFORMACIÓN */}
+          <div className="w-full lg:w-[35%] flex flex-col justify-between shrink-0 pl-0 lg:pl-6">
+            <div>
+              {/* ICONOS DE SOL A LA IZQUIERDA Y BADGE EVENT A LA DERECHA */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-1.5 text-black">
+                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                </div>
+                <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white bg-[#8C30F5] shadow-xs">
+                  Event
+                </span>
+              </div>
+
+              {/* SUBTÍTULO "In progress" */}
+              <p className="text-sm sm:text-base text-[#666666] font-normal mt-6 sm:mt-8 mb-2">
+                In progress
+              </p>
+
+              {/* TÍTULO CON MARCA DE AGUA BRANDING DE FONDO */}
+              <div className="relative mt-2 mb-5">
+                <span 
+                  className="absolute -top-3 left-0 text-black/[0.04] text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight select-none pointer-events-none"
+                  aria-hidden="true"
+                >
+                  BRANDING
+                </span>
+                <h3 
+                  className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight text-black leading-[1.08]"
+                  style={{
+                    fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif'
+                  }}
+                >
+                  LAS BODAS DE ORO<br />DE PRECIO UNO
+                </h3>
+              </div>
+
+              {/* DESCRIPCIÓN */}
+              <p className="text-sm sm:text-base md:text-[17px] text-[#555555] leading-relaxed max-w-sm">
+                In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
+              </p>
+
+              {/* ENLACE INSTAGRAM @HENRIBARRETTSTUDIO */}
+              <a
+                href="https://www.instagram.com/henribarrettstudio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full border border-black/15 text-xs font-semibold uppercase tracking-wider text-black hover:bg-black hover:text-white transition-all w-fit cursor-pointer"
+              >
+                <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                <span>Reels @henribarrettstudio</span>
+                <MoveUpRight className="w-3 h-3 ml-0.5" />
+              </a>
+            </div>
+
+            {/* CONTADOR */}
+            <div className="flex items-center gap-6 mt-10 sm:mt-14 pt-4">
+              <span className="text-base sm:text-lg font-bold tracking-wider text-black">
+                {((precioUnoIndex % PRECIO_UNO_REELS.length) + 1)} — {PRECIO_UNO_REELS.length}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
-      {/* CURSOR PERSONALIZADO CIRCULAR BLANCO CON FLECHA FINA NEGRA */}
+      {/* SECCIÓN DE FILTROS, ARTÍCULOS Y BOTÓN DE VER MÁS */}
+      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 mt-20 sm:mt-28 md:mt-36">
+        {/* FILTROS (BRANDING, EVENT, SOCIAL, ILLUSTRATION) */}
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap mb-10 sm:mb-14">
+          {(['Branding', 'Event', 'Social', 'Illustration'] as const).map((cat) => {
+            const isActive = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(prev => prev === cat ? 'All' : cat)}
+                className={`px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-normal transition-all cursor-pointer shadow-xs ${
+                  isActive 
+                    ? 'bg-black text-white border border-black' 
+                    : 'bg-white text-black border border-black/10 hover:border-black/40'
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* GRID DE ARTÍCULOS (3 COLUMNAS) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+          {ALL_QUICKLYS_ARTICLES
+            .filter(art => selectedCategory === 'All' || art.category === selectedCategory)
+            .slice(0, visibleArticlesCount)
+            .map((article) => (
+              <article 
+                key={article.id} 
+                className="flex flex-col group cursor-none"
+                onMouseEnter={(e) => {
+                  if (cursorRef.current) {
+                    cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                  }
+                  setActiveCursor({ visible: true, mode: 'read_now', direction: 'right' });
+                }}
+                onMouseLeave={() => setActiveCursor(prev => ({ ...prev, visible: false }))}
+                onClick={() => setSelectedGridArticle(article)}
+              >
+                <div className="w-full aspect-[4/5] bg-[#D9D9D9] relative overflow-hidden">
+                  <img
+                    src={article.imageUrl}
+                    alt={article.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover grayscale contrast-90 group-hover:scale-[1.03] transition-transform duration-700 ease-out select-none pointer-events-none"
+                  />
+                </div>
+                <h4 
+                  className="text-base sm:text-lg md:text-[19px] font-bold text-black tracking-tight mt-4 leading-snug group-hover:opacity-70 transition-opacity"
+                  style={{
+                    fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif'
+                  }}
+                >
+                  {article.title}
+                </h4>
+              </article>
+            ))}
+        </div>
+
+        {/* BOTÓN VIEW MORE QUICKLYS + */}
+        <div className="flex justify-center mt-14 sm:mt-20 pt-4">
+          <button
+            onClick={() => setVisibleArticlesCount(prev => prev + 3)}
+            className="text-sm sm:text-base font-medium text-black underline underline-offset-4 hover:opacity-60 transition-opacity cursor-pointer"
+            style={{
+              fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif'
+            }}
+          >
+            View more quicklys +
+          </button>
+        </div>
+      </div>
+
+      {/* CURSOR PERSONALIZADO CIRCULAR: FLECHA PARA REELS / "READ NOW" PARA ARTÍCULOS */}
       <div
         ref={cursorRef}
         id="quicklys-reel-custom-cursor"
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block will-change-transform ${
-          activeCursor.visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-        } transition-all duration-200 ease-out`}
-        style={{ transform: 'translate3d(-200px, -200px, 0)' }}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block will-change-transform"
+        style={{ transform: 'translate3d(-200px, -200px, 0)', transition: 'none' }}
         aria-hidden="true"
       >
-        <div className="-translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.22)] border border-black/10 flex items-center justify-center">
+        {/* Cursor blanco con flecha para reels */}
+        <div 
+          className={`-translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.22)] border border-black/10 flex items-center justify-center transition-all duration-200 ease-out ${
+            activeCursor.visible && activeCursor.mode === 'arrow' ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none absolute'
+          }`}
+        >
           {activeCursor.direction === 'right' ? (
             <ArrowRight className="w-7 h-7 sm:w-8 sm:h-8 stroke-[1.25] text-black" />
           ) : (
             <ArrowLeft className="w-7 h-7 sm:w-8 sm:h-8 stroke-[1.25] text-black" />
           )}
         </div>
+
+        {/* Cursor circular negro con "READ NOW" para artículos */}
+        <div 
+          className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex items-center justify-center border border-white/20 p-2 text-center transition-all duration-200 ease-out ${
+            activeCursor.visible && activeCursor.mode === 'read_now' ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none absolute'
+          }`}
+        >
+          <span className="text-[12px] sm:text-[13px] font-bold tracking-widest uppercase leading-tight select-none font-sans">
+            read now
+          </span>
+        </div>
       </div>
+
+      {/* MODAL LECTOR DE ARTÍCULO PARA QUICKLYS GRID */}
+      {selectedGridArticle && (
+        <div 
+          className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 md:p-10 animate-fade-in"
+          onClick={() => setSelectedGridArticle(null)}
+        >
+          <div 
+            className="bg-white text-black max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-none shadow-2xl p-6 sm:p-10 md:p-12 relative select-text"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setSelectedGridArticle(null)}
+              className="absolute top-6 right-6 p-2 text-black hover:opacity-60 transition-opacity cursor-pointer"
+              aria-label="Cerrar artículo"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-6">
+              <span className="px-4 py-1 rounded-full text-xs font-medium text-white bg-black">
+                {selectedGridArticle.category}
+              </span>
+              <span className="text-xs text-gray-500 uppercase tracking-wider">{selectedGridArticle.readTime || '4 min read'}</span>
+              <span className="text-xs text-gray-400">•</span>
+              <span className="text-xs text-gray-500 uppercase tracking-wider">{selectedGridArticle.date || 'Sep 2026'}</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-normal leading-tight tracking-tight mb-6">
+              {selectedGridArticle.title}
+            </h2>
+
+            <div className="w-full aspect-[16/10] overflow-hidden bg-gray-100 mb-8">
+              <img 
+                src={selectedGridArticle.imageUrl} 
+                alt={selectedGridArticle.title}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            <div className="space-y-4 text-base sm:text-lg leading-relaxed text-gray-800">
+              {(selectedGridArticle.content || [
+                'In an era where generative intelligence can synthesize infinite visual variations in seconds, true brand vision remains fundamentally human. What distinguishes enduring iconography from visual static is intentionality, cultural depth, and visceral resonance.',
+                'Visionary branding is never merely algorithmic pattern-matching. It requires the audacity to introduce dissonance, poetry, and authentic perspective that challenges the status quo rather than flattening into statistical averages.',
+                'The future belongs to creators who pair machine workflows with uncompromising human discernment and timeless taste.'
+              ]).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+
+            <div className="mt-10 pt-6 border-t border-gray-100 flex justify-between items-center">
+              <span className="text-xs uppercase tracking-widest text-gray-400">Henri Barrett Articles</span>
+              <button 
+                onClick={() => setSelectedGridArticle(null)}
+                className="text-xs uppercase tracking-widest font-bold text-black hover:opacity-60 cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
@@ -2535,11 +3958,19 @@ export const App: React.FC = () => {
           {/* SECCIÓN DE ARTÍCULOS (CON CURSOR CIRCULAR "READ NOW" E IMÁGENES GENERADAS) */}
           <QuicklysArticlesSection />
 
-          {/* SECCIÓN ALL QUICKLYS (REELS 9:16 CON RULETA INFINITA Y CURSOR FLECHA) */}
+          {/* SECCIÓN ALL QUICKLYS (REELS 9:16 CON RULETA INFINITA, FILTROS, ARTÍCULOS Y BOTÓN VIEW MORE QUICKLYS +) */}
           <AllQuicklysSection />
+
+          {/* GRILLA MASONRY DE REELS (4 COLUMNAS, FORMATO 9:16, MOVIMIENTO IRREGULAR ALTERNADO) */}
+          <section className="w-full bg-white relative block pt-0 sm:pt-2">
+            <QuicklysMasonryReels />
+          </section>
+
+          {/* DOBLE TIRA ANIMADA: CREATIVITY / CURIOSITY IS SEXY / ALWAYS */}
+          <QuicklysDoubleMarquee />
         </div>
 
-        {/* FOOTER */}
+        {/* FOOTER PEGADO DIRECTAMENTE AL CIERRE DE LA DOBLE TIRA */}
         <Footer className="mt-0" />
       </div>
     );
@@ -2615,6 +4046,75 @@ export const App: React.FC = () => {
              )}
            </div>
         </div>
+
+        {/* SECCIÓN: LET'S PLANT YOUR FLAG (CON VIDEO PROVISIONAL EMBEBIDO) */}
+        <section className="w-full pt-12 sm:pt-20 md:pt-28 pb-24 md:pb-36 px-6 sm:px-10 md:px-16 lg:px-20 max-w-[1500px] mx-auto">
+          {/* TÍTULO GRANDE CON VIDEO EMBEBIDO EN LA FRASE */}
+          <div className="text-[13vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.035em] text-black leading-[0.88] select-none">
+            <div>LET’S PLANT</div>
+            <div className="flex items-center flex-wrap gap-x-4 sm:gap-x-7 md:gap-x-9 gap-y-3 mt-2 sm:mt-4">
+              <span>YOUR</span>
+              <div className="inline-flex relative w-[22vw] sm:w-[18vw] md:w-[15vw] lg:w-[12.5vw] aspect-[4/3] rounded-xs sm:rounded-sm overflow-hidden bg-[#D8D8D8] shadow-xs shrink-0 self-center border border-black/5">
+                <LoopedReelVideo
+                  src="/videos/flag_preview.mp4"
+                  poster="/videos/flag_preview_thumb.jpg"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span>FLAG</span>
+            </div>
+          </div>
+
+          {/* MANIFIESTO EN 2 COLUMNAS */}
+          <div className="w-full mt-24 sm:mt-32 md:mt-40 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+            {/* COLUMNA IZQUIERDA: CAPTION */}
+            <div className="md:col-span-4 pt-1.5">
+              <span className="text-sm sm:text-base font-normal tracking-tight text-black">
+                Mutual, Trust Manifesto
+              </span>
+            </div>
+
+            {/* COLUMNA DERECHA: TITULAR, PÁRRAFOS Y ACCIONES */}
+            <div className="md:col-span-8 flex flex-col">
+              <h2 className="text-[28px] sm:text-[38px] md:text-[46px] lg:text-[52px] leading-[1.08] tracking-[-0.03em] text-black font-normal max-w-[25ch]">
+                Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.
+              </h2>
+
+              <div className="flex flex-col gap-6 mt-8 sm:mt-10 text-base sm:text-lg md:text-[1.125rem] leading-[1.6] text-black/80 font-normal max-w-[58ch]">
+                <p>
+                  In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
+                </p>
+                <p>
+                  We a creative agency where strategy, design, and creativity converge. Over the years, we've honed our belief that a standout brand emerges when these three elements seamlessly intertwine.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between pt-10 sm:pt-16 mt-auto">
+                <a 
+                  href="#work-together"
+                  className="text-base sm:text-lg tracking-tight text-black border-b border-black/50 pb-0.5 hover:border-black hover:opacity-70 transition-all font-normal"
+                >
+                  Lets work together
+                </a>
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-black/25 select-none pr-2">
+                  BRANDING
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* TIRA DE MARCAS ANIMADA: (TRUSTED BY VISIONARIES) */}
+        <TrustedByVisionariesSection />
+
+        {/* SECCIÓN DE PILARES DE SERVICIOS: BRAND STRATEGY 01 & BRAND CULTURE 02 */}
+        <ServicesPillarsSection />
+
+        {/* SECCIÓN: SPACES WE WORK IN */}
+        <SpacesWeWorkInSection />
+
+        {/* FOOTER */}
+        <Footer className="mt-0" />
       </div>
     );
   }

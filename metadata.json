@@ -1,6 +1,6 @@
 {
   "name": "Henri Barrett® remix george",
-  "description": "Una aplicación interactiva para Henri Barrett® con portafolio de trabajos seleccionados, videos y animaciones.",
+  "description": "Portafolio interactivo de Henri Barrett® con grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales de @henribarrettstudio.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
