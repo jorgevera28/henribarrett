@@ -1,54 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 
-// --- LOGO EMBLEMA HENRI BARRETT (SOL RADIAL DE LA MARCA) ---
-export const HenriBarrettSun: React.FC<{ className?: string }> = ({ className = "w-8 h-8" }) => {
-  const rays = [
-    { angle: 0, length: 18, width: 2.6 },
-    { angle: 22.5, length: 13, width: 2.0 },
-    { angle: 45, length: 18, width: 2.6 },
-    { angle: 67.5, length: 13, width: 2.0 },
-    { angle: 90, length: 18, width: 2.6 },
-    { angle: 112.5, length: 13, width: 2.0 },
-    { angle: 135, length: 18, width: 2.6 },
-    { angle: 157.5, length: 13, width: 2.0 },
-    { angle: 180, length: 18, width: 2.6 },
-    { angle: 202.5, length: 13, width: 2.0 },
-    { angle: 225, length: 18, width: 2.6 },
-    { angle: 247.5, length: 13, width: 2.0 },
-    { angle: 270, length: 18, width: 2.6 },
-    { angle: 292.5, length: 13, width: 2.0 },
-    { angle: 315, length: 18, width: 2.6 },
-    { angle: 337.5, length: 13, width: 2.0 },
-  ];
-
-  return (
-    <svg viewBox="0 0 100 100" className={`shrink-0 ${className}`} fill="none" aria-hidden="true">
-      <circle cx="50" cy="50" r="14" fill="currentColor" />
-      {rays.map((ray, i) => {
-        const rad = (ray.angle * Math.PI) / 180;
-        const innerR = 21;
-        const outerR = innerR + ray.length;
-        const x1 = 50 + innerR * Math.cos(rad);
-        const y1 = 50 + innerR * Math.sin(rad);
-        const x2 = 50 + outerR * Math.cos(rad);
-        const y2 = 50 + outerR * Math.sin(rad);
-        return (
-          <line
-            key={i}
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke="currentColor"
-            strokeWidth={ray.width}
-            strokeLinecap="round"
-          />
-        );
-      })}
-    </svg>
-  );
-};
+// --- MAIN CODE ---
 
 // --- DATOS ---
 const INITIAL_PROJECTS = [
@@ -263,41 +216,13 @@ export const LoopedReelVideo: React.FC<{
   className?: string;
   muted?: boolean;
 }> = ({ src, poster, className = '', muted = true }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.defaultMuted = muted;
-    video.muted = muted;
-    video.playsInline = true;
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    const p = video.play();
-    if (p !== undefined) {
-      p.catch(() => {});
-    }
-  }, [src, muted]);
-
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      poster={poster}
-      autoPlay
-      loop
-      muted={muted}
-      playsInline
-      preload="auto"
-      onLoadedMetadata={(e) => {
-        e.currentTarget.defaultMuted = muted;
-        e.currentTarget.muted = muted;
-        e.currentTarget.play().catch(() => {});
-      }}
-      onCanPlay={(e) => {
-        e.currentTarget.play().catch(() => {});
-      }}
+    <img
+      src={poster || src}
+      alt="Reel cover"
       className={className}
+      loading="lazy"
+      style={{ objectFit: 'cover' }}
     />
   );
 };
@@ -846,7 +771,7 @@ const QuicklysDoubleMarquee: React.FC = () => {
                   >
                     {item}
                   </span>
-                  <HenriBarrettSun className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
+                  <DynamicIsotype className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
                 </div>
               ))}
             </div>
@@ -870,7 +795,7 @@ const QuicklysDoubleMarquee: React.FC = () => {
                   >
                     {item}
                   </span>
-                  <HenriBarrettSun className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
+                  <DynamicIsotype className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-black mx-6 sm:mx-10 md:mx-12 shrink-0" />
                 </div>
               ))}
             </div>
@@ -1249,7 +1174,7 @@ const Footer: React.FC<{ className?: string }> = ({ className = "mt-32" }) => {
     <footer className={`relative w-full bg-[#111] text-white z-20 pt-24 pb-12 px-6 md:px-12 ${className}`}>
       <div className="w-full max-w-[1250px] mx-auto">
         <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-800">
-          <Sun className="w-16 h-16 md:w-20 md:h-20 fill-white text-white" />
+          <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
           <span className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-right leading-none">HENRI BARRETT</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
@@ -2207,26 +2132,88 @@ const EditorialStatementText: React.FC = () => {
   );
 };
 
+const DynamicIsotype = ({ className = "w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9", style }: { className?: string, style?: React.CSSProperties }) => {
+  return (
+    <svg className={`${className} shrink-0`} style={style} viewBox="0 0 42 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.1777 17.6496C17.1777 19.5527 18.7234 21.0981 20.6268 21.0981C22.5301 21.0981 24.0758 19.5527 24.0758 17.6496C24.0758 15.7466 22.5301 14.2012 20.6268 14.2012C18.7234 14.2012 17.1777 15.7466 17.1777 17.6496Z" fill="currentColor"/>
+      <path d="M19.5983 23.2383L19.0352 32.2972L22.2704 32.2931L21.7031 23.2424L19.5983 23.2383Z" fill="currentColor"/>
+      <path d="M11.9238 29.5276L14.7316 31.1429L18.7643 23.0212L16.9473 21.9648L11.9238 29.5276Z" fill="currentColor"/>
+      <path d="M15.2856 19.5312L7.1543 23.5716L8.77398 26.3747L16.3298 21.3562L15.2856 19.5312Z" fill="currentColor"/>
+      <path d="M15.0604 16.5963L6 16.0332L6.00411 19.2679L15.0563 18.7007L15.0604 16.5963Z" fill="currentColor"/>
+      <path d="M16.3378 13.9445L8.76967 8.92188L7.1582 11.7291L15.2772 15.7613L16.3378 13.9445Z" fill="currentColor"/>
+      <path d="M18.7682 12.2843L14.7272 4.1543L11.9277 5.77372L16.943 13.3283L18.7682 12.2843Z" fill="currentColor"/>
+      <path d="M21.7031 12.0589L22.2704 3L19.0352 3.00411L19.5983 12.0548L21.7031 12.0589Z" fill="currentColor"/>
+      <path d="M29.3776 5.7694L26.574 4.1582L22.5371 12.2759L24.3582 13.3363L29.3776 5.7694Z" fill="currentColor"/>
+      <path d="M26.019 15.7671L34.1503 11.7268L32.5265 8.92773L24.9707 13.9422L26.019 15.7671Z" fill="currentColor"/>
+      <path d="M26.2422 18.7007L35.3026 19.2679L35.2984 16.0332L26.2463 16.5963L26.2422 18.7007Z" fill="currentColor"/>
+      <path d="M24.9668 21.356L32.5308 26.3745L34.1464 23.5714L26.0233 19.5352L24.9668 21.356Z" fill="currentColor"/>
+      <path d="M22.5371 23.0169L26.574 31.1468L29.3776 29.5233L24.3623 21.9688L22.5371 23.0169Z" fill="currentColor"/>
+    </svg>
+  );
+};
+
+const DynamicLogotype = ({ className = "", style }: { className?: string, style?: React.CSSProperties }) => {
+  return (
+    <svg className={`${className} shrink-0`} style={{ width: "146px", height: "auto", ...style }} aria-hidden="true" viewBox="0 0 152 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.5148 8.65584H6.67449V3.22852H3V18.0174H6.67449V12.1751H10.5148V18.0174H14.1855V3.22852H10.5148V8.65584Z" fill="currentColor"/>
+      <path d="M15.5664 18.0174H25.5384V14.6161H19.2371V12.1384H24.7734V8.73315H19.2371V6.62975H25.5384V3.22852H15.5664V18.0174Z" fill="currentColor"/>
+      <path d="M34.5523 10.9383L30.8288 3.36277L30.761 3.22852H26.834V18.0174H30.354V10.0676L33.9908 17.879L34.0586 18.0174H37.8348V3.22852H34.5523V10.9383Z" fill="currentColor"/>
+      <path d="M49.6006 7.99675C49.6006 4.87624 47.7276 3.22852 44.185 3.22852H39.0859V18.0214H42.7567V13.0254H43.9023L46.3256 18.0214H50.4486L47.4299 12.2402C48.8243 11.4102 49.6006 9.94961 49.6006 8.00082V7.99675ZM43.94 9.77467H42.7567V6.47108H43.94C45.6473 6.47108 45.9977 7.08135 45.9977 7.99675C45.9977 9.17661 45.3043 9.77467 43.94 9.77467Z" fill="currentColor"/>
+      <path d="M54.7977 3.22852H51.127V18.0214H54.7977V3.22852Z" fill="currentColor"/>
+      <path d="M68.749 10.1164C69.695 9.4614 70.1849 8.13915 70.1849 7.03253C70.1849 4.51008 68.4438 3.22852 65.018 3.22852H60.1602V18.0214H65.41C68.798 18.0214 70.8256 16.3534 70.8256 13.5543C70.8256 11.9147 70.0756 10.686 68.7528 10.1164H68.749ZM63.8309 6.39378H64.9163C66.3032 6.39378 66.5896 6.85351 66.5896 7.54515C66.5896 8.43615 66.0243 8.88775 64.905 8.88775H63.8309V6.39378ZM65.165 14.8521H63.8309V11.9391H65.165C66.974 11.9391 67.2227 12.6023 67.2227 13.3183C67.2227 13.9733 67.0117 14.848 65.165 14.848V14.8521Z" fill="currentColor"/>
+      <path d="M79.2642 3.22852H75.0734L70.9165 17.6878L70.8223 18.0174H74.5985L75.3523 14.7667H78.8798L79.6297 18.0174H83.5153L79.3169 3.40753L79.2642 3.22852ZM76.0871 11.5811L76.2869 10.7145C76.5695 9.57939 76.8522 8.25307 77.1085 7.00812C77.1839 7.34987 77.2592 7.69569 77.3346 8.04557C77.5343 8.95284 77.7378 9.89266 77.9414 10.7104L78.1411 11.5811H76.0871Z" fill="currentColor"/>
+      <path d="M94.7159 7.99675C94.7159 4.87624 92.8428 3.22852 89.3002 3.22852H84.2012V18.0214H87.8719V13.0254H89.0176L91.4409 18.0214H95.5638L92.5489 12.2402C93.9433 11.4102 94.7196 9.94961 94.7196 8.00082L94.7159 7.99675ZM89.0553 9.77467H87.8719V6.47108H89.0553C90.7625 6.47108 91.113 7.08135 91.113 7.99675C91.113 9.17661 90.4195 9.77467 89.0553 9.77467Z" fill="currentColor"/>
+      <path d="M106.761 7.99675C106.761 4.87624 104.888 3.22852 101.345 3.22852H96.2461V18.0214H99.9168V13.0254H101.063L103.486 18.0214H107.609L104.594 12.2402C105.988 11.4102 106.765 9.94961 106.765 8.00082L106.761 7.99675ZM101.1 9.77467H99.9168V6.47108H101.1C102.807 6.47108 103.158 7.08135 103.158 7.99675C103.158 9.17661 102.464 9.77467 101.1 9.77467Z" fill="currentColor"/>
+      <path d="M108.287 3.22852V18.0174H117.155H118.259V14.6161H117.155H111.958V12.1384H116.39H117.494V8.73315H116.39H111.958V6.62975H117.155H118.259V3.22852H117.155H108.287Z" fill="currentColor"/>
+      <path d="M119.473 6.62975H123.057V18.0174H126.731V6.62975H130.315V3.22852H119.473V6.62975Z" fill="currentColor"/>
+      <path d="M147 7.38834C145.617 7.38834 144.488 6.25278 144.488 4.69417C144.488 3.14669 145.617 2 147 2C148.382 2 149.512 3.14669 149.512 4.69417C149.512 6.25278 148.382 7.38834 147 7.38834ZM147 6.99869C148.203 6.99869 149.079 6.03012 149.079 4.69417C149.079 3.36935 148.203 2.38965 147 2.38965C145.797 2.38965 144.921 3.36935 144.921 4.69417C144.921 6.03012 145.797 6.99869 147 6.99869ZM146.018 6.08579V3.23576H147.264C147.76 3.23576 148.119 3.56974 148.119 4.03733C148.119 4.36018 147.96 4.62737 147.612 4.71644V4.72757C147.876 4.8055 148.002 4.96136 148.034 5.30648C148.076 5.70727 148.055 6.00786 148.15 6.05239V6.08579H147.633C147.559 6.05239 147.528 5.72953 147.517 5.42894C147.506 5.12835 147.338 4.9391 147 4.9391H146.557V6.08579H146.018ZM146.557 3.70334V4.50491H147.148C147.443 4.50491 147.591 4.33792 147.591 4.10412C147.591 3.87033 147.443 3.70334 147.148 3.70334H146.557Z" fill="currentColor"/>
+      <path d="M131.389 3.22852V6.62975H134.973V18.0174H138.643V6.62975H142.227V3.22852H131.389Z" fill="currentColor"/>
+    </svg>
+  );
+};
+
 // --- NAVEGACIÓN PRINCIPAL ---
 const MainNav: React.FC<{
   currentView: string;
-  setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys') => void;
+  setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
   isHome?: boolean;
   navRef?: React.RefObject<HTMLElement | null>;
   bgColor?: string;
 }> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-white' }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 80);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Determinar los colores y fondos de la barra de navegación basado en el scroll y si estamos en el Home
+  const navClasses = isHome 
+    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-transparent py-6 md:py-8' : 'bg-transparent py-8 md:py-12'}`
+    : `sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? 'bg-transparent py-6 md:py-8' : `${bgColor} py-7 md:py-8 ${bgColor === 'bg-transparent' ? 'border-b border-transparent' : 'border-b border-gray-100/50'}`}`;
+
   return (
     <nav 
       ref={navRef} 
-      className={`${isHome ? 'fixed top-0 left-0 w-full z-50 bg-transparent py-8 md:py-12' : `sticky top-0 z-40 w-full ${bgColor} py-7 md:py-8 ${bgColor === 'bg-transparent' ? 'border-b border-transparent' : 'border-b border-gray-100/50'}`} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4 transition-colors duration-200`}
+      className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
     >
-      <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4`}>
-        <button onClick={() => setCurrentView('home')} className="flex items-center gap-3.5 sm:gap-4 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
-          <HenriBarrettSun className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-current shrink-0" />
-          <span className="font-bold text-[1.1rem] sm:text-[1.25rem] md:text-[1.4rem] tracking-tight uppercase leading-none whitespace-nowrap">HENRI BARRETT®</span>
+      <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4 transition-all duration-300`}>
+        <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
+          <div className="relative flex items-start">
+            <DynamicIsotype className="transition-transform duration-300" style={{ width: isScrolled ? '45px' : '59.3px', height: isScrolled ? '45px' : '59.3px' }} />
+            {isScrolled && <span className="absolute -right-[7px] top-[1px] text-[10px] font-bold">®</span>}
+          </div>
+          
+          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
+            <DynamicLogotype style={{ width: '205px' }} />
+          </div>
         </button>
         
-        <div className="flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] font-medium tracking-[0.03em] overflow-x-auto no-scrollbar py-1">
+        <div className={`flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] py-1 overflow-x-auto no-scrollbar'}`}>
           <button onClick={() => setCurrentView('home')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'home' ? 'font-bold' : ''}`}>About Us</button>
           <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
           <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
@@ -2234,10 +2221,17 @@ const MainNav: React.FC<{
           <a href="#contact" className="hover:opacity-60 transition-opacity whitespace-nowrap">Contact</a>
         </div>
 
-        <a href="#work-with-us" className="relative group text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold pb-1.5 tracking-[0.03em] transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap">
-          Work with us
-          <span className="absolute bottom-0 left-0 w-full h-[2px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>
-        </a>
+        <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
+          {isScrolled && (
+            <button className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap border-b-2 border-current">
+              Menu
+            </button>
+          )}
+          <button onClick={() => setCurrentView('work-with-us')} className={`relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap ${isScrolled ? 'border-b-2 border-current' : ''}`}>
+            Work with us
+            {!isScrolled && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>}
+          </button>
+        </div>
       </div>
     </nav>
   );
@@ -2913,8 +2907,8 @@ export const AllQuicklysSection: React.FC = () => {
                   In Progress
                 </span>
                 <div className="flex items-center gap-1.5 ml-1 text-black">
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                 </div>
               </div>
 
@@ -3036,8 +3030,8 @@ export const AllQuicklysSection: React.FC = () => {
               {/* ICONOS DE SOL + BADGE EVENT */}
               <div className="flex items-center justify-between sm:justify-start gap-4 flex-wrap">
                 <div className="flex items-center gap-1.5 text-black">
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                 </div>
                 <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white bg-[#8C30F5] shadow-xs">
                   Event
@@ -3105,8 +3099,8 @@ export const AllQuicklysSection: React.FC = () => {
                   In Progress
                 </span>
                 <div className="flex items-center gap-1.5 ml-1 text-black">
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                 </div>
               </div>
 
@@ -3228,8 +3222,8 @@ export const AllQuicklysSection: React.FC = () => {
               {/* ICONOS DE SOL A LA IZQUIERDA Y BADGE EVENT A LA DERECHA */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-1.5 text-black">
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-                  <HenriBarrettSun className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <DynamicIsotype className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                 </div>
                 <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white bg-[#8C30F5] shadow-xs">
                   Event
@@ -3483,7 +3477,7 @@ export const App: React.FC = () => {
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setCurrentView] = useState<'work' | 'home' | 'services' | 'quicklys'>('home');
+  const [currentView, setCurrentView] = useState<'work' | 'home' | 'services' | 'quicklys' | 'work-with-us'>('home');
   const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('explore');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -3649,7 +3643,7 @@ export const App: React.FC = () => {
       
       currentScrollY.current += (targetScroll - currentScrollY.current) * 0.1;
 
-      if (contentRef.current) {
+      if (contentRef.current && currentView === 'home') {
         contentRef.current.style.transform = `translate3d(0, -${currentScrollY.current}px, 0)`;
       }
 
@@ -3695,9 +3689,9 @@ export const App: React.FC = () => {
           currentHeight = heightMid + (heightEnd - heightMid) * ease;
         }
 
-        videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+        if (currentView === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
         
-        if (infoBarRef.current) {
+        if (infoBarRef.current && currentView === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
             infoBarRef.current.style.opacity = opacity.toString();
             infoBarRef.current.style.top = `${topMid + heightMid + 32}px`;
@@ -3742,7 +3736,7 @@ export const App: React.FC = () => {
 
   if (currentView === 'work') {
     return (
-      <div className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
+      <div key="work" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
         <MainNav 
           currentView={currentView} 
@@ -3763,19 +3757,19 @@ export const App: React.FC = () => {
               >
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                   <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
-                  <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                  <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
               </div>
             </div>
@@ -3919,19 +3913,19 @@ export const App: React.FC = () => {
             >
               <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
               </div>
               <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
               </div>
             </div>
           </div>
@@ -3941,7 +3935,7 @@ export const App: React.FC = () => {
         </section>
 
         {/* FOOTER PEGADO DIRECTAMENTE A LA TERMINACIÓN DE QUICKLYS */}
-        <Footer className="mt-0" />
+        <Footer />
 
         {/* CURSOR PERSONALIZADO (FLECHA GRANDE PARA SELECTED WORKS) */}
         <div
@@ -3971,7 +3965,7 @@ export const App: React.FC = () => {
 
   if (currentView === 'quicklys') {
     return (
-      <div className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white flex flex-col justify-between">
+      <div key="quicklys" className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white flex flex-col justify-between">
         <div className="w-full">
           {/* HEADER (NAVBAR) */}
           <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
@@ -3984,19 +3978,19 @@ export const App: React.FC = () => {
             >
               <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
               </div>
               <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">QUICKLYS</span>
-                <HenriBarrettSun className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
+                <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
               </div>
             </div>
           </div>
@@ -4030,14 +4024,14 @@ export const App: React.FC = () => {
         </div>
 
         {/* FOOTER PEGADO DIRECTAMENTE AL CIERRE DE LA DOBLE TIRA */}
-        <Footer className="mt-0" />
+        <Footer />
       </div>
     );
   }
 
   if (currentView === 'services') {
     return (
-      <div className="w-full min-h-screen bg-[#F5F5F5] text-black font-sans selection:bg-black selection:text-white pb-32">
+      <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-[#F5F5F5] text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
         <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-[#F5F5F5]" />
 
@@ -4049,7 +4043,7 @@ export const App: React.FC = () => {
               {/* Repeat a few times to ensure it covers the screen even when scrolling */}
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="flex items-center gap-10 md:gap-16 pr-10 md:pr-16 shrink-0">
-                  <HenriBarrettSun className="w-[12vw] h-[12vw] md:w-[8vw] md:h-[8vw] text-black shrink-0" />
+                  <DynamicIsotype className="w-[12vw] h-[12vw] md:w-[8vw] md:h-[8vw] text-black shrink-0" />
                   <span className="text-[20vw] md:text-[16vw] font-normal tracking-[-0.03em] uppercase leading-[0.8] text-black">WHAT WE DO</span>
                 </div>
               ))}
@@ -4134,12 +4128,12 @@ export const App: React.FC = () => {
             </div>
 
             {/* COLUMNA DERECHA: TITULAR, PÁRRAFOS Y ACCIONES */}
-            <div className="md:col-span-8 flex flex-col">
-              <h2 className="text-[28px] sm:text-[38px] md:text-[46px] lg:text-[52px] leading-[1.08] tracking-[-0.03em] text-black font-normal max-w-[25ch]">
-                Beyond mere external perceptions, it's a matter of orchestrating an ecosystem.
+            <div className="md:col-span-8 flex flex-col lg:pl-10">
+              <h2 className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[67px] leading-[1.05] tracking-[-0.03em] text-black font-normal">
+                Beyond mere external <br className="hidden md:block"/> perceptions, it's a matter of <br className="hidden md:block"/> orchestrating an ecosystem.
               </h2>
 
-              <div className="flex flex-col gap-6 mt-8 sm:mt-10 text-base sm:text-lg md:text-[1.125rem] leading-[1.6] text-black/80 font-normal max-w-[58ch]">
+              <div className="flex flex-col gap-6 sm:gap-8 md:gap-10 mt-8 sm:mt-12 md:mt-16 text-lg sm:text-xl md:text-[26px] lg:text-[32px] leading-[1.3] text-black font-normal max-w-[38ch]">
                 <p>
                   In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
                 </p>
@@ -4148,14 +4142,14 @@ export const App: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between pt-10 sm:pt-16 mt-auto">
+              <div className="flex items-center justify-between pt-16 sm:pt-24 mt-auto">
                 <a 
                   href="#work-together"
-                  className="text-base sm:text-lg tracking-tight text-black border-b border-black/50 pb-0.5 hover:border-black hover:opacity-70 transition-all font-normal"
+                  className="text-lg sm:text-xl lg:text-[22px] tracking-tight text-black border-b border-black/50 pb-1 hover:border-black hover:opacity-70 transition-all font-normal"
                 >
                   Lets work together
                 </a>
-                <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-black/25 select-none pr-2">
+                <span className="text-sm sm:text-base font-semibold uppercase tracking-[0.25em] text-black/25 select-none pr-2">
                   BRANDING
                 </span>
               </div>
@@ -4188,13 +4182,147 @@ export const App: React.FC = () => {
         />
 
         {/* FOOTER */}
-        <Footer className="mt-0" />
+        <Footer />
+      </div>
+    );
+  }
+
+  if (currentView === 'work-with-us') {
+    return (
+      <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-[#F4F4F4] text-black font-sans selection:bg-black selection:text-white">
+        {/* HEADER (NAVBAR) */}
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-[#F4F4F4]" />
+
+        {/* HERO TITLE MARQUEE */}
+        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-[#F4F4F4]">
+          <div className="flex items-center justify-center whitespace-nowrap w-max mx-auto -ml-[20vw] md:-ml-[10vw]">
+            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
+            <DynamicIsotype className="mx-6 sm:mx-10 w-[8vw] h-[8vw] min-w-[50px] min-h-[50px]" />
+            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
+            <DynamicIsotype className="mx-6 sm:mx-10 w-[8vw] h-[8vw] min-w-[50px] min-h-[50px]" />
+            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
+          </div>
+        </div>
+
+        {/* FORM CONTAINER */}
+        <div className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 pb-24 md:pb-32">
+          
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] font-medium tracking-tight max-w-[800px] mb-16 md:mb-24">
+            Fill out the contact form below and tell us about your vision for the project.
+          </h2>
+
+          <div className="w-full border-b border-[#D4D4D4] pb-4 flex justify-between items-end mb-12">
+            <span className="text-sm sm:text-base font-medium">Lets work together ↓</span>
+            <div className="flex gap-6 sm:gap-10 text-sm sm:text-base font-bold">
+              <a href="#press" className="hover:opacity-60 transition-opacity">Press</a>
+              <a href="#careers" className="hover:opacity-60 transition-opacity">Carreers</a>
+            </div>
+          </div>
+
+          <form className="w-full flex flex-col gap-8 md:gap-12" onSubmit={(e) => e.preventDefault()}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="flex flex-col gap-3">
+                <label className="text-sm sm:text-base font-medium">First Name:*</label>
+                <input type="text" placeholder="Your first name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-sm sm:text-base font-medium">Last Name:*</label>
+                <input type="text" placeholder="Your last name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="flex flex-col gap-3">
+                <label className="text-sm sm:text-base font-medium">Company Name:*</label>
+                <input type="text" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors relative z-10" />
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-sm sm:text-base font-medium">Your Company Email:*</label>
+                <input type="email" placeholder="example@domain.com" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label className="text-sm sm:text-base font-medium">Tell us about the project (Timeline,Budget):*</label>
+              <textarea rows={5} className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors resize-none relative z-10"></textarea>
+            </div>
+
+            <div className="flex items-center gap-3 mt-2">
+              <div className="w-5 h-5 rounded-full bg-black shrink-0 border-2 border-black flex items-center justify-center cursor-pointer">
+                <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
+              </div>
+              <span className="text-sm sm:text-base font-medium">Yes, sign me up to newsletter</span>
+            </div>
+
+            <div className="mt-4">
+              <button type="submit" className="bg-[#111] hover:bg-black text-white px-12 py-4 rounded-full font-medium transition-colors">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* PRESS SECTION */}
+        <div id="press" className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 py-20 md:py-32 flex flex-col md:flex-row items-center gap-16 md:gap-24">
+          <div className="w-full md:w-1/2 aspect-[4/5] bg-[#E2E2E2] rounded-sm"></div>
+          <div className="w-full md:w-1/2 flex flex-col items-start gap-8">
+            <h3 className="text-3xl md:text-5xl font-medium leading-[1.1] tracking-tight">
+              Are you a journalist<br />with a media or press<br />opportunity?
+            </h3>
+            <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-[400px]">
+              Giancarlo Morales love contributing to news, articles, and stories about entrepreneurship, business, branding, culture, leadership, and vision. They've been featured in NY Post, Inc., Fast Company, WSJ, and many more.
+            </p>
+            <a href="mailto:press@henribarrett.com" className="text-sm md:text-base font-medium underline underline-offset-4 decoration-1 hover:opacity-60 transition-opacity">
+              Send an Email
+            </a>
+          </div>
+        </div>
+
+        {/* CONTACT SECTION */}
+        <div className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 pt-24 pb-32 md:pb-40">
+          <h2 className="text-[12vw] sm:text-[8rem] md:text-[10rem] font-medium leading-none tracking-tighter mb-16 md:mb-24 uppercase">
+            CONTACT
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            <div className="flex flex-col gap-4">
+              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Location</h4>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-[200px]">
+                Henri Barrett Lima<br />
+                Av. Pethit Thoars 264, Miraflores
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Keynote Speaking</h4>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-[250px]">
+                Want Luis Tateishi and Oswaldo Pescador to speak at your next event or be panelists for topics on business, brand, or culture?
+              </p>
+              <a href="mailto:speaking@henribarrett.com" className="text-sm font-medium underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+                Send an Email
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Careers</h4>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-[250px]">
+                We're always looking for talent to join our team. Apply now.
+              </p>
+              <a href="#careers" className="text-sm font-medium underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+                See open positions
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div ref={mainContainerRef} className="w-full transition-colors duration-200" style={{ backgroundColor: '#ffffff', height: pageHeight ? `${pageHeight}px` : '100vh' }}>
+    <div key="home" ref={mainContainerRef} className="w-full transition-colors duration-200" style={{ backgroundColor: '#ffffff', height: pageHeight ? `${pageHeight}px` : '100vh' }}>
       
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
