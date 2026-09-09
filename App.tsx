@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sun, MoveUpRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
+import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 
 // --- LOGO EMBLEMA HENRI BARRETT (SOL RADIAL DE LA MARCA) ---
 export const HenriBarrettSun: React.FC<{ className?: string }> = ({ className = "w-8 h-8" }) => {
@@ -1157,6 +1157,59 @@ const SpacesWeWorkInSection = () => {
               <span className="text-lg leading-none">↓</span>
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PraiseFromClientsSection = ({
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
+  onMouseUp
+}: {
+  onMouseEnter: (e: React.MouseEvent) => void;
+  onMouseLeave: () => void;
+  onMouseDown: () => void;
+  onMouseUp: () => void;
+}) => {
+  return (
+    <section className="w-full pt-20 md:pt-32 pb-24 md:pb-40 bg-[#F2F2F2]">
+      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 mb-16 md:mb-24 flex justify-between items-start">
+        <h2 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-normal uppercase tracking-[-0.03em] leading-[0.9] text-black">
+          <div>PRAISE</div>
+          <div>FROM CLIENTS</div>
+        </h2>
+        <span className="text-xl md:text-2xl font-normal text-black mt-2">4—18</span>
+      </div>
+
+      <div className="w-full overflow-hidden">
+        <div 
+          className="flex overflow-x-auto gap-6 sm:gap-8 md:gap-10 px-6 sm:px-10 md:px-16 lg:px-20 pb-12 snap-x snap-mandatory no-scrollbar"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          data-selected-work-image="true"
+        >
+          {/* Testimonial Cards */}
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] max-w-[600px] bg-white p-10 md:p-14 snap-center cursor-none">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-200">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="Allie kuzyk" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg md:text-xl font-normal text-black leading-tight">Allie kuzyk</span>
+                  <span className="text-sm text-black/50 leading-tight">Global Program Manager, Tik Tok</span>
+                </div>
+              </div>
+              <p className="text-lg sm:text-xl md:text-[22px] leading-[1.4] text-black font-normal tracking-[-0.02em]">
+                “I’ve referred Henri Barrett® to anyone who asks for an all-around branding and strategic powerhouse. I’ve always felt we were more than just a client, but true partners.”
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -3448,6 +3501,7 @@ export const App: React.FC = () => {
   // --- ESTADO DEL CURSOR (FLECHA GRANDE PARA SELECTED WORKS) ---
   const cursorArrowRef = useRef<HTMLDivElement>(null);
   const [isHoveringWork, setIsHoveringWork] = useState(false);
+  const [cursorType, setCursorType] = useState<'upRight' | 'right'>('upRight');
   const [isMouseDown, setIsMouseDown] = useState(false);
   const isHoveringWorkRef = useRef(false);
   const lastMousePosRef = useRef({ x: -200, y: -200 });
@@ -3805,6 +3859,7 @@ export const App: React.FC = () => {
                           if (cursorArrowRef.current) {
                             cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                           }
+                          setCursorType('upRight');
                           setIsHoveringWork(true);
                         }}
                         onMouseLeave={() => setIsHoveringWork(false)}
@@ -3903,7 +3958,11 @@ export const App: React.FC = () => {
               isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
             }`}
           >
-            <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+            {cursorType === 'right' ? (
+              <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+            ) : (
+              <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+            )}
           </div>
         </div>
       </div>
@@ -4113,6 +4172,21 @@ export const App: React.FC = () => {
         {/* SECCIÓN: SPACES WE WORK IN */}
         <SpacesWeWorkInSection />
 
+        {/* PRAISE FROM CLIENTS */}
+        <PraiseFromClientsSection 
+          onMouseEnter={(e) => {
+            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+            if (cursorArrowRef.current) {
+              cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+            }
+            setCursorType('right');
+            setIsHoveringWork(true);
+          }}
+          onMouseLeave={() => setIsHoveringWork(false)}
+          onMouseDown={() => setIsMouseDown(true)}
+          onMouseUp={() => setIsMouseDown(false)}
+        />
+
         {/* FOOTER */}
         <Footer className="mt-0" />
       </div>
@@ -4224,8 +4298,8 @@ export const App: React.FC = () => {
                 <div className="w-full max-w-[1250px] px-6 flex flex-col gap-12 relative pt-32">
                     
                     {/* WORK WATERMARK */}
-                    <div className="absolute top-[-15vh] left-1/2 -translate-x-1/2 w-screen flex justify-center items-center z-[-1] select-none pointer-events-none">
-                        <span ref={workTextRef} className="text-[45vw] font-black leading-none tracking-tighter text-black/[0.03] uppercase">WORK</span>
+                    <div className="absolute top-[-15vh] left-1/2 -translate-x-1/2 w-full flex justify-center items-center z-[-1] select-none pointer-events-none">
+                        <span ref={workTextRef} className="text-[33vw] font-black leading-none tracking-tighter text-black uppercase">WORK</span>
                     </div>
 
                     {/* PROYECTOS */}
@@ -4262,6 +4336,7 @@ export const App: React.FC = () => {
                                         if (cursorArrowRef.current) {
                                             cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                                         }
+                                        setCursorType('upRight');
                                         setIsHoveringWork(true);
                                     }}
                                     onMouseLeave={() => setIsHoveringWork(false)}
@@ -4417,7 +4492,11 @@ export const App: React.FC = () => {
             isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
           }`}
         >
-          <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+          {cursorType === 'right' ? (
+            <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+          ) : (
+            <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+          )}
         </div>
       </div>
 
