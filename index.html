@@ -71,6 +71,62 @@
       .animate-marquee-down-alt {
         animation: marquee-down 36s linear infinite;
       }
+      @keyframes clock-tick {
+        0% { transform: rotate(0deg); }
+        1.25% { transform: rotate(4.4deg); }
+        2.50% { transform: rotate(25.6deg); }
+        3.75% { transform: rotate(30.0deg); }
+        8.33% { transform: rotate(30.0deg); }
+        9.58% { transform: rotate(34.4deg); }
+        10.83% { transform: rotate(55.6deg); }
+        12.08% { transform: rotate(60.0deg); }
+        16.67% { transform: rotate(60.0deg); }
+        17.92% { transform: rotate(64.4deg); }
+        19.17% { transform: rotate(85.6deg); }
+        20.42% { transform: rotate(90.0deg); }
+        25.00% { transform: rotate(90.0deg); }
+        26.25% { transform: rotate(94.4deg); }
+        27.50% { transform: rotate(115.6deg); }
+        28.75% { transform: rotate(120.0deg); }
+        33.33% { transform: rotate(120.0deg); }
+        34.58% { transform: rotate(124.4deg); }
+        35.83% { transform: rotate(145.6deg); }
+        37.08% { transform: rotate(150.0deg); }
+        41.67% { transform: rotate(150.0deg); }
+        42.92% { transform: rotate(154.4deg); }
+        44.17% { transform: rotate(175.6deg); }
+        45.42% { transform: rotate(180.0deg); }
+        50.00% { transform: rotate(180.0deg); }
+        51.25% { transform: rotate(184.4deg); }
+        52.50% { transform: rotate(205.6deg); }
+        53.75% { transform: rotate(210.0deg); }
+        58.33% { transform: rotate(210.0deg); }
+        59.58% { transform: rotate(214.4deg); }
+        60.83% { transform: rotate(235.6deg); }
+        62.08% { transform: rotate(240.0deg); }
+        66.67% { transform: rotate(240.0deg); }
+        67.92% { transform: rotate(244.4deg); }
+        69.17% { transform: rotate(265.6deg); }
+        70.42% { transform: rotate(270.0deg); }
+        75.00% { transform: rotate(270.0deg); }
+        76.25% { transform: rotate(274.4deg); }
+        77.50% { transform: rotate(295.6deg); }
+        78.75% { transform: rotate(300.0deg); }
+        83.33% { transform: rotate(300.0deg); }
+        84.58% { transform: rotate(304.4deg); }
+        85.83% { transform: rotate(325.6deg); }
+        87.08% { transform: rotate(330.0deg); }
+        91.67% { transform: rotate(330.0deg); }
+        92.92% { transform: rotate(334.4deg); }
+        94.17% { transform: rotate(355.6deg); }
+        95.42% { transform: rotate(360.0deg); }
+        100.00% { transform: rotate(360.0deg); }
+      }
+      .animate-clock-tick {
+        animation: clock-tick 12s linear infinite;
+        transform-origin: center;
+        display: inline-flex;
+      }
       @keyframes glitch-slice-1 {
         0% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 1px); }
         20% { clip-path: inset(80% 0 5% 0); transform: translate(3px, -2px); }

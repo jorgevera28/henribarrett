@@ -1,5 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
+import { FeaturedClientsSection } from './src/components/FeaturedClientsSection';
+import { WhoIsBarrettSection } from './src/components/WhoIsBarrettSection';
+import { ClientCaseStudiesSection } from './src/components/ClientCaseStudiesSection';
 
 // --- MAIN CODE ---
 
@@ -54,40 +57,44 @@ export const extractInstagramShortcode = (urlOrCode: string): string => {
   return '';
 };
 
+export const HB_REELS_ASSETS = {
+  kauawai: 'https://henribarrett.com/assets/site/content/instagram/reels/kauawai.mp4',
+  redBull: 'https://henribarrett.com/assets/site/content/instagram/reels/red_bull.mp4',
+  sessions: 'https://henribarrett.com/assets/site/content/instagram/reels/sessions.mp4',
+  tiktok: 'https://henribarrett.com/assets/site/content/instagram/reels/tiktok.mp4',
+  tipo: 'https://henribarrett.com/assets/site/content/instagram/reels/tipo.mp4',
+};
+
 const REELS_COL_1: ReelItem[] = [
   {
     id: 'r1',
-    title: 'Barrett Sessions #11 • Acoustic & Experimental Audio',
+    title: 'Barrett Sessions Live • Acoustic & Experimental Sound',
     client: 'Barrett Sessions Live',
-    videoUrl: '/videos/hb_reel_1.mp4',
-    posterUrl: '/videos/hb_reel_1_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r2',
-    title: 'Culture Clash Lima • Urban Summit & Street Expression',
-    client: 'Culture Clash Fest',
-    videoUrl: '/videos/hb_reel_2.mp4',
-    posterUrl: '/videos/hb_reel_2_thumb.jpg',
+    title: 'Red Bull Energy & Urban Culture • Dynamic Summit',
+    client: 'Red Bull Culture',
+    videoUrl: HB_REELS_ASSETS.redBull,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r3',
-    title: 'Kotex Agilidad Real-Time Strategy',
-    client: 'Kotex Latam',
-    videoUrl: '/videos/hb_reel_3.mp4',
-    posterUrl: '/videos/hb_reel_3_thumb.jpg',
+    title: 'Kauawai Brand Architecture & Tropical World',
+    client: 'Kauawai Brand',
+    videoUrl: HB_REELS_ASSETS.kauawai,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r4',
-    title: 'Studio Showreel 2026 • Brand Architecture & Visual Lab',
-    client: 'Henri Barrett Studio',
-    videoUrl: '/videos/hb_reel_4.mp4',
-    posterUrl: '/videos/hb_reel_4_thumb.jpg',
+    title: 'TikTok Viral Motion & Real-Time Strategy',
+    client: 'TikTok Creative Lab',
+    videoUrl: HB_REELS_ASSETS.tiktok,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   }
@@ -96,37 +103,33 @@ const REELS_COL_1: ReelItem[] = [
 const REELS_COL_2: ReelItem[] = [
   {
     id: 'r5',
-    title: 'Nike Lima Forward • Kinetic Stride & Velocity',
-    client: 'Nike Peru',
-    videoUrl: '/videos/hb_reel_5.mp4',
-    posterUrl: '/videos/hb_reel_5_thumb.jpg',
+    title: 'HB Typography Drop • Kinetic Glyphs System',
+    client: 'HB Studio Type',
+    videoUrl: HB_REELS_ASSETS.tipo,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r6',
-    title: 'Pisco Tacama • Origin & Heritage Distillation',
-    client: 'Pisco Tacama',
-    videoUrl: '/videos/hb_reel_6.mp4',
-    posterUrl: '/videos/hb_reel_6_thumb.jpg',
+    title: 'Kauawai Visual Identity & Origin Craft',
+    client: 'Kauawai Studio',
+    videoUrl: HB_REELS_ASSETS.kauawai,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r7',
-    title: 'HB Typography Drop • Kinetic Glyphs System',
-    client: 'HB Studio Type',
-    videoUrl: '/videos/hb_reel_7.mp4',
-    posterUrl: '/videos/hb_reel_7_thumb.jpg',
+    title: 'Barrett Sessions #12 • Live Experimental Set',
+    client: 'Barrett Sessions',
+    videoUrl: HB_REELS_ASSETS.sessions,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r8',
-    title: 'PedidosYa Quick Bites • 3D Motion & Appetite Appeal',
-    client: 'PedidosYa',
-    videoUrl: '/videos/hb_reel_8.mp4',
-    posterUrl: '/videos/hb_reel_8_thumb.jpg',
+    title: 'Red Bull Motion Power & Adrenaline Speed',
+    client: 'Red Bull Racing',
+    videoUrl: HB_REELS_ASSETS.redBull,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   }
@@ -135,37 +138,33 @@ const REELS_COL_2: ReelItem[] = [
 const REELS_COL_3: ReelItem[] = [
   {
     id: 'r9',
-    title: 'Interbank InLab • Digital Hub & Experience Architecture',
-    client: 'Interbank InLab',
-    videoUrl: '/videos/hb_reel_9.mp4',
-    posterUrl: '/videos/hb_reel_9_thumb.jpg',
+    title: 'TikTok Creator Innovation & Microformat Storytelling',
+    client: 'TikTok Creative',
+    videoUrl: HB_REELS_ASSETS.tiktok,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r10',
-    title: 'Heineken Silver • Nightlife Brand Activation',
-    client: 'Heineken Peru',
-    videoUrl: '/videos/hb_reel_10.mp4',
-    posterUrl: '/videos/hb_reel_10_thumb.jpg',
+    title: 'Experimental Font Architecture & Editorial Motion',
+    client: 'HB Studio Design',
+    videoUrl: HB_REELS_ASSETS.tipo,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r11',
-    title: 'Navidad Tottus • Historias Microformato & Unión',
-    client: 'Tottus Peru',
-    videoUrl: '/videos/hb_reel_11.mp4',
-    posterUrl: '/videos/hb_reel_11_thumb.jpg',
+    title: 'Kauawai Refresh & Packaging Evolution',
+    client: 'Kauawai Brand',
+    videoUrl: HB_REELS_ASSETS.kauawai,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r12',
-    title: 'Barrett Lab 3D • Generative Sculpture & Motion',
-    client: 'HB Visual Lab',
-    videoUrl: '/videos/hb_reel_12.mp4',
-    posterUrl: '/videos/hb_reel_12_thumb.jpg',
+    title: 'Barrett Live Sessions • Acoustic Intimacy',
+    client: 'Barrett Sessions Live',
+    videoUrl: HB_REELS_ASSETS.sessions,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   }
@@ -174,75 +173,313 @@ const REELS_COL_3: ReelItem[] = [
 const REELS_COL_4: ReelItem[] = [
   {
     id: 'r13',
-    title: 'Precio Uno Bodas de Oro • Retail Identity & Orgullo',
-    client: 'Precio Uno',
-    videoUrl: '/videos/hb_reel_13.mp4',
-    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+    title: 'Red Bull Velocity & Urban Expression',
+    client: 'Red Bull Peru',
+    videoUrl: HB_REELS_ASSETS.redBull,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r14',
-    title: 'Alicorp Primor • Dynamic Color & Motion Packaging',
-    client: 'Alicorp',
-    videoUrl: '/videos/hb_reel_14.mp4',
-    posterUrl: '/videos/hb_reel_14_thumb.jpg',
+    title: 'TikTok Brand Impact & Audience Connection',
+    client: 'TikTok Latam',
+    videoUrl: HB_REELS_ASSETS.tiktok,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r15',
-    title: 'Barrett Street Culture • Raw Identity Drop Lima',
+    title: 'Kinetic Type Systems & Contemporary Grid',
     client: 'Henri Barrett Studio',
-    videoUrl: '/videos/hb_reel_15.mp4',
-    posterUrl: '/videos/hb_reel_15_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   },
   {
     id: 'r16',
-    title: 'Barrett Sessions Live Set • Sonic Mood & Ambience',
-    client: 'Barrett Sessions',
-    videoUrl: '/videos/hb_reel_16.mp4',
-    posterUrl: '/videos/hb_reel_16_thumb.jpg',
+    title: 'Kauawai Creative Direction & Sensory Narrative',
+    client: 'Kauawai Brand',
+    videoUrl: HB_REELS_ASSETS.kauawai,
     instagramUrl: 'https://www.instagram.com/reel/C_q83H-O_Z1/',
     instagramShortcode: 'C_q83H-O_Z1'
   }
 ];
 
+// --- GESTOR GLOBAL DE REPRODUCCIÓN EXCLUSIVA (UN SOLO VIDEO A LA VEZ) ---
+type VideoPlaybackListener = (activeId: string | null) => void;
+
+class GlobalVideoPlaybackManager {
+  private activeId: string | null = null;
+  private activeVideoElement: HTMLVideoElement | null = null;
+  private listeners = new Set<VideoPlaybackListener>();
+
+  getActiveId(): string | null {
+    return this.activeId;
+  }
+
+  requestPlay(id: string, videoEl?: HTMLVideoElement | null) {
+    if (this.activeId !== id) {
+      if (this.activeVideoElement && this.activeVideoElement !== videoEl) {
+        try {
+          this.activeVideoElement.pause();
+          this.activeVideoElement.currentTime = 0.001;
+        } catch (e) {}
+      }
+      this.activeId = id;
+      this.activeVideoElement = videoEl || null;
+      this.notify();
+    } else if (videoEl && this.activeVideoElement !== videoEl) {
+      this.activeVideoElement = videoEl;
+    }
+  }
+
+  stopPlay(id: string) {
+    if (this.activeId === id) {
+      if (this.activeVideoElement) {
+        try {
+          this.activeVideoElement.pause();
+          this.activeVideoElement.currentTime = 0.001;
+        } catch (e) {}
+      }
+      this.activeId = null;
+      this.activeVideoElement = null;
+      this.notify();
+    }
+  }
+
+  pauseAll() {
+    if (this.activeVideoElement) {
+      try {
+        this.activeVideoElement.pause();
+        this.activeVideoElement.currentTime = 0.001;
+      } catch (e) {}
+    }
+    this.activeId = null;
+    this.activeVideoElement = null;
+    this.notify();
+  }
+
+  subscribe(listener: VideoPlaybackListener) {
+    this.listeners.add(listener);
+    listener(this.activeId);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
+  private notify() {
+    this.listeners.forEach((listener) => {
+      try {
+        listener(this.activeId);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  }
+}
+
+export const globalVideoManager = new GlobalVideoPlaybackManager();
+
 export const LoopedReelVideo: React.FC<{
+  id?: string;
   src: string;
   poster?: string;
   className?: string;
   muted?: boolean;
-}> = ({ src, poster, className = '', muted = true }) => {
+  autoPlay?: boolean;
+  playOnHover?: boolean;
+  resetOnLeave?: boolean;
+  isExternalHovered?: boolean;
+}> = ({
+  id,
+  src,
+  poster,
+  className = '',
+  muted = true,
+  autoPlay = false,
+  playOnHover = true,
+  resetOnLeave = true,
+  isExternalHovered,
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const autoGeneratedId = useId();
+  const videoUniqueId = id || autoGeneratedId;
+
+  const [isNearViewport, setIsNearViewport] = useState(false);
+  const [internalHover, setInternalHover] = useState(false);
+  const [isGloballyActive, setIsGloballyActive] = useState(false);
+
+  // LAZY LOAD: IntersectionObserver para no descargar video hasta estar cerca de pantalla
+  useEffect(() => {
+    if (autoPlay) {
+      setIsNearViewport(true);
+      return;
+    }
+
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsNearViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsNearViewport(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '300px 150px 300px 150px',
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [autoPlay]);
+
+  // Suscripción al gestor global para exclusividad de reproducción
+  useEffect(() => {
+    const unsubscribe = globalVideoManager.subscribe((activeId) => {
+      setIsGloballyActive(activeId === videoUniqueId);
+    });
+    return () => {
+      unsubscribe();
+      globalVideoManager.stopPlay(videoUniqueId);
+    };
+  }, [videoUniqueId]);
+
+  const isHoverActive = isExternalHovered !== undefined ? isExternalHovered : internalHover;
+  const userWantsToPlay = autoPlay || (playOnHover && isHoverActive);
+
+  // Reclamar o soltar el canal global de reproducción exclusiva
+  useEffect(() => {
+    if (userWantsToPlay) {
+      setIsNearViewport(true);
+      globalVideoManager.requestPlay(videoUniqueId, videoRef.current);
+    } else {
+      globalVideoManager.stopPlay(videoUniqueId);
+    }
+  }, [userWantsToPlay, videoUniqueId]);
+
+  const canPlayNow = userWantsToPlay && isGloballyActive;
+
+  // Garantiza extracción del primer frame nativo mediante media fragment #t=0.001
+  const videoSrc = src.includes('#t=') ? src : `${src}#t=0.001`;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.defaultMuted = muted;
+    video.muted = muted;
+    video.playsInline = true;
+
+    if (canPlayNow) {
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {});
+      }
+    } else {
+      video.pause();
+      if (resetOnLeave) {
+        try {
+          video.currentTime = 0.001;
+        } catch (e) {}
+      }
+    }
+  }, [canPlayNow, muted, resetOnLeave, isNearViewport]);
+
   return (
-    <img
-      src={poster || src}
-      alt="Reel cover"
-      className={className}
-      loading="lazy"
-      style={{ objectFit: 'cover' }}
-    />
+    <div
+      ref={containerRef}
+      onMouseEnter={() => {
+        setIsNearViewport(true);
+        setInternalHover(true);
+      }}
+      onMouseLeave={() => setInternalHover(false)}
+      className={`relative w-full h-full overflow-hidden bg-[#111] ${className}`}
+    >
+      {poster && (
+        <img
+          src={poster}
+          alt=""
+          loading="lazy"
+          className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-300 ${
+            canPlayNow ? 'opacity-0' : 'opacity-100'
+          }`}
+        />
+      )}
+
+      {isNearViewport ? (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={poster}
+          loop
+          muted={muted}
+          playsInline
+          preload="metadata"
+          onLoadedMetadata={(e) => {
+            const video = e.currentTarget;
+            video.defaultMuted = muted;
+            video.muted = muted;
+            if (!canPlayNow) {
+              try {
+                video.currentTime = 0.001;
+                video.pause();
+              } catch (err) {}
+            }
+          }}
+          className="w-full h-full object-cover transition-opacity duration-300"
+        />
+      ) : (
+        <div className="w-full h-full bg-[#161616] flex items-center justify-center text-white/20">
+          <div className="w-8 h-8 rounded-full border border-white/10 animate-pulse" />
+        </div>
+      )}
+    </div>
   );
 };
 
-const ReelCard: React.FC<{ reel: ReelItem; onSelect: () => void }> = ({ reel, onSelect }) => {
+const ReelCard: React.FC<{ reel: ReelItem; uniqueKey?: string; onSelect: () => void }> = ({ reel, uniqueKey, onSelect }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div
       onClick={onSelect}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="relative aspect-[9/16] w-full rounded-[22px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden bg-black group cursor-pointer shadow-sm select-none border border-black/5"
     >
       <LoopedReelVideo
+        id={uniqueKey || `reel-${reel.id}`}
         src={reel.videoUrl}
         poster={reel.posterUrl}
+        isExternalHovered={isHovered}
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
 
       {/* Badge permanente de Instagram @henribarrettstudio */}
-      <div className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-medium tracking-wide flex items-center gap-1.5 z-10">
+      <div className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-medium tracking-wide flex items-center gap-1.5 z-10 pointer-events-none">
         <Instagram className="w-2.5 h-2.5 text-pink-400" />
         <span>@henribarrettstudio</span>
+      </div>
+
+      {/* Indicador sutil de reproducción congelada que desaparece al pasar el cursor */}
+      <div className={`absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-70'}`}>
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center text-white border border-white/20 shadow-md">
+          <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white translate-x-0.5" />
+        </div>
       </div>
 
       {/* Gradiente sutil y metadata al hover */}
@@ -270,14 +507,17 @@ const ReelCard: React.FC<{ reel: ReelItem; onSelect: () => void }> = ({ reel, on
 const QuicklysMasonryReels: React.FC = () => {
   const [cols, setCols] = useState<{ col1: ReelItem[]; col2: ReelItem[]; col3: ReelItem[]; col4: ReelItem[] }>(() => {
     try {
-      const saved = localStorage.getItem('hb_studio_reels_data_v3');
-      if (saved && !saved.includes('mixkit.co')) {
+      localStorage.removeItem('hb_studio_reels_data');
+      localStorage.removeItem('hb_studio_reels_data_v2');
+      localStorage.removeItem('hb_studio_reels_data_v5');
+      localStorage.removeItem('hb_studio_reels_data_v4');
+      const saved = localStorage.getItem('hb_studio_reels_data_v5');
+      if (saved && !saved.includes('mixkit.co') && !saved.includes('/videos/hb_reel_')) {
         const parsed = JSON.parse(saved);
         if (parsed.col1 && parsed.col2 && parsed.col3 && parsed.col4) {
           return parsed;
         }
       }
-      localStorage.removeItem('hb_studio_reels_data');
     } catch (e) {
       console.error(e);
     }
@@ -291,6 +531,15 @@ const QuicklysMasonryReels: React.FC = () => {
   const [isEditingCurrentUrl, setIsEditingCurrentUrl] = useState(false);
   const [currentUrlInput, setCurrentUrlInput] = useState('');
   const [saveToast, setSaveToast] = useState(false);
+
+  // Al abrir el modal, pausar inmediatamente cualquier video de fondo
+  useEffect(() => {
+    if (selectedReel) {
+      globalVideoManager.requestPlay(`quicklys-modal-${selectedReel.id}`);
+    } else {
+      globalVideoManager.stopPlay('quicklys-modal');
+    }
+  }, [selectedReel]);
 
   // Actualizar la URL de un Reel y persistir en localStorage
   const handleUpdateReel = (reelId: string, newUrl: string) => {
@@ -307,7 +556,7 @@ const QuicklysMasonryReels: React.FC = () => {
 
     setCols(updated);
     try {
-      localStorage.setItem('hb_studio_reels_data_v3', JSON.stringify(updated));
+      localStorage.setItem('hb_studio_reels_data_v5', JSON.stringify(updated));
       localStorage.removeItem('hb_studio_reels_data');
     } catch (e) {
       console.error(e);
@@ -325,7 +574,7 @@ const QuicklysMasonryReels: React.FC = () => {
     setCols({ col1: REELS_COL_1, col2: REELS_COL_2, col3: REELS_COL_3, col4: REELS_COL_4 });
     try {
       localStorage.removeItem('hb_studio_reels_data');
-      localStorage.removeItem('hb_studio_reels_data_v3');
+      localStorage.removeItem('hb_studio_reels_data_v5');
     } catch (e) {
       console.error(e);
     }
@@ -390,7 +639,7 @@ const QuicklysMasonryReels: React.FC = () => {
               style={{ animationDuration: '34s' }}
             >
               {[...cols.col1, ...cols.col1].map((reel, idx) => (
-                <ReelCard key={`c1-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
+                <ReelCard key={`c1-${reel.id}-${idx}`} uniqueKey={`c1-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
           </div>
@@ -402,7 +651,7 @@ const QuicklysMasonryReels: React.FC = () => {
               style={{ animationDuration: '30s' }}
             >
               {[...cols.col2, ...cols.col2].map((reel, idx) => (
-                <ReelCard key={`c2-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
+                <ReelCard key={`c2-${reel.id}-${idx}`} uniqueKey={`c2-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
           </div>
@@ -414,7 +663,7 @@ const QuicklysMasonryReels: React.FC = () => {
               style={{ animationDuration: '38s' }}
             >
               {[...cols.col3, ...cols.col3].map((reel, idx) => (
-                <ReelCard key={`c3-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
+                <ReelCard key={`c3-${reel.id}-${idx}`} uniqueKey={`c3-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
           </div>
@@ -426,7 +675,7 @@ const QuicklysMasonryReels: React.FC = () => {
               style={{ animationDuration: '33s' }}
             >
               {[...cols.col4, ...cols.col4].map((reel, idx) => (
-                <ReelCard key={`c4-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
+                <ReelCard key={`c4-${reel.id}-${idx}`} uniqueKey={`c4-${reel.id}-${idx}`} reel={reel} onSelect={() => setSelectedReel(reel)} />
               ))}
             </div>
           </div>
@@ -461,9 +710,12 @@ const QuicklysMasonryReels: React.FC = () => {
                 />
               ) : (
                 <LoopedReelVideo
+                  id={`quicklys-modal-${selectedReel.id}`}
                   src={selectedReel.videoUrl}
                   poster={selectedReel.posterUrl}
                   muted={isMuted}
+                  autoPlay={true}
+                  playOnHover={false}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               )}
@@ -1100,13 +1352,13 @@ const PraiseFromClientsSection = ({
   onMouseUp: () => void;
 }) => {
   return (
-    <section className="w-full pt-20 md:pt-32 pb-24 md:pb-40 bg-[#F2F2F2]">
+    <section className="w-full pt-20 md:pt-32 pb-24 md:pb-40 bg-white">
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 mb-16 md:mb-24 flex justify-between items-start">
-        <h2 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-normal uppercase tracking-[-0.03em] leading-[0.9] text-black">
+        <h2 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-light font-[300] uppercase tracking-[-0.03em] leading-[0.9] text-black">
           <div>PRAISE</div>
           <div>FROM CLIENTS</div>
         </h2>
-        <span className="text-xl md:text-2xl font-normal text-black mt-2">4—18</span>
+        <span className="text-xl md:text-2xl font-light font-[300] text-black mt-2">4—18</span>
       </div>
 
       <div className="w-full overflow-hidden">
@@ -1120,7 +1372,7 @@ const PraiseFromClientsSection = ({
         >
           {/* Testimonial Cards */}
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] max-w-[600px] bg-white p-10 md:p-14 snap-center cursor-none">
+            <div key={i} className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] max-w-[600px] bg-white border border-black/10 p-10 md:p-14 snap-center cursor-none">
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-200">
                   <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="Allie kuzyk" className="w-full h-full object-cover" />
@@ -2173,6 +2425,183 @@ const DynamicLogotype = ({ className = "", style }: { className?: string, style?
 };
 
 // --- NAVEGACIÓN PRINCIPAL ---
+// --- ELEMENTOS DEL MENÚ COMPLETO (RULETA FULL SCREEN) ---
+interface FullMenuItem {
+  id: string;
+  num: string;
+  label: string;
+  view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us';
+}
+
+const FULL_MENU_ITEMS: FullMenuItem[] = [
+  { id: 'work', num: '01.', label: 'WORK', view: 'work' },
+  { id: 'services', num: '02.', label: 'SERVICES', view: 'services' },
+  { id: 'quicklys', num: '03.', label: 'QUICKLYS', view: 'quicklys' },
+  { id: 'about', num: '04.', label: 'ABOUT US', view: 'home' },
+  { id: 'work-with-us', num: '05.', label: 'WORK WITH US', view: 'work-with-us' },
+];
+
+const FullScreenMenu: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  currentView: string;
+  setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
+}> = ({ isOpen, onClose, currentView, setCurrentView }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [centerIdx, setCenterIdx] = useState<number>(1);
+
+  // Repetimos los items para permitir una rotación infinita en ruleta
+  const REPEATED_MENU = [
+    ...FULL_MENU_ITEMS,
+    ...FULL_MENU_ITEMS,
+    ...FULL_MENU_ITEMS,
+    ...FULL_MENU_ITEMS,
+    ...FULL_MENU_ITEMS,
+  ];
+
+  // Cerrar con tecla Escape y bloquear scroll del body mientras el menú está abierto
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+
+      // Posicionar inicialmente en el item correspondiente
+      setTimeout(() => {
+        if (scrollRef.current) {
+          const itemHeight = 120;
+          const targetIndex = FULL_MENU_ITEMS.findIndex(item => item.view === currentView);
+          const activeIdxInSet = FULL_MENU_ITEMS.length * 2 + (targetIndex >= 0 ? targetIndex : 0);
+          scrollRef.current.scrollTop = activeIdxInSet * itemHeight - (scrollRef.current.clientHeight / 2) + (itemHeight / 2);
+          setCenterIdx(activeIdxInSet);
+        }
+      }, 60);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose, currentView]);
+
+  // Al hacer scroll, calcular el item que cruza el centro de la pantalla
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const centerY = container.scrollTop + container.clientHeight / 2;
+    const itemHeight = 120;
+    const approxIndex = Math.round(centerY / itemHeight);
+    setCenterIdx(approxIndex);
+
+    // Ruleta continua: si se llega a los bordes, recolocar imperceptiblemente
+    const totalItems = REPEATED_MENU.length;
+    const singleSetCount = FULL_MENU_ITEMS.length;
+    if (container.scrollTop < singleSetCount * itemHeight * 0.5) {
+      container.scrollTop += singleSetCount * itemHeight * 2;
+    } else if (container.scrollTop > (totalItems - singleSetCount * 1.5) * itemHeight) {
+      container.scrollTop -= singleSetCount * itemHeight * 2;
+    }
+  };
+
+  const handleSelectItem = (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => {
+    setCurrentView(view);
+    onClose();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div
+      className={`fixed inset-0 z-[100000] bg-[#0A0A0A] text-white flex flex-col justify-between overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
+      }`}
+      style={{ willChange: 'transform' }}
+    >
+      {/* HEADER: LOGO HENRI BARRETT A LA IZQUIERDA Y CLOSE CON X A LA DERECHA */}
+      <div className="w-full px-6 sm:px-10 md:px-16 py-7 sm:py-8 md:py-10 flex items-center justify-between z-30 shrink-0 select-none">
+        <button
+          onClick={() => handleSelectItem('home')}
+          className="flex items-center gap-2.5 text-white hover:opacity-80 transition-opacity cursor-pointer group focus:outline-hidden"
+          title="Henri Barrett - Home"
+        >
+          <DynamicIsotype className="w-8 h-8 sm:w-9 sm:h-9 text-white" />
+          <DynamicLogotype style={{ width: "170px" }} className="text-white" />
+        </button>
+
+        <button
+          onClick={onClose}
+          className="group flex items-center gap-2.5 text-white hover:opacity-75 transition-opacity cursor-pointer text-base sm:text-lg font-medium tracking-wide focus:outline-hidden"
+          aria-label="Cerrar menú"
+        >
+          <span className="border-b border-white/60 group-hover:border-white pb-0.5 transition-colors">Close</span>
+          <X className="w-5 h-5 text-white stroke-[2.2] transition-transform duration-300 group-hover:rotate-90" />
+        </button>
+      </div>
+
+      {/* RULETA VERTICAL DE PALABRAS GIGANTES */}
+      <div 
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="w-full flex-1 overflow-y-auto no-scrollbar relative flex flex-col py-[20vh] px-6 sm:px-10 md:px-16 lg:px-24 select-none"
+        style={{ scrollBehavior: 'smooth' }}
+      >
+        <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 my-auto">
+          {REPEATED_MENU.map((item, idx) => {
+            const isHovered = hoveredIdx === idx;
+            const isCentered = hoveredIdx === null && centerIdx === idx;
+            const isHighlighted = isHovered || isCentered;
+
+            return (
+              <div
+                key={`${item.id}-${idx}`}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                onClick={() => handleSelectItem(item.view)}
+                className="group flex items-baseline cursor-pointer transition-all duration-300 ease-out py-1.5 sm:py-2.5"
+              >
+                {/* Número a la izquierda (01., 02., 03., 04., 05.) */}
+                <span 
+                  className={`text-base sm:text-xl md:text-2xl lg:text-3xl font-light font-mono mr-4 sm:mr-8 md:mr-12 w-8 sm:w-12 md:w-16 text-right shrink-0 transition-colors duration-300 ${
+                    isHighlighted ? 'text-white/80' : 'text-white/20'
+                  }`}
+                >
+                  {item.num}
+                </span>
+
+                {/* Palabra gigante en mayúsculas estilo display tipo ruleta */}
+                <span
+                  className={`text-[11vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7.2vw] font-bold tracking-[-0.03em] leading-[0.92] uppercase transition-all duration-300 ${
+                    isHighlighted 
+                      ? 'text-white scale-[1.01] origin-left' 
+                      : 'text-[#242424] sm:text-[#272727] group-hover:text-white'
+                  }`}
+                  style={{
+                    fontFamily: '"neue-haas-grotesk-display", "Helvetica Neue", Arial, sans-serif'
+                  }}
+                >
+                  {item.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* FOOTER: INDICADOR DE AÑO 2024/25 EN LA ESQUINA INFERIOR DERECHA */}
+      <div className="w-full px-6 sm:px-10 md:px-16 py-6 md:py-8 flex items-center justify-end z-30 shrink-0 pointer-events-none select-none">
+        <span className="text-xs sm:text-sm text-white/25 font-mono tracking-widest">
+          2024/25
+        </span>
+      </div>
+    </div>
+  );
+};
+
 const MainNav: React.FC<{
   currentView: string;
   setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
@@ -2181,6 +2610,7 @@ const MainNav: React.FC<{
   bgColor?: string;
 }> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-white' }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -2194,46 +2624,57 @@ const MainNav: React.FC<{
   // Determinar los colores y fondos de la barra de navegación basado en el scroll y si estamos en el Home
   const navClasses = isHome 
     ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-transparent py-6 md:py-8' : 'bg-transparent py-8 md:py-12'}`
-    : `sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled ? 'bg-transparent py-6 md:py-8' : `${bgColor} py-7 md:py-8 ${bgColor === 'bg-transparent' ? 'border-b border-transparent' : 'border-b border-gray-100/50'}`}`;
+    : `sticky top-0 z-40 w-full transition-all duration-300 border-none ${isScrolled ? `${bgColor} py-6 md:py-8` : `${bgColor} py-7 md:py-8`}`;
 
   return (
-    <nav 
-      ref={navRef} 
-      className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
-    >
-      <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4 transition-all duration-300`}>
-        <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
-          <div className="relative flex items-start">
-            <DynamicIsotype className="transition-transform duration-300" style={{ width: isScrolled ? '45px' : '59.3px', height: isScrolled ? '45px' : '59.3px' }} />
-            {isScrolled && <span className="absolute -right-[7px] top-[1px] text-[10px] font-bold">®</span>}
-          </div>
-          
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
-            <DynamicLogotype style={{ width: '205px' }} />
-          </div>
-        </button>
-        
-        <div className={`flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] py-1 overflow-x-auto no-scrollbar'}`}>
-          <button onClick={() => setCurrentView('home')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'home' ? 'font-bold' : ''}`}>About Us</button>
-          <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
-          <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
-          <button onClick={() => setCurrentView('quicklys')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'quicklys' ? 'font-bold' : ''}`}>Quicklys</button>
-          <a href="#contact" className="hover:opacity-60 transition-opacity whitespace-nowrap">Contact</a>
-        </div>
+    <>
+      <FullScreenMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      />
 
-        <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
-          {isScrolled && (
-            <button className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap border-b-2 border-current">
-              Menu
-            </button>
-          )}
-          <button onClick={() => setCurrentView('work-with-us')} className={`relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap ${isScrolled ? 'border-b-2 border-current' : ''}`}>
-            Work with us
-            {!isScrolled && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left"></span>}
+      <nav 
+        ref={navRef} 
+        className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
+      >
+        <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4 transition-all duration-300`}>
+          <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
+            <div className="relative flex items-start">
+              <DynamicIsotype className="transition-transform duration-300" style={{ width: isScrolled ? '45px' : '59.3px', height: isScrolled ? '45px' : '59.3px' }} />
+              {isScrolled && <span className="absolute -right-[7px] top-[1px] text-[10px] font-bold">®</span>}
+            </div>
+            
+            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
+              <DynamicLogotype style={{ width: '205px' }} />
+            </div>
           </button>
+          
+          <div className={`flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] py-1 overflow-x-auto no-scrollbar'}`}>
+            <button onClick={() => setCurrentView('home')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'home' ? 'font-bold' : ''}`}>About Us</button>
+            <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
+            <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
+            <button onClick={() => setCurrentView('quicklys')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'quicklys' ? 'font-bold' : ''}`}>Quicklys</button>
+          </div>
+
+          <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
+            {isScrolled && (
+              <button 
+                onClick={() => setIsMenuOpen(true)}
+                className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap cursor-pointer"
+                title="Abrir menú"
+              >
+                Menu
+              </button>
+            )}
+            <button onClick={() => setCurrentView('work-with-us')} className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap">
+              Work with us
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 
@@ -2497,36 +2938,31 @@ const CULTURE_CLASH_REELS: QuicklysReelItem[] = [
     id: 'cc-1',
     title: 'Urban Creative Summit',
     category: 'Culture Clash 01',
-    videoUrl: '/videos/hb_reel_2.mp4',
-    posterUrl: '/videos/hb_reel_2_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
   },
   {
     id: 'cc-2',
     title: 'Kinetic Movement & Sound',
     category: 'Culture Clash 02',
-    videoUrl: '/videos/hb_reel_15.mp4',
-    posterUrl: '/videos/hb_reel_15_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'cc-3',
     title: 'Underground Typography',
     category: 'Culture Clash 03',
-    videoUrl: '/videos/hb_reel_7.mp4',
-    posterUrl: '/videos/hb_reel_7_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
   },
   {
     id: 'cc-4',
     title: 'Studio Creative Collective',
     category: 'Culture Clash 04',
-    videoUrl: '/videos/hb_reel_4.mp4',
-    posterUrl: '/videos/hb_reel_4_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   },
   {
     id: 'cc-5',
     title: 'Raw Street Identity',
     category: 'Culture Clash 05',
-    videoUrl: '/videos/hb_reel_1.mp4',
-    posterUrl: '/videos/hb_reel_1_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tiktok,
   }
 ];
 
@@ -2535,57 +2971,49 @@ const NIKE_RUNNING_REELS: QuicklysReelItem[] = [
     id: 'nr-1',
     title: 'Night Run City Sprint',
     category: 'Nike Running 01',
-    videoUrl: '/videos/hb_reel_5.mp4',
-    posterUrl: '/videos/hb_reel_5_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'nr-2',
     title: 'Kinetic Stride Velocity',
     category: 'Nike Running 02',
-    videoUrl: '/videos/hb_reel_3.mp4',
-    posterUrl: '/videos/hb_reel_3_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tiktok,
   },
   {
     id: 'nr-3',
     title: 'Midnight Urban Endurance',
     category: 'Nike Running 03',
-    videoUrl: '/videos/hb_reel_10.mp4',
-    posterUrl: '/videos/hb_reel_10_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   },
   {
     id: 'nr-4',
     title: 'Dynamic Pace & Form',
     category: 'Nike Running 04',
-    videoUrl: '/videos/hb_reel_12.mp4',
-    posterUrl: '/videos/hb_reel_12_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
   },
   {
     id: 'nr-5',
     title: 'Breath, Heartbeat & Motion',
     category: 'Nike Running 05',
-    videoUrl: '/videos/hb_reel_8.mp4',
-    posterUrl: '/videos/hb_reel_8_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
   },
   {
     id: 'nr-6',
     title: 'Technical Precision Gear',
     category: 'Nike Running 06',
-    videoUrl: '/videos/hb_reel_6.mp4',
-    posterUrl: '/videos/hb_reel_6_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'nr-7',
     title: 'Metropolitan Horizon Run',
     category: 'Nike Running 07',
-    videoUrl: '/videos/hb_reel_9.mp4',
-    posterUrl: '/videos/hb_reel_9_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tiktok,
   },
   {
     id: 'nr-8',
     title: 'Finish Line Transcendence',
     category: 'Nike Running 08',
-    videoUrl: '/videos/hb_reel_14.mp4',
-    posterUrl: '/videos/hb_reel_14_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   }
 ];
 
@@ -2594,71 +3022,61 @@ const NAVIDAD_TOTTUS_REELS: QuicklysReelItem[] = [
     id: 'nt-1',
     title: 'Navidad Mágica Tottus 01',
     category: 'Tottus 01',
-    videoUrl: '/videos/hb_reel_11.mp4',
-    posterUrl: '/videos/hb_reel_11_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   },
   {
     id: 'nt-2',
     title: 'Celebración en Familia 02',
     category: 'Tottus 02',
-    videoUrl: '/videos/hb_reel_6.mp4',
-    posterUrl: '/videos/hb_reel_6_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
   },
   {
     id: 'nt-3',
     title: 'Cena & Unión Navideña 03',
     category: 'Tottus 03',
-    videoUrl: '/videos/hb_reel_13.mp4',
-    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tiktok,
   },
   {
     id: 'nt-4',
     title: 'Espíritu Festivo 04',
     category: 'Tottus 04',
-    videoUrl: '/videos/hb_reel_2.mp4',
-    posterUrl: '/videos/hb_reel_2_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'nt-5',
     title: 'Momentos Tottus 05',
     category: 'Tottus 05',
-    videoUrl: '/videos/hb_reel_1.mp4',
-    posterUrl: '/videos/hb_reel_1_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
   },
   {
     id: 'nt-6',
     title: 'Tradición y Alegría 06',
     category: 'Tottus 06',
-    videoUrl: '/videos/hb_reel_10.mp4',
-    posterUrl: '/videos/hb_reel_10_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   },
   {
     id: 'nt-7',
     title: 'Regalos & Sonrisas 07',
     category: 'Tottus 07',
-    videoUrl: '/videos/hb_reel_7.mp4',
-    posterUrl: '/videos/hb_reel_7_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
   },
   {
     id: 'nt-8',
     title: 'Calidez Humana 08',
     category: 'Tottus 08',
-    videoUrl: '/videos/hb_reel_16.mp4',
-    posterUrl: '/videos/hb_reel_16_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tiktok,
   },
   {
     id: 'nt-9',
     title: 'Luces de Nochebuena 09',
     category: 'Tottus 09',
-    videoUrl: '/videos/hb_reel_5.mp4',
-    posterUrl: '/videos/hb_reel_5_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'nt-10',
     title: 'Unidos en Fiesta 10',
     category: 'Tottus 10',
-    videoUrl: '/videos/hb_reel_4.mp4',
-    posterUrl: '/videos/hb_reel_4_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
   },
 ];
 
@@ -2667,31 +3085,59 @@ const PRECIO_UNO_REELS: QuicklysReelItem[] = [
     id: 'pu-1',
     title: 'Bodas de Oro Aniversario 01',
     category: 'Precio Uno 01',
-    videoUrl: '/videos/hb_reel_13.mp4',
-    posterUrl: '/videos/hb_reel_13_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.tipo,
   },
   {
     id: 'pu-2',
     title: 'Crecimiento y Trayectoria 02',
     category: 'Precio Uno 02',
-    videoUrl: '/videos/hb_reel_14.mp4',
-    posterUrl: '/videos/hb_reel_14_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.kauawai,
   },
   {
     id: 'pu-3',
     title: 'Homenaje a Colaboradores 03',
     category: 'Precio Uno 03',
-    videoUrl: '/videos/hb_reel_3.mp4',
-    posterUrl: '/videos/hb_reel_3_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.redBull,
   },
   {
     id: 'pu-4',
     title: 'Celebración Dorada 04',
     category: 'Precio Uno 04',
-    videoUrl: '/videos/hb_reel_8.mp4',
-    posterUrl: '/videos/hb_reel_8_thumb.jpg',
+    videoUrl: HB_REELS_ASSETS.sessions,
   },
 ];
+
+const QuicklyCarouselReelCard: React.FC<{ reel: QuicklysReelItem; uniqueKey?: string }> = ({ reel, uniqueKey }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5 group cursor-pointer"
+    >
+      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
+        <Instagram className="w-2.5 h-2.5 text-pink-400" />
+        <span>@henribarrettstudio</span>
+      </div>
+
+      {/* Indicador de play sutil mientras está congelado que desaparece al pasar el cursor */}
+      <div className={`absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-70'}`}>
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center text-white border border-white/20 shadow-sm">
+          <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white translate-x-0.5" />
+        </div>
+      </div>
+
+      <LoopedReelVideo
+        id={uniqueKey || `carousel-${reel.id}`}
+        src={reel.videoUrl}
+        poster={reel.posterUrl}
+        isExternalHovered={isHovered}
+        className="w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+    </div>
+  );
+};
 
 interface QuicklysArticleItem {
   id: string;
@@ -2964,20 +3410,7 @@ export const AllQuicklysSection: React.FC = () => {
               }}
             >
               {infiniteCultureReels.map((reel, idx) => (
-                <div 
-                  key={`${reel.id}-${idx}`}
-                  className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
-                >
-                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
-                    <Instagram className="w-2.5 h-2.5 text-pink-400" />
-                    <span>@henribarrettstudio</span>
-                  </div>
-                  <LoopedReelVideo
-                    src={reel.videoUrl}
-                    poster={reel.posterUrl}
-                    className="w-full h-full object-cover pointer-events-none select-none"
-                  />
-                </div>
+                <QuicklyCarouselReelCard key={`cult-${reel.id}-${idx}`} uniqueKey={`cult-${reel.id}-${idx}`} reel={reel} />
               ))}
             </div>
           </div>
@@ -3005,20 +3438,7 @@ export const AllQuicklysSection: React.FC = () => {
                 }}
               >
                 {infiniteNikeReels.map((reel, idx) => (
-                  <div 
-                    key={`${reel.id}-${idx}`}
-                    className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
-                  >
-                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
-                      <Instagram className="w-2.5 h-2.5 text-pink-400" />
-                      <span>@henribarrettstudio</span>
-                    </div>
-                    <LoopedReelVideo
-                      src={reel.videoUrl}
-                      poster={reel.posterUrl}
-                      className="w-full h-full object-cover pointer-events-none select-none"
-                    />
-                  </div>
+                  <QuicklyCarouselReelCard key={`nike-${reel.id}-${idx}`} uniqueKey={`nike-${reel.id}-${idx}`} reel={reel} />
                 ))}
               </div>
             </div>
@@ -3156,20 +3576,7 @@ export const AllQuicklysSection: React.FC = () => {
               }}
             >
               {infiniteTottusReels.map((reel, idx) => (
-                <div 
-                  key={`${reel.id}-${idx}`}
-                  className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
-                >
-                  <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
-                    <Instagram className="w-2.5 h-2.5 text-pink-400" />
-                    <span>@henribarrettstudio</span>
-                  </div>
-                  <LoopedReelVideo
-                    src={reel.videoUrl}
-                    poster={reel.posterUrl}
-                    className="w-full h-full object-cover pointer-events-none select-none"
-                  />
-                </div>
+                <QuicklyCarouselReelCard key={`tottus-${reel.id}-${idx}`} uniqueKey={`tottus-${reel.id}-${idx}`} reel={reel} />
               ))}
             </div>
           </div>
@@ -3197,20 +3604,7 @@ export const AllQuicklysSection: React.FC = () => {
                 }}
               >
                 {infinitePrecioUnoReels.map((reel, idx) => (
-                  <div 
-                    key={`${reel.id}-${idx}`}
-                    className="w-[calc(50%-3px)] sm:w-[calc(33.333%-6px)] shrink-0 aspect-[9/16] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden bg-black relative shadow-xs border border-black/5"
-                  >
-                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10 pointer-events-none">
-                      <Instagram className="w-2.5 h-2.5 text-pink-400" />
-                      <span>@henribarrettstudio</span>
-                    </div>
-                    <LoopedReelVideo
-                      src={reel.videoUrl}
-                      poster={reel.posterUrl}
-                      className="w-full h-full object-cover pointer-events-none select-none"
-                    />
-                  </div>
+                  <QuicklyCarouselReelCard key={`pu-${reel.id}-${idx}`} uniqueKey={`pu-${reel.id}-${idx}`} reel={reel} />
                 ))}
               </div>
             </div>
@@ -3471,6 +3865,7 @@ export const App: React.FC = () => {
   const navRef = useRef<HTMLElement>(null);
   const lastSectionRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+  const [testimonialCardWidth, setTestimonialCardWidth] = useState<number>(570);
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
@@ -3557,11 +3952,51 @@ export const App: React.FC = () => {
     testimonialsRef.current.scrollLeft = dragRef.current.scrollLeft - walk;
   };
 
+  const getTestimonialMetrics = () => {
+    if (!testimonialsRef.current) {
+      const isDesktop = typeof window !== 'undefined' ? window.innerWidth >= 768 : true;
+      const cardW = isDesktop ? 570 : 320;
+      const gap = isDesktop ? 32 : 20;
+      return { cardWidth: cardW, gap, twoItemsWidth: (cardW + gap) * (isDesktop ? 2 : 1) };
+    }
+    const containerW = testimonialsRef.current.clientWidth;
+    const isDesktop = window.innerWidth >= 768;
+    const gap = isDesktop ? 32 : 20;
+    // En desktop calculamos el ancho exacto para que 2 tarjetas + gap ocupen el contenedor dejando holgura para sombras
+    const horizontalMargin = isDesktop ? 16 : 8;
+    const cardW = isDesktop
+      ? Math.max(320, Math.floor((containerW - gap - horizontalMargin) / 2))
+      : Math.floor(containerW * 0.86);
+    const twoItemsWidth = isDesktop ? (cardW + gap) * 2 : (cardW + gap);
+    return { cardWidth: cardW, gap, twoItemsWidth };
+  };
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const { cardWidth } = getTestimonialMetrics();
+      setTestimonialCardWidth(cardWidth);
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+
+    let ro: ResizeObserver | null = null;
+    if (testimonialsRef.current) {
+      ro = new ResizeObserver(() => {
+        updateWidth();
+      });
+      ro.observe(testimonialsRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateWidth);
+      if (ro) ro.disconnect();
+    };
+  }, []);
+
   const snapToNearest = () => {
     if (!testimonialsRef.current) return;
-    const cardWidth = window.innerWidth >= 768 ? 600 : window.innerWidth * 0.85;
-    const gap = 48; // 3rem = 48px
-    const twoItemsWidth = (cardWidth + gap) * 2;
+    const { twoItemsWidth } = getTestimonialMetrics();
     
     const currentScroll = testimonialsRef.current.scrollLeft;
     const walk = dragRef.current.walk;
@@ -3574,6 +4009,9 @@ export const App: React.FC = () => {
     } else {
       targetScroll = Math.round(currentScroll / twoItemsWidth) * twoItemsWidth;
     }
+
+    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+    targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
     
     testimonialsRef.current.scrollTo({
       left: targetScroll,
@@ -3585,19 +4023,18 @@ export const App: React.FC = () => {
 
   const scrollTestimonials = () => {
     if (!testimonialsRef.current) return;
-    const cardWidth = window.innerWidth >= 768 ? 600 : window.innerWidth * 0.85;
-    const gap = 48;
-    const twoItemsWidth = (cardWidth + gap) * 2;
+    const { twoItemsWidth } = getTestimonialMetrics();
     
     const currentScroll = testimonialsRef.current.scrollLeft;
     let nextSnap = Math.round(currentScroll / twoItemsWidth) * twoItemsWidth + twoItemsWidth;
     
-    if (nextSnap >= testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth) {
-        if (currentScroll + 10 >= testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth) {
-            nextSnap = 0;
-        } else {
-            nextSnap = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
-        }
+    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+    if (nextSnap >= maxScroll - 10) {
+      if (currentScroll + 15 >= maxScroll) {
+        nextSnap = 0;
+      } else {
+        nextSnap = maxScroll;
+      }
     }
 
     testimonialsRef.current.scrollTo({
@@ -3699,10 +4136,17 @@ export const App: React.FC = () => {
       }
 
       if (workTextRef.current) {
-        // Ajustamos el inicio del efecto de paralaje para que coincida con la nueva posición
-        const startOffset = windowHeight * 4.8;
-        const parallaxY = Math.max(0, currentScrollY.current - startOffset) * 0.95;
-        workTextRef.current.style.transform = `translate3d(0, ${parallaxY}px, 0)`;
+        // Obtenemos el offset exacto de la sección de portfolio
+        const startOffset = lastSectionRef.current ? lastSectionRef.current.offsetTop : windowHeight * 4.8;
+        const scrollDelta = currentScrollY.current - startOffset;
+        if (scrollDelta > 0) {
+          // El texto avanza fluidamente hacia abajo acompañando el scroll y pasando por detrás de las tarjetas
+          const maxParallax = windowHeight * 2.4;
+          const parallaxY = Math.min(maxParallax, scrollDelta * 0.88);
+          workTextRef.current.style.transform = `translate3d(0, ${parallaxY}px, 0)`;
+        } else {
+          workTextRef.current.style.transform = `translate3d(0, 0, 0)`;
+        }
       }
 
       if (servicesMarqueeRef.current) {
@@ -3756,19 +4200,19 @@ export const App: React.FC = () => {
                 style={{ animationDuration: '32s' }}
               >
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
               </div>
@@ -4031,9 +4475,9 @@ export const App: React.FC = () => {
 
   if (currentView === 'services') {
     return (
-      <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-[#F5F5F5] text-black font-sans selection:bg-black selection:text-white">
+      <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-[#F5F5F5]" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
         {/* HERO SERVICES BLOCK */}
         <div className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden">
@@ -4189,31 +4633,43 @@ export const App: React.FC = () => {
 
   if (currentView === 'work-with-us') {
     return (
-      <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-[#F4F4F4] text-black font-sans selection:bg-black selection:text-white">
+      <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-[#F4F4F4]" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
-        {/* HERO TITLE MARQUEE */}
-        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-[#F4F4F4]">
-          <div className="flex items-center justify-center whitespace-nowrap w-max mx-auto -ml-[20vw] md:-ml-[10vw]">
-            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
-            <DynamicIsotype className="mx-6 sm:mx-10 w-[8vw] h-[8vw] min-w-[50px] min-h-[50px]" />
-            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
-            <DynamicIsotype className="mx-6 sm:mx-10 w-[8vw] h-[8vw] min-w-[50px] min-h-[50px]" />
-            <span className="text-[14vw] font-black uppercase tracking-tighter leading-none">WORK WITH US</span>
+        {/* HERO TITLE MARQUEE (MOVING LEFT TO RIGHT) */}
+        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-white">
+          <div 
+            className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
+            style={{ animationDuration: '32s' }}
+          >
+            {[0, 1].map((trackIdx) => (
+              <div key={`wwu-track-${trackIdx}`} className="flex items-center shrink-0">
+                {[0, 1, 2].map((itemIdx) => (
+                  <div key={`wwu-item-${trackIdx}-${itemIdx}`} className="flex items-center shrink-0">
+                    <span className="text-[14vw] font-light font-[300] uppercase tracking-tighter leading-none">
+                      WORK WITH US
+                    </span>
+                    <div className="inline-flex items-center justify-center mx-6 sm:mx-10 w-[8vw] h-[8vw] min-w-[50px] min-h-[50px] shrink-0 animate-clock-tick origin-center">
+                      <DynamicIsotype className="w-full h-full" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* FORM CONTAINER */}
         <div className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 pb-24 md:pb-32">
           
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] font-medium tracking-tight max-w-[800px] mb-16 md:mb-24">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] font-light font-[300] tracking-tight max-w-[800px] mb-16 md:mb-24">
             Fill out the contact form below and tell us about your vision for the project.
           </h2>
 
           <div className="w-full border-b border-[#D4D4D4] pb-4 flex justify-between items-end mb-12">
-            <span className="text-sm sm:text-base font-medium">Lets work together ↓</span>
-            <div className="flex gap-6 sm:gap-10 text-sm sm:text-base font-bold">
+            <span className="text-sm sm:text-base font-light font-[300]">Lets work together ↓</span>
+            <div className="flex gap-6 sm:gap-10 text-sm sm:text-base font-light font-[300]">
               <a href="#press" className="hover:opacity-60 transition-opacity">Press</a>
               <a href="#careers" className="hover:opacity-60 transition-opacity">Carreers</a>
             </div>
@@ -4222,40 +4678,40 @@ export const App: React.FC = () => {
           <form className="w-full flex flex-col gap-8 md:gap-12" onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               <div className="flex flex-col gap-3">
-                <label className="text-sm sm:text-base font-medium">First Name:*</label>
-                <input type="text" placeholder="Your first name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+                <label className="text-sm sm:text-base font-light font-[300]">First Name:*</label>
+                <input type="text" placeholder="Your first name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 font-light font-[300] relative z-10" />
               </div>
               <div className="flex flex-col gap-3">
-                <label className="text-sm sm:text-base font-medium">Last Name:*</label>
-                <input type="text" placeholder="Your last name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+                <label className="text-sm sm:text-base font-light font-[300]">Last Name:*</label>
+                <input type="text" placeholder="Your last name" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 font-light font-[300] relative z-10" />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               <div className="flex flex-col gap-3">
-                <label className="text-sm sm:text-base font-medium">Company Name:*</label>
-                <input type="text" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors relative z-10" />
+                <label className="text-sm sm:text-base font-light font-[300]">Company Name:*</label>
+                <input type="text" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors font-light font-[300] relative z-10" />
               </div>
               <div className="flex flex-col gap-3">
-                <label className="text-sm sm:text-base font-medium">Your Company Email:*</label>
-                <input type="email" placeholder="example@domain.com" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 relative z-10" />
+                <label className="text-sm sm:text-base font-light font-[300]">Your Company Email:*</label>
+                <input type="email" placeholder="example@domain.com" className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 font-light font-[300] relative z-10" />
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
-              <label className="text-sm sm:text-base font-medium">Tell us about the project (Timeline,Budget):*</label>
-              <textarea rows={5} className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors resize-none relative z-10"></textarea>
+              <label className="text-sm sm:text-base font-light font-[300]">Tell us about the project (Timeline,Budget):*</label>
+              <textarea rows={5} className="w-full bg-transparent border border-[#D4D4D4] rounded-sm px-5 py-4 focus:outline-none focus:border-black transition-colors resize-none font-light font-[300] relative z-10"></textarea>
             </div>
 
             <div className="flex items-center gap-3 mt-2">
               <div className="w-5 h-5 rounded-full bg-black shrink-0 border-2 border-black flex items-center justify-center cursor-pointer">
                 <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
               </div>
-              <span className="text-sm sm:text-base font-medium">Yes, sign me up to newsletter</span>
+              <span className="text-sm sm:text-base font-light font-[300]">Yes, sign me up to newsletter</span>
             </div>
 
             <div className="mt-4">
-              <button type="submit" className="bg-[#111] hover:bg-black text-white px-12 py-4 rounded-full font-medium transition-colors">
+              <button type="submit" className="bg-[#111] hover:bg-black text-white px-12 py-4 rounded-full font-light font-[300] transition-colors">
                 Submit
               </button>
             </div>
@@ -4266,13 +4722,13 @@ export const App: React.FC = () => {
         <div id="press" className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 py-20 md:py-32 flex flex-col md:flex-row items-center gap-16 md:gap-24">
           <div className="w-full md:w-1/2 aspect-[4/5] bg-[#E2E2E2] rounded-sm"></div>
           <div className="w-full md:w-1/2 flex flex-col items-start gap-8">
-            <h3 className="text-3xl md:text-5xl font-medium leading-[1.1] tracking-tight">
+            <h3 className="text-3xl md:text-5xl font-light font-[300] leading-[1.1] tracking-tight">
               Are you a journalist<br />with a media or press<br />opportunity?
             </h3>
-            <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-[400px]">
+            <p className="text-gray-500 text-sm md:text-base font-light font-[300] leading-relaxed max-w-[400px]">
               Giancarlo Morales love contributing to news, articles, and stories about entrepreneurship, business, branding, culture, leadership, and vision. They've been featured in NY Post, Inc., Fast Company, WSJ, and many more.
             </p>
-            <a href="mailto:press@henribarrett.com" className="text-sm md:text-base font-medium underline underline-offset-4 decoration-1 hover:opacity-60 transition-opacity">
+            <a href="mailto:press@henribarrett.com" className="text-sm md:text-base font-light font-[300] underline underline-offset-4 decoration-1 hover:opacity-60 transition-opacity">
               Send an Email
             </a>
           </div>
@@ -4280,35 +4736,35 @@ export const App: React.FC = () => {
 
         {/* CONTACT SECTION */}
         <div className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 pt-24 pb-32 md:pb-40">
-          <h2 className="text-[12vw] sm:text-[8rem] md:text-[10rem] font-medium leading-none tracking-tighter mb-16 md:mb-24 uppercase">
+          <h2 className="text-[12vw] sm:text-[8rem] md:text-[10rem] font-light font-[300] leading-none tracking-tighter mb-16 md:mb-24 uppercase">
             CONTACT
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             <div className="flex flex-col gap-4">
-              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Location</h4>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-[200px]">
+              <h4 className="text-xl md:text-2xl font-light font-[300] tracking-tight">Location</h4>
+              <p className="text-gray-500 text-sm font-light font-[300] leading-relaxed max-w-[200px]">
                 Henri Barrett Lima<br />
                 Av. Pethit Thoars 264, Miraflores
               </p>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Keynote Speaking</h4>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-[250px]">
+              <h4 className="text-xl md:text-2xl font-light font-[300] tracking-tight">Keynote Speaking</h4>
+              <p className="text-gray-500 text-sm font-light font-[300] leading-relaxed max-w-[250px]">
                 Want Luis Tateishi and Oswaldo Pescador to speak at your next event or be panelists for topics on business, brand, or culture?
               </p>
-              <a href="mailto:speaking@henribarrett.com" className="text-sm font-medium underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+              <a href="mailto:speaking@henribarrett.com" className="text-sm font-light font-[300] underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
                 Send an Email
               </a>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h4 className="text-xl md:text-2xl font-medium tracking-tight">Careers</h4>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-[250px]">
+              <h4 className="text-xl md:text-2xl font-light font-[300] tracking-tight">Careers</h4>
+              <p className="text-gray-500 text-sm font-light font-[300] leading-relaxed max-w-[250px]">
                 We're always looking for talent to join our team. Apply now.
               </p>
-              <a href="#careers" className="text-sm font-medium underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+              <a href="#careers" className="text-sm font-light font-[300] underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
                 See open positions
               </a>
             </div>
@@ -4394,7 +4850,7 @@ export const App: React.FC = () => {
             </div>
 
             {/* ABOUT / ARCHITECTS - ACTUALIZADO: normal-case explícito y tracking-wide reforzado */}
-            <div className="absolute top-[340vh] w-full px-6 md:px-12 pb-64 pointer-events-auto flex justify-center bg-white z-10 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
+            <div className="absolute top-[340vh] w-full px-6 md:px-12 pb-36 pointer-events-auto flex justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
                 <div className="w-full max-w-[1250px] flex flex-col md:flex-row gap-20 md:gap-4 pt-48">
                     <div className="w-full md:w-[30%]">
                         <h3 className="text-xl font-normal leading-tight opacity-100 tracking-tight normal-case !capitalize">Think big with us.</h3>
@@ -4422,14 +4878,18 @@ export const App: React.FC = () => {
             </div>
 
             {/* CONTENIDO DINÁMICO (PORTFOLIO) */}
-            <div ref={lastSectionRef} className="absolute top-[480vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black">
-                <div className="w-full max-w-[1250px] px-6 flex flex-col gap-12 relative pt-32">
-                    
-                    {/* WORK WATERMARK */}
-                    <div className="absolute top-[-15vh] left-1/2 -translate-x-1/2 w-full flex justify-center items-center z-[-1] select-none pointer-events-none">
-                        <span ref={workTextRef} className="text-[33vw] font-black leading-none tracking-tighter text-black uppercase">WORK</span>
-                    </div>
+            <div ref={lastSectionRef} className="absolute top-[480vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10">
+                {/* WORK WATERMARK - Fondo con texto completo que avanza con el scroll detrás de los proyectos */}
+                <div className="absolute top-[2vh] left-0 w-full flex justify-center items-center z-0 select-none pointer-events-none overflow-visible">
+                    <span 
+                        ref={workTextRef} 
+                        className="text-[34.5vw] font-light font-[300] leading-none tracking-tighter text-black uppercase block will-change-transform select-none text-center"
+                    >
+                        WORK
+                    </span>
+                </div>
 
+                <div className="w-full max-w-[1250px] px-6 flex flex-col gap-12 relative pt-24 sm:pt-32 md:pt-40 z-10">
                     {/* PROYECTOS */}
                     {INITIAL_PROJECTS.map((project) => (
                     <div key={project.id} className="relative z-10 w-full h-[75vh] md:h-[90vh] overflow-hidden group mb-24">
@@ -4448,54 +4908,30 @@ export const App: React.FC = () => {
                         <LogosGroup />
                     </div>
 
-                    {/* SELECTED WORKS */}
-                    <div className="w-full pb-16 flex justify-between items-end border-b border-gray-200 mb-20">
-                        <h2 className="text-[9vw] font-black tracking-tighter uppercase leading-[0.9]">Selected Works</h2>
-                        <span className="text-sm font-black uppercase opacity-20 mb-4 tracking-[0.3em]">MMXXIV — MMXXV</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 w-full mb-40">
-                        {GRID_WORKS.map((work) => (
-                            <div key={work.id} className="flex flex-col group">
-                                <div
-                                    data-selected-work-image="true"
-                                    onMouseEnter={(e) => {
-                                        lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-                                        if (cursorArrowRef.current) {
-                                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                                        }
-                                        setCursorType('upRight');
-                                        setIsHoveringWork(true);
-                                    }}
-                                    onMouseLeave={() => setIsHoveringWork(false)}
-                                    className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative shadow-sm cursor-none select-none"
-                                >
-                                    <img
-                                        src={work.image}
-                                        alt={work.title}
-                                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 pointer-events-none"
-                                    />
-                                </div>
-                                <div className="flex flex-col mt-4 sm:mt-5">
-                                    <span className="text-[28px] font-[500] leading-[35px] tracking-[-0.015em] text-black">
-                                        {work.title}
-                                    </span>
-                                    <span className="text-[28px] font-[500] leading-[35px] tracking-[-0.015em] text-black">
-                                        {work.category}
-                                    </span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS) */}
+                    <ClientCaseStudiesSection
+                      onImageHover={(e, isHovering) => {
+                        if (isHovering) {
+                          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                          if (cursorArrowRef.current) {
+                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                          }
+                          setCursorType('upRight');
+                          setIsHoveringWork(true);
+                        } else {
+                          setIsHoveringWork(false);
+                        }
+                      }}
+                    />
 
                     {/* PRAISE */}
                     <div className="w-full pt-16 pb-20 border-t border-gray-200 flex flex-col gap-4">
                         <div className="flex justify-between items-start">
-                            <h2 className="text-[11vw] font-black tracking-tighter uppercase leading-[0.95]">Praise</h2>
-                            <span className="text-2xl font-black mt-4 opacity-10">4—18</span>
+                            <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95]">Praise</h2>
+                            <span className="text-2xl font-light font-[300] mt-4 opacity-20">4—18</span>
                         </div>
                         <div className="flex justify-between items-end">
-                            <h2 className="text-[11vw] font-black tracking-tighter uppercase leading-[0.95]">From Clients</h2>
+                            <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95]">From Clients</h2>
                             <button onClick={scrollTestimonials} className="w-24 h-24 md:w-32 md:h-32 bg-black rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-500 group shadow-2xl">
                                 <ArrowRight className="w-12 h-12 text-white group-hover:translate-x-3 transition-transform" />
                             </button>
@@ -4509,41 +4945,41 @@ export const App: React.FC = () => {
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}
                         onMouseMove={handleMouseMove}
-                        className="w-full overflow-x-auto pb-48 no-scrollbar cursor-grab active:cursor-grabbing"
+                        className="w-full overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 md:py-8 -my-6 md:-my-8 select-none"
                     >
-                        <div className="flex gap-12 w-max px-6">
+                        <div className="flex gap-8 w-max px-2 py-4 items-stretch">
                             {TESTIMONIALS.map((t) => (
-                                <div key={t.id} className="w-[85vw] md:w-[600px] bg-white p-16 flex flex-col gap-12 border border-gray-100 shadow-xl rounded-2xl shrink-0">
-                                    <div className="flex items-center gap-8">
-                                        <div className="w-20 h-20 rounded-full bg-gray-100 overflow-hidden border-2 border-gray-50">
+                                <div 
+                                    key={t.id} 
+                                    style={{ width: `${testimonialCardWidth}px` }}
+                                    className="bg-white p-8 sm:p-12 md:p-14 flex flex-col justify-between gap-8 sm:gap-10 border border-gray-100 shadow-xl rounded-2xl shrink-0 transition-shadow duration-300 hover:shadow-2xl"
+                                >
+                                    <div className="flex items-center gap-6 sm:gap-8">
+                                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 overflow-hidden border-2 border-gray-50 shrink-0">
                                             <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-black uppercase tracking-tight text-2xl">{t.name}</span>
+                                            <span className="font-black uppercase tracking-tight text-xl sm:text-2xl">{t.name}</span>
                                             <span className="text-xs text-gray-400 uppercase tracking-widest font-bold mt-1">{t.role}</span>
                                         </div>
                                     </div>
-                                    <p className="text-2xl md:text-3xl leading-tight font-light italic text-gray-800">"{t.quote}"</p>
+                                    <p className="text-xl sm:text-2xl md:text-3xl leading-tight font-light italic text-gray-800">"{t.quote}"</p>
                                 </div>
                             ))}
                             {/* Spacer to prevent shadow clipping on the last item */}
-                            <div className="w-6 shrink-0"></div>
+                            <div className="w-2 shrink-0"></div>
                         </div>
                     </div>
+                    <div className="w-full h-8 sm:h-12"></div>
 
-                    {/* HUGE MARQUEE */}
-                    <div className="w-screen relative left-1/2 -translate-x-1/2 overflow-hidden py-24 border-y border-gray-100 bg-black/[0.01]">
-                        <div className="flex w-max animate-marquee-left whitespace-nowrap">
-                            <span className="text-[14vw] font-black tracking-tighter uppercase text-black/[0.05] px-12">ALWAYS WATCHING — INSPIRED BY THE UNEXPECTED —&nbsp;</span>
-                            <span className="text-[14vw] font-black tracking-tighter uppercase text-black/[0.05] px-12">ALWAYS WATCHING — INSPIRED BY THE UNEXPECTED —&nbsp;</span>
-                        </div>
-                    </div>
+                    {/* FEATURED CLIENTS CAROUSEL */}
+                    <FeaturedClientsSection />
 
                     {/* THE HUB */}
                     <div ref={hubSectionRef} className="w-full py-48 px-6 bg-white mt-20">
                         <div className="w-full max-w-[1250px] mx-auto flex flex-col md:flex-row gap-24 items-start">
                             <div className="w-full md:w-1/2 flex flex-col gap-12">
-                                <h2 className="text-5xl md:text-8xl font-black leading-[0.85] uppercase tracking-tighter">Henri Barrett is a movement.</h2>
+                                <h2 className="text-5xl md:text-8xl font-light font-[300] leading-[0.85] uppercase tracking-tighter">Henri Barrett is a movement.</h2>
                                 <p className="text-2xl text-gray-500 font-light max-w-lg leading-relaxed">
                                     We're here to change narratives, elevate brands, and make a lasting imprint in the world of design.
                                 </p>
@@ -4557,37 +4993,8 @@ export const App: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* WHO IS BARRETT SECTION */}
-                    <div className="w-full py-32 px-6 border-t border-gray-100 mt-20">
-                        <div className="flex flex-col md:flex-row gap-24 items-center">
-                            <div className="w-full md:w-1/2">
-                                <div className="aspect-square bg-gray-50 rounded-full overflow-hidden p-12 border border-gray-100 flex items-center justify-center">
-                                    <Sun className="w-full h-full stroke-[0.2] opacity-10 animate-[spin_30s_linear_infinite]" />
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/2 flex flex-col gap-10">
-                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none">Who is <br/> Barrett?</h2>
-                                <p className="text-xl md:text-2xl font-light text-gray-600 leading-tight">
-                                    Barrett is more than a name; it's a standard of excellence. We represent the fusion of strategy and artistry, dedicated to those who refuse to be ordinary.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* PHILOSOPHY BLOCK FINAL */}
-                    <div className="w-full pt-48 pb-96 px-6 md:px-12 border-t border-gray-100">
-                        <div className="flex flex-col md:flex-row gap-16 w-full">
-                            <div className="hidden md:block w-1/3">
-                                <Sun className="w-32 h-32 stroke-[0.3] opacity-10" />
-                            </div>
-                            <div className="w-full md:w-2/3 flex flex-col gap-12">
-                                <h3 className="text-3xl md:text-5xl font-normal leading-[0.85] tracking-tighter text-gray-900 uppercase">
-                                    At Henri Barrett® we make your life easier and your brands louder through creativity, design and experimentation.
-                                </h3>
-                                <a href="#" className="text-xl font-bold border-b-2 border-gray-200 hover:border-black transition-all self-start uppercase tracking-[0.2em] pb-2">Learn more about Barrett®</a>
-                            </div>
-                        </div>
-                    </div>
+                    {/* WHO IS BARRETT SECTION - REPLICATING ATTACHED DESIGN */}
+                    <WhoIsBarrettSection />
 
                 </div>
 
