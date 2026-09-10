@@ -11,6 +11,13 @@ export interface CaseStudyProject {
 
 const CASE_STUDIES: CaseStudyProject[] = [
   {
+    id: 'umana',
+    title: 'Umana',
+    description: 'Architecture & Design',
+    image: '/src/assets/images/umana_powder_cube_1788889215309.jpg',
+    categories: ['BRANDING', 'TRADE', 'CONTENT'],
+  },
+  {
     id: 'heineken-fest',
     title: 'Heineken Fest',
     description: 'Event',
@@ -46,13 +53,6 @@ const CASE_STUDIES: CaseStudyProject[] = [
     categories: ['CAMPAINGS', 'DIGITAL', 'CONTENT'],
   },
   {
-    id: 'umana',
-    title: 'Umana Beauty',
-    description: 'Brand Identity',
-    image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1200&auto=format&fit=crop',
-    categories: ['BRANDING', 'TRADE', 'CONTENT'],
-  },
-  {
     id: 'spotify-greenroom',
     title: 'Spotify Greenroom',
     description: 'Digital Experience',
@@ -79,9 +79,10 @@ const CATEGORIES = [
 
 interface ClientCaseStudiesSectionProps {
   onImageHover?: (e: React.MouseEvent, isHovering: boolean) => void;
+  onProjectClick?: (projectId: string | number) => void;
 }
 
-export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> = ({ onImageHover }) => {
+export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> = ({ onImageHover, onProjectClick }) => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   // Filtrar y ordenar los proyectos según la categoría seleccionada
@@ -146,7 +147,11 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
       {/* 3. GRILLA DE 4 PROYECTOS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 sm:gap-x-7 md:gap-x-8 gap-y-12 sm:gap-y-16 w-full">
         {displayedProjects.map((project) => (
-          <div key={project.id} className="flex flex-col group cursor-pointer">
+          <div 
+            key={project.id} 
+            onClick={() => onProjectClick?.(project.id)}
+            className="flex flex-col group cursor-pointer"
+          >
             {/* Imagen del proyecto (cuadrada como en la imagen) */}
             <div
               data-selected-work-image="true"

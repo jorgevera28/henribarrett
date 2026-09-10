@@ -1,6 +1,6 @@
 {
   "name": "Henri Barrett® remix george",
-  "description": "Portafolio interactivo de Henri Barrett® con grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales de @henribarrettstudio.",
+  "description": "Portafolio interactivo de Henri Barrett® con pestaña About Us de diseño editorial de alta fidelidad, grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

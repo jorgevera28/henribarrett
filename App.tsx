@@ -3,6 +3,11 @@ import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowD
 import { FeaturedClientsSection } from './src/components/FeaturedClientsSection';
 import { WhoIsBarrettSection } from './src/components/WhoIsBarrettSection';
 import { ClientCaseStudiesSection } from './src/components/ClientCaseStudiesSection';
+import { PraiseFromClientsSection } from './src/components/PraiseFromClientsSection';
+import { AboutUsView } from './src/components/AboutUsView';
+import { UmanaCaseStudy } from './src/components/case-study/UmanaCaseStudy';
+
+export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana';
 
 // --- MAIN CODE ---
 
@@ -27,15 +32,6 @@ const ALL_PROJECTS = [
 ];
 
 const GRID_WORKS = ALL_PROJECTS.slice(0, 4);
-
-const TESTIMONIALS = [
-  { id: 1, name: 'Allie Kuzyk', role: 'Global Program Manager, Tik Tok', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop', quote: "I've referred Henri Barrett® to anyone who asks for an all-around branding and strategic powerhouse." },
-  { id: 2, name: 'Marcus Chen', role: 'Head of Design, Stripe', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop', quote: "The team's ability to translate complex business requirements into elegant design solutions is unparalleled." },
-  { id: 3, name: 'Sarah Jenkins', role: 'CMO, Spotify', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop', quote: "Working with Henri Barrett feels like extending your internal team with world-class talent." },
-  { id: 4, name: 'David Kim', role: 'Founder, TechFlow', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop', quote: "Their strategic approach transformed our brand identity completely. We couldn't be happier with the results." },
-  { id: 5, name: 'Elena Rodriguez', role: 'VP Marketing, Vercel', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop', quote: "A rare combination of creative brilliance and strategic execution. They delivered beyond our expectations." },
-  { id: 6, name: 'James Wilson', role: 'Creative Director, Nike', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop', quote: "Henri Barrett brings a unique perspective that challenges the status quo in the best way possible." }
-];
 
 // --- COMPONENTES AUXILIARES ---
 interface ReelItem {
@@ -1340,59 +1336,6 @@ const SpacesWeWorkInSection = () => {
   );
 };
 
-const PraiseFromClientsSection = ({
-  onMouseEnter,
-  onMouseLeave,
-  onMouseDown,
-  onMouseUp
-}: {
-  onMouseEnter: (e: React.MouseEvent) => void;
-  onMouseLeave: () => void;
-  onMouseDown: () => void;
-  onMouseUp: () => void;
-}) => {
-  return (
-    <section className="w-full pt-20 md:pt-32 pb-24 md:pb-40 bg-white">
-      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20 mb-16 md:mb-24 flex justify-between items-start">
-        <h2 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7vw] font-light font-[300] uppercase tracking-[-0.03em] leading-[0.9] text-black">
-          <div>PRAISE</div>
-          <div>FROM CLIENTS</div>
-        </h2>
-        <span className="text-xl md:text-2xl font-light font-[300] text-black mt-2">4—18</span>
-      </div>
-
-      <div className="w-full overflow-hidden">
-        <div 
-          className="flex overflow-x-auto gap-6 sm:gap-8 md:gap-10 px-6 sm:px-10 md:px-16 lg:px-20 pb-12 snap-x snap-mandatory no-scrollbar"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          data-selected-work-image="true"
-        >
-          {/* Testimonial Cards */}
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[45vw] lg:w-[40vw] max-w-[600px] bg-white border border-black/10 p-10 md:p-14 snap-center cursor-none">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-200">
-                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="Allie kuzyk" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg md:text-xl font-normal text-black leading-tight">Allie kuzyk</span>
-                  <span className="text-sm text-black/50 leading-tight">Global Program Manager, Tik Tok</span>
-                </div>
-              </div>
-              <p className="text-lg sm:text-xl md:text-[22px] leading-[1.4] text-black font-normal tracking-[-0.02em]">
-                “I’ve referred Henri Barrett® to anyone who asks for an all-around branding and strategic powerhouse. I’ve always felt we were more than just a client, but true partners.”
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const LogosGroup = () => {
   const logos = [
     <span key="1" className="text-2xl font-black text-gray-800 tracking-tighter uppercase">Heineken</span>,
@@ -1423,7 +1366,10 @@ const LogosGroup = () => {
 const Footer: React.FC<{ className?: string }> = ({ className = "mt-32" }) => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   return (
-    <footer className={`relative w-full bg-[#111] text-white z-20 pt-24 pb-12 px-6 md:px-12 ${className}`}>
+    <footer
+      className={`relative w-full bg-black text-white z-20 pt-24 pb-12 px-6 md:px-12 ${className}`}
+      style={{ backgroundColor: '#000000' }}
+    >
       <div className="w-full max-w-[1250px] mx-auto">
         <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-800">
           <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
@@ -1792,7 +1738,7 @@ const ORBIT_CARDS: OrbitCard[] = [
   }
 ];
 
-const ExploreOrbitSpace: React.FC<{ selectedCategory: string }> = ({ selectedCategory }) => {
+const ExploreOrbitSpace: React.FC<{ selectedCategory: string; onOpenCaseStudy?: (view: AppView) => void }> = ({ selectedCategory, onOpenCaseStudy }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<OrbitCard | null>(null);
@@ -2012,12 +1958,25 @@ const ExploreOrbitSpace: React.FC<{ selectedCategory: string }> = ({ selectedCat
                 <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-black mt-1">{selectedModalCard.title}</h3>
                 <p className="text-xs sm:text-sm text-gray-500 mt-2">Henri Barrett® Selected Project • Vista Explore Orbit</p>
               </div>
-              <button 
-                onClick={() => setSelectedModalCard(null)}
-                className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-gray-800 transition-colors cursor-pointer self-start sm:self-auto"
-              >
-                Cerrar
-              </button>
+              <div className="flex items-center gap-3">
+                {selectedModalCard.title.toLowerCase().includes('umana') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModalCard(null);
+                      onOpenCaseStudy('case-study-umana');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                <button 
+                  onClick={() => setSelectedModalCard(null)}
+                  className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-gray-800 transition-colors cursor-pointer self-start sm:self-auto"
+                >
+                  Cerrar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2097,7 +2056,8 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
 const ListRouletteView: React.FC<{
   viewMode: 'grid' | 'explore' | 'list';
   setViewMode: (mode: 'grid' | 'explore' | 'list') => void;
-}> = ({ viewMode, setViewMode }) => {
+  onOpenCaseStudy?: (view: AppView) => void;
+}> = ({ viewMode, setViewMode, onOpenCaseStudy }) => {
   const NUM_PROJECTS = ROULETTE_PROJECTS.length; // 8 proyectos
   const ITEM_HEIGHT = 104; // Altura exacta en px de cada fila de texto tipográfico
   const CYCLE_HEIGHT = NUM_PROJECTS * ITEM_HEIGHT; // 832px
@@ -2290,9 +2250,22 @@ const ListRouletteView: React.FC<{
               <span className="text-[13px] font-normal tracking-wide text-gray-500 capitalize">
                 {displayedProject.category}
               </span>
-              <span className="text-[16px] sm:text-[18px] font-bold text-black uppercase tracking-tight mt-0.5">
-                {displayedProject.name}
-              </span>
+              <div className="flex items-baseline justify-between gap-3 mt-0.5">
+                <span className="text-[16px] sm:text-[18px] font-bold text-black uppercase tracking-tight">
+                  {displayedProject.name}
+                </span>
+                {displayedProject.name.toLowerCase().includes('umana') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-umana');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-60 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Botonera de Vistas: Grid | Explore | List (con List activo) */}
@@ -2348,12 +2321,25 @@ const ListRouletteView: React.FC<{
                 <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-black mt-1">{selectedModal.name}</h3>
                 <p className="text-xs sm:text-sm text-gray-500 mt-2">Henri Barrett® Selected Project • Vista List Roulette</p>
               </div>
-              <button 
-                onClick={() => setSelectedModal(null)}
-                className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-gray-800 transition-colors cursor-pointer self-start sm:self-auto"
-              >
-                Cerrar
-              </button>
+              <div className="flex items-center gap-3">
+                {selectedModal.name.toLowerCase().includes('umana') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-umana');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                <button 
+                  onClick={() => setSelectedModal(null)}
+                  className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-gray-800 transition-colors cursor-pointer self-start sm:self-auto"
+                >
+                  Cerrar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2430,14 +2416,14 @@ interface FullMenuItem {
   id: string;
   num: string;
   label: string;
-  view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us';
+  view: AppView;
 }
 
 const FULL_MENU_ITEMS: FullMenuItem[] = [
   { id: 'work', num: '01.', label: 'WORK', view: 'work' },
   { id: 'services', num: '02.', label: 'SERVICES', view: 'services' },
   { id: 'quicklys', num: '03.', label: 'QUICKLYS', view: 'quicklys' },
-  { id: 'about', num: '04.', label: 'ABOUT US', view: 'home' },
+  { id: 'about', num: '04.', label: 'ABOUT US', view: 'about' },
   { id: 'work-with-us', num: '05.', label: 'WORK WITH US', view: 'work-with-us' },
 ];
 
@@ -2445,7 +2431,7 @@ const FullScreenMenu: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   currentView: string;
-  setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
+  setCurrentView: (view: AppView) => void;
 }> = ({ isOpen, onClose, currentView, setCurrentView }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
@@ -2604,27 +2590,51 @@ const FullScreenMenu: React.FC<{
 
 const MainNav: React.FC<{
   currentView: string;
-  setCurrentView: (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
+  setCurrentView: (view: AppView) => void;
   isHome?: boolean;
   navRef?: React.RefObject<HTMLElement | null>;
   bgColor?: string;
-}> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-white' }) => {
+}> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-transparent' }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [rotation, setRotation] = useState(0);
+  const lastScrollY = useRef(0);
+  const accumulatedScroll = useRef(0);
 
   useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 80);
+
+      // Calculamos la distancia absoluta recorrida (tanto scroll-down como scroll-up)
+      // para que el isotipo SIEMPRE avance en el mismo sentido (horario / de izquierda a derecha)
+      const delta = Math.abs(scrollY - lastScrollY.current);
+      accumulatedScroll.current += delta;
+      lastScrollY.current = scrollY;
+
+      // Rotación suave y pausada por pasos según la distancia acumulada:
+      const stepSize = 90;
+      const notch = Math.floor(accumulatedScroll.current / stepSize);
+      setRotation(notch * 25);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Determinar los colores y fondos de la barra de navegación basado en el scroll y si estamos en el Home
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    accumulatedScroll.current = 0;
+    setRotation(0);
+  }, [currentView]);
+
+  // Barra de navegación siempre sin fondo (completamente transparente)
   const navClasses = isHome 
-    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-transparent py-6 md:py-8' : 'bg-transparent py-8 md:py-12'}`
-    : `sticky top-0 z-40 w-full transition-all duration-300 border-none ${isScrolled ? `${bgColor} py-6 md:py-8` : `${bgColor} py-7 md:py-8`}`;
+    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent ${isScrolled ? 'py-6 md:py-8' : 'py-8 md:py-12'}`
+    : `sticky top-0 z-40 w-full transition-all duration-300 border-none bg-transparent ${isScrolled ? 'py-6 md:py-8' : 'py-7 md:py-8'}`;
 
   return (
     <>
@@ -2640,10 +2650,19 @@ const MainNav: React.FC<{
         className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
       >
         <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-current gap-4 transition-all duration-300`}>
-          <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio (About us)">
+          <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio">
             <div className="relative flex items-start">
-              <DynamicIsotype className="transition-transform duration-300" style={{ width: isScrolled ? '45px' : '59.3px', height: isScrolled ? '45px' : '59.3px' }} />
-              {isScrolled && <span className="absolute -right-[7px] top-[1px] text-[10px] font-bold">®</span>}
+              <DynamicIsotype 
+                className="origin-center" 
+                style={{ 
+                  width: isScrolled ? '65px' : '59.3px', 
+                  height: isScrolled ? '65px' : '59.3px',
+                  transformOrigin: 'center center',
+                  transform: `rotate(${rotation}deg)`,
+                  transition: 'width 0.3s ease, height 0.3s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)'
+                }} 
+              />
+              {isScrolled && <span className="absolute text-[10px] font-bold" style={{ right: '5px', top: '5px' }}>®</span>}
             </div>
             
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
@@ -2652,10 +2671,11 @@ const MainNav: React.FC<{
           </button>
           
           <div className={`flex items-center gap-4 sm:gap-7 md:gap-11 lg:gap-14 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.15rem] py-1 overflow-x-auto no-scrollbar'}`}>
-            <button onClick={() => setCurrentView('home')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'home' ? 'font-bold' : ''}`}>About Us</button>
+            <button onClick={() => setCurrentView('about')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'about' ? 'font-bold' : ''}`}>About Us</button>
             <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
             <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
             <button onClick={() => setCurrentView('quicklys')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'quicklys' ? 'font-bold' : ''}`}>Quicklys</button>
+            <button onClick={() => setCurrentView('work-with-us')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work-with-us' ? 'font-bold' : ''}`}>Contact</button>
           </div>
 
           <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
@@ -3864,15 +3884,23 @@ export const App: React.FC = () => {
   const hubSectionRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const lastSectionRef = useRef<HTMLDivElement>(null);
-  const testimonialsRef = useRef<HTMLDivElement>(null);
-  const [testimonialCardWidth, setTestimonialCardWidth] = useState<number>(570);
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setCurrentView] = useState<'work' | 'home' | 'services' | 'quicklys' | 'work-with-us'>('home');
+  const [currentView, setCurrentView] = useState<'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us'>('home');
+  const currentViewRef = useRef(currentView);
+  useEffect(() => {
+    currentViewRef.current = currentView;
+  }, [currentView]);
+
+  // Reset scroll al cambiar de vista
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    currentScrollY.current = 0;
+  }, [currentView]);
   const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('explore');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -3921,142 +3949,28 @@ export const App: React.FC = () => {
     };
   }, []);
 
-  const dragRef = useRef({ isDragging: false, startX: 0, scrollLeft: 0, walk: 0 });
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!testimonialsRef.current) return;
-    dragRef.current.isDragging = true;
-    dragRef.current.startX = e.pageX - testimonialsRef.current.offsetLeft;
-    dragRef.current.scrollLeft = testimonialsRef.current.scrollLeft;
-    dragRef.current.walk = 0;
-  };
-
-  const handleMouseLeave = () => {
-    if (!dragRef.current.isDragging) return;
-    dragRef.current.isDragging = false;
-    snapToNearest();
-  };
-
-  const handleMouseUp = () => {
-    if (!dragRef.current.isDragging) return;
-    dragRef.current.isDragging = false;
-    snapToNearest();
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!dragRef.current.isDragging || !testimonialsRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - testimonialsRef.current.offsetLeft;
-    const walk = (x - dragRef.current.startX) * 2.5; 
-    dragRef.current.walk = walk;
-    testimonialsRef.current.scrollLeft = dragRef.current.scrollLeft - walk;
-  };
-
-  const getTestimonialMetrics = () => {
-    if (!testimonialsRef.current) {
-      const isDesktop = typeof window !== 'undefined' ? window.innerWidth >= 768 : true;
-      const cardW = isDesktop ? 570 : 320;
-      const gap = isDesktop ? 32 : 20;
-      return { cardWidth: cardW, gap, twoItemsWidth: (cardW + gap) * (isDesktop ? 2 : 1) };
-    }
-    const containerW = testimonialsRef.current.clientWidth;
-    const isDesktop = window.innerWidth >= 768;
-    const gap = isDesktop ? 32 : 20;
-    // En desktop calculamos el ancho exacto para que 2 tarjetas + gap ocupen el contenedor dejando holgura para sombras
-    const horizontalMargin = isDesktop ? 16 : 8;
-    const cardW = isDesktop
-      ? Math.max(320, Math.floor((containerW - gap - horizontalMargin) / 2))
-      : Math.floor(containerW * 0.86);
-    const twoItemsWidth = isDesktop ? (cardW + gap) * 2 : (cardW + gap);
-    return { cardWidth: cardW, gap, twoItemsWidth };
-  };
-
   useEffect(() => {
-    const updateWidth = () => {
-      const { cardWidth } = getTestimonialMetrics();
-      setTestimonialCardWidth(cardWidth);
-    };
+    if (currentView !== 'home') return;
 
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-
-    let ro: ResizeObserver | null = null;
-    if (testimonialsRef.current) {
-      ro = new ResizeObserver(() => {
-        updateWidth();
-      });
-      ro.observe(testimonialsRef.current);
-    }
-
-    return () => {
-      window.removeEventListener('resize', updateWidth);
-      if (ro) ro.disconnect();
-    };
-  }, []);
-
-  const snapToNearest = () => {
-    if (!testimonialsRef.current) return;
-    const { twoItemsWidth } = getTestimonialMetrics();
-    
-    const currentScroll = testimonialsRef.current.scrollLeft;
-    const walk = dragRef.current.walk;
-    
-    let targetScroll;
-    if (walk < -50) {
-      targetScroll = Math.ceil(currentScroll / twoItemsWidth) * twoItemsWidth;
-    } else if (walk > 50) {
-      targetScroll = Math.floor(currentScroll / twoItemsWidth) * twoItemsWidth;
-    } else {
-      targetScroll = Math.round(currentScroll / twoItemsWidth) * twoItemsWidth;
-    }
-
-    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
-    targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
-    
-    testimonialsRef.current.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    });
-    
-    dragRef.current.walk = 0;
-  };
-
-  const scrollTestimonials = () => {
-    if (!testimonialsRef.current) return;
-    const { twoItemsWidth } = getTestimonialMetrics();
-    
-    const currentScroll = testimonialsRef.current.scrollLeft;
-    let nextSnap = Math.round(currentScroll / twoItemsWidth) * twoItemsWidth + twoItemsWidth;
-    
-    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
-    if (nextSnap >= maxScroll - 10) {
-      if (currentScroll + 15 >= maxScroll) {
-        nextSnap = 0;
-      } else {
-        nextSnap = maxScroll;
-      }
-    }
-
-    testimonialsRef.current.scrollTo({
-      left: nextSnap,
-      behavior: 'smooth'
-    });
-  };
-
-  useEffect(() => {
     const calculateHeight = () => {
       if (lastSectionRef.current) {
         const startOffset = lastSectionRef.current.offsetTop;
         const contentHeight = lastSectionRef.current.offsetHeight;
-        setPageHeight(startOffset + contentHeight);
+        if (startOffset > 0 && contentHeight > 0) {
+          setPageHeight(startOffset + contentHeight);
+        }
       }
     };
 
     calculateHeight();
+    const t1 = setTimeout(calculateHeight, 100);
+    const t2 = setTimeout(calculateHeight, 400);
+    const t3 = setTimeout(calculateHeight, 1200);
+
     window.addEventListener('resize', calculateHeight);
 
     let resizeObserver: ResizeObserver | null = null;
-    if (lastSectionRef.current) {
+    if (lastSectionRef.current && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
         calculateHeight();
       });
@@ -4064,12 +3978,15 @@ export const App: React.FC = () => {
     }
 
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       window.removeEventListener('resize', calculateHeight);
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
     };
-  }, []);
+  }, [currentView]);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -4080,7 +3997,7 @@ export const App: React.FC = () => {
       
       currentScrollY.current += (targetScroll - currentScrollY.current) * 0.1;
 
-      if (contentRef.current && currentView === 'home') {
+      if (contentRef.current && currentViewRef.current === 'home') {
         contentRef.current.style.transform = `translate3d(0, -${currentScrollY.current}px, 0)`;
       }
 
@@ -4126,9 +4043,9 @@ export const App: React.FC = () => {
           currentHeight = heightMid + (heightEnd - heightMid) * ease;
         }
 
-        if (currentView === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+        if (currentViewRef.current === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
         
-        if (infoBarRef.current && currentView === 'home') {
+        if (infoBarRef.current && currentViewRef.current === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
             infoBarRef.current.style.opacity = opacity.toString();
             infoBarRef.current.style.top = `${topMid + heightMid + 32}px`;
@@ -4611,22 +4528,32 @@ export const App: React.FC = () => {
         <SpacesWeWorkInSection />
 
         {/* PRAISE FROM CLIENTS */}
-        <PraiseFromClientsSection 
-          onMouseEnter={(e) => {
-            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-            if (cursorArrowRef.current) {
-              cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-            }
-            setCursorType('right');
-            setIsHoveringWork(true);
-          }}
-          onMouseLeave={() => setIsHoveringWork(false)}
-          onMouseDown={() => setIsMouseDown(true)}
-          onMouseUp={() => setIsMouseDown(false)}
-        />
+        <div className="w-full max-w-[1250px] mx-auto px-6 mb-20 md:mb-32">
+          <PraiseFromClientsSection />
+        </div>
 
         {/* FOOTER */}
         <Footer />
+      </div>
+    );
+  }
+
+  if (currentView === 'about') {
+    return (
+      <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
+        {/* HEADER (NAVBAR) */}
+        <MainNav 
+          currentView={currentView} 
+          setCurrentView={setCurrentView} 
+          bgColor="bg-white" 
+        />
+
+        {/* ABOUT US VIEW CONTENT */}
+        <AboutUsView
+          onNavigate={setCurrentView}
+          DynamicIsotype={DynamicIsotype}
+          DynamicLogotype={DynamicLogotype}
+        />
       </div>
     );
   }
@@ -4778,7 +4705,16 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div key="home" ref={mainContainerRef} className="w-full transition-colors duration-200" style={{ backgroundColor: '#ffffff', height: pageHeight ? `${pageHeight}px` : '100vh' }}>
+    <div 
+      key="home" 
+      ref={mainContainerRef} 
+      className="w-full transition-colors duration-200" 
+      style={{ 
+        backgroundColor: '#ffffff', 
+        height: pageHeight > 0 ? `${pageHeight}px` : '800vh',
+        minHeight: '600vh'
+      }}
+    >
       
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
@@ -4924,53 +4860,8 @@ export const App: React.FC = () => {
                       }}
                     />
 
-                    {/* PRAISE */}
-                    <div className="w-full pt-16 pb-20 border-t border-gray-200 flex flex-col gap-4">
-                        <div className="flex justify-between items-start">
-                            <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95]">Praise</h2>
-                            <span className="text-2xl font-light font-[300] mt-4 opacity-20">4—18</span>
-                        </div>
-                        <div className="flex justify-between items-end">
-                            <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95]">From Clients</h2>
-                            <button onClick={scrollTestimonials} className="w-24 h-24 md:w-32 md:h-32 bg-black rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-500 group shadow-2xl">
-                                <ArrowRight className="w-12 h-12 text-white group-hover:translate-x-3 transition-transform" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* TESTIMONIALS */}
-                    <div 
-                        ref={testimonialsRef}
-                        onMouseDown={handleMouseDown}
-                        onMouseLeave={handleMouseLeave}
-                        onMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
-                        className="w-full overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing py-6 md:py-8 -my-6 md:-my-8 select-none"
-                    >
-                        <div className="flex gap-8 w-max px-2 py-4 items-stretch">
-                            {TESTIMONIALS.map((t) => (
-                                <div 
-                                    key={t.id} 
-                                    style={{ width: `${testimonialCardWidth}px` }}
-                                    className="bg-white p-8 sm:p-12 md:p-14 flex flex-col justify-between gap-8 sm:gap-10 border border-gray-100 shadow-xl rounded-2xl shrink-0 transition-shadow duration-300 hover:shadow-2xl"
-                                >
-                                    <div className="flex items-center gap-6 sm:gap-8">
-                                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 overflow-hidden border-2 border-gray-50 shrink-0">
-                                            <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="font-black uppercase tracking-tight text-xl sm:text-2xl">{t.name}</span>
-                                            <span className="text-xs text-gray-400 uppercase tracking-widest font-bold mt-1">{t.role}</span>
-                                        </div>
-                                    </div>
-                                    <p className="text-xl sm:text-2xl md:text-3xl leading-tight font-light italic text-gray-800">"{t.quote}"</p>
-                                </div>
-                            ))}
-                            {/* Spacer to prevent shadow clipping on the last item */}
-                            <div className="w-2 shrink-0"></div>
-                        </div>
-                    </div>
-                    <div className="w-full h-8 sm:h-12"></div>
+                    {/* PRAISE FROM CLIENTS */}
+                    <PraiseFromClientsSection />
 
                     {/* FEATURED CLIENTS CAROUSEL */}
                     <FeaturedClientsSection />
