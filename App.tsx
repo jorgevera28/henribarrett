@@ -2588,7 +2588,7 @@ const FullScreenMenu: React.FC<{
   );
 };
 
-const MainNav: React.FC<{
+export const MainNav: React.FC<{
   currentView: string;
   setCurrentView: (view: AppView) => void;
   isHome?: boolean;
@@ -4107,7 +4107,7 @@ export const App: React.FC = () => {
 
         {viewMode === 'list' ? (
           /* VISTA LIST: RULETA VERTICAL QUE SANGRA ARRIBA CON PREVIEW LATERAL */
-          <ListRouletteView viewMode={viewMode} setViewMode={setViewMode} />
+          <ListRouletteView viewMode={viewMode} setViewMode={setViewMode} onOpenCaseStudy={setCurrentView} />
         ) : (
           <>
             {/* TIRA DE MARQUEE: "WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
@@ -4201,12 +4201,20 @@ export const App: React.FC = () => {
 
             {/* CONTENIDO INFERIOR (PROYECTOS) */}
             {viewMode === 'explore' ? (
-              <ExploreOrbitSpace selectedCategory={selectedCategory} />
+              <ExploreOrbitSpace selectedCategory={selectedCategory} onOpenCaseStudy={setCurrentView} />
             ) : (
               <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pb-4 sm:pb-6 md:pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 w-full">
                   {filteredProjects.map((work) => (
-                    <div key={work.id} className="flex flex-col group">
+                    <div 
+                      key={work.id} 
+                      className="flex flex-col group"
+                      onClick={() => {
+                        if (work.title.toLowerCase().includes('umana')) {
+                          setCurrentView('case-study-umana');
+                        }
+                      }}
+                    >
                       <div
                         data-selected-work-image="true"
                         onMouseEnter={(e) => {
@@ -4538,6 +4546,10 @@ export const App: React.FC = () => {
     );
   }
 
+  if (currentView === 'case-study-umana') {
+    return <UmanaCaseStudy onNavigate={setCurrentView} />;
+  }
+
   if (currentView === 'about') {
     return (
       <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -4846,6 +4858,11 @@ export const App: React.FC = () => {
 
                     {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS) */}
                     <ClientCaseStudiesSection
+                      onProjectClick={(id) => {
+                        if (id === 'umana') {
+                          setCurrentView('case-study-umana');
+                        }
+                      }}
                       onImageHover={(e, isHovering) => {
                         if (isHovering) {
                           lastMousePosRef.current = { x: e.clientX, y: e.clientY };
