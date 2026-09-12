@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const UmanaVisualView: React.FC = () => {
+interface UmanaVisualViewProps {
+  theme?: "dark" | "light";
+}
+
+export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark" }) => {
   return (
     <div className={`w-full transition-colors duration-500 ${theme === "dark" ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} pb-20 pt-10`}>
       {/* TEXT OVERVIEW BLOCK */}

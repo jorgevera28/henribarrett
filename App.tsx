@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 import { FeaturedClientsSection } from './src/components/FeaturedClientsSection';
 import { WhoIsBarrettSection } from './src/components/WhoIsBarrettSection';
@@ -6,21 +6,24 @@ import { ClientCaseStudiesSection } from './src/components/ClientCaseStudiesSect
 import { PraiseFromClientsSection } from './src/components/PraiseFromClientsSection';
 import { AboutUsView } from './src/components/AboutUsView';
 import { UmanaCaseStudy } from './src/components/case-study/UmanaCaseStudy';
+import { RappiCaseStudy } from './src/components/case-study/RappiCaseStudy';
+import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
+import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 
-export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana';
+export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana' | 'case-study-rappi';
 
 // --- MAIN CODE ---
 
 // --- DATOS ---
 const INITIAL_PROJECTS = [
   { id: 1, name: 'UMANA', category: 'BRANDING', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=2000&auto=format&fit=crop', className: 'filter brightness-90 mix-blend-multiply' },
-  { id: 2, name: 'RAPPI', category: 'EVENT', image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=2000&auto=format&fit=crop', className: 'mix-blend-multiply' },
+  { id: 2, name: 'RAPPI', category: 'EVENT', image: '/images/rappi_spinning_kit.jpg', className: 'mix-blend-multiply' },
   { id: 3, name: 'YUMMY', category: 'BRANDING', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=200&auto=format&fit=crop', quote: "Working with Henri Barrett feels like extending your internal team with world-class talent." }
 ];
 
 const ALL_PROJECTS = [
   { id: 101, title: 'Umana', category: 'Brand', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1200&auto=format&fit=crop' },
-  { id: 102, title: 'Rappi', category: 'Event', image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1200&auto=format&fit=crop' },
+  { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
   { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop' },
   { id: 104, title: 'Petco', category: 'Brand', image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop' },
   { id: 105, title: 'Heineken Fest', category: 'Event', image: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=1200&auto=format&fit=crop' },
@@ -1363,7 +1366,7 @@ const LogosGroup = () => {
   );
 };
 
-const Footer: React.FC<{ className?: string }> = ({ className = "mt-32" }) => {
+const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => void }> = ({ className = "mt-32", onNavigate }) => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   return (
     <footer
@@ -1372,23 +1375,25 @@ const Footer: React.FC<{ className?: string }> = ({ className = "mt-32" }) => {
     >
       <div className="w-full max-w-[1250px] mx-auto">
         <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-800">
-          <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
+          <button onClick={() => onNavigate?.('home')} className="cursor-pointer hover:opacity-80 transition-opacity">
+            <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
+          </button>
           <span className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-right leading-none">HENRI BARRETT</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Agency</h4>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li className="hover:text-white cursor-pointer transition-colors">Home</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Case Studies</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Services</li>
+              <li onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors">Home</li>
+              <li onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors">Case Studies</li>
+              <li onClick={() => onNavigate?.('services')} className="hover:text-white cursor-pointer transition-colors">Services</li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Discover</h4>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li className="hover:text-white cursor-pointer transition-colors">Henri Barrett Hub®</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Shop</li>
+              <li onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors">Henri Barrett Hub®</li>
+              <li onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors">Shop</li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
@@ -1419,571 +1424,7 @@ const Footer: React.FC<{ className?: string }> = ({ className = "mt-32" }) => {
 };
 
 // --- EXPLORE ORBIT SPACE (MODO EXPLORE EN WORK) ---
-interface OrbitCard {
-  id: string;
-  title: string;
-  category: string;
-  client: string;
-  image: string;
-  baseAngle: number;
-  rx: number;
-  ry: number;
-  speedMultiplier: number;
-  tilt: number;
-  w: number;
-  aspectH: number;
-  depth: number;
-}
-
-const ORBIT_CARDS: OrbitCard[] = [
-  {
-    id: 'orb-1',
-    title: 'Monolith Architectural',
-    category: 'Campaign',
-    client: 'HB Studio Lab',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 2.35,
-    rx: 430,
-    ry: 260,
-    speedMultiplier: 0.95,
-    tilt: -1.5,
-    w: 210,
-    aspectH: 1.25,
-    depth: 1.2
-  },
-  {
-    id: 'orb-2',
-    title: 'TECLAB Packaging',
-    category: 'Brand',
-    client: 'Teclab',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 1.85,
-    rx: 170,
-    ry: 270,
-    speedMultiplier: 0.85,
-    tilt: 2,
-    w: 235,
-    aspectH: 0.95,
-    depth: 1.1
-  },
-  {
-    id: 'orb-3',
-    title: 'Petco Botanical Care',
-    category: 'Brand',
-    client: 'Petco',
-    image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 3.05,
-    rx: 570,
-    ry: 200,
-    speedMultiplier: 0.75,
-    tilt: 0,
-    w: 175,
-    aspectH: 1.3,
-    depth: 1.3
-  },
-  {
-    id: 'orb-4',
-    title: 'Gabriela Bento Tote',
-    category: 'Brand',
-    client: 'Gabriela',
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 2.65,
-    rx: 310,
-    ry: 180,
-    speedMultiplier: 0.9,
-    tilt: -2,
-    w: 220,
-    aspectH: 0.85,
-    depth: 0.9
-  },
-  {
-    id: 'orb-5',
-    title: 'Puffer Purple Mobile',
-    category: 'Campaign',
-    client: 'HB Wardrobe',
-    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 1.15,
-    rx: 300,
-    ry: 250,
-    speedMultiplier: 0.88,
-    tilt: 3,
-    w: 215,
-    aspectH: 0.88,
-    depth: 1.0
-  },
-  {
-    id: 'orb-6',
-    title: 'Midnight Cocktails & Cards',
-    category: 'Event',
-    client: 'Rappi Fest',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.85,
-    rx: 500,
-    ry: 260,
-    speedMultiplier: 0.8,
-    tilt: -3,
-    w: 180,
-    aspectH: 1.0,
-    depth: 1.2
-  },
-  {
-    id: 'orb-7',
-    title: 'Blueprint & Analog Film',
-    category: 'Digital',
-    client: 'HB Studio Lab',
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.55,
-    rx: 620,
-    ry: 240,
-    speedMultiplier: 0.7,
-    tilt: 1,
-    w: 175,
-    aspectH: 1.15,
-    depth: 1.4
-  },
-  {
-    id: 'orb-8',
-    title: 'Texture Journal Deboss',
-    category: 'Digital',
-    client: 'Barrett Paper',
-    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 1.35,
-    rx: 270,
-    ry: 150,
-    speedMultiplier: 1.05,
-    tilt: -1,
-    w: 185,
-    aspectH: 1.15,
-    depth: 0.8
-  },
-  {
-    id: 'orb-9',
-    title: 'Centria Foil Cards',
-    category: 'Brand',
-    client: 'Centria',
-    image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.45,
-    rx: 330,
-    ry: 95,
-    speedMultiplier: 0.95,
-    tilt: 2.5,
-    w: 195,
-    aspectH: 0.8,
-    depth: 0.85
-  },
-  {
-    id: 'orb-10',
-    title: 'Neon Monogram Emblem',
-    category: 'Brand',
-    client: 'HB Monogram',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.15,
-    rx: 500,
-    ry: 95,
-    speedMultiplier: 0.82,
-    tilt: -0.5,
-    w: 165,
-    aspectH: 1.0,
-    depth: 1.1
-  },
-  {
-    id: 'orb-11',
-    title: 'Heineken Ice Cold Can',
-    category: 'Event',
-    client: 'Heineken',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.0,
-    rx: 640,
-    ry: 85,
-    speedMultiplier: 0.72,
-    tilt: 0,
-    w: 155,
-    aspectH: 1.3,
-    depth: 1.3
-  },
-  {
-    id: 'orb-12',
-    title: 'Heineken Star Close-Up',
-    category: 'Event',
-    client: 'Heineken Fest',
-    image: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 0.1,
-    rx: 80,
-    ry: 40,
-    speedMultiplier: 1.15,
-    tilt: 0,
-    w: 175,
-    aspectH: 1.0,
-    depth: 0.6
-  },
-  {
-    id: 'orb-13',
-    title: 'Tiger Mural Urban',
-    category: 'Campaign',
-    client: 'Tiger Beer',
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -0.45,
-    rx: 300,
-    ry: 95,
-    speedMultiplier: 0.95,
-    tilt: 1,
-    w: 220,
-    aspectH: 1.15,
-    depth: 0.9
-  },
-  {
-    id: 'orb-14',
-    title: 'Joyful Double Burger',
-    category: 'Brand',
-    client: 'Yummy Delivery',
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -0.3,
-    rx: 540,
-    ry: 135,
-    speedMultiplier: 0.78,
-    tilt: -1,
-    w: 165,
-    aspectH: 1.25,
-    depth: 1.2
-  },
-  {
-    id: 'orb-15',
-    title: 'Editorial Kitchen Recipe',
-    category: 'Brand',
-    client: 'Brand Drop',
-    image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -0.75,
-    rx: 440,
-    ry: 210,
-    speedMultiplier: 0.88,
-    tilt: 2,
-    w: 170,
-    aspectH: 1.25,
-    depth: 1.1
-  },
-  {
-    id: 'orb-16',
-    title: 'Barrett Sessions Podium',
-    category: 'Event',
-    client: 'Barrett Sessions',
-    image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -1.5,
-    rx: 180,
-    ry: 270,
-    speedMultiplier: 0.82,
-    tilt: -1,
-    w: 225,
-    aspectH: 1.0,
-    depth: 1.0
-  },
-  {
-    id: 'orb-17',
-    title: 'Heineken Kinetic Ribbon',
-    category: 'Event',
-    client: 'Heineken',
-    image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -2.15,
-    rx: 350,
-    ry: 250,
-    speedMultiplier: 0.9,
-    tilt: 1.5,
-    w: 180,
-    aspectH: 1.25,
-    depth: 1.05
-  },
-  {
-    id: 'orb-18',
-    title: 'Concrete Flour Burst',
-    category: 'Campaign',
-    client: 'HB Studio Lab',
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=900&auto=format&fit=crop',
-    baseAngle: -2.9,
-    rx: 230,
-    ry: 95,
-    speedMultiplier: 1.08,
-    tilt: -2,
-    w: 215,
-    aspectH: 0.9,
-    depth: 0.75
-  },
-  {
-    id: 'orb-19',
-    title: 'Liquid Fluid Sculpture 3D',
-    category: 'Digital',
-    client: 'Quicklys 04',
-    image: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 3.14,
-    rx: 440,
-    ry: 85,
-    speedMultiplier: 0.92,
-    tilt: 1,
-    w: 205,
-    aspectH: 0.8,
-    depth: 1.0
-  },
-  {
-    id: 'orb-20',
-    title: 'Pink Studio Lounger',
-    category: 'Campaign',
-    client: 'Nike Forward',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=900&auto=format&fit=crop',
-    baseAngle: 2.7,
-    rx: 430,
-    ry: 65,
-    speedMultiplier: 0.94,
-    tilt: -3,
-    w: 170,
-    aspectH: 1.2,
-    depth: 0.95
-  }
-];
-
-const ExploreOrbitSpace: React.FC<{ selectedCategory: string; onOpenCaseStudy?: (view: AppView) => void }> = ({ selectedCategory, onOpenCaseStudy }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [hoveredCard, setHoveredCard] = useState<OrbitCard | null>(null);
-  const [selectedModalCard, setSelectedModalCard] = useState<OrbitCard | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const angleOffsetRef = useRef(0);
-  const dragStartRef = useRef<{ x: number; y: number; startAngle: number } | null>(null);
-  const mousePosRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
-  const cardElementsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Filtro de categorías
-  const isMatch = (card: OrbitCard) => {
-    if (!selectedCategory || selectedCategory.startsWith('All Projects')) return true;
-    const cat = selectedCategory.toLowerCase().replace(/[^a-z]/g, '');
-    const cardCat = card.category.toLowerCase().replace(/[^a-z]/g, '');
-    return cardCat.includes(cat) || cat.includes(cardCat);
-  };
-
-  useEffect(() => {
-    let animId: number;
-    let lastTime = performance.now();
-
-    const loop = (time: number) => {
-      const dt = Math.min((time - lastTime) / 1000, 0.1);
-      lastTime = time;
-
-      // Parallax suave con el ratón
-      mousePosRef.current.x += (mousePosRef.current.targetX - mousePosRef.current.x) * 0.04;
-      mousePosRef.current.y += (mousePosRef.current.targetY - mousePosRef.current.y) * 0.04;
-
-      // Avance orbital continuo si no está en pausa ni arrastrando
-      if (!isPaused && !dragStartRef.current) {
-        angleOffsetRef.current += 0.09 * dt;
-      }
-
-      const container = containerRef.current;
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-
-        // Factor de escala responsivo
-        const scaleFactor = Math.min(Math.max(rect.width / 1400, 0.55), 1.15);
-
-        ORBIT_CARDS.forEach((card, i) => {
-          const el = cardElementsRef.current[i];
-          if (!el) return;
-
-          // Ángulo orbital individual
-          const cardAngle = card.baseAngle + angleOffsetRef.current * card.speedMultiplier;
-
-          const rx = card.rx * scaleFactor;
-          const ry = card.ry * scaleFactor;
-
-          const x = cx + Math.cos(cardAngle) * rx + mousePosRef.current.x * (card.depth * 28);
-          const y = cy + Math.sin(cardAngle) * ry + mousePosRef.current.y * (card.depth * 18);
-
-          const currentTilt = card.tilt + Math.sin(time * 0.0012 + i) * 1.5;
-          const isMobile = rect.width < 768;
-          const depthScale = (1 + Math.sin(cardAngle) * 0.06) * (isMobile ? 0.78 : 1);
-
-          const w = card.w * (isMobile ? 0.78 : 1);
-          const h = w * card.aspectH;
-
-          if (hoveredCard?.id === card.id) {
-            el.style.transform = `translate3d(${x - w / 2}px, ${y - h / 2}px, 0) rotate(0deg) scale(${depthScale * 1.1})`;
-            el.style.zIndex = '90';
-          } else {
-            el.style.transform = `translate3d(${x - w / 2}px, ${y - h / 2}px, 0) rotate(${currentTilt}deg) scale(${depthScale})`;
-            el.style.zIndex = `${Math.round(20 + Math.sin(cardAngle) * 15)}`;
-          }
-        });
-      }
-
-      animId = requestAnimationFrame(loop);
-    };
-
-    animId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animId);
-  }, [isPaused, hoveredCard]);
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest('button')) return;
-    setIsDragging(true);
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      startAngle: angleOffsetRef.current,
-    };
-    try {
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    } catch {}
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (rect) {
-      const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      mousePosRef.current.targetX = normX;
-      mousePosRef.current.targetY = normY;
-    }
-
-    if (!isDragging || !dragStartRef.current) return;
-    const deltaX = e.clientX - dragStartRef.current.x;
-    angleOffsetRef.current = dragStartRef.current.startAngle + deltaX * 0.0035;
-  };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    if (isDragging) {
-      setIsDragging(false);
-      dragStartRef.current = null;
-      try {
-        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-      } catch {}
-    }
-  };
-
-  return (
-    <div className="w-full relative bg-white overflow-hidden py-4 select-none">
-      {/* CANVAS PRINCIPAL ORBITAL */}
-      <div
-        ref={containerRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
-        className={`w-full relative h-[780px] sm:h-[900px] md:h-[1050px] lg:h-[1150px] overflow-hidden ${
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
-      >
-        {/* CONTROLES SUPERIORES FLOTANTES */}
-        <div className="absolute top-4 right-6 sm:right-10 flex items-center gap-3.5 z-40 pointer-events-auto">
-          <span className="hidden sm:inline-block text-[11px] font-semibold tracking-wider uppercase text-black/40">
-            (ARRASTRA PARA ROTAR • HAZ HOVER PARA EXPLORAR)
-          </span>
-          <button
-            onClick={() => setIsPaused(!isPaused)}
-            className="px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 text-black text-[11px] font-bold tracking-wider uppercase shadow-sm hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
-            title={isPaused ? "Reanudar órbita" : "Pausar órbita"}
-          >
-            {isPaused ? <Play className="w-3 h-3 fill-current" /> : <Pause className="w-3 h-3 fill-current" />}
-            <span>{isPaused ? 'Reanudar' : 'Pausar'}</span>
-          </button>
-        </div>
-
-        {/* TARJETAS ORBITANTES */}
-        {ORBIT_CARDS.map((card, idx) => {
-          const matched = isMatch(card);
-          return (
-            <div
-              key={card.id}
-              ref={(el) => { cardElementsRef.current[idx] = el; }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedModalCard(card);
-              }}
-              onMouseEnter={() => setHoveredCard(card)}
-              onMouseLeave={() => setHoveredCard(null)}
-              className={`absolute top-0 left-0 will-change-transform group cursor-pointer transition-opacity duration-500 ${
-                matched ? 'opacity-100' : 'opacity-25 grayscale'
-              }`}
-              style={{
-                width: `${card.w}px`,
-                height: `${card.w * card.aspectH}px`,
-              }}
-            >
-              <div className="w-full h-full relative overflow-hidden bg-[#e4e4e4] shadow-[0_8px_30px_rgba(0,0,0,0.1)] border border-black/10 group-hover:border-black/30 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.25)] transition-all duration-300 rounded-[2px] sm:rounded-[3px]">
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  draggable={false}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none"
-                />
-
-                {/* Overlay de información al hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white pointer-events-none">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/75">{card.category}</span>
-                  <span className="text-sm sm:text-base font-semibold leading-tight line-clamp-1 mt-0.5">{card.title}</span>
-                  <span className="text-[11px] text-white/60 mt-0.5">{card.client}</span>
-                </div>
-
-                {/* Badge icono superior */}
-                <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <MoveUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* MODAL DETALLE AL HACER CLIC EN CUALQUIER TARJETA */}
-      {selectedModalCard && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-          onClick={() => setSelectedModalCard(null)}
-        >
-          <div 
-            className="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/20"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative aspect-[16/10] bg-gray-100">
-              <img src={selectedModalCard.image} alt={selectedModalCard.title} className="w-full h-full object-cover" />
-              <button
-                onClick={() => setSelectedModalCard(null)}
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
-                title="Cerrar"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6 sm:p-8 flex flex-col sm:flex-row justify-between sm:items-end gap-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-gray-400">{selectedModalCard.category} • {selectedModalCard.client}</span>
-                <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-black mt-1">{selectedModalCard.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-500 mt-2">Henri Barrett® Selected Project • Vista Explore Orbit</p>
-              </div>
-              <div className="flex items-center gap-3">
-                {selectedModalCard.title.toLowerCase().includes('umana') && onOpenCaseStudy && (
-                  <button 
-                    onClick={() => {
-                      setSelectedModalCard(null);
-                      onOpenCaseStudy('case-study-umana');
-                    }}
-                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
-                  >
-                    Ver caso de estudio →
-                  </button>
-                )}
-                <button 
-                  onClick={() => setSelectedModalCard(null)}
-                  className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-gray-800 transition-colors cursor-pointer self-start sm:self-auto"
-                >
-                  Cerrar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+// Movido a ./src/components/ExploreOrbitSpace.tsx y vinculado directamente a ALL_PROJECTS
 
 // --- LIST ROULETTE VIEW (VISTA LIST EN WORK) ---
 interface RouletteProject {
@@ -2265,6 +1706,17 @@ const ListRouletteView: React.FC<{
                     Ver portfolio →
                   </button>
                 )}
+                {displayedProject.name.toLowerCase().includes('rappi') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-rappi');
+                    }}
+                    className="text-xs font-semibold text-[#FF553E] underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
               </div>
             </div>
 
@@ -2329,6 +1781,17 @@ const ListRouletteView: React.FC<{
                       onOpenCaseStudy('case-study-umana');
                     }}
                     className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModal.name.toLowerCase().includes('rappi') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-rappi');
+                    }}
+                    className="px-6 py-2.5 bg-[#FF553E] text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-[#e04430] transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
                     Ver caso de estudio →
                   </button>
@@ -3890,18 +3353,75 @@ export const App: React.FC = () => {
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setCurrentView] = useState<'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us'>('home');
+  const [currentView, setInternalView] = useState<AppView>('home');
   const currentViewRef = useRef(currentView);
   useEffect(() => {
     currentViewRef.current = currentView;
   }, [currentView]);
 
-  // Reset scroll al cambiar de vista
+  // --- TRANSICIÓN DE CORTINA ANIMADA (LOADER DE PÁGINA) ---
+  const [curtainActive, setCurtainActive] = useState(false);
+  const [curtainPhase, setCurtainPhase] = useState<CurtainPhase>('idle');
+  const [curtainTheme, setCurtainTheme] = useState<CurtainTheme>('black');
+  const isNavigatingRef = useRef(false);
+  const lastCurtainThemeRef = useRef<CurtainTheme>('black');
+
+  const setCurrentView = useCallback((nextView: AppView) => {
+    if (isNavigatingRef.current) return;
+    isNavigatingRef.current = true;
+
+    if (nextView === 'work') {
+      setViewMode('grid');
+    }
+
+    // Alternar aleatoriamente entre versión negra y versión blanca
+    // Permite que unas veces salga la versión negra y otras la blanca
+    const rand = Math.random();
+    const nextTheme: CurtainTheme = rand < 0.65
+      ? (lastCurtainThemeRef.current === 'black' ? 'white' : 'black')
+      : (rand < 0.825 ? 'black' : 'white');
+    lastCurtainThemeRef.current = nextTheme;
+
+    setCurtainTheme(nextTheme);
+    setCurtainActive(true);
+    setCurtainPhase('entering');
+
+    // 1. Fase de Entrada (fondo sube con desaceleración fluida y orgánica, logo sube desde medio camino): 620ms
+    setTimeout(() => {
+      setCurtainPhase('holding');
+
+      // Durante la fase de mantenimiento (pantalla 100% cubierta):
+      // Cambiamos la vista real y reseteamos el scroll de forma imperceptible
+      if (nextView === 'work') {
+        setViewMode('grid');
+      }
+      setInternalView(nextView);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      currentScrollY.current = 0;
+
+      // 2. Mantenimiento / Punto medio (el logo en el centro gira de forma dinámica y continua): 1100ms
+      setTimeout(() => {
+        setCurtainPhase('exiting');
+
+        // 3. Fase de Salida (fondo y logo suben hacia arriba saliendo fluidamente de la pantalla): 440ms
+        setTimeout(() => {
+          setCurtainPhase('idle');
+          setCurtainActive(false);
+          isNavigatingRef.current = false;
+        }, 440);
+      }, 1100);
+    }, 620);
+  }, []);
+
+  // Reset scroll al cambiar de vista y asegurar que work siempre inicie en Grid
   useEffect(() => {
     window.scrollTo(0, 0);
     currentScrollY.current = 0;
+    if (currentView === 'work') {
+      setViewMode('grid');
+    }
   }, [currentView]);
-  const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('explore');
+  const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -4095,7 +3615,8 @@ export const App: React.FC = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  if (currentView === 'work') {
+  const renderCurrentView = () => {
+    if (currentView === 'work') {
     return (
       <div key="work" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
@@ -4201,7 +3722,7 @@ export const App: React.FC = () => {
 
             {/* CONTENIDO INFERIOR (PROYECTOS) */}
             {viewMode === 'explore' ? (
-              <ExploreOrbitSpace selectedCategory={selectedCategory} onOpenCaseStudy={setCurrentView} />
+              <ExploreOrbitSpace selectedCategory={selectedCategory} onOpenCaseStudy={setCurrentView} projects={ALL_PROJECTS} />
             ) : (
               <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pb-4 sm:pb-6 md:pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 w-full">
@@ -4212,6 +3733,8 @@ export const App: React.FC = () => {
                       onClick={() => {
                         if (work.title.toLowerCase().includes('umana')) {
                           setCurrentView('case-study-umana');
+                        } else if (work.title.toLowerCase().includes('rappi')) {
+                          setCurrentView('case-study-rappi');
                         }
                       }}
                     >
@@ -4304,7 +3827,7 @@ export const App: React.FC = () => {
         </section>
 
         {/* FOOTER PEGADO DIRECTAMENTE A LA TERMINACIÓN DE QUICKLYS */}
-        <Footer />
+        <Footer onNavigate={setCurrentView} />
 
         {/* CURSOR PERSONALIZADO (FLECHA GRANDE PARA SELECTED WORKS) */}
         <div
@@ -4393,7 +3916,7 @@ export const App: React.FC = () => {
         </div>
 
         {/* FOOTER PEGADO DIRECTAMENTE AL CIERRE DE LA DOBLE TIRA */}
-        <Footer />
+        <Footer onNavigate={setCurrentView} />
       </div>
     );
   }
@@ -4541,13 +4064,17 @@ export const App: React.FC = () => {
         </div>
 
         {/* FOOTER */}
-        <Footer />
+        <Footer onNavigate={setCurrentView} />
       </div>
     );
   }
 
   if (currentView === 'case-study-umana') {
     return <UmanaCaseStudy onNavigate={setCurrentView} />;
+  }
+
+  if (currentView === 'case-study-rappi') {
+    return <RappiCaseStudy onNavigate={setCurrentView} />;
   }
 
   if (currentView === 'about') {
@@ -4711,7 +4238,7 @@ export const App: React.FC = () => {
         </div>
 
         {/* FOOTER */}
-        <Footer />
+        <Footer onNavigate={setCurrentView} />
       </div>
     );
   }
@@ -4861,6 +4388,8 @@ export const App: React.FC = () => {
                       onProjectClick={(id) => {
                         if (id === 'umana') {
                           setCurrentView('case-study-umana');
+                        } else if (id === 'rappi') {
+                          setCurrentView('case-study-rappi');
                         }
                       }}
                       onImageHover={(e, isHovering) => {
@@ -4907,7 +4436,7 @@ export const App: React.FC = () => {
                 </div>
 
                 {/* FOOTER */}
-                <Footer />
+                <Footer onNavigate={setCurrentView} />
             </div>
         </div>
 
@@ -4944,5 +4473,17 @@ export const App: React.FC = () => {
       </div>
 
     </div>
+    );
+  };
+
+  return (
+    <>
+      <PageTransitionCurtain
+        isActive={curtainActive}
+        theme={curtainTheme}
+        phase={curtainPhase}
+      />
+      {renderCurrentView()}
+    </>
   );
 };

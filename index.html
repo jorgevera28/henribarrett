@@ -71,6 +71,158 @@
       .animate-marquee-down-alt {
         animation: marquee-down 36s linear infinite;
       }
+
+      /* CURTAIN LOADER TRANSITIONS */
+      /* Fondo que sale y entra desde la sangre/borde (desaceleración continua, fluida y orgánica) */
+      @keyframes curtain-bg-enter {
+        0% {
+          transform: translate3d(0, 100%, 0);
+        }
+        100% {
+          transform: translate3d(0, 0%, 0);
+        }
+      }
+
+      @keyframes curtain-bg-exit {
+        0% {
+          transform: translate3d(0, 0%, 0);
+        }
+        100% {
+          transform: translate3d(0, -100%, 0);
+        }
+      }
+
+      /* Movimiento del logo: Sube de abajo hacia arriba empezando desde medio camino (+140px) con desaceleración fluida idéntica */
+      @keyframes loader-logo-rise {
+        0% {
+          transform: translate3d(0, 140px, 0);
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+      }
+
+      /* Salida del logo: Sube hacia arriba suavemente y se desvanece */
+      @keyframes loader-logo-fallout {
+        0% {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+        30% {
+          opacity: 0.9;
+        }
+        100% {
+          transform: translate3d(0, -130px, 0);
+          opacity: 0;
+        }
+      }
+
+      /* Rotación del logo al llegar al punto medio: siempre gira hacia la derecha (sentido horario), hace un paro en cada paso y repite */
+      @keyframes loader-mid-rock {
+        0.00% {
+          transform: rotate(0deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        11.00% {
+          transform: rotate(60deg);
+        }
+        16.67% {
+          transform: rotate(60deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        27.67% {
+          transform: rotate(120deg);
+        }
+        33.33% {
+          transform: rotate(120deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        44.33% {
+          transform: rotate(180deg);
+        }
+        50.00% {
+          transform: rotate(180deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        61.00% {
+          transform: rotate(240deg);
+        }
+        66.67% {
+          transform: rotate(240deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        77.67% {
+          transform: rotate(300deg);
+        }
+        83.33% {
+          transform: rotate(300deg);
+          animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        }
+        94.33% {
+          transform: rotate(360deg);
+        }
+        100.00% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .animate-loader-mid-rock {
+        animation: loader-mid-rock 3.9s linear infinite;
+        transform-origin: center;
+        will-change: transform;
+      }
+
+      /* Animación sutil de texto de año */
+      @keyframes loader-stamp-fade {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+      .curtain-bg-enter {
+        animation: curtain-bg-enter 0.62s cubic-bezier(0.21, 0.88, 0.32, 1) forwards;
+        will-change: transform;
+      }
+
+      .curtain-bg-hold {
+        transform: translate3d(0, 0%, 0);
+        will-change: transform;
+      }
+
+      .curtain-bg-exit {
+        animation: curtain-bg-exit 0.44s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        will-change: transform;
+      }
+
+      .loader-logo-wrap-enter {
+        animation: loader-logo-rise 0.6s cubic-bezier(0.21, 0.88, 0.32, 1) 0.02s both;
+        will-change: transform, opacity;
+      }
+
+      .loader-logo-wrap-hold {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+        will-change: transform, opacity;
+      }
+
+      .loader-logo-wrap-exit {
+        animation: loader-logo-fallout 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        will-change: transform, opacity;
+      }
+
+      .loader-stamp-enter {
+        animation: loader-stamp-fade 0.4s ease-out forwards;
+      }
+
+      .loader-stamp-exit {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+      }
+
       @keyframes clock-tick {
         0% { transform: rotate(0deg); }
         1.25% { transform: rotate(4.4deg); }

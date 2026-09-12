@@ -9,7 +9,6 @@ export interface UmanaHeaderProps {
   setActiveViewMode: (mode: 'reading' | 'visual') => void;
   onNavigate: (view: AppView) => void;
   onSeeAllProjects?: () => void;
-  theme?: 'dark' | 'light';
 }
 export const UmanaHeader: React.FC<UmanaHeaderProps> = ({
   activeViewMode,

@@ -18,6 +18,13 @@ const CASE_STUDIES: CaseStudyProject[] = [
     categories: ['BRANDING', 'TRADE', 'CONTENT'],
   },
   {
+    id: 'rappi',
+    title: 'Rappi',
+    description: 'Event Activation',
+    image: '/images/rappi_spinning_kit.jpg',
+    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
+  },
+  {
     id: 'heineken-fest',
     title: 'Heineken Fest',
     description: 'Event',
