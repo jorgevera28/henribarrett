@@ -292,39 +292,6 @@ export const BarrettSessionsVisualView: React.FC<BarrettSessionsVisualViewProps>
         </div>
       </section>
 
-      {/* 7. BOTTOM NAVIGATION */}
-      <footer className="w-full px-4 sm:px-8 md:px-14 lg:px-20 mt-16 sm:mt-24 pt-12 border-t border-current/15 max-w-[1900px] mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <span className="text-xs font-mono uppercase tracking-widest opacity-50 block mb-1">
-              Case Study Finished
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-normal">
-              Barrett Sessions
-            </h3>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => onNavigate && onNavigate('work')}
-              className={`text-sm sm:text-base border-b pb-0.5 transition-opacity hover:opacity-60 cursor-pointer ${
-                isDark ? 'border-white text-white' : 'border-black text-black'
-              }`}
-            >
-              All Projects
-            </button>
-            <button
-              onClick={() => onNavigate && onNavigate('case-study-rappi')}
-              className={`text-sm sm:text-base border-b pb-0.5 font-medium transition-opacity hover:opacity-60 cursor-pointer ${
-                isDark ? 'border-white text-white' : 'border-black text-black'
-              }`}
-            >
-              Next: Rappi →
-            </button>
-          </div>
-        </div>
-      </footer>
-
     </div>
   );
 };

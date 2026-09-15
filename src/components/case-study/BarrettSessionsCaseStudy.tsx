@@ -85,17 +85,20 @@ export const BarrettSessionsCaseStudy: React.FC<BarrettSessionsCaseStudyProps> =
         <BarrettSessionsVisualView theme={theme} onNavigate={onNavigate} />
       )}
 
-      {/* SECCIÓN 3: FOOTER CALL TO ACTION Y TRANSICIÓN A SIGUIENTE PROYECTO */}
+      {/* SECCIÓN 3: FOOTER CALL TO ACTION Y TRANSICIÓN A SIGUIENTE PROYECTO (RAPPI - MATCH A 4.png) */}
       <CaseStudyFooter 
         theme={theme}
         onWorkTogetherClick={() => onNavigate('work-with-us')} 
         onNavigate={onNavigate}
-        currentProjectImage="/images/barrett_sessions_pedestal_sign.jpg"
-        currentProjectImageAlt="Barrett Sessions Live Platform"
-        marqueeWords={["PETCO", "CANNABIDOL"]}
-        nextProjectTitle="Petco"
-        nextProjectHeroImage="/images/petco_cannabidol.jpg"
-        onNextProjectClick={() => onNavigate('work')}
+        currentProjectImage="/images/barrett_sessions_live.jpg"
+        currentProjectImageAlt="Barrett Sessions Live DJ Performance"
+        marqueeWords={["RAPPI"]}
+        nextProjectTitle="Rappi"
+        nextProjectHeroImage="/images/rappi_outro_routine.jpg"
+        onNextProjectClick={() => {
+          onNavigate('case-study-rappi');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
     </div>
   );

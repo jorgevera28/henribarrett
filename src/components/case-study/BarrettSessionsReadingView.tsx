@@ -629,41 +629,6 @@ export const BarrettSessionsReadingView: React.FC<BarrettSessionsReadingViewProp
 
       </div>
 
-      {/* ========================================================================= */}
-      {/* SECCIÓN 12: NEXT PROJECT FOOTER NAVIGATION                              */}
-      {/* ========================================================================= */}
-      <footer className="w-full px-6 sm:px-12 md:px-16 lg:px-24 mt-28 sm:mt-40 pt-12 border-t border-current/15 max-w-[1700px] mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <span className="text-xs font-mono uppercase tracking-widest opacity-50 block mb-1">
-              Case Study Finished
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-normal">
-              Barrett Sessions
-            </h3>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => onNavigate && onNavigate('work')}
-              className={`text-sm sm:text-base border-b pb-0.5 transition-opacity hover:opacity-60 cursor-pointer ${
-                isDark ? 'border-white text-white' : 'border-black text-black'
-              }`}
-            >
-              All Projects
-            </button>
-            <button
-              onClick={() => onNavigate && onNavigate('case-study-rappi')}
-              className={`text-sm sm:text-base border-b pb-0.5 font-medium transition-opacity hover:opacity-60 cursor-pointer ${
-                isDark ? 'border-white text-white' : 'border-black text-black'
-              }`}
-            >
-              Next: Rappi →
-            </button>
-          </div>
-        </div>
-      </footer>
-
     </div>
   );
 };
