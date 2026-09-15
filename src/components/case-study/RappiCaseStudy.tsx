@@ -24,32 +24,20 @@ export const RappiCaseStudy: React.FC<RappiCaseStudyProps> = ({ onNavigate }) =>
         ? 'bg-black text-white selection:bg-[#FF553E] selection:text-white' 
         : 'bg-white text-black selection:bg-[#FF553E] selection:text-white'
     }`}>
-      {/* SECCIÓN 1: MAIN HEADER DEL CASO DE ESTUDIO RAPPI */}
-      <RappiHeader
-        activeViewMode={activeViewMode}
-        setActiveViewMode={setActiveViewMode}
-        onNavigate={onNavigate}
-        onSeeAllProjects={() => onNavigate('work')}
-        theme={theme}
-      />
+      {/* SECCIÓN 1: MAIN HERO HEADER (SOLO EN MODO VISUAL VIEW) */}
+      {activeViewMode === 'visual' && (
+        <RappiHeader
+          activeViewMode={activeViewMode}
+          setActiveViewMode={setActiveViewMode}
+          onNavigate={onNavigate}
+          onSeeAllProjects={() => onNavigate('work')}
+          theme={theme}
+        />
+      )}
 
-      {/* BOTÓN EN EL LATERAL DERECHO PARA CONTROLAR Y VER LAS VISTAS (MATCH EXACTO A SG_showcase_bodyr_reading_view.png) */}
+      {/* BOTÓN EN EL LATERAL DERECHO PARA CONTROLAR Y VER LAS VISTAS (MATCH EXACTO A SG_showcase_body_visual_view.png) */}
       <aside className="fixed top-1/2 right-4 sm:right-6 md:right-8 -translate-y-1/2 z-50 flex flex-col items-center gap-1.5 rounded-full p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.14)] bg-white text-black border border-black/5 transition-all">
-        {/* BOTÓN SUPERIOR: READING VIEW (MENU ICON) */}
-        <button
-          onClick={() => setActiveViewMode('reading')}
-          className={`p-2.5 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer ${
-            activeViewMode === 'reading' 
-              ? 'bg-black text-white shadow-sm' 
-              : 'text-black hover:bg-black/5'
-          }`}
-          aria-label="Reading View"
-          title="Reading View"
-        >
-          <Menu size={18} strokeWidth={2.2} />
-        </button>
-
-        {/* BOTÓN INFERIOR: VISUAL VIEW (EYE ICON) */}
+        {/* BOTÓN SUPERIOR: VISUAL VIEW (EYE ICON) */}
         <button
           onClick={() => setActiveViewMode('visual')}
           className={`p-2.5 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer ${
@@ -61,6 +49,20 @@ export const RappiCaseStudy: React.FC<RappiCaseStudyProps> = ({ onNavigate }) =>
           title="Visual View"
         >
           <Eye size={18} strokeWidth={2.2} />
+        </button>
+
+        {/* BOTÓN INFERIOR: READING VIEW (MENU ICON) */}
+        <button
+          onClick={() => setActiveViewMode('reading')}
+          className={`p-2.5 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer ${
+            activeViewMode === 'reading' 
+              ? 'bg-black text-white shadow-sm' 
+              : 'text-black hover:bg-black/5'
+          }`}
+          aria-label="Reading View"
+          title="Reading View"
+        >
+          <Menu size={18} strokeWidth={2.2} />
         </button>
 
         {/* BOTÓN DE TEMA (DISCRETO AL FINAL) */}
@@ -91,8 +93,8 @@ export const RappiCaseStudy: React.FC<RappiCaseStudyProps> = ({ onNavigate }) =>
         currentProjectImageAlt="The Secret Routine Turbo - Fresh + Rappi"
         marqueeWords={["BARRETT", "SESSIONS"]}
         nextProjectTitle="Barrett Sessions"
-        nextProjectHeroImage="/images/barrett_sessions_hero.jpg"
-        onNextProjectClick={() => onNavigate('work')}
+        nextProjectHeroImage="/images/barrett_sessions_pedestal_sign.jpg"
+        onNextProjectClick={() => onNavigate('case-study-barrett-sessions')}
       />
     </div>
   );

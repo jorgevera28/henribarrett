@@ -1,6 +1,5 @@
 import React from 'react';
 import { MainNav, AppView } from '../../../App';
-import { motion } from 'motion/react';
 import { UmanaBurstIcon } from './UmanaBurstIcon';
 
 export interface UmanaHeaderProps {

@@ -42,7 +42,7 @@ const CASE_STUDIES: CaseStudyProject[] = [
     id: 'barrett-session',
     title: 'Barrett Session',
     description: 'Brand, Event',
-    image: '/src/assets/images/barrett_sessions_pedestal_1789000054629.jpg',
+    image: '/images/barrett_sessions_pedestal_sign.jpg',
     categories: ['BRANDING', 'EVENT', 'CONTENT', 'DIGITAL'],
   },
   {

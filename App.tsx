@@ -7,10 +7,11 @@ import { PraiseFromClientsSection } from './src/components/PraiseFromClientsSect
 import { AboutUsView } from './src/components/AboutUsView';
 import { UmanaCaseStudy } from './src/components/case-study/UmanaCaseStudy';
 import { RappiCaseStudy } from './src/components/case-study/RappiCaseStudy';
+import { BarrettSessionsCaseStudy } from './src/components/case-study/BarrettSessionsCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 
-export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana' | 'case-study-rappi';
+export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana' | 'case-study-rappi' | 'case-study-barrett-sessions';
 
 // --- MAIN CODE ---
 
@@ -24,7 +25,7 @@ const INITIAL_PROJECTS = [
 const ALL_PROJECTS = [
   { id: 101, title: 'Umana', category: 'Brand', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1200&auto=format&fit=crop' },
   { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
-  { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop' },
+  { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: '/images/barrett_sessions_pedestal_sign.jpg' },
   { id: 104, title: 'Petco', category: 'Brand', image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop' },
   { id: 105, title: 'Heineken Fest', category: 'Event', image: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=1200&auto=format&fit=crop' },
   { id: 106, title: 'Pisco Tacama', category: 'Rebrand', image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop' },
@@ -1717,6 +1718,17 @@ const ListRouletteView: React.FC<{
                     Ver portfolio →
                   </button>
                 )}
+                {(displayedProject.name.toLowerCase().includes('barrett') || displayedProject.name.toLowerCase().includes('session')) && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-barrett-sessions');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1792,6 +1804,17 @@ const ListRouletteView: React.FC<{
                       onOpenCaseStudy('case-study-rappi');
                     }}
                     className="px-6 py-2.5 bg-[#FF553E] text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-[#e04430] transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {(selectedModal.name.toLowerCase().includes('barrett') || selectedModal.name.toLowerCase().includes('session')) && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-barrett-sessions');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
                     Ver caso de estudio →
                   </button>
@@ -1958,7 +1981,7 @@ const FullScreenMenu: React.FC<{
     }
   };
 
-  const handleSelectItem = (view: 'home' | 'work' | 'services' | 'quicklys' | 'work-with-us') => {
+  const handleSelectItem = (view: AppView) => {
     setCurrentView(view);
     onClose();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3735,6 +3758,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-umana');
                         } else if (work.title.toLowerCase().includes('rappi')) {
                           setCurrentView('case-study-rappi');
+                        } else if (work.title.toLowerCase().includes('barrett') || work.title.toLowerCase().includes('session')) {
+                          setCurrentView('case-study-barrett-sessions');
                         }
                       }}
                     >
@@ -4077,6 +4102,10 @@ export const App: React.FC = () => {
     return <RappiCaseStudy onNavigate={setCurrentView} />;
   }
 
+  if (currentView === 'case-study-barrett-sessions') {
+    return <BarrettSessionsCaseStudy onNavigate={setCurrentView} />;
+  }
+
   if (currentView === 'about') {
     return (
       <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -4390,6 +4419,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-umana');
                         } else if (id === 'rappi') {
                           setCurrentView('case-study-rappi');
+                        } else if (id === 'barrett-session' || id === 'barrett') {
+                          setCurrentView('case-study-barrett-sessions');
                         }
                       }}
                       onImageHover={(e, isHovering) => {
