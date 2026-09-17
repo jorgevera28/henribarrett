@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 interface UmanaVisualViewProps {
   theme?: "dark" | "light";
@@ -6,9 +7,9 @@ interface UmanaVisualViewProps {
 
 export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark" }) => {
   return (
-    <div className={`w-full transition-colors duration-500 ${theme === "dark" ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} pb-20 pt-10`}>
+    <div className={`w-full transition-colors duration-500 ${theme === "dark" ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} pb-20 pt-32 sm:pt-40`}>
       {/* TEXT OVERVIEW BLOCK */}
-      <section className="w-full px-4 sm:px-8 md:px-12 lg:px-16 pt-16 pb-24 max-w-[1500px] mx-auto">
+      <section className="w-full px-4 sm:px-8 md:px-12 lg:px-16 pb-24 max-w-[1500px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_2.5fr] lg:grid-cols-[1fr_3fr] gap-8 md:gap-16 lg:gap-24">
           
           {/* Left Column (01) */}
@@ -74,7 +75,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=2500&auto=format&fit=crop" 
             alt="Umana Gradient" 
             className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 
@@ -85,7 +86,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" 
               alt="Business Cards" 
               className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
           <div className={`w-full aspect-[4/3] md:aspect-auto md:h-full ${theme === "dark" ? "bg-[#111]" : "bg-white"} overflow-hidden`}>
@@ -93,7 +94,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1200&auto=format&fit=crop" 
               alt="Gradient Shape" 
               className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
         </div>
@@ -104,7 +105,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2500&auto=format&fit=crop" 
             alt="Stationery Mockup" 
             className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 
@@ -114,7 +115,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2500&auto=format&fit=crop" 
             alt="Blueprints and Tube" 
             className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 
@@ -124,7 +125,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2500&auto=format&fit=crop" 
             alt="Characters Illustration" 
             className="w-full h-full object-cover opacity-30 mix-blend-multiply hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 
@@ -134,7 +135,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2500&auto=format&fit=crop" 
             alt="Poster Mockup" 
             className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 
@@ -145,7 +146,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop" 
               alt="Laptop Mockup" 
               className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
           <div className="grid grid-rows-2 gap-2 sm:gap-4">
@@ -154,7 +155,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
                 src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop" 
                 alt="Concrete Ceiling" 
                 className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-                loading="lazy"
+                
               />
             </div>
             <div className={`w-full aspect-[4/3] md:aspect-auto md:h-full ${theme === "dark" ? "bg-[#111]" : "bg-white"} overflow-hidden`}>
@@ -162,7 +163,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" 
                 alt="Concrete Facade" 
                 className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-                loading="lazy"
+                
               />
             </div>
           </div>
@@ -175,7 +176,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=800&auto=format&fit=crop" 
               alt="Mobile Screen 1" 
               className="w-full h-full object-cover rounded-[2rem] border-[8px] border-[#222] shadow-2xl hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
           <div className={`w-full aspect-[9/16] ${theme === "dark" ? "bg-[#111]" : "bg-white"} overflow-hidden p-8 sm:p-12 lg:p-20 flex items-center justify-center`}>
@@ -183,7 +184,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1541888087401-26b2b52d9b62?q=80&w=800&auto=format&fit=crop" 
               alt="Mobile Screen 2" 
               className="w-full h-full object-cover rounded-[2rem] border-[8px] border-[#222] shadow-2xl hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
           <div className={`w-full aspect-[9/16] ${theme === "dark" ? "bg-[#111]" : "bg-white"} overflow-hidden p-8 sm:p-12 lg:p-20 flex items-center justify-center`}>
@@ -191,7 +192,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
               src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=800&auto=format&fit=crop" 
               alt="Mobile Screen 3" 
               className="w-full h-full object-cover rounded-[2rem] border-[8px] border-[#222] shadow-2xl hover:scale-[1.02] transition-transform duration-700" 
-              loading="lazy"
+              
             />
           </div>
         </div>
@@ -202,7 +203,7 @@ export const UmanaVisualView: React.FC<UmanaVisualViewProps> = ({ theme = "dark"
             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2500&auto=format&fit=crop" 
             alt="Construction Banner" 
             className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" 
-            loading="lazy"
+            
           />
         </div>
 

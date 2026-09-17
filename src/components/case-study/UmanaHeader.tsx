@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainNav, AppView } from '../../../App';
+import { AppView } from '../../../App';
 import { UmanaBurstIcon } from './UmanaBurstIcon';
 
 export interface UmanaHeaderProps {
@@ -30,16 +30,8 @@ export const UmanaHeader: React.FC<UmanaHeaderProps> = ({
         <div className={`absolute inset-0 bg-radial-vignette opacity-40 ${theme === "dark" ? "" : "invert"} pointer-events-none`} />
       </div>
 
-      {/* 2. BARRA DE NAVEGACIÓN SUPERIOR */}
-      <MainNav 
-        currentView="case-study-umana" 
-        setCurrentView={onNavigate} 
-        isHome={false} 
-        bgColor="bg-transparent" 
-      />
-
       {/* 3. TIRA DE MARQUEE GIGANTE "UMANA" CON EL ICONO DE DESTELLO ARQUITECTÓNICO */}
-      <div className="relative z-20 w-full overflow-hidden pt-3 sm:pt-4 select-none">
+      <div className="relative z-20 w-full overflow-hidden pt-24 sm:pt-28 select-none">
         <div 
           className="flex w-max animate-marquee-left whitespace-nowrap will-change-transform items-center" 
           style={{ animationDuration: '40s' }}

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, Play, Pause, Disc, Sparkles } from 'lucide-react';
+import React from 'react';
 import { AppView } from '../../../App';
 
 interface BarrettSessionsVisualViewProps {
@@ -8,290 +7,219 @@ interface BarrettSessionsVisualViewProps {
 }
 
 export const BarrettSessionsVisualView: React.FC<BarrettSessionsVisualViewProps> = ({ 
-  theme = "light",
-  onNavigate,
+  theme = "light"
 }) => {
   const isDark = theme === "dark";
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <div className={`w-full transition-colors duration-500 ${
       isDark ? "bg-[#0c0c0d] text-[#F3F4F6]" : "bg-white text-[#111111]"
     } pb-28 sm:pb-36`}>
-
-      {/* 1. HERO SHOWCASE FULL BLEED BANNER */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 pt-10 sm:pt-16 pb-12 sm:pb-20 max-w-[1900px] mx-auto">
-        <div className="w-full relative aspect-[16/9] md:aspect-[2.1/1] overflow-hidden rounded-none shadow-xl bg-neutral-900 group">
-          <img 
-            src="/images/barrett_sessions_pedestal_sign.jpg" 
-            alt="Barrett Sessions illuminated sign on concrete pedestal"
-            className="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-[1.015]"
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+      
+      {/* 1. MAIN EDITORIAL PROJECT OVERVIEW (01) */}
+      <section className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-24 sm:pt-32 pb-20 max-w-[1700px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] lg:grid-cols-[180px_1fr] gap-8 md:gap-14 lg:gap-20">
           
-          {/* Audio Session Player Widget floating in bottom left */}
-          <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-auto z-20 bg-black/80 backdrop-blur-md text-white p-3.5 sm:p-5 border border-white/10 flex items-center gap-4 sm:gap-6 max-w-[480px]">
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-black flex items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer shrink-0"
-              aria-label={isPlaying ? "Pause session" : "Play session"}
-            >
-              {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-0.5" />}
-            </button>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] tracking-widest font-mono uppercase text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full bg-emerald-400 ${isPlaying ? 'animate-ping' : ''}`} />
-                  SESSION #04 • LIVE MASTER
-                </span>
-              </div>
-              <p className="text-sm sm:text-base font-bold truncate text-white mt-0.5">
-                Echoes in Concrete (Acoustic Version)
+          {/* Left Column: (01) Project Overview */}
+          <div className={`text-sm sm:text-[0.95rem] font-normal leading-[1.35] ${isDark ? 'text-white/85' : 'text-black/90'} select-none`}>
+            <span>(01)</span>
+            <div className="mt-8 sm:mt-10">
+              Project<br />
+              Overview
+            </div>
+          </div>
+          
+          {/* Right Column: Title, Narrative and Details */}
+          <div className="flex flex-col">
+            
+            {/* Main Headline */}
+            <h1 className={`text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.25rem] font-[400] md:font-[350] tracking-[-0.03em] leading-[1.07] ${isDark ? 'text-white' : 'text-black'} max-w-[1250px]`}>
+              More than just showcasing artists, Barrett Sessions is a testament to our love for culture and music, creating a space where you can unwind and immerse yourself in great tunes.
+            </h1>
+            
+            {/* Editorial Paragraphs */}
+            <div className={`flex flex-col gap-6 text-[1.05rem] sm:text-[1.15rem] ${isDark ? 'text-neutral-300' : 'text-[#222222]'} font-light leading-[1.6] max-w-[840px] mt-10 sm:mt-14`}>
+              <p>
+                Our graphics and concept are inspired by fluidity, mirroring the movement and rhythm of music itself. Through dynamic shapes and flowing designs, we capture the essence of musical fluidity and the vibrant energy it evokes. Designed primarily for digital formats, we've also adapted our visuals for print to amplify their impact.
               </p>
-              <p className="text-xs text-white/60 truncate">
-                Streamed live from Henri Barrett HQ
+              <p>
+                Our color palette sets the mood for each live session, with soothing blues for relaxed vibes, energetic reds for lively performances, and a touch of experimental yellow to push boundaries. As we continue to build and develop the platform, we invite you to join us on this musical journey.
               </p>
             </div>
-            <button
-              onClick={() => setIsMuted(!isMuted)}
-              className="text-white/70 hover:text-white p-2 transition-colors cursor-pointer"
-              aria-label="Toggle mute"
-            >
-              {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. SPLIT GRID: INTIMATE PERFORMANCE & ARCHITECTURAL STAGE */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-8 sm:py-16 max-w-[1900px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-stretch">
-          
-          {/* Visual 1: Live performance */}
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
-              <img 
-                src="/images/barrett_sessions_live.jpg" 
-                alt="Live Indie Session performance"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 sm:pt-6 flex justify-between items-baseline border-b pb-3 border-current/15">
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-widest opacity-60">(01) PERFORMANCE</span>
-              <span className="text-sm font-medium">Warm Tungsten & Direct Multi-Track</span>
-            </div>
-          </div>
-
-          {/* Visual 2: Limited vinyl merch & poster */}
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
-              <img 
-                src="/images/barrett_sessions_vinyl.jpg" 
-                alt="Vinyl record packaging and identity design"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 sm:pt-6 flex justify-between items-baseline border-b pb-3 border-current/15">
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-widest opacity-60">(02) ARTIFACTS</span>
-              <span className="text-sm font-medium">Limited Silkscreen Prints & Lathe Cut Vinyl</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 3. FULL WIDTH ARCHITECTURAL STAGE PHOTOMETRICS */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-8 sm:py-16 max-w-[1900px] mx-auto">
-        <div className="w-full relative aspect-[16/10] sm:aspect-[2.2/1] overflow-hidden shadow-lg bg-neutral-900 group">
-          <img 
-            src="/images/barrett_sessions_hero.jpg" 
-            alt="Studio stage portrait and acoustic setup"
-            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-          
-          <div className="absolute bottom-6 sm:bottom-12 left-6 sm:left-12 right-6 sm:right-12 flex flex-col md:flex-row md:items-end justify-between gap-6 text-white">
-            <div className="max-w-[620px]">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-mono text-neutral-400 mb-2">
-                <Disc size={14} className="animate-spin text-white" />
-                <span>SPATIAL & AUDIO PRODUCTION</span>
+            
+            {/* (DETAILS) Table with Clean Horizontal Dividers */}
+            <div className="flex flex-col text-[0.95rem] sm:text-[1.05rem] max-w-[840px] mt-12 sm:mt-16">
+              
+              <div className={`py-3.5 border-b ${isDark ? 'border-white/20 text-white/90' : 'border-black/25 text-black'} font-medium tracking-wide`}>
+                <span>(DETAILS)</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
-                Designed as a physical instrument where acoustic purity meets bold agency design.
-              </h3>
-            </div>
-
-            <div className="flex items-center gap-8 text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-300">
-              <div>
-                <p className="text-white font-bold text-base">14+</p>
-                <p className="opacity-60">Artists Hosted</p>
+              
+              <div className={`flex items-center justify-between py-4 sm:py-5 border-b ${isDark ? 'border-white/20' : 'border-black/25'}`}>
+                <span className={isDark ? 'text-gray-400' : 'text-[#333]'}>Type</span>
+                <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>Brand</span>
               </div>
-              <div>
-                <p className="text-white font-bold text-base">4K 60FPS</p>
-                <p className="opacity-60">Live Broadcast</p>
+              
+              <div className={`flex items-center justify-between py-4 sm:py-5 border-b ${isDark ? 'border-white/20' : 'border-black/25'}`}>
+                <span className={isDark ? 'text-gray-400' : 'text-[#333]'}>Year</span>
+                <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>2023</span>
               </div>
-              <div>
-                <p className="text-white font-bold text-base">100%</p>
-                <p className="opacity-60">Analog Mic Preamps</p>
+              
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      {/* Container sin el padding top gigante para que empiece justo debajo del header */}
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 max-w-[1900px] mx-auto flex flex-col gap-2 sm:gap-3">
+        
+        {/* ROW 1: Lucho + Fluid Blue */}
+        <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_lucho_portrait.jpg" alt="Lucho Portrait" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_fluid_blue.jpg" alt="Fluid Blue" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+          </div>
+        </section>
+
+        {/* ROW 2: Blue Container with Phones */}
+        <section className="w-full bg-[#4665C5] py-16 sm:py-24 px-4 sm:px-8 flex items-center justify-center">
+           <div className="max-w-[1200px] w-full grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
+              {/* Phone 1 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#3B54A8] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#3B54A8] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-[#7FB1F5]">
+                    <img src="/images/barrett_fluid_blue.jpg" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Phone Screen" />
+                 </div>
+              </div>
+              {/* Phone 2 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#3B54A8] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#3B54A8] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-white flex items-center justify-center">
+                    <img src="/images/barrett_blue_star.jpg" className="w-4/5 h-auto object-contain" alt="Phone Screen" />
+                 </div>
+              </div>
+              {/* Phone 3 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#3B54A8] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#3B54A8] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-black">
+                    <img src="/images/barrett_lucho_portrait.jpg" className="w-full h-full object-cover" alt="Phone Screen" />
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* ROW 3: Marquee */}
+        <section className={`w-full overflow-hidden py-3 sm:py-5 border-y ${isDark ? 'border-white/10' : 'border-black/10'} select-none bg-white text-black`}>
+          <div className="flex whitespace-nowrap animate-marquee-left text-sm sm:text-base md:text-xl font-medium uppercase tracking-widest">
+            <span className="mx-4">ove and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow »</span>
+            <span className="mx-4">ove and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow »</span>
+          </div>
+        </section>
+
+        {/* ROW 4: 4 Colored Images (Seamless) */}
+        <section className="w-full grid grid-cols-2 md:grid-cols-4 gap-0">
+          <div className="w-full aspect-square overflow-hidden bg-neutral-200">
+            <img src="/images/barrett_blue_star.jpg" alt="Blue Star" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-square overflow-hidden bg-[#ED4036]">
+            <img src="/images/barrett_red_urchin.jpg" alt="Red Urchin" className="w-full h-full object-cover mix-blend-multiply" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-square overflow-hidden bg-[#4665C5]">
+            <img src="/images/barrett_blue_splash.jpg" alt="Blue Splash" className="w-full h-full object-cover mix-blend-multiply" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-square overflow-hidden bg-[#E75B5F]">
+            <img src="/images/barrett_red_velvet_blob.jpg" alt="Red Velvet Blob" className="w-full h-full object-cover mix-blend-multiply" referrerPolicy="no-referrer" />
+          </div>
+        </section>
+
+        {/* ROW 5: Text Section - Brand Experience */}
+        <section className={`w-full py-16 sm:py-24 px-4 sm:px-8 ${isDark ? 'bg-[#0c0c0d]' : 'bg-[#F9F9F9]'}`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-[1200px] mx-auto">
+            <div className="lg:col-span-4 pt-1 sm:pt-2">
+              <div className={`text-[13px] sm:text-[14px] font-normal leading-[1.3] ${isDark ? 'text-white' : 'text-black'} select-none`}>
+                <p>(02)</p>
+                <p className="mt-5 sm:mt-6">Brand</p>
+                <p>Experience</p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. THREE-COLUMN DETAIL BREAKDOWN */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-12 sm:py-20 max-w-[1900px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
-          
-          <div className="flex flex-col border-t pt-6 border-current/20">
-            <div className="text-xs font-mono uppercase tracking-widest opacity-50 mb-3">(01) THE LIGHTBOX</div>
-            <h4 className="text-xl sm:text-2xl font-normal mb-3">Luminous Signage Beacon</h4>
-            <p className="text-sm sm:text-base opacity-75 font-light leading-relaxed">
-              Crafted with cold-rolled steel and laser-etched milky acrylic, the lightbox signals the session is rolling and defines the visual framing for every live stream angle.
-            </p>
-          </div>
-
-          <div className="flex flex-col border-t pt-6 border-current/20">
-            <div className="text-xs font-mono uppercase tracking-widest opacity-50 mb-3">(02) ACOUSTICS</div>
-            <h4 className="text-xl sm:text-2xl font-normal mb-3">Architectural Diffusion</h4>
-            <p className="text-sm sm:text-base opacity-75 font-light leading-relaxed">
-              Tuning an office space into a studio required discreet acoustic traps and custom mobile baffles, allowing natural resonance without fluttering echoes.
-            </p>
-          </div>
-
-          <div className="flex flex-col border-t pt-6 border-current/20">
-            <div className="text-xs font-mono uppercase tracking-widest opacity-50 mb-3">(03) THE COMMUNITY</div>
-            <h4 className="text-xl sm:text-2xl font-normal mb-3">Independent Voices</h4>
-            <p className="text-sm sm:text-base opacity-75 font-light leading-relaxed">
-              Curated exclusively for emerging musicians across indie, neo-soul, folk, and experimental electronic soundscapes in Peru and Latin America.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 5. ARTIST SPOTLIGHT & 3D ORGANIC SCULPTURES */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-8 sm:py-16 max-w-[1900px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
-          
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-900 shadow-md">
-              <img 
-                src="/images/barrett_lucho_portrait.jpg" 
-                alt="DJ Lucho Zeballos portrait in magenta and blue lighting"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(04) ARTIST ROSTER</span>
-              <span className="font-medium">Lucho Zeballos • Electronic Groove</span>
+            <div className="lg:col-span-8 flex flex-col max-w-[800px]">
+              <h2 className={`text-[2rem] sm:text-[2.5rem] lg:text-[2.75rem] font-[400] tracking-[-0.035em] leading-[1.12] ${isDark ? 'text-white' : 'text-black'}`}>
+                Elevating the guest experience
+              </h2>
+              <p className={`mt-6 sm:mt-8 text-[0.95rem] sm:text-[1.0625rem] leading-[1.65] font-light ${isDark ? 'text-neutral-300' : 'text-[#1a1a1a]'}`}>
+                Embracing the spirit of creativity and camaraderie, our agency team has enthusiastically stepped into the spotlight to embody the characters depicted in our key visuals. With contagious energy and a shared passion for music, we've infused our sessions with our own unique dance moves, enhancing the sense of belonging and community within our platform. By dancing alongside the artists, we're not just spectators — we're active participants, contributing to the vibrant atmosphere and leaving our mark on the musical landscape. Join us as we dance our way to immortality, celebrating the joy of music and the power of unity.
+              </p>
             </div>
           </div>
+        </section>
 
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-900 shadow-md">
-              <img 
-                src="/images/barrett_ruqyay_portrait.jpg" 
-                alt="Ruqyay Wayra portrait in saturated red studio lighting"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(05) ARTIST ROSTER</span>
-              <span className="font-medium">Ruqyay Wayra • Sacred Sounds</span>
-            </div>
+        {/* ROW 6: Ruqyay + Red Blob */}
+        <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_ruqyay_portrait.jpg" alt="Ruqyay Portrait" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
           </div>
-
-        </div>
-      </section>
-
-      {/* 6. MERCHANDISE & STREET GUERRILLA ACTIVATIONS */}
-      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-8 sm:py-16 max-w-[1900px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mb-8 sm:mb-12">
-          
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-100 shadow-md">
-              <img 
-                src="/images/barrett_tote_bag.jpg" 
-                alt="Red canvas Barrett Sessions tote bag"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(06) MERCHANDISE</span>
-              <span className="font-medium">Screenprinted Canvas Tote</span>
-            </div>
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-[#E75B5F]">
+            <img src="/images/barrett_red_velvet_blob.jpg" alt="Red Velvet Blob" className="w-full h-full object-cover object-center mix-blend-multiply" referrerPolicy="no-referrer" />
           </div>
+        </section>
 
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-100 shadow-md">
-              <img 
-                src="/images/barrett_tshirt_back.jpg" 
-                alt="Oversized white streetwear graphic t-shirt back"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(07) APPAREL</span>
-              <span className="font-medium">Relax & Flow Heavyweight Tee</span>
-            </div>
+        {/* ROW 7: Red Container with Phones */}
+        <section className="w-full bg-[#A2292E] py-16 sm:py-24 px-4 sm:px-8 flex items-center justify-center">
+           <div className="max-w-[1200px] w-full grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
+              {/* Phone 1 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#892226] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#892226] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-[#E75B5F]">
+                    <img src="/images/barrett_red_velvet_blob.jpg" className="w-full h-full object-cover mix-blend-multiply opacity-80" alt="Phone Screen" />
+                 </div>
+              </div>
+              {/* Phone 2 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#892226] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#892226] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-white flex items-center justify-center">
+                    <img src="/images/barrett_red_urchin.jpg" className="w-4/5 h-auto object-contain" alt="Phone Screen" />
+                 </div>
+              </div>
+              {/* Phone 3 */}
+              <div className="mx-auto w-full max-w-[300px] aspect-[9/18.5] bg-[#892226] rounded-[34px] sm:rounded-[40px] p-2.5 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-[3px] border-[#892226] overflow-hidden relative flex flex-col">
+                 <div className="w-full h-full rounded-[26px] sm:rounded-[32px] overflow-hidden border border-black/10 relative bg-black">
+                    <img src="/images/barrett_ruqyay_portrait.jpg" className="w-full h-full object-cover" alt="Phone Screen" />
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* ROW 8: Marquee */}
+        <section className={`w-full overflow-hidden py-3 sm:py-5 border-y ${isDark ? 'border-white/10' : 'border-black/10'} select-none bg-white text-black`}>
+          <div className="flex whitespace-nowrap animate-marquee-left text-sm sm:text-base md:text-xl font-medium uppercase tracking-widest">
+            <span className="mx-4">ove and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow »</span>
+            <span className="mx-4">ove and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow » Music to share ≈ Move and chill » Groove and shine ∞ Chill and flow »</span>
           </div>
+        </section>
 
-        </div>
+        {/* ROW 9: Laptop */}
+        <section className="w-full aspect-[16/9] sm:aspect-[1.5/1] md:aspect-[1.95/1] overflow-hidden bg-neutral-900 mt-4 sm:mt-8">
+          <img src="/images/barrett_laptop_studio.jpg" alt="Laptop Studio" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+        </section>
 
-        {/* WILDPOSTING FULL SPREAD */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-100 shadow-md">
-              <img 
-                src="/images/barrett_poster_pasting.jpg" 
-                alt="Pasting Barrett Sessions gig poster onto concrete column"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(08) GUERRILLA</span>
-              <span className="font-medium">Street Pasteup Rollout</span>
-            </div>
+        {/* ROW 10: Tote Bag + T-shirt */}
+        <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 mt-2 sm:mt-3">
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_tote_bag.jpg" alt="Tote Bag" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
           </div>
-
-          <div className="flex flex-col group">
-            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-100 shadow-md">
-              <img 
-                src="/images/barrett_wildposting_wall.jpg" 
-                alt="Urban wall plastered with colorful Barrett Sessions posters"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="pt-4 flex justify-between items-baseline border-b pb-2 border-current/15 text-xs sm:text-sm">
-              <span className="font-mono uppercase tracking-widest opacity-60">(09) EXHIBITION</span>
-              <span className="font-medium">Wildposting Plaster Wall</span>
-            </div>
+          <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_tshirt_back.jpg" alt="T-Shirt Back" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
           </div>
-        </div>
-      </section>
+        </section>
 
+        {/* ROW 11: Pasting Poster + Wall (Asymmetrical) */}
+        <section className="w-full flex flex-col md:flex-row gap-2 sm:gap-3 mt-2 sm:mt-3 mb-10">
+          <div className="w-full md:w-[35%] aspect-[3/4] sm:aspect-auto overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_poster_pasting.jpg" alt="Poster Pasting" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full md:w-[65%] min-h-[400px] md:min-h-[600px] overflow-hidden bg-neutral-900">
+            <img src="/images/barrett_wildposting_wall.jpg" alt="Wildposting Wall" className="w-full h-full object-cover object-center" referrerPolicy="no-referrer" />
+          </div>
+        </section>
+
+      </div>
     </div>
   );
 };

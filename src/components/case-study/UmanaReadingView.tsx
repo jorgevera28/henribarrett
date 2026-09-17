@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 export const UmanaReadingView = ({ theme = "dark" }: { theme?: "dark" | "light" }) => {
   const images = [
@@ -13,18 +14,19 @@ export const UmanaReadingView = ({ theme = "dark" }: { theme?: "dark" | "light" 
   ];
 
   return (
-    <section className={`w-full transition-colors duration-500 ${theme === "dark" ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} px-4 sm:px-8 md:px-12 lg:px-16 pb-20 lg:pb-32 pt-10`}>
+    <section className={`w-full transition-colors duration-500 ${theme === "dark" ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} px-4 sm:px-8 md:px-12 lg:px-16 pb-20 lg:pb-32 pt-32 sm:pt-40`}>
       <div className="max-w-[1800px] mx-auto w-full flex flex-col md:flex-row gap-12 lg:gap-24 xl:gap-32">
 
         {/* COLUMNA IZQUIERDA: Galería de imágenes (hace scroll natural) */}
         <div className="w-full md:w-[50%] lg:w-[45%] flex flex-col gap-2 sm:gap-4">
           {images.map((src, idx) => (
-            <div key={idx} className={`w-full relative overflow-hidden transition-colors duration-500 ${theme === "dark" ? "bg-[#111]" : "bg-white"} group`}>
+            <div key={idx} className={`w-full relative overflow-hidden transition-colors duration-500 ${theme === "dark" ? "bg-[#111]" : "bg-white"} group`}
+            >
               <img
                 src={src}
                 alt={`Umana project frame ${idx + 1}`}
                 className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                loading="lazy"
+                
               />
             </div>
           ))}

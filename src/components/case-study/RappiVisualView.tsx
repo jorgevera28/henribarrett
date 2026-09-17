@@ -1,51 +1,22 @@
 import React from 'react';
-import { UmanaBurstIcon } from './UmanaBurstIcon';
+import { motion } from 'motion/react';
 import { AppView } from '../../../App';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-react';
 
 interface RappiVisualViewProps {
   theme?: "dark" | "light";
-  onNavigate?: (view: AppView) => void;
 }
 
 export const RappiVisualView: React.FC<RappiVisualViewProps> = ({ 
-  theme = "light",
-  onNavigate 
+  theme = "light"
 }) => {
   const isDark = theme === "dark";
 
   return (
     <div className={`w-full transition-colors duration-500 ${isDark ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-[#f5f5f5] text-[#111111]"} pb-24`}>
       
-      {/* 1. TOP MINIMAL NAVIGATION BAR (HB burst logo with ® on left, 'Work with us' & 'Menu' on right) */}
-      <nav className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-8 sm:pt-12 pb-8 flex items-center justify-between">
-        <button 
-          onClick={() => onNavigate && onNavigate('home')} 
-          className="flex items-start gap-1 cursor-pointer group focus:outline-none"
-          aria-label="Henri Barrett Home"
-        >
-          <UmanaBurstIcon className={`w-7 h-7 transition-transform duration-500 group-hover:rotate-45 ${isDark ? 'text-white' : 'text-black'}`} />
-          <span className={`text-[10px] font-bold leading-none -mt-0.5 ${isDark ? 'text-white' : 'text-black'}`}>®</span>
-        </button>
-
-        <div className="flex items-center gap-6 sm:gap-10 text-sm sm:text-base font-medium">
-          <button 
-            onClick={() => onNavigate && onNavigate('work-with-us')} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
-          >
-            Work with us
-          </button>
-          <button 
-            onClick={() => onNavigate && onNavigate('work')} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
-          >
-            Menu
-          </button>
-        </div>
-      </nav>
-
       {/* 2. MAIN EDITORIAL PROJECT OVERVIEW (01) */}
-      <section className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-6 sm:pt-10 pb-20 max-w-[1700px] mx-auto">
+      <section className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-24 sm:pt-32 pb-20 max-w-[1700px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] lg:grid-cols-[180px_1fr] gap-8 md:gap-14 lg:gap-20">
           
           {/* Left Column: (01) Project Overview */}
@@ -117,7 +88,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
             src="/images/rappi_cyclist_hero.jpg"
             alt="Cyclist Handlebars with Smiling Fresh Fruits in Basket"
             className="w-full h-auto object-cover max-h-[85vh] transition-transform duration-700 hover:scale-[1.01]"
-            loading="lazy"
+            
             referrerPolicy="no-referrer"
           />
         </section>
@@ -129,7 +100,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
               src="/images/rappi_flyer_mockup.jpg"
               alt="The Secret Routine Event Flyer & Stationery Mockup"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
-              loading="lazy"
+              
               referrerPolicy="no-referrer"
             />
           </div>
@@ -138,7 +109,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
               src="/images/rappi_holding_flyer.jpg"
               alt="Athlete holding The Secret Routine printed flyer with fresh melons"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
-              loading="lazy"
+              
               referrerPolicy="no-referrer"
             />
           </div>
@@ -147,10 +118,10 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
         {/* MODULE 3: Full-width 3D Architectural Isometric Cutaway of Spinning Studio */}
         <section className="w-full overflow-hidden bg-[#FF553E] shadow-sm">
           <img
-            src="/images/rappi_3d_studio.jpg"
+            src="/images/rappi_spinning_kit.jpg"
             alt="3D Isometric Architectural Render of Rappi Spinning Class Space"
             className="w-full h-auto object-cover max-h-[90vh] transition-transform duration-700 hover:scale-[1.01]"
-            loading="lazy"
+            
             referrerPolicy="no-referrer"
           />
         </section>
@@ -193,7 +164,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
             src="/images/rappi_led_studio.jpg"
             alt="Dark Spinning Studio with Triple Panoramic LED Screens"
             className="w-full h-auto object-cover max-h-[85vh] transition-transform duration-700 hover:scale-[1.01]"
-            loading="lazy"
+            
             referrerPolicy="no-referrer"
           />
         </section>
@@ -205,7 +176,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
               src="/images/rappi_fridge_recipe.jpg"
               alt="Recetario Turbo-Fresh clipboards on stainless steel refrigerator"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
-              loading="lazy"
+              
               referrerPolicy="no-referrer"
             />
           </div>
@@ -214,7 +185,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
               src="/images/rappi_neon_moss.jpg"
               alt="Turbo-Fresh 10 Min Glowing Neon Sign on Living Foliage Moss Wall"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
-              loading="lazy"
+              
               referrerPolicy="no-referrer"
             />
           </div>
@@ -249,7 +220,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
                   src="/images/rappi_story_1.jpg" 
                   alt="Story 1: The Secret Routine event entry" 
                   className="w-full h-full object-cover" 
-                  loading="lazy"
+                  
                 />
               </div>
 
@@ -289,7 +260,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
                   src="/images/rappi_story_2.jpg" 
                   alt="Story 2: Spinning workout with neon sign" 
                   className="w-full h-full object-cover" 
-                  loading="lazy"
+                  
                 />
               </div>
 
@@ -329,7 +300,7 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
                   src="/images/rappi_story_3.jpg" 
                   alt="Story 3: Healthy fresh grocery catering buffet" 
                   className="w-full h-full object-cover" 
-                  loading="lazy"
+                  
                 />
               </div>
 
@@ -348,6 +319,45 @@ export const RappiVisualView: React.FC<RappiVisualViewProps> = ({
         </section>
 
       </div>
+
+
+      {/* RESTORED PHOTOS IN VISUAL VIEW (DIFFERENT DIAGRAMATIONS) */}
+      <section className="w-full px-4 sm:px-8 md:px-14 lg:px-20 py-8 sm:py-16 max-w-[1900px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-stretch">
+          <div className="flex flex-col group">
+            <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
+              <img src="/images/rappi_cyclist_hero.jpg" alt="Rappi Cyclist Hero" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" referrerPolicy="no-referrer" />
+            </div>
+          </div>
+          <div className="flex flex-col group">
+            <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
+              <img src="/images/rappi_spinning_kit.jpg" alt="Rappi Spinning Kit" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" referrerPolicy="no-referrer" />
+            </div>
+          </div>
+        </div>
+        <div className="w-full relative aspect-[16/10] sm:aspect-[2.2/1] overflow-hidden shadow-lg bg-neutral-900 mt-6 sm:mt-10 group">
+          <img src="/images/rappi_outro_routine.jpg" alt="Rappi Outro Routine" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]" referrerPolicy="no-referrer" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 mt-6 sm:mt-10">
+          <div className="w-full aspect-[3/4] overflow-hidden bg-neutral-900 shadow-md">
+            <img src="/images/rappi_3d_studio.jpg" alt="Rappi 3D Studio" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-[3/4] overflow-hidden bg-neutral-900 shadow-md">
+            <img src="/images/rappi_flyer_mockup.jpg" alt="Rappi Flyer Mockup" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-[3/4] overflow-hidden bg-neutral-900 shadow-md">
+            <img src="/images/rappi_neon_moss.jpg" alt="Rappi Neon Moss" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" referrerPolicy="no-referrer" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-6 sm:mt-10">
+          <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
+            <img src="/images/rappi_fridge_recipe.jpg" alt="Rappi Fridge Recipe" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" referrerPolicy="no-referrer" />
+          </div>
+          <div className="w-full aspect-[4/3] overflow-hidden bg-neutral-900 shadow-md">
+            <img src="/images/rappi_led_studio.jpg" alt="Rappi LED Studio" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" referrerPolicy="no-referrer" />
+          </div>
+        </div>
+      </section>
 
     </div>
   );

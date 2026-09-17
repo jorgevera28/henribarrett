@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainNav, AppView } from '../../../App';
+import { AppView } from '../../../App';
 import { UmanaBurstIcon } from './UmanaBurstIcon';
 
 export interface RappiHeaderProps {
@@ -45,18 +45,8 @@ export const RappiHeader: React.FC<RappiHeaderProps> = ({
         </div>
       </div>
 
-      {/* 3. BARRA DE NAVEGACIÓN SUPERIOR (BLANCA) */}
-      <div className="relative z-30 w-full">
-        <MainNav 
-          currentView="case-study-rappi" 
-          setCurrentView={onNavigate} 
-          isHome={false} 
-          bgColor="bg-transparent" 
-        />
-      </div>
-
       {/* 4. MARQUEE GIGANTE SUPERIOR "RAPPI" CON DESTELLOS HENRI BARRETT */}
-      <div className="relative z-20 w-full overflow-hidden pt-2 sm:pt-4 select-none pointer-events-none">
+      <div className="relative z-20 w-full overflow-hidden pt-24 sm:pt-28 select-none pointer-events-none">
         <div 
           className="flex w-max animate-marquee-left whitespace-nowrap will-change-transform items-center" 
           style={{ animationDuration: '40s' }}

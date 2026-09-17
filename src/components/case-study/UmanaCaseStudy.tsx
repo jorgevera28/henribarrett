@@ -4,9 +4,10 @@ import { UmanaReadingView } from './UmanaReadingView';
 import { UmanaVisualView } from './UmanaVisualView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
+import { AppView, MainNav } from '../../../App';
 
 export interface UmanaCaseStudyProps {
-  onNavigate: (view: 'home' | 'about' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
+  onNavigate: (view: AppView) => void;
 }
 
 export const UmanaCaseStudy: React.FC<UmanaCaseStudyProps> = ({ onNavigate }) => {
@@ -23,6 +24,13 @@ export const UmanaCaseStudy: React.FC<UmanaCaseStudyProps> = ({ onNavigate }) =>
         ? 'bg-black text-white selection:bg-white selection:text-black' 
         : 'bg-white text-black selection:bg-black selection:text-white'
     }`}>
+      {/* NAVEGACIÓN GLOBAL (REPLICA EXACTA DEL HOME) */}
+      <MainNav 
+        currentView="case-study-umana" 
+        setCurrentView={onNavigate} 
+        isHome={true} 
+      />
+
       {/* SECCIÓN 1: HEADER DEL CASO DE ESTUDIO UMANA */}
       <UmanaHeader
         activeViewMode={activeViewMode}

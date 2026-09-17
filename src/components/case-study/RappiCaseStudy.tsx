@@ -4,9 +4,10 @@ import { RappiReadingView } from './RappiReadingView';
 import { RappiVisualView } from './RappiVisualView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
+import { AppView, MainNav } from '../../../App';
 
 export interface RappiCaseStudyProps {
-  onNavigate: (view: 'home' | 'about' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
+  onNavigate: (view: AppView) => void;
 }
 
 export const RappiCaseStudy: React.FC<RappiCaseStudyProps> = ({ onNavigate }) => {
@@ -24,16 +25,21 @@ export const RappiCaseStudy: React.FC<RappiCaseStudyProps> = ({ onNavigate }) =>
         ? 'bg-black text-white selection:bg-[#FF553E] selection:text-white' 
         : 'bg-white text-black selection:bg-[#FF553E] selection:text-white'
     }`}>
-      {/* SECCIÓN 1: MAIN HERO HEADER (SOLO EN MODO VISUAL VIEW) */}
-      {activeViewMode === 'visual' && (
-        <RappiHeader
-          activeViewMode={activeViewMode}
-          setActiveViewMode={setActiveViewMode}
-          onNavigate={onNavigate}
-          onSeeAllProjects={() => onNavigate('work')}
-          theme={theme}
-        />
-      )}
+      {/* NAVEGACIÓN GLOBAL (REPLICA EXACTA DEL HOME) */}
+      <MainNav 
+        currentView="case-study-rappi" 
+        setCurrentView={onNavigate} 
+        isHome={true} 
+      />
+
+      {/* SECCIÓN 1: MAIN HERO HEADER */}
+      <RappiHeader
+        activeViewMode={activeViewMode}
+        setActiveViewMode={setActiveViewMode}
+        onNavigate={onNavigate}
+        onSeeAllProjects={() => onNavigate('work')}
+        theme={theme}
+      />
 
       {/* BOTÓN EN EL LATERAL DERECHO PARA CONTROLAR Y VER LAS VISTAS (MATCH EXACTO A SG_showcase_body_visual_view.png) */}
       <aside className="fixed top-1/2 right-4 sm:right-6 md:right-8 -translate-y-1/2 z-50 flex flex-col items-center gap-1.5 rounded-full p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.14)] bg-white text-black border border-black/5 transition-all">

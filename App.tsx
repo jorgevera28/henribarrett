@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
+import Lenis from 'lenis';
 import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 import { FeaturedClientsSection } from './src/components/FeaturedClientsSection';
 import { WhoIsBarrettSection } from './src/components/WhoIsBarrettSection';
@@ -8,10 +9,11 @@ import { AboutUsView } from './src/components/AboutUsView';
 import { UmanaCaseStudy } from './src/components/case-study/UmanaCaseStudy';
 import { RappiCaseStudy } from './src/components/case-study/RappiCaseStudy';
 import { BarrettSessionsCaseStudy } from './src/components/case-study/BarrettSessionsCaseStudy';
+import { PetcoCaseStudy } from './src/components/case-study/PetcoCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 
-export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana' | 'case-study-rappi' | 'case-study-barrett-sessions';
+export type AppView = 'work' | 'home' | 'about' | 'services' | 'quicklys' | 'work-with-us' | 'case-study-umana' | 'case-study-rappi' | 'case-study-barrett-sessions' | 'case-study-petco';
 
 // --- MAIN CODE ---
 
@@ -2161,7 +2163,6 @@ export const MainNav: React.FC<{
             <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
             <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
             <button onClick={() => setCurrentView('quicklys')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'quicklys' ? 'font-bold' : ''}`}>Quicklys</button>
-            <button onClick={() => setCurrentView('work-with-us')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work-with-us' ? 'font-bold' : ''}`}>Contact</button>
           </div>
 
           <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
@@ -3375,6 +3376,29 @@ export const App: React.FC = () => {
   const [pageHeight, setPageHeight] = useState<number>(0);
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
+  // --- SMOOTH SCROLLING (LENIS) ---
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 2,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
   const [currentView, setInternalView] = useState<AppView>('home');
   const currentViewRef = useRef(currentView);
@@ -3760,6 +3784,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-rappi');
                         } else if (work.title.toLowerCase().includes('barrett') || work.title.toLowerCase().includes('session')) {
                           setCurrentView('case-study-barrett-sessions');
+                        } else if (work.title.toLowerCase().includes('petco')) {
+                          setCurrentView('case-study-petco');
                         }
                       }}
                     >
@@ -4106,6 +4132,10 @@ export const App: React.FC = () => {
     return <BarrettSessionsCaseStudy onNavigate={setCurrentView} />;
   }
 
+  if (currentView === 'case-study-petco') {
+    return <PetcoCaseStudy onNavigate={setCurrentView} />;
+  }
+
   if (currentView === 'about') {
     return (
       <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -4421,6 +4451,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-rappi');
                         } else if (id === 'barrett-session' || id === 'barrett') {
                           setCurrentView('case-study-barrett-sessions');
+                        } else if (id === 'petco') {
+                          setCurrentView('case-study-petco');
                         }
                       }}
                       onImageHover={(e, isHovering) => {

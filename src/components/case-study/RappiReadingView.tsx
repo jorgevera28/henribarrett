@@ -1,103 +1,109 @@
 import React from 'react';
-import { UmanaBurstIcon } from './UmanaBurstIcon';
+import { motion } from 'motion/react';
 import { AppView } from '../../../App';
 import { Heart, Send, Bookmark } from 'lucide-react';
 
 interface RappiReadingViewProps {
   theme?: "dark" | "light";
-  onNavigate?: (view: AppView) => void;
 }
 
 export const RappiReadingView: React.FC<RappiReadingViewProps> = ({ 
-  theme = "light",
-  onNavigate 
+  theme = "light"
 }) => {
   const isDark = theme === "dark";
 
   // Las 7 imágenes del stack vertical que preceden al contenedor coral de stories
-  const showcaseImages = [
-    {
-      src: '/images/rappi_cyclist_hero.jpg',
-      alt: 'Rappi Turbo-Fresh Key Visual Illustration of cyclist hands with fruits basket',
-    },
-    {
-      src: '/images/rappi_flyer_mockup.jpg',
-      alt: 'The Secret Routine Turbo-Fresh + Síclo invitation flyer cards',
-    },
-    {
-      src: '/images/rappi_holding_flyer.jpg',
-      alt: 'Lifestyle model holding Secret Routine clipboard invitation with fresh produce',
-    },
-    {
-      src: '/images/rappi_spinning_kit.jpg',
-      alt: 'White collectible merchandising tray with spinning bikes and Secret Routine booklet',
-    },
-    {
-      src: '/images/rappi_led_studio.jpg',
-      alt: 'Dark spinning studio with triple panoramic LED screens displaying Turbo-Fresh visuals',
-    },
-    {
-      src: '/images/rappi_fridge_recipe.jpg',
-      alt: 'Recetario Turbo-Fresh checklist clipboard and magnet on refrigerator',
-    },
-    {
-      src: '/images/rappi_neon_moss.jpg',
-      alt: 'Turbo-Fresh 10 Min glowing neon sign on living green foliage moss wall',
-    },
-  ];
 
   return (
     <div className={`w-full transition-colors duration-500 ${isDark ? "bg-[#0a0a0a] text-[#F3F4F6]" : "bg-white text-[#111111]"} pb-24`}>
       
-      {/* 1. TOP MINIMAL NAVIGATION BAR (BURST ICON CON ® A LA IZQUIERDA, 'WORK WITH US' Y 'MENU' A LA DERECHA) */}
-      <nav className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-8 sm:pt-12 pb-8 sm:pb-12 flex items-center justify-between">
-        <button 
-          onClick={() => onNavigate && onNavigate('home')} 
-          className="flex items-start gap-1 cursor-pointer group focus:outline-none"
-          aria-label="Henri Barrett Home"
-        >
-          <UmanaBurstIcon className={`w-7 h-7 transition-transform duration-500 group-hover:rotate-45 ${isDark ? 'text-white' : 'text-black'}`} />
-          <span className={`text-[10px] font-bold leading-none -mt-0.5 ${isDark ? 'text-white' : 'text-black'}`}>®</span>
-        </button>
-
-        <div className="flex items-center gap-6 sm:gap-10 text-sm sm:text-base font-medium">
-          <button 
-            onClick={() => onNavigate && onNavigate('work-with-us')} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
-          >
-            Work with us
-          </button>
-          <button 
-            onClick={() => onNavigate && onNavigate('work')} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
-          >
-            Menu
-          </button>
-        </div>
-      </nav>
-
       {/* 2. READING VIEW 2-COLUMN LAYOUT */}
-      <section className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pb-20 max-w-[1800px] mx-auto">
-        <div className="flex flex-col md:flex-row gap-10 lg:gap-16 xl:gap-24 items-start">
+      <section className="w-full px-6 sm:px-10 md:px-14 lg:px-20 pt-32 sm:pt-40 pb-20 max-w-[1800px] mx-auto">
+        <div className="flex flex-col md:flex-row gap-10 lg:gap-16 xl:gap-24">
 
           {/* COLUMNA IZQUIERDA: Galería de imágenes (scroll vertical continuo) */}
           <div className="w-full md:w-[46%] lg:w-[44%] xl:w-[42%] flex flex-col gap-3 sm:gap-4 shrink-0">
             
-            {/* 7 IMÁGENES DEL CASO DE ESTUDIO */}
-            {showcaseImages.map((img, idx) => (
-              <div key={idx} className="w-full overflow-hidden bg-neutral-100 shadow-sm">
+            {/* MODULE 1: Cyclist Hero */}
+            <div className="w-full overflow-hidden bg-neutral-100 shadow-sm">
+              <img
+                src="/images/rappi_cyclist_hero.jpg"
+                alt="Rappi Cyclist Hero Illustration"
+                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.01]"
+                
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            
+            {/* MODULE 2: Flyer and Holding Flyer Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
+              <div className="w-full overflow-hidden bg-[#e6e6e6] shadow-sm">
                 <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.01]"
-                  loading="lazy"
+                  src="/images/rappi_flyer_mockup.jpg"
+                  alt="Rappi Flyer Mockup"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
+                  
                   referrerPolicy="no-referrer"
                 />
               </div>
-            ))}
+              <div className="w-full overflow-hidden bg-[#e6e6e6] shadow-sm">
+                <img
+                  src="/images/rappi_holding_flyer.jpg"
+                  alt="Person holding Rappi flyer"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
+                  
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+
+            {/* MODULE 3: Spinning Kit */}
+            <div className="w-full overflow-hidden bg-neutral-100 shadow-sm">
+              <img
+                src="/images/rappi_spinning_kit.jpg"
+                alt="Spinning kit"
+                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.01]"
+                
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            {/* MODULE 5: LED Studio */}
+            <div className="w-full overflow-hidden bg-black shadow-sm">
+              <img
+                src="/images/rappi_led_studio.jpg"
+                alt="LED Studio"
+                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.01]"
+                
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            {/* MODULE 6: Fridge and Neon Moss Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
+              <div className="w-full overflow-hidden bg-[#ededed] shadow-sm">
+                <img
+                  src="/images/rappi_fridge_recipe.jpg"
+                  alt="Fridge recipe"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
+                  
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="w-full overflow-hidden bg-[#102414] shadow-sm">
+                <img
+                  src="/images/rappi_neon_moss.jpg"
+                  alt="Neon moss"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.01]"
+                  
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
 
             {/* 8. CONTENEDOR CORAL CON 3 FRAMES DE INSTAGRAM STORIES (EXACTO A SG_showcase_body_visual_view.png) */}
-            <div className="w-full bg-[#FF553E] p-4 sm:p-6 lg:p-7 shadow-sm">
+            <div className="w-full bg-[#FF553E] p-4 sm:p-6 lg:p-7 shadow-sm"
+            >
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 
                 {/* STORY 1: The Secret Routine */}
@@ -115,7 +121,7 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
                       src="/images/rappi_outro_routine.jpg" 
                       alt="The Secret Routine Story"
                       className="w-full h-full object-cover"
-                      loading="lazy"
+                      
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                     <div className="absolute bottom-2 left-2 right-2 text-white">
@@ -145,7 +151,7 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
                       src="/images/rappi_story_2.jpg" 
                       alt="Fresh Vegetables Basket Story"
                       className="w-full h-full object-cover"
-                      loading="lazy"
+                      
                     />
                     <div className="absolute top-2 left-2">
                       <span className="bg-[#198754] text-white text-[6px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -175,7 +181,7 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
                       src="/images/rappi_story_3.jpg" 
                       alt="10 Min Super Fresh Grocery Story"
                       className="w-full h-full object-cover"
-                      loading="lazy"
+                      
                     />
                     <div className="absolute bottom-2 left-2 right-2 text-white">
                       <p className="text-[7px] font-extrabold leading-tight">Tus compras súper frescas en</p>
@@ -196,7 +202,7 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
 
           {/* COLUMNA DERECHA: Bloque editorial con secciones (01), Details y (02) */}
           <div className="w-full md:w-[54%] lg:w-[56%] xl:w-[58%] relative">
-            <div className="md:sticky md:top-14 flex flex-col pt-2 sm:pt-4">
+            <div className="md:sticky md:top-32 flex flex-col pt-2 sm:pt-4">
               
               {/* ================= SECCIÓN (01) PROJECT OVERVIEW ================= */}
               <div className="flex flex-col">
@@ -272,6 +278,37 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
             </div>
           </div>
 
+        </div>
+      </section>
+
+
+      {/* RESTORED PHOTOS IN READING VIEW (STACKED VERTICALLY) */}
+      <section className="w-full px-6 sm:px-12 md:px-16 lg:px-24 pt-16 sm:pt-24 pb-16 max-w-[1700px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-20 items-start">
+          <div className="lg:col-span-7 flex flex-col gap-6 sm:gap-10">
+            <div className="w-full aspect-[4/5] sm:aspect-[1/1] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_cyclist_hero.jpg" alt="Rappi Cyclist" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[16/9] sm:aspect-[1.5/1] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_spinning_kit.jpg" alt="Rappi Spinning" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_3d_studio.jpg" alt="Rappi 3D" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_flyer_mockup.jpg" alt="Flyer" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_neon_moss.jpg" alt="Moss" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[16/9] sm:aspect-[1.5/1] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_led_studio.jpg" alt="LED Studio" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="w-full aspect-[4/5] overflow-hidden bg-neutral-900 rounded-sm">
+              <img src="/images/rappi_fridge_recipe.jpg" alt="Fridge" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+          </div>
+          <div className="lg:col-span-5"></div>
         </div>
       </section>
 
