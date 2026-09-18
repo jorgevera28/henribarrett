@@ -73,10 +73,16 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
 
     const isUmana = project.title.toLowerCase().includes('umana');
     const isRappi = project.title.toLowerCase().includes('rappi');
+    const isPetco = project.title.toLowerCase().includes('petco');
+    const isYummy = project.title.toLowerCase().includes('yummy');
     if (isUmana && onOpenCaseStudy) {
       onOpenCaseStudy('case-study-umana');
     } else if (isRappi && onOpenCaseStudy) {
       onOpenCaseStudy('case-study-rappi');
+    } else if (isPetco && onOpenCaseStudy) {
+      onOpenCaseStudy('case-study-petco');
+    } else if (isYummy && onOpenCaseStudy) {
+      onOpenCaseStudy('case-study-yummy');
     } else {
       setSelectedModalProject(project);
     }
@@ -380,6 +386,28 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
                       onOpenCaseStudy('case-study-rappi');
                     }}
                     className="px-6 py-2.5 bg-[#FF553E] text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-[#e04430] transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModalProject.title.toLowerCase().includes('petco') && onOpenCaseStudy && (
+                  <button
+                    onClick={() => {
+                      setSelectedModalProject(null);
+                      onOpenCaseStudy('case-study-petco');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModalProject.title.toLowerCase().includes('yummy') && onOpenCaseStudy && (
+                  <button
+                    onClick={() => {
+                      setSelectedModalProject(null);
+                      onOpenCaseStudy('case-study-yummy');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
                     Ver caso de estudio →
                   </button>

@@ -10,6 +10,8 @@ import { UmanaCaseStudy } from './src/components/case-study/UmanaCaseStudy';
 import { RappiCaseStudy } from './src/components/case-study/RappiCaseStudy';
 import { BarrettSessionsCaseStudy } from './src/components/case-study/BarrettSessionsCaseStudy';
 import { PetcoCaseStudy } from './src/components/case-study/PetcoCaseStudy';
+import { YummyCaseStudy } from './src/components/case-study/YummyCaseStudy';
+import { HeinekenFestCaseStudy } from './src/components/case-study/HeinekenFestCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
@@ -24,7 +26,7 @@ export { MainNav };
 const INITIAL_PROJECTS = [
   { id: 1, name: 'UMANA', category: 'BRANDING', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=2000&auto=format&fit=crop', className: 'filter brightness-90 mix-blend-multiply' },
   { id: 2, name: 'RAPPI', category: 'EVENT', image: '/images/rappi_spinning_kit.jpg', className: 'mix-blend-multiply' },
-  { id: 3, name: 'YUMMY', category: 'BRANDING', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=200&auto=format&fit=crop', quote: "Working with Henri Barrett feels like extending your internal team with world-class talent." }
+  { id: 3, name: 'YUMMY', category: 'BRANDING', image: '/images/yummy_hero.jpg', quote: "Working with Henri Barrett feels like extending your internal team with world-class talent." }
 ];
 
 const ALL_PROJECTS = [
@@ -32,9 +34,9 @@ const ALL_PROJECTS = [
   { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
   { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: '/images/barrett_sessions_pedestal_sign.jpg' },
   { id: 104, title: 'Petco', category: 'Brand', image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop' },
-  { id: 105, title: 'Heineken Fest', category: 'Event', image: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=1200&auto=format&fit=crop' },
+  { id: 105, title: 'Heineken Fest', category: 'Event', image: '/images/heineken_fest_hero.jpg' },
   { id: 106, title: 'Pisco Tacama', category: 'Rebrand', image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop' },
-  { id: 107, title: 'Yummy Delivery', category: 'Brand', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop' },
+  { id: 107, title: 'Yummy Delivery', category: 'Brand', image: '/images/yummy_hero.jpg' },
   { id: 108, title: 'Nike Forward', category: 'Campaign', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop' },
   { id: 109, title: 'Spotify Greenroom', category: 'Digital', image: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1200&auto=format&fit=crop' },
   { id: 110, title: 'Interbank Hub', category: 'Campaign', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop' }
@@ -1474,8 +1476,15 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     id: 'petco',
     name: 'PETCO',
     category: 'Brand',
-    image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/petco_header.png',
     client: 'Petco Botanicals'
+  },
+  {
+    id: 'yummy',
+    name: 'YUMMY',
+    category: 'Brand',
+    image: '/images/yummy_hero.jpg',
+    client: 'Yummy Super App'
   },
   {
     id: 'tiger',
@@ -1734,6 +1743,39 @@ const ListRouletteView: React.FC<{
                     Ver portfolio →
                   </button>
                 )}
+                {displayedProject.name.toLowerCase().includes('petco') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-petco');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
+                {displayedProject.name.toLowerCase().includes('yummy') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-yummy');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
+                {(displayedProject.name.toLowerCase().includes('heineken') || displayedProject.name.toLowerCase().includes('fest')) && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-heineken-fest');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1818,6 +1860,39 @@ const ListRouletteView: React.FC<{
                     onClick={() => {
                       setSelectedModal(null);
                       onOpenCaseStudy('case-study-barrett-sessions');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModal.name.toLowerCase().includes('petco') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-petco');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModal.name.toLowerCase().includes('yummy') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-yummy');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {(selectedModal.name.toLowerCase().includes('heineken') || selectedModal.name.toLowerCase().includes('fest')) && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-heineken-fest');
                     }}
                     className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
@@ -3462,6 +3537,10 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-barrett-sessions');
                         } else if (work.title.toLowerCase().includes('petco')) {
                           setCurrentView('case-study-petco');
+                        } else if (work.title.toLowerCase().includes('yummy')) {
+                          setCurrentView('case-study-yummy');
+                        } else if (work.title.toLowerCase().includes('heineken')) {
+                          setCurrentView('case-study-heineken-fest');
                         }
                       }}
                     >
@@ -3812,6 +3891,14 @@ export const App: React.FC = () => {
     return <PetcoCaseStudy onNavigate={setCurrentView} />;
   }
 
+  if (currentView === 'case-study-yummy') {
+    return <YummyCaseStudy onNavigate={setCurrentView} />;
+  }
+
+  if (currentView === 'case-study-heineken-fest') {
+    return <HeinekenFestCaseStudy onNavigate={setCurrentView} />;
+  }
+
   if (currentView === 'about') {
     return (
       <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -4129,6 +4216,10 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-barrett-sessions');
                         } else if (id === 'petco') {
                           setCurrentView('case-study-petco');
+                        } else if (id === 'yummy') {
+                          setCurrentView('case-study-yummy');
+                        } else if (id === 'heineken' || id === 'heineken-fest') {
+                          setCurrentView('case-study-heineken-fest');
                         }
                       }}
                       onImageHover={(e, isHovering) => {

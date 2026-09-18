@@ -8,4 +8,6 @@ export type AppView =
   | 'case-study-umana' 
   | 'case-study-rappi' 
   | 'case-study-barrett-sessions' 
-  | 'case-study-petco';
+  | 'case-study-petco'
+  | 'case-study-yummy'
+  | 'case-study-heineken-fest';
