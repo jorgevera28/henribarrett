@@ -4,7 +4,8 @@ import { UmanaReadingView } from './UmanaReadingView';
 import { UmanaVisualView } from './UmanaVisualView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
-import { AppView, MainNav } from '../../../App';
+import { MainNav } from '../MainNav';
+import { AppView } from '../../types';
 
 export interface UmanaCaseStudyProps {
   onNavigate: (view: AppView) => void;

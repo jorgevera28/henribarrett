@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppView } from '../../../App';
+import { AppView } from '../../types';
 
 interface BarrettSessionsVisualViewProps {
   theme?: "dark" | "light";

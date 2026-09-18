@@ -4,14 +4,15 @@ import { PetcoReadingView } from './PetcoReadingView';
 import { PetcoVisualView } from './PetcoVisualView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
-import { AppView, MainNav } from '../../../App';
+import { MainNav } from '../MainNav';
+import { AppView } from '../../types';
 
 export interface PetcoCaseStudyProps {
   onNavigate: (view: AppView) => void;
 }
 
 export const PetcoCaseStudy: React.FC<PetcoCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('visual');
+  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export const PetcoCaseStudy: React.FC<PetcoCaseStudyProps> = ({ onNavigate }) =>
         currentView="case-study-petco" 
         setCurrentView={onNavigate} 
         isHome={true} 
+        textColor="text-white"
       />
 
       {/* SECCIÓN 1: CARÁTULA PRINCIPAL */}

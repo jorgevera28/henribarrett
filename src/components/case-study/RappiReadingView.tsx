@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { AppView } from '../../../App';
+import { AppView } from '../../types';
 import { Heart, Send, Bookmark } from 'lucide-react';
 
 interface RappiReadingViewProps {

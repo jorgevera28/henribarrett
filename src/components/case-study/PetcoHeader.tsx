@@ -1,6 +1,7 @@
 import React from 'react';
-import { AppView } from '../../../App';
+import { AppView } from '../../types';
 import { UmanaBurstIcon } from './UmanaBurstIcon';
+import petcoCorgiImg from '../../assets/images/petco_corgi_hero_1789688274091.jpg';
 
 export interface PetcoHeaderProps {
   theme?: "dark" | "light";
@@ -18,92 +19,104 @@ export const PetcoHeader: React.FC<PetcoHeaderProps> = ({
   theme = "light",
 }) => {
   return (
-    <header className="relative w-full min-h-[100vh] sm:min-h-screen overflow-hidden flex flex-col justify-between select-none bg-[#1975D2] text-white">
-      
-      {/* 1. MARQUEE GIGANTE: PETCO (ATRAS DEL PERRO) */}
-      <div className="absolute top-[25%] sm:top-[22%] left-0 w-full overflow-hidden z-10 pointer-events-none">
-        {/* Usamos dos contenedores para la animación infinita suave */}
-        <div className="flex w-[200%] animate-marquee-left">
-          {[0, 1].map((setIndex) => (
-            <div key={setIndex} className="flex w-1/2 justify-around items-center">
-              {[0, 1, 2].map((repIndex) => (
-                <div key={repIndex} className="flex items-center shrink-0">
-                  <span className="text-[16vw] sm:text-[15vw] md:text-[14vw] font-[450] uppercase tracking-[-0.035em] leading-none text-white font-sans pr-4 sm:pr-8 md:pr-10">
-                    PETCO
-                  </span>
-                  <div className="pr-4 sm:pr-8 md:pr-10 flex items-center justify-center">
-                    {/* Icono rotando */}
-                    <UmanaBurstIcon className="w-[10vw] h-[10vw] min-w-[60px] min-h-[60px] max-w-[160px] max-h-[160px] text-white animate-[spin_24s_linear_infinite]" />
-                  </div>
-                </div>
-              ))}
+    <header className="relative w-full h-screen min-h-[720px] max-h-[1200px] overflow-hidden bg-[#0060DF] text-white flex flex-col justify-between select-none">
+      {/* 1. FONDO EN PANTALLA COMPLETA DEL PERRO CON FONDO AZUL VIBRANTE */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#0060DF]">
+        <img
+          src={petcoCorgiImg}
+          alt="Petco Corgi Dog"
+          className="w-full h-full object-cover object-bottom pointer-events-none"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/images/petco_corgi_hero.jpg";
+          }}
+        />
+        {/* Sutil viñeta para contraste editorial de los textos */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0060DF]/40 via-transparent to-[#0060DF]/25 pointer-events-none" />
+      </div>
+
+      {/* 2. MARQUEE GIGANTE: PETCO ✹ PETCO ✹ PETCO */}
+      <div className="relative z-10 w-full overflow-hidden pt-24 sm:pt-28 select-none pointer-events-none">
+        <div 
+          className="flex w-max animate-marquee-left whitespace-nowrap will-change-transform items-center" 
+          style={{ animationDuration: '40s' }}
+        >
+          {[0, 1, 2, 3].map((cycle) => (
+            <div key={cycle} className="flex items-center shrink-0">
+              <span className="text-[15vw] md:text-[14vw] lg:text-[13vw] font-[350] uppercase tracking-[-0.03em] leading-none text-white font-sans pr-6 sm:pr-10 md:pr-14">
+                PETCO
+              </span>
+              <div className="pr-6 sm:pr-10 md:pr-14 flex items-center justify-center">
+                <UmanaBurstIcon className="w-[8vw] h-[8vw] min-w-[50px] min-h-[50px] max-w-[130px] max-h-[130px] text-white animate-[spin_30s_linear_infinite]" />
+              </div>
+              <span className="text-[15vw] md:text-[14vw] lg:text-[13vw] font-[350] uppercase tracking-[-0.03em] leading-none text-white font-sans pr-6 sm:pr-10 md:pr-14">
+                PETCO
+              </span>
+              <div className="pr-6 sm:pr-10 md:pr-14 flex items-center justify-center">
+                <UmanaBurstIcon className="w-[8vw] h-[8vw] min-w-[50px] min-h-[50px] max-w-[130px] max-h-[130px] text-white animate-[spin_30s_linear_infinite]" />
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* 2. DOG IMAGE (ENTRE EL MARQUEE Y EL TEXTO) */}
-      <div className="absolute inset-0 z-20 pointer-events-none flex items-end justify-center">
-        <img
-          src="/images/petco_header.png"
-          alt="Petco Dog"
-          className="w-auto h-[70vh] sm:h-[75vh] md:h-[85vh] object-contain object-bottom pointer-events-none"
-          referrerPolicy="no-referrer"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=1200&h=1200"; 
-          }}
-        />
-      </div>
+      {/* 3. CONTENIDO EDITORIAL CENTRAL / INFERIOR */}
+      <div className="relative z-20 w-full px-6 sm:px-10 md:px-14 lg:px-16 pb-8 sm:pb-10 flex flex-col justify-end gap-8 md:gap-10">
+        {/* TITULAR EDITORIAL DE PETCO */}
+        <div className="max-w-4xl lg:max-w-5xl pt-4">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-[300] text-white leading-[1.12] tracking-[-0.015em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.25)]">
+            Petco is a brand dedicated to improving pets' and their owners' well-being by providing products that support a healthy diet and enhance quality of life.
+          </h1>
+        </div>
 
-      {/* TOP SPACER PARA EMPUJAR EL CONTENIDO ABAJO */}
-      <div className="pt-24 sm:pt-32"></div>
+        {/* SELECTOR DE MODO DE VISTA (READING VIEW / VISUAL VIEW) - IDÉNTICO A LOS OTROS PROYECTOS */}
+        <div className="w-full flex justify-center items-center my-2 sm:my-3">
+          <div className="inline-flex items-center p-1 rounded-full border border-white/40 bg-black/25 backdrop-blur-md shadow-2xl relative">
+            <button
+              onClick={() => setActiveViewMode('reading')}
+              className={`relative z-10 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-[0.95rem] font-medium transition-all duration-300 cursor-pointer ${
+                activeViewMode === 'reading'
+                  ? 'bg-white text-black shadow-md'
+                  : 'text-white/80 hover:text-white'
+              }`}
+            >
+              Reading View
+            </button>
 
-      {/* 3. CENTER CONTENT: TEXT & SWITCHER (FRENTE AL PERRO) */}
-      <div className="relative z-30 w-full flex-grow flex flex-col items-center justify-center px-4 sm:px-8 mt-12 sm:mt-16 pointer-events-auto">
-        <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] lg:text-[3.25rem] font-[400] md:font-[350] tracking-[-0.02em] leading-[1.15] text-center max-w-[1250px] mb-12 sm:mb-20 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] text-white">
-          Petco is a brand dedicated to improving pets' and their owners' well-being by providing products that support a healthy diet and enhance quality of life.
-        </h1>
-        
-        {/* Toggle Controls (Reading / Visual View) */}
-        <div className="inline-flex items-center p-1.5 sm:p-2 rounded-[2rem] border border-white/40 backdrop-blur-md bg-white/40 shadow-lg">
+            <button
+              onClick={() => setActiveViewMode('visual')}
+              className={`relative z-10 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-[0.95rem] font-medium transition-all duration-300 cursor-pointer ${
+                activeViewMode === 'visual'
+                  ? 'bg-white text-black shadow-md'
+                  : 'text-white/80 hover:text-white'
+              }`}
+            >
+              Visual view
+            </button>
+          </div>
+        </div>
+
+        {/* 4. PIE DE PÁGINA DEL HEADER: (SCROLL) A LA IZQUIERDA Y "See all projects" A LA DERECHA */}
+        <div className="w-full flex items-center justify-between text-white pt-2">
+          {/* INDICADOR (SCROLL) */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm sm:text-base font-bold tracking-[0.08em] uppercase select-none opacity-90">
+              (SCROLL)
+            </span>
+          </div>
+
+          {/* ENLACE: SEE ALL PROJECTS */}
           <button
-            onClick={() => setActiveViewMode('reading')}
-            className={`px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-[1.5rem] text-[13px] sm:text-[14px] tracking-tight transition-all duration-300 ${
-              activeViewMode === 'reading' 
-                ? 'bg-black text-white font-medium' 
-                : 'text-black hover:bg-white/40'
-            }`}
+            onClick={() => {
+              if (onSeeAllProjects) onSeeAllProjects();
+              else onNavigate('work');
+            }}
+            className="text-sm sm:text-base md:text-lg font-medium tracking-wide border-b border-white pb-0.5 hover:opacity-75 transition-opacity cursor-pointer"
           >
-            Reading View
-          </button>
-          <button
-            onClick={() => setActiveViewMode('visual')}
-            className={`px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-[1.5rem] text-[13px] sm:text-[14px] tracking-tight transition-all duration-300 ${
-              activeViewMode === 'visual' 
-                ? 'bg-black text-white font-medium' 
-                : 'text-black hover:bg-white/40'
-            }`}
-          >
-            Visual view
+            See all projects
           </button>
         </div>
       </div>
-
-      {/* 4. BOTTOM BAR: (SCROLL) + See all projects */}
-      <div className="relative z-30 w-full px-6 sm:px-10 pb-8 sm:pb-12 flex justify-between items-end text-sm tracking-tight font-medium text-white">
-        <span className="font-bold">(SCROLL)</span>
-        {onSeeAllProjects && (
-          <button 
-            onClick={onSeeAllProjects}
-            className="group relative inline-flex items-center text-sm font-normal cursor-pointer"
-          >
-            <span className="relative z-10 transition-transform duration-300 group-hover:-translate-y-1">See all projects</span>
-            <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white transition-transform duration-300 origin-right group-hover:scale-x-0"></span>
-            <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white transition-transform duration-300 origin-left scale-x-0 group-hover:scale-x-100"></span>
-          </button>
-        )}
-      </div>
-
     </header>
   );
 };

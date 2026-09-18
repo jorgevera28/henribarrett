@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Play, Pause, MoveUpRight, X } from 'lucide-react';
-import type { AppView } from '../../App';
+import type { AppView } from '../types';
 
 export interface ProjectData {
   id: number;

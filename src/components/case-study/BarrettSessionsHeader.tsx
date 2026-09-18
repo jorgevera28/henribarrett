@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppView } from '../../../App';
+import { AppView } from '../../types';
 import { UmanaBurstIcon } from './UmanaBurstIcon';
 
 export interface BarrettSessionsHeaderProps {

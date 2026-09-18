@@ -4,7 +4,8 @@ import { BarrettSessionsReadingView } from './BarrettSessionsReadingView';
 import { BarrettSessionsVisualView } from './BarrettSessionsVisualView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
-import { AppView, MainNav } from '../../../App';
+import { MainNav } from '../MainNav';
+import { AppView } from '../../types';
 
 export interface BarrettSessionsCaseStudyProps {
   onNavigate: (view: AppView) => void;
