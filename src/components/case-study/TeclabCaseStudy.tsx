@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { HeinekenFestHeader } from './HeinekenFestHeader';
-import { HeinekenFestReadingView } from './HeinekenFestReadingView';
-import { HeinekenFestVisualView } from './HeinekenFestVisualView';
+import { TeclabHeader } from './TeclabHeader';
+import { TeclabVisualView } from './TeclabVisualView';
+import { TeclabReadingView } from './TeclabReadingView';
 import { CaseStudyFooter } from './CaseStudyFooter';
 import { Eye, Menu, Sun, Moon } from 'lucide-react';
 import { MainNav } from '../MainNav';
 import { AppView } from '../../types';
 
-export interface HeinekenFestCaseStudyProps {
+export interface TeclabCaseStudyProps {
   onNavigate: (view: AppView) => void;
 }
 
-export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
+export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) => {
+  const [activeViewMode, setActiveViewMode] = useState<'visual' | 'reading'>('visual');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {
@@ -23,19 +23,19 @@ export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ on
     <div className={`w-full min-h-screen relative transition-colors duration-500 ${
       theme === 'dark' 
         ? 'bg-[#0f0f10] text-white selection:bg-white selection:text-black' 
-        : (activeViewMode === 'reading' ? 'bg-white text-black selection:bg-black selection:text-white' : 'bg-[#ECECEE] text-black selection:bg-black selection:text-white')
+        : (activeViewMode === 'reading' ? 'bg-white text-black selection:bg-black selection:text-white' : 'bg-[#f4f4f5] text-black selection:bg-black selection:text-white')
     }`}>
       
       {/* NAVEGACIÓN GLOBAL (REPLICA EXACTA DEL MENÚ DEL HOME CON TEXTO BLANCO SOBRE LA PORTADA) */}
       <MainNav 
-        currentView="case-study-heineken-fest" 
+        currentView="case-study-teclab" 
         setCurrentView={onNavigate} 
         isHome={true} 
         textColor="text-white"
       />
 
-      {/* SECCIÓN 1: ENCABEZADO PRINCIPAL DE HEINEKEN FEST (IMAGEN A PANTALLA COMPLETA, MARQUEE, TEXTOS Y BOTONES) */}
-      <HeinekenFestHeader
+      {/* SECCIÓN 1: ENCABEZADO PRINCIPAL DE TECLAB (IMAGEN A PANTALLA COMPLETA, MARQUEE, TEXTOS Y BOTONES SEGÚN SG_Teclab.png) */}
+      <TeclabHeader
         activeViewMode={activeViewMode}
         setActiveViewMode={setActiveViewMode}
         onNavigate={onNavigate}
@@ -86,10 +86,10 @@ export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ on
       </aside>
 
       {/* SECCIÓN 2: CONTENIDO SEGÚN MODO ACTIVO (VISUAL VIEW O READING VIEW) */}
-      {activeViewMode === 'reading' ? (
-        <HeinekenFestReadingView theme={theme} onNavigate={onNavigate} />
+      {activeViewMode === 'visual' ? (
+        <TeclabVisualView theme={theme} onNavigate={onNavigate} />
       ) : (
-        <HeinekenFestVisualView theme={theme} onNavigate={onNavigate} />
+        <TeclabReadingView theme={theme} onNavigate={onNavigate} />
       )}
 
       {/* SECCIÓN 3: FOOTER CALL TO ACTION Y TRANSICIÓN AL SIGUIENTE PROYECTO */}
@@ -97,13 +97,13 @@ export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ on
         theme={theme}
         onWorkTogetherClick={() => onNavigate('work-with-us')} 
         onNavigate={onNavigate}
-        currentProjectImage="/images/heineken_fest_hero.jpg"
-        currentProjectImageAlt="Heineken Fest"
-        marqueeWords={["TECLAB", "YUMMY", "RAPPI"]}
-        nextProjectTitle="Teclab"
-        nextProjectHeroImage="/images/teclab_hero.jpg"
+        currentProjectImage="/images/teclab_hero.jpg"
+        currentProjectImageAlt="Teclab Construction Innovation"
+        marqueeWords={["HEINEKEN", "PETCO", "RAPPI"]}
+        nextProjectTitle="Heineken Fest"
+        nextProjectHeroImage="/images/heineken_fest_hero.jpg"
         onNextProjectClick={() => {
-          onNavigate('case-study-teclab');
+          onNavigate('case-study-heineken-fest');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />

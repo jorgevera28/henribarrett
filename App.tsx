@@ -12,6 +12,7 @@ import { BarrettSessionsCaseStudy } from './src/components/case-study/BarrettSes
 import { PetcoCaseStudy } from './src/components/case-study/PetcoCaseStudy';
 import { YummyCaseStudy } from './src/components/case-study/YummyCaseStudy';
 import { HeinekenFestCaseStudy } from './src/components/case-study/HeinekenFestCaseStudy';
+import { TeclabCaseStudy } from './src/components/case-study/TeclabCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
@@ -1497,7 +1498,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     id: 'teclab',
     name: 'TECLAB',
     category: 'Brand',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/teclab_hero.jpg',
     client: 'Teclab Packaging'
   },
   {
@@ -1776,6 +1777,17 @@ const ListRouletteView: React.FC<{
                     Ver portfolio →
                   </button>
                 )}
+                {displayedProject.name.toLowerCase().includes('teclab') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-teclab');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1893,6 +1905,17 @@ const ListRouletteView: React.FC<{
                     onClick={() => {
                       setSelectedModal(null);
                       onOpenCaseStudy('case-study-heineken-fest');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModal.name.toLowerCase().includes('teclab') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-teclab');
                     }}
                     className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
@@ -3541,6 +3564,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-yummy');
                         } else if (work.title.toLowerCase().includes('heineken')) {
                           setCurrentView('case-study-heineken-fest');
+                        } else if (work.title.toLowerCase().includes('teclab')) {
+                          setCurrentView('case-study-teclab');
                         }
                       }}
                     >
@@ -3899,6 +3924,10 @@ export const App: React.FC = () => {
     return <HeinekenFestCaseStudy onNavigate={setCurrentView} />;
   }
 
+  if (currentView === 'case-study-teclab') {
+    return <TeclabCaseStudy onNavigate={setCurrentView} />;
+  }
+
   if (currentView === 'about') {
     return (
       <div key="about" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -4220,6 +4249,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-yummy');
                         } else if (id === 'heineken' || id === 'heineken-fest') {
                           setCurrentView('case-study-heineken-fest');
+                        } else if (id === 'teclab') {
+                          setCurrentView('case-study-teclab');
                         }
                       }}
                       onImageHover={(e, isHovering) => {

@@ -266,7 +266,7 @@ export const MainNav: React.FC<{
         ref={navRef} 
         className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
       >
-        <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center ${isScrolled ? 'text-current' : (textColor || 'text-current')} gap-4 transition-all duration-300`}>
+        <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center ${textColor || (isScrolled ? 'text-current' : 'text-current')} gap-4 transition-all duration-300`}>
           <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio">
             <div className="relative flex items-start">
               <DynamicIsotype 

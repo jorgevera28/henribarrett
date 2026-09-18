@@ -10,4 +10,5 @@ export type AppView =
   | 'case-study-barrett-sessions' 
   | 'case-study-petco'
   | 'case-study-yummy'
-  | 'case-study-heineken-fest';
+  | 'case-study-heineken-fest'
+  | 'case-study-teclab';

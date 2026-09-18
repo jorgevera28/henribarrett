@@ -53,6 +53,13 @@ const CASE_STUDIES: CaseStudyProject[] = [
     categories: ['BRANDING', 'CAMPAINGS', 'DIGITAL'],
   },
   {
+    id: 'teclab',
+    title: 'Teclab',
+    description: 'Brand & Industrial Identity',
+    image: '/images/teclab_hero.jpg',
+    categories: ['BRANDING', 'TRADE', 'CONTENT'],
+  },
+  {
     id: 'nike-forward',
     title: 'Nike Forward',
     description: 'Campaign, Digital',
