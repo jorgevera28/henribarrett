@@ -3146,6 +3146,42 @@ export const App: React.FC = () => {
   const hubSectionRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const lastSectionRef = useRef<HTMLDivElement>(null);
+  const heroWrapperRef = useRef<HTMLDivElement>(null);
+  const approachFirstLineRef = useRef<HTMLSpanElement>(null);
+  const [hero1920Margin, setHero1920Margin] = useState<number | null>(null);
+
+  // Alineación exclusiva para resolución 1920: alinea el bloque ALWAYS + personaje + WATCHING
+  useEffect(() => {
+    const updateHeroAlignment = () => {
+      if (window.innerWidth >= 1750 && approachFirstLineRef.current && heroWrapperRef.current) {
+        const textLeft = approachFirstLineRef.current.getBoundingClientRect().left;
+        const containerRect = heroWrapperRef.current.getBoundingClientRect();
+        const paddingLeft = parseFloat(window.getComputedStyle(heroWrapperRef.current).paddingLeft) || 0;
+        const margin = textLeft - (containerRect.left + paddingLeft) - 75;
+        if (margin > 0) {
+          setHero1920Margin(Math.round(margin));
+        } else {
+          setHero1920Margin(0);
+        }
+      } else {
+        setHero1920Margin(null);
+      }
+    };
+
+    updateHeroAlignment();
+    window.addEventListener('resize', updateHeroAlignment);
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(updateHeroAlignment);
+    }
+    const timer1 = setTimeout(updateHeroAlignment, 150);
+    const timer2 = setTimeout(updateHeroAlignment, 600);
+
+    return () => {
+      window.removeEventListener('resize', updateHeroAlignment);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
@@ -4127,27 +4163,36 @@ export const App: React.FC = () => {
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
             {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div className="absolute top-[18vh] w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
-                <div className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)]">
+            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
+                <div 
+                  className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align"
+                  style={{
+                    marginLeft: hero1920Margin !== null ? `${hero1920Margin}px` : undefined,
+                  }}
+                >
                     <div className="flex items-center gap-1 sm:gap-2 md:gap-3 relative">
                         <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase">ALWAYS</h1>
                         <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto">
                             <HomeCharacterLottie className="w-full h-full" />
                         </div>
                     </div>
-                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.82] -mt-[2.5vw]">WATCHING</h1>
+                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.78] -mt-[4vw] sm:-mt-[5vw] md:-mt-[5.5vw]">WATCHING</h1>
                 </div>
             </div>
 
             {/* 3 COLUMNS - PROPÓSITO */}
-            <div className="absolute top-[75vh] w-screen px-10 md:px-20 flex justify-center text-black">
+            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] w-screen px-10 md:px-20 flex justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
                         <ArrowDown className="w-20 h-20 stroke-[0.5]" />
                         <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-30">Our Purpose</span>
                     </div>
                     <p className="text-2xl md:text-[2vw] text-center max-w-[none] font-light leading-[1.1] tracking-tight flex-1 px-4">
-                        Our approach isn't just about producing eye-catching designs, it's about crafting <br className="hidden md:block" /> resonant brand messages that echo across audiences.
+                        <span ref={approachFirstLineRef} className="inline">
+                          Our approach isn't just about producing eye-catching designs, it's about crafting
+                        </span>{' '}
+                        <br className="hidden md:block" />
+                        <span>resonant brand messages that echo across audiences.</span>
                     </p>
                     <div className="flex justify-center md:justify-end min-w-[120px]">
                         <Sun className="w-20 h-20 animate-[spin_12s_linear_infinite] opacity-60" />
