@@ -3421,7 +3421,11 @@ export const App: React.FC = () => {
           currentHeight = heightMid + (heightEnd - heightMid) * ease;
         }
 
-        if (currentViewRef.current === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+        if (currentViewRef.current === 'home') {
+          const clipVal = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+          videoContainerRef.current.style.clipPath = clipVal;
+          (videoContainerRef.current.style as any).webkitClipPath = clipVal;
+        }
         
         if (infoBarRef.current && currentViewRef.current === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
@@ -4144,9 +4148,24 @@ export const App: React.FC = () => {
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
 
-      {/* VIDEO CLIP LAYER */}
-      <div ref={videoContainerRef} className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none" style={{ clipPath: 'inset(100vh 50% 0 50%)' }}>
-        <video className="w-full h-full object-cover" src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay muted loop playsInline />
+      {/* VIDEO CLIP LAYER (MÁSCARA ANIMADA QUE REVELA EL VIDEO) */}
+      <div 
+        ref={videoContainerRef} 
+        className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none overflow-hidden will-change-[clip-path]" 
+        style={{ 
+          clipPath: 'inset(100vh 50% 0 50%)',
+          WebkitClipPath: 'inset(100vh 50% 0 50%)',
+          transform: 'translateZ(0)'
+        }}
+      >
+        <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
+          <iframe
+            src="https://player.vimeo.com/video/1097936778?autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0"
+            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.78vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title="Reel Henri Barrett Work"
+          />
+        </div>
       </div>
 
       {/* INFO BAR */}
@@ -4272,38 +4291,42 @@ export const App: React.FC = () => {
                         <LogosGroup />
                     </div>
 
-                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS) */}
-                    <ClientCaseStudiesSection
-                      onProjectClick={(id) => {
-                        if (id === 'umana') {
-                          setCurrentView('case-study-umana');
-                        } else if (id === 'rappi') {
-                          setCurrentView('case-study-rappi');
-                        } else if (id === 'barrett-session' || id === 'barrett') {
-                          setCurrentView('case-study-barrett-sessions');
-                        } else if (id === 'petco') {
-                          setCurrentView('case-study-petco');
-                        } else if (id === 'yummy') {
-                          setCurrentView('case-study-yummy');
-                        } else if (id === 'heineken' || id === 'heineken-fest') {
-                          setCurrentView('case-study-heineken-fest');
-                        } else if (id === 'teclab') {
-                          setCurrentView('case-study-teclab');
-                        }
-                      }}
-                      onImageHover={(e, isHovering) => {
-                        if (isHovering) {
-                          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-                          if (cursorArrowRef.current) {
-                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                          }
-                          setCursorType('upRight');
-                          setIsHoveringWork(true);
-                        } else {
-                          setIsHoveringWork(false);
-                        }
-                      }}
-                    />
+                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS - EXPANDIDO HASTA 1880px PARA THUMBNAILS DE 905px) */}
+                    <div className="w-screen relative left-1/2 -translate-x-1/2 flex justify-center px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12">
+                      <div className="w-full max-w-[1880px]">
+                        <ClientCaseStudiesSection
+                          onProjectClick={(id) => {
+                            if (id === 'umana') {
+                              setCurrentView('case-study-umana');
+                            } else if (id === 'rappi') {
+                              setCurrentView('case-study-rappi');
+                            } else if (id === 'barrett-session' || id === 'barrett') {
+                              setCurrentView('case-study-barrett-sessions');
+                            } else if (id === 'petco') {
+                              setCurrentView('case-study-petco');
+                            } else if (id === 'yummy') {
+                              setCurrentView('case-study-yummy');
+                            } else if (id === 'heineken' || id === 'heineken-fest') {
+                              setCurrentView('case-study-heineken-fest');
+                            } else if (id === 'teclab') {
+                              setCurrentView('case-study-teclab');
+                            }
+                          }}
+                          onImageHover={(e, isHovering) => {
+                            if (isHovering) {
+                              lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                              if (cursorArrowRef.current) {
+                                cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                              }
+                              setCursorType('upRight');
+                              setIsHoveringWork(true);
+                            } else {
+                              setIsHoveringWork(false);
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
 
                     {/* PRAISE FROM CLIENTS */}
                     <PraiseFromClientsSection />

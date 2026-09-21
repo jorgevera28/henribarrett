@@ -1,29 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight } from 'lucide-react';
 
 export interface CaseStudyProject {
   id: string | number;
   title: string;
   description: string;
   image: string;
+  video?: string;
   categories: string[];
 }
 
 const CASE_STUDIES: CaseStudyProject[] = [
-  {
-    id: 'umana',
-    title: 'Umana',
-    description: 'Architecture & Design',
-    image: '/src/assets/images/umana_powder_cube_1788889215309.jpg',
-    categories: ['BRANDING', 'TRADE', 'CONTENT'],
-  },
-  {
-    id: 'rappi',
-    title: 'Rappi',
-    description: 'Event Activation',
-    image: '/images/rappi_spinning_kit.jpg',
-    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
-  },
   {
     id: 'heineken-fest',
     title: 'Heineken Fest',
@@ -42,7 +28,7 @@ const CASE_STUDIES: CaseStudyProject[] = [
     id: 'barrett-session',
     title: 'Barrett Session',
     description: 'Brand, Event',
-    image: '/images/barrett_sessions_pedestal_sign.jpg',
+    image: '/src/assets/images/barrett_sessions_pedestal_1789000054629.jpg',
     categories: ['BRANDING', 'EVENT', 'CONTENT', 'DIGITAL'],
   },
   {
@@ -51,6 +37,20 @@ const CASE_STUDIES: CaseStudyProject[] = [
     description: 'Rebrand',
     image: '/src/assets/images/petco_cannabidol_box_1789000066953.jpg',
     categories: ['BRANDING', 'CAMPAINGS', 'DIGITAL'],
+  },
+  {
+    id: 'umana',
+    title: 'Umana',
+    description: 'Architecture & Design',
+    image: '/src/assets/images/umana_powder_cube_1788889215309.jpg',
+    categories: ['BRANDING', 'TRADE', 'CONTENT'],
+  },
+  {
+    id: 'rappi',
+    title: 'Rappi',
+    description: 'Event Activation',
+    image: '/images/rappi_spinning_kit.jpg',
+    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
   },
   {
     id: 'teclab',
@@ -119,26 +119,29 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
   return (
     <section className="w-full bg-white pb-32 pt-8 select-none">
       {/* 1. CABECERA: CLIENT CASE STUDIES + FLECHA SUPERIOR DERECHA */}
-      <div className="w-full flex justify-between items-start mb-12 sm:mb-16">
-        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black">
+      <div className="w-full flex justify-between items-start mb-10 sm:mb-14 md:mb-16">
+        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5vw] 2xl:text-[130px] font-light font-[300] tracking-[-0.04em] uppercase leading-[0.86] text-black">
           CLIENT CASE<br />
           STUDIES
         </h2>
 
-        {/* Flecha minimalista superior derecha como en la imagen */}
-        <div className="pt-2 sm:pt-4">
+        {/* Flecha minimalista alargada superior derecha como en la imagen de referencia */}
+        <div className="pt-3 sm:pt-5 md:pt-6">
           <button 
             type="button"
-            className="text-black hover:opacity-50 transition-opacity p-2"
+            className="text-black hover:opacity-50 transition-opacity p-2 flex items-center"
             aria-label="View all case studies"
           >
-            <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 stroke-[1.2]" />
+            <svg className="w-14 h-6 sm:w-20 sm:h-8 md:w-24 md:h-9 text-black" viewBox="0 0 100 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <line x1="0" y1="12" x2="94" y2="12" />
+              <polyline points="84,4 94,12 84,20" />
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (RECTÁNGULOS CON BORDES CURVOS) */}
-      <div className="w-full flex flex-wrap items-center gap-2.5 sm:gap-3.5 mb-14 sm:mb-20">
+      {/* 2. FILTROS POR TIPO DE TRABAJO (TEXTO DE APROXIMADAMENTE 40px CON BORDES CURVOS) */}
+      <div className="w-full flex flex-wrap items-center gap-3 sm:gap-4 md:gap-5 mb-12 sm:mb-16 md:mb-20">
         {CATEGORIES.map((cat) => {
           const isActive = activeCategory === cat;
           return (
@@ -146,10 +149,10 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
               key={cat}
               type="button"
               onClick={() => handleCategoryClick(cat)}
-              className={`rounded-full px-5 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm font-normal uppercase tracking-wider border transition-all duration-200 ${
+              className={`rounded-full px-6 sm:px-8 lg:px-10 xl:px-11 py-2 sm:py-2.5 lg:py-3.5 text-lg sm:text-2xl md:text-3xl lg:text-[40px] font-normal uppercase tracking-tight border border-black transition-all duration-200 leading-none whitespace-nowrap ${
                 isActive
-                  ? 'bg-black text-white border-black shadow-sm'
-                  : 'bg-transparent text-black border-black hover:bg-black/5'
+                  ? 'bg-black text-white shadow-sm'
+                  : 'bg-transparent text-black hover:bg-black hover:text-white'
               }`}
             >
               {cat}
@@ -158,35 +161,46 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         })}
       </div>
 
-      {/* 3. GRILLA DE 4 PROYECTOS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 sm:gap-x-7 md:gap-x-8 gap-y-12 sm:gap-y-16 w-full">
+      {/* 3. GRILLA DE PROYECTOS (THUMBNAILS DE 905px ANCHO x 902px ALTO) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 sm:gap-x-8 md:gap-x-10 lg:gap-x-12 gap-y-12 sm:gap-y-16 md:gap-y-20 w-full justify-between">
         {displayedProjects.map((project) => (
           <div 
             key={project.id} 
             onClick={() => onProjectClick?.(project.id)}
-            className="flex flex-col group cursor-pointer"
+            className="w-full max-w-[905px] flex flex-col group cursor-pointer mx-auto md:mx-0"
           >
-            {/* Imagen del proyecto (cuadrada como en la imagen) */}
+            {/* Contenedor de thumbnail: 905px de ancho por 902px de alto (proporción exacta 905/902) */}
             <div
               data-selected-work-image="true"
               onMouseEnter={(e) => onImageHover?.(e, true)}
               onMouseLeave={(e) => onImageHover?.(e, false)}
-              className="w-full aspect-square bg-[#EAEAEA] overflow-hidden relative shadow-none"
+              className="w-full max-w-[905px] aspect-[905/902] 2xl:w-[905px] 2xl:h-[902px] bg-[#EAEAEA] overflow-hidden relative shadow-none"
             >
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
-                loading="lazy"
-              />
+              {project.video ? (
+                <video
+                  src={project.video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
+                />
+              ) : (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
+                  loading="lazy"
+                />
+              )}
             </div>
 
-            {/* Título pequeño y debajo la descripción como en la imagen */}
-            <div className="flex flex-col mt-3.5 sm:mt-4 leading-tight">
-              <span className="text-sm sm:text-base font-normal text-black">
+            {/* Título y descripción inferior */}
+            <div className="flex flex-col mt-4 sm:mt-5 leading-tight">
+              <span className="text-base sm:text-lg md:text-xl font-normal text-black">
                 {project.title}
               </span>
-              <span className="text-xs sm:text-sm font-light text-black mt-0.5">
+              <span className="text-sm sm:text-base md:text-lg font-light text-black mt-1">
                 {project.description}
               </span>
             </div>
