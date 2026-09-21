@@ -12,8 +12,8 @@ export interface TeclabCaseStudyProps {
 }
 
 export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'visual' | 'reading'>('visual');
-  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [activeViewMode, setActiveViewMode] = useState<'visual' | 'reading'>('reading');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,7 +22,7 @@ export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) 
   return (
     <div className={`w-full min-h-screen relative transition-colors duration-500 ${
       theme === 'dark' 
-        ? 'bg-[#0f0f10] text-white selection:bg-white selection:text-black' 
+        ? 'bg-[#000000] text-white selection:bg-[#BCF125] selection:text-black' 
         : (activeViewMode === 'reading' ? 'bg-white text-black selection:bg-black selection:text-white' : 'bg-[#f4f4f5] text-black selection:bg-black selection:text-white')
     }`}>
       

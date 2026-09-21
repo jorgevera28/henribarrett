@@ -3174,7 +3174,7 @@ export const App: React.FC = () => {
   }, []);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setInternalView] = useState<AppView>('home');
+  const [currentView, setInternalView] = useState<AppView>('case-study-teclab');
   const currentViewRef = useRef(currentView);
   useEffect(() => {
     currentViewRef.current = currentView;

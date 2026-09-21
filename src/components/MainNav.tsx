@@ -215,12 +215,15 @@ export const MainNav: React.FC<{
   navRef?: React.RefObject<HTMLElement | null>;
   bgColor?: string;
   textColor?: string;
-}> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-transparent', textColor }) => {
+  forceCompact?: boolean;
+}> = ({ currentView, setCurrentView, isHome, navRef, bgColor = 'bg-transparent', textColor, forceCompact = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const lastScrollY = useRef(0);
   const accumulatedScroll = useRef(0);
+
+  const isCompact = forceCompact || isScrolled;
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -250,8 +253,8 @@ export const MainNav: React.FC<{
   }, [currentView]);
 
   const navClasses = isHome 
-    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent ${isScrolled ? 'py-6 md:py-8' : 'py-8 md:py-12'}`
-    : `sticky top-0 z-40 w-full transition-all duration-300 border-none bg-transparent ${isScrolled ? 'py-6 md:py-8' : 'py-7 md:py-8'}`;
+    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent ${isCompact ? 'py-6 md:py-8' : 'py-8 md:py-12'}`
+    : `sticky top-0 z-40 w-full transition-all duration-300 border-none bg-transparent ${isCompact ? 'py-6 md:py-8' : 'py-7 md:py-8'}`;
 
   return (
     <>
@@ -266,28 +269,28 @@ export const MainNav: React.FC<{
         ref={navRef} 
         className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4`}
       >
-        <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center ${textColor || (isScrolled ? 'text-current' : 'text-current')} gap-4 transition-all duration-300`}>
+        <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center ${textColor || (isCompact ? 'text-current' : 'text-current')} gap-4 transition-all duration-300`}>
           <button onClick={() => setCurrentView('home')} className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0" title="Ir a inicio">
             <div className="relative flex items-start">
               <DynamicIsotype 
                 className="origin-center" 
                 style={{ 
-                  width: isScrolled ? '65px' : '59.3px', 
-                  height: isScrolled ? '65px' : '59.3px',
+                  width: isCompact ? '65px' : '59.3px', 
+                  height: isCompact ? '65px' : '59.3px',
                   transformOrigin: 'center center',
                   transform: `rotate(${rotation}deg)`,
                   transition: 'width 0.3s ease, height 0.3s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)'
                 }} 
               />
-              {isScrolled && <span className="absolute text-[10px] font-bold" style={{ right: '5px', top: '5px' }}>®</span>}
+              {isCompact && <span className="absolute text-[10px] font-bold" style={{ right: '5px', top: '5px' }}>®</span>}
             </div>
             
-            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
+            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isCompact ? 'max-w-0 opacity-0' : 'max-w-[250px] opacity-100'}`}>
               <DynamicLogotype style={{ width: '205px' }} />
             </div>
           </button>
           
-          <div className={`flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isScrolled ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
+          <div className={`flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
             <button onClick={() => setCurrentView('about')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'about' ? 'font-bold' : ''}`}>About us</button>
             <button onClick={() => setCurrentView('work')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
             <button onClick={() => setCurrentView('services')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
@@ -295,8 +298,8 @@ export const MainNav: React.FC<{
             <button onClick={() => setCurrentView('work-with-us')} className={`hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work-with-us' ? 'font-bold' : ''}`}>Contact</button>
           </div>
 
-          <div className={`flex items-center ${isScrolled ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
-            {isScrolled && (
+          <div className={`flex items-center ${isCompact ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300`}>
+            {isCompact && (
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap cursor-pointer"
