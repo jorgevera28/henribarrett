@@ -31,7 +31,6 @@ export const PetcoCaseStudy: React.FC<PetcoCaseStudyProps> = ({ onNavigate }) =>
         currentView="case-study-petco" 
         setCurrentView={onNavigate} 
         isHome={true} 
-        textColor={theme === 'dark' ? 'text-white' : 'text-white'}
       />
 
       {/* SECCIÓN 1: CARÁTULA PRINCIPAL */}

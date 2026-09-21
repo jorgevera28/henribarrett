@@ -16,6 +16,7 @@ import { TeclabCaseStudy } from './src/components/case-study/TeclabCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
+import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import type { AppView } from './src/types';
 
 export type { AppView };
@@ -3444,7 +3445,6 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
-          bgColor={viewMode === 'list' ? 'bg-transparent' : 'bg-white'} 
         />
 
         {viewMode === 'list' ? (
@@ -3453,7 +3453,7 @@ export const App: React.FC = () => {
         ) : (
           <>
             {/* TIRA DE MARQUEE: "WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
-            <div className="w-full overflow-hidden py-4 sm:py-6 select-none bg-white border-y border-transparent">
+            <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 select-none bg-white border-y border-transparent">
               <div 
                 className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
                 style={{ animationDuration: '32s' }}
@@ -3691,10 +3691,10 @@ export const App: React.FC = () => {
       <div key="quicklys" className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white flex flex-col justify-between">
         <div className="w-full">
           {/* HEADER (NAVBAR) */}
-          <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+          <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
           {/* TIRA ANIMADA DE QUICKLYS (MARQUEE) */}
-          <div className="w-full overflow-hidden py-4 sm:py-6 md:py-8 select-none bg-white border-y border-transparent">
+          <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-8 select-none bg-white border-y border-transparent">
             <div 
               className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
               style={{ animationDuration: '32s' }}
@@ -3756,10 +3756,10 @@ export const App: React.FC = () => {
     return (
       <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
         {/* HERO SERVICES BLOCK */}
-        <div className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden">
+        <div className="w-full pt-24 sm:pt-28 md:pt-32 pb-8 md:pb-12 relative overflow-hidden">
           {/* Marquee WHAT WE DO */}
           <div className="w-full overflow-hidden select-none">
             <div ref={servicesMarqueeRef} className="flex w-max whitespace-nowrap will-change-transform">
@@ -3935,7 +3935,6 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
-          bgColor="bg-white" 
         />
 
         {/* ABOUT US VIEW CONTENT */}
@@ -3952,10 +3951,10 @@ export const App: React.FC = () => {
     return (
       <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
         {/* HERO TITLE MARQUEE (MOVING LEFT TO RIGHT) */}
-        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-white">
+        <div className="w-full overflow-hidden pt-28 sm:pt-36 pb-10 sm:pb-16 select-none bg-white">
           <div 
             className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
             style={{ animationDuration: '32s' }}
@@ -4128,18 +4127,12 @@ export const App: React.FC = () => {
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
             {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div className="absolute top-[18vh] w-screen px-10 md:px-20 flex justify-start text-black">
+            <div className="absolute top-[18vh] w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
                 <div className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)]">
-                    <div className="flex items-center gap-10 relative">
+                    <div className="flex items-center gap-1 sm:gap-2 md:gap-3 relative">
                         <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase">ALWAYS</h1>
-                        <div className="w-[18vw] h-[18vw] translate-y-[-1vw] flex items-center justify-center opacity-90">
-                           <svg viewBox="0 0 200 200" className="w-full h-full stroke-current fill-none stroke-1">
-                              <path d="M40,150 Q100,20 160,150" />
-                              <circle cx="100" cy="80" r="40" />
-                              <circle cx="100" cy="80" r="15" />
-                              <path d="M60,80 Q100,60 140,80" />
-                              <path d="M80,120 L120,120" />
-                           </svg>
+                        <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto">
+                            <HomeCharacterLottie className="w-full h-full" />
                         </div>
                     </div>
                     <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.82] -mt-[2.5vw]">WATCHING</h1>

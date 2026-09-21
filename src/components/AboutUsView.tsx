@@ -263,7 +263,7 @@ Lima, Perú · Global Studio
     <div className="w-full bg-[#FFFFFF] text-black font-sans selection:bg-black selection:text-white relative">
       
       {/* 1. TOP OVERSIZED BLEEDING TITLE BANNER */}
-      <div className="w-full overflow-hidden select-none border-b border-gray-100/80 py-3 sm:py-4 bg-white">
+      <div className="w-full overflow-hidden select-none border-b border-gray-100/80 pt-24 sm:pt-28 md:pt-32 pb-3 sm:pb-4 bg-white">
         <div 
           className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
           style={{ animationDuration: '30s' }}
