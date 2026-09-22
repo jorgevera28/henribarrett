@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Henri Barrett® remix george</title>
-    <meta name="description" content="Portafolio interactivo de Henri Barrett® con grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales de @henribarrettstudio." />
+    <meta name="description" content="Portafolio interactivo de Henri Barrett® con pestaña About Us de diseño editorial de alta fidelidad, grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales." />
     <meta property="og:title" content="Henri Barrett® remix george" />
-    <meta property="og:description" content="Portafolio interactivo de Henri Barrett® con grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales de @henribarrettstudio." />
+    <meta property="og:description" content="Portafolio interactivo de Henri Barrett® con pestaña About Us de diseño editorial de alta fidelidad, grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales." />
     
     <!-- ADOBE FONTS (TYPEKIT) -->
     <link rel="stylesheet" href="https://use.typekit.net/hdy5eik.css">
@@ -313,6 +313,16 @@
       .animate-glitch-2 {
         animation: glitch-slice-2 0.25s infinite ease-in-out alternate-reverse;
       }
+
+      /* Alineación y posición exclusiva para resolución 1920 / pantallas grandes */
+      @media (min-width: 1750px) {
+        .hero-fhd-align {
+          margin-left: 200px;
+        }
+        .hero-fhd-top {
+          top: 7.5vh !important;
+        }
+      }
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -327,17 +337,6 @@
           },
         },
       }
-    </script>
-
-    <script type="importmap">
-    {
-      "imports": {
-        "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
-        "react/": "https://esm.sh/react@^19.2.1/",
-        "react": "https://esm.sh/react@^19.2.1",
-        "lucide-react": "https://esm.sh/lucide-react@^0.559.0"
-      }
-    }
     </script>
 </head>
   <body>

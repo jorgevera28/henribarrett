@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Download, ArrowRight, Instagram, ArrowDown, Check } from 'lucide-react';
+import { MaskTextReveal } from './MaskTextReveal';
 
 interface AboutUsViewProps {
   onNavigate: (view: 'home' | 'about' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
@@ -263,7 +264,7 @@ Lima, Perú · Global Studio
     <div className="w-full bg-[#FFFFFF] text-black font-sans selection:bg-black selection:text-white relative">
       
       {/* 1. TOP OVERSIZED BLEEDING TITLE BANNER */}
-      <div className="w-full overflow-hidden select-none border-b border-gray-100/80 py-3 sm:py-4 bg-white">
+      <div className="w-full overflow-hidden select-none border-b border-gray-100/80 pt-24 sm:pt-28 md:pt-32 pb-3 sm:pb-4 bg-white">
         <div 
           className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
           style={{ animationDuration: '30s' }}
@@ -291,14 +292,21 @@ Lima, Perú · Global Studio
       <section className="w-full max-w-[1360px] mx-auto px-6 sm:px-10 md:px-16 pt-12 sm:pt-16 md:pt-20 pb-16">
         <div className="relative">
           {/* Main Statement Text with High Contrast Two-Tone Styling, Weight 300 */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[4.5vw] font-light font-[300] leading-[1.15] tracking-tight max-w-6xl">
-            <span className="text-black font-light font-[300]">
-              An integrated, interdisciplinary approach lies at the heart of our philosophy.
-            </span>
-            <span className="text-gray-400 font-light font-[300]">
-              {' '}Recognizing that the most compelling brands are built from their core offerings, we champion a foundation that fosters a distinct identity and potent marketing.
-            </span>
-          </h1>
+          <MaskTextReveal
+            as="h1"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[4.5vw] font-light font-[300] leading-[1.15] tracking-tight max-w-6xl"
+            animateOnMount={true}
+            segments={[
+              {
+                text: "An integrated, interdisciplinary approach lies at the heart of our philosophy. ",
+                className: "text-black font-light font-[300]",
+              },
+              {
+                text: "Recognizing that the most compelling brands are built from their core offerings, we champion a foundation that fosters a distinct identity and potent marketing.",
+                className: "text-gray-400 font-light font-[300]",
+              },
+            ]}
+          />
 
           {/* Controls Row: Left "Learn more", Right "Play audio" & "(SCROLL)" */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mt-12 md:mt-16 pt-4">
@@ -435,17 +443,23 @@ Lima, Perú · Global Studio
 
           {/* Right Column: Statement, Body Copy & Link */}
           <div className="lg:col-span-8 flex flex-col">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[4.5vw] font-light font-[300] tracking-tight leading-[1.15] text-black mb-10 md:mb-14">
-              Beyond mere external perceptions, it's a matter of orchestrating an ecosystem where product, brand, and communication harmonize effortlessly.
-            </h2>
+            <MaskTextReveal
+              as="h2"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[4.5vw] font-light font-[300] tracking-tight leading-[1.15] text-black mb-10 md:mb-14"
+              text="Beyond mere external perceptions, it's a matter of orchestrating an ecosystem where product, brand, and communication harmonize effortlessly."
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 text-xl md:text-[1.3rem] text-gray-900 leading-[1.5] font-light font-[300] tracking-[0.04em] mb-12">
-              <p>
-                In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
-              </p>
-              <p>
-                We a creative agency where strategy, design, and creativity converge. Over the years, we've honed our belief that a standout brand emerges when these three elements seamlessly intertwine.
-              </p>
+              <MaskTextReveal
+                as="p"
+                delay={0.15}
+                text="In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals."
+              />
+              <MaskTextReveal
+                as="p"
+                delay={0.25}
+                text="We a creative agency where strategy, design, and creativity converge. Over the years, we've honed our belief that a standout brand emerges when these three elements seamlessly intertwine."
+              />
             </div>
 
             <div>
@@ -469,12 +483,17 @@ Lima, Perú · Global Studio
         {/* Header Row */}
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-16">
           <div className="max-w-2xl">
-            <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-6">
-              MEET THE<br />MARKERS
-            </h2>
-            <p className="text-xl md:text-[1.3rem] text-gray-700 leading-[1.5] font-light font-[300] tracking-[0.04em] max-w-2xl">
-              Discover the heartbeat of our studio. Together, we challenge conventions, celebrate diversity, and drive innovation. Unfold the layers of our team and witness the collaboration that defines us.
-            </p>
+            <MaskTextReveal
+              as="h2"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-6"
+              lines={['MEET THE', 'MARKERS']}
+            />
+            <MaskTextReveal
+              as="p"
+              delay={0.18}
+              className="text-xl md:text-[1.3rem] text-gray-700 leading-[1.5] font-light font-[300] tracking-[0.04em] max-w-2xl"
+              text="Discover the heartbeat of our studio. Together, we challenge conventions, celebrate diversity, and drive innovation. Unfold the layers of our team and witness the collaboration that defines us."
+            />
           </div>
 
           {/* Right Icon: DynamicIsotype + Registered trademark */}
@@ -528,20 +547,28 @@ Lima, Perú · Global Studio
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           {/* Left Column: Text & Content */}
           <div className="lg:col-span-5 flex flex-col justify-center">
-            <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-8">
-              Beyond a single<br />discipline
-            </h2>
+            <MaskTextReveal
+              as="h2"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-8"
+              lines={['Beyond a single', 'discipline']}
+            />
 
             <div className="flex flex-col gap-6 text-xl md:text-[1.3rem] text-gray-900 leading-[1.5] font-light font-[300] tracking-[0.04em] mb-10">
-              <p>
-                At the heart of our process lies an understanding that the world doesn't fit into neat boxes, and neither do brands. We're not bound by traditional lanes of design, strategy, or creativity.
-              </p>
-              <p>
-                Instead, we fuse them, creating an amalgam that resonates with the diverse, dynamic nature of today's audiences.
-              </p>
-              <p>
-                Our multidisciplinary approach ensures that every project is viewed from multiple angles, offering holistic solutions that stand out and stay relevant.
-              </p>
+              <MaskTextReveal
+                as="p"
+                delay={0.15}
+                text="At the heart of our process lies an understanding that the world doesn't fit into neat boxes, and neither do brands. We're not bound by traditional lanes of design, strategy, or creativity."
+              />
+              <MaskTextReveal
+                as="p"
+                delay={0.22}
+                text="Instead, we fuse them, creating an amalgam that resonates with the diverse, dynamic nature of today's audiences."
+              />
+              <MaskTextReveal
+                as="p"
+                delay={0.28}
+                text="Our multidisciplinary approach ensures that every project is viewed from multiple angles, offering holistic solutions that stand out and stay relevant."
+              />
             </div>
 
             <div>
@@ -678,13 +705,18 @@ Lima, Perú · Global Studio
       {/* 10. "RANDOM IGNITERS" (Interactive Black Section with Pop Art) */}
       <section className="w-full bg-black text-white pt-24 sm:pt-32 md:pt-40 pb-0 px-6 sm:px-10 md:px-16 relative overflow-hidden flex flex-col items-center justify-center">
         <div className="w-full max-w-[1100px] mx-auto flex flex-col items-center text-center z-10">
-          <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-white text-center mb-6 sm:mb-8">
-            RANDOM<br />IGNITERS
-          </h2>
+          <MaskTextReveal
+            as="h2"
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-white text-center mb-6 sm:mb-8"
+            lines={['RANDOM', 'IGNITERS']}
+          />
 
-          <p className="text-xl md:text-[1.3rem] text-white/80 font-light font-[300] max-w-2xl mx-auto text-center mb-10 leading-[1.5]">
-            Take a break, download and explore this tad. Who knows where our bits of randomness will lead you?
-          </p>
+          <MaskTextReveal
+            as="p"
+            delay={0.18}
+            className="text-xl md:text-[1.3rem] text-white/80 font-light font-[300] max-w-2xl mx-auto text-center mb-10 leading-[1.5]"
+            text="Take a break, download and explore this tad. Who knows where our bits of randomness will lead you?"
+          />
 
           {/* Download Button */}
           <button

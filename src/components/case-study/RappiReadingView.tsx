@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { AppView } from '../../types';
 import { Heart, Send, Bookmark } from 'lucide-react';
+import { MaskTextReveal } from '../MaskTextReveal';
 
 interface RappiReadingViewProps {
   theme?: "dark" | "light";
@@ -212,17 +213,23 @@ export const RappiReadingView: React.FC<RappiReadingViewProps> = ({
                   <p>Overview</p>
                 </div>
                 
-                <h1 className={`text-[2rem] sm:text-[2.65rem] lg:text-[3rem] xl:text-[3.25rem] font-[400] tracking-[-0.03em] leading-[1.12] ${isDark ? 'text-white' : 'text-black'} max-w-[850px]`}>
-                  Rappi asked us to think in an event concept for the Turbo Fresh platform launch, the event was an activation with a spinning class that revealed “The Secret Routine” of the brand's delivery riders.
-                </h1>
+                <MaskTextReveal
+                  as="h1"
+                  className={`text-[2rem] sm:text-[2.65rem] lg:text-[3rem] xl:text-[3.25rem] font-[400] tracking-[-0.03em] leading-[1.12] ${isDark ? 'text-white' : 'text-black'} max-w-[850px]`}
+                  text="Rappi asked us to think in an event concept for the Turbo Fresh platform launch, the event was an activation with a spinning class that revealed “The Secret Routine” of the brand's delivery riders."
+                />
                 
                 <div className={`flex flex-col gap-6 text-[1rem] sm:text-[1.08rem] ${isDark ? 'text-gray-300' : 'text-[#222222]'} font-light leading-[1.65] max-w-[780px] mt-8 sm:mt-10`}>
-                  <p>
-                    We were involved in the whole project from concept, key visual, kits and production.
-                  </p>
-                  <p>
-                    For the “Secret Routine” at the launch of Rappi’s Turbo Fresh platform, we developed the key visual and the whole concept around a loose and dynamic illustrations style that somehow represented the speed of the service to arrive in 10 minutes . The illustrations were animated and used to integrate them into the venue’s stage, to ensure a seamless and immersive experience for the participants.
-                  </p>
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.16}
+                    text="We were involved in the whole project from concept, key visual, kits and production."
+                  />
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.24}
+                    text="For the “Secret Routine” at the launch of Rappi’s Turbo Fresh platform, we developed the key visual and the whole concept around a loose and dynamic illustrations style that somehow represented the speed of the service to arrive in 10 minutes . The illustrations were animated and used to integrate them into the venue’s stage, to ensure a seamless and immersive experience for the participants."
+                  />
                 </div>
               </div>
 

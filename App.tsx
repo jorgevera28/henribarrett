@@ -16,6 +16,8 @@ import { TeclabCaseStudy } from './src/components/case-study/TeclabCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
+import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
+import { MaskTextReveal } from './src/components/MaskTextReveal';
 import type { AppView } from './src/types';
 
 export type { AppView };
@@ -1240,9 +1242,11 @@ const ServicesPillarsSection = () => {
           >
             {/* CABECERA: TÍTULO Y NÚMERO */}
             <div className="flex items-baseline justify-between gap-4 select-none">
-              <h2 className="text-[8.5vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[4.6vw] font-normal uppercase tracking-[-0.035em] text-black leading-none">
-                {item.title}
-              </h2>
+              <MaskTextReveal
+                as="h2"
+                className="text-[8.5vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[4.6vw] font-normal uppercase tracking-[-0.035em] text-black leading-none"
+                text={item.title}
+              />
               <span className="text-[8.5vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[4.6vw] font-normal tracking-[-0.03em] text-black leading-none">
                 {item.num}
               </span>
@@ -1252,17 +1256,26 @@ const ServicesPillarsSection = () => {
             <div className="mt-10 sm:mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
               {/* COLUMNA IZQUIERDA: TITULAR SECUNDARIO Y PÁRRAFOS */}
               <div className="md:col-span-8 flex flex-col justify-between h-full">
-                <h3 className="text-2xl sm:text-3xl md:text-[36px] lg:text-[42px] leading-[1.12] tracking-[-0.03em] font-normal text-black max-w-[24ch]">
-                  {item.subhead}
-                </h3>
+                <MaskTextReveal
+                  as="h3"
+                  delay={0.15}
+                  className="text-2xl sm:text-3xl md:text-[36px] lg:text-[42px] leading-[1.12] tracking-[-0.03em] font-normal text-black max-w-[24ch]"
+                  text={item.subhead}
+                />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 mt-10 sm:mt-14 md:mt-20 max-w-[62ch]">
-                  <p className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal">
-                    {item.text1}
-                  </p>
-                  <p className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal">
-                    {item.text2}
-                  </p>
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.25}
+                    className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal"
+                    text={item.text1}
+                  />
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.3}
+                    className="text-xs sm:text-[13px] leading-[1.5] text-black/75 font-normal"
+                    text={item.text2}
+                  />
                 </div>
               </div>
 
@@ -1298,10 +1311,11 @@ const SpacesWeWorkInSection = () => {
   return (
     <section className="w-full pt-16 sm:pt-24 md:pt-32 pb-24 md:pb-36 px-6 sm:px-10 md:px-16 lg:px-20 max-w-[1500px] mx-auto">
       {/* TÍTULO GRANDE DISPLAY */}
-      <h2 className="text-[13vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.035em] text-black leading-[0.88] select-none">
-        <div>SPACES WE</div>
-        <div className="mt-2 sm:mt-3">WORK IN</div>
-      </h2>
+      <MaskTextReveal
+        as="h2"
+        className="text-[13vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.035em] text-black leading-[0.88] select-none"
+        lines={['SPACES WE', 'WORK IN']}
+      />
 
       {/* CUADRÍCULA INFERIOR: RECUADRO CON TRUSTED BY VISIONARIES Y LISTADO */}
       <div className="mt-16 sm:mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
@@ -1942,18 +1956,14 @@ const EditorialStatementText: React.FC = () => {
   return (
     <div className="w-full relative select-none z-20">
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-10 md:pt-16 pb-10 md:pb-14">
-        <p 
+        <MaskTextReveal
+          as="p"
           className="text-[32px] sm:text-[46px] md:text-[67px] leading-[38px] sm:leading-[54px] md:leading-[74px] font-normal tracking-[-0.03em] text-black !text-black normal-case max-w-[1240px]"
           style={{
             fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
-            color: '#000000',
-            opacity: 1,
-            visibility: 'visible',
-            display: 'block'
           }}
-        >
-          As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar.
-        </p>
+          text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
+        />
       </div>
     </div>
   );
@@ -2607,14 +2617,14 @@ export const AllQuicklysSection: React.FC = () => {
     <section className="w-full bg-white relative block pb-6 sm:pb-8 md:pb-10 select-none">
       {/* TÍTULO GRANDE DISPLAY: ALL QUICKLYS */}
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-12 sm:pt-16 md:pt-24 pb-14 sm:pb-20 md:pb-24">
-        <h2 
+        <MaskTextReveal 
+          as="h2"
           className="text-[14vw] sm:text-[12vw] md:text-[10vw] lg:text-[112px] font-normal tracking-[-0.04em] uppercase text-black leading-none"
           style={{
             fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif'
           }}
-        >
-          ALL QUICKLYS
-        </h2>
+          text="ALL QUICKLYS"
+        />
       </div>
 
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 flex flex-col gap-24 sm:gap-32 md:gap-40">
@@ -3145,6 +3155,42 @@ export const App: React.FC = () => {
   const hubSectionRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const lastSectionRef = useRef<HTMLDivElement>(null);
+  const heroWrapperRef = useRef<HTMLDivElement>(null);
+  const approachFirstLineRef = useRef<HTMLSpanElement>(null);
+  const [hero1920Margin, setHero1920Margin] = useState<number | null>(null);
+
+  // Alineación exclusiva para resolución 1920: alinea el bloque ALWAYS + personaje + WATCHING
+  useEffect(() => {
+    const updateHeroAlignment = () => {
+      if (window.innerWidth >= 1750 && approachFirstLineRef.current && heroWrapperRef.current) {
+        const textLeft = approachFirstLineRef.current.getBoundingClientRect().left;
+        const containerRect = heroWrapperRef.current.getBoundingClientRect();
+        const paddingLeft = parseFloat(window.getComputedStyle(heroWrapperRef.current).paddingLeft) || 0;
+        const margin = textLeft - (containerRect.left + paddingLeft) - 75;
+        if (margin > 0) {
+          setHero1920Margin(Math.round(margin));
+        } else {
+          setHero1920Margin(0);
+        }
+      } else {
+        setHero1920Margin(null);
+      }
+    };
+
+    updateHeroAlignment();
+    window.addEventListener('resize', updateHeroAlignment);
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(updateHeroAlignment);
+    }
+    const timer1 = setTimeout(updateHeroAlignment, 150);
+    const timer2 = setTimeout(updateHeroAlignment, 600);
+
+    return () => {
+      window.removeEventListener('resize', updateHeroAlignment);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
@@ -3174,7 +3220,7 @@ export const App: React.FC = () => {
   }, []);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setInternalView] = useState<AppView>('home');
+  const [currentView, setInternalView] = useState<AppView>('case-study-teclab');
   const currentViewRef = useRef(currentView);
   useEffect(() => {
     currentViewRef.current = currentView;
@@ -3384,7 +3430,11 @@ export const App: React.FC = () => {
           currentHeight = heightMid + (heightEnd - heightMid) * ease;
         }
 
-        if (currentViewRef.current === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+        if (currentViewRef.current === 'home') {
+          const clipVal = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+          videoContainerRef.current.style.clipPath = clipVal;
+          (videoContainerRef.current.style as any).webkitClipPath = clipVal;
+        }
         
         if (infoBarRef.current && currentViewRef.current === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
@@ -3444,7 +3494,6 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
-          bgColor={viewMode === 'list' ? 'bg-transparent' : 'bg-white'} 
         />
 
         {viewMode === 'list' ? (
@@ -3453,7 +3502,7 @@ export const App: React.FC = () => {
         ) : (
           <>
             {/* TIRA DE MARQUEE: "WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
-            <div className="w-full overflow-hidden py-4 sm:py-6 select-none bg-white border-y border-transparent">
+            <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 select-none bg-white border-y border-transparent">
               <div 
                 className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
                 style={{ animationDuration: '32s' }}
@@ -3610,19 +3659,14 @@ export const App: React.FC = () => {
           className="w-full bg-white relative block pt-16 sm:pt-24 md:pt-32 pb-10 sm:pb-14 md:pb-20 select-none z-10"
         >
           <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 flex flex-col justify-center">
-            <p 
-              id="work-statement-text-bottom"
+            <MaskTextReveal
+              as="p"
               className="text-[32px] sm:text-[46px] md:text-[62px] lg:text-[67px] leading-[38px] sm:leading-[54px] md:leading-[70px] lg:leading-[76px] font-normal tracking-[-0.03em] text-black !text-black normal-case max-w-[21ch] sm:max-w-[23ch]"
               style={{
                 fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
-                color: '#000000',
-                opacity: 1,
-                visibility: 'visible',
-                display: 'block'
               }}
-            >
-              A collection of projects we've whipped up in record time. They may not have taken ages to conceive, but they radiate our commitment to quality and creativity.
-            </p>
+              text="A collection of projects we've whipped up in record time. They may not have taken ages to conceive, but they radiate our commitment to quality and creativity."
+            />
           </div>
         </section>
 
@@ -3691,10 +3735,10 @@ export const App: React.FC = () => {
       <div key="quicklys" className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white flex flex-col justify-between">
         <div className="w-full">
           {/* HEADER (NAVBAR) */}
-          <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+          <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
           {/* TIRA ANIMADA DE QUICKLYS (MARQUEE) */}
-          <div className="w-full overflow-hidden py-4 sm:py-6 md:py-8 select-none bg-white border-y border-transparent">
+          <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-8 select-none bg-white border-y border-transparent">
             <div 
               className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
               style={{ animationDuration: '32s' }}
@@ -3720,15 +3764,14 @@ export const App: React.FC = () => {
 
           {/* TEXTO DESCRIPTIVO EDITORIAL DE QUICKLYS */}
           <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-8 sm:pt-12 md:pt-16 pb-8 sm:pb-12 md:pb-16">
-            <p 
+            <MaskTextReveal
+              as="p"
               className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[66px] leading-[1.15] sm:leading-[1.12] md:leading-[1.1] font-normal tracking-[-0.03em] text-black !text-black normal-case"
               style={{
                 fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
-                color: '#000000',
               }}
-            >
-              A collection of projects we've whipped up in record time. They may not have taken ages to conceive, but they radiate our commitment to quality and creativity.
-            </p>
+              text="A collection of projects we've whipped up in record time. They may not have taken ages to conceive, but they radiate our commitment to quality and creativity."
+            />
           </div>
 
           {/* SECCIÓN DE ARTÍCULOS (CON CURSOR CIRCULAR "READ NOW" E IMÁGENES GENERADAS) */}
@@ -3756,10 +3799,10 @@ export const App: React.FC = () => {
     return (
       <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
         {/* HERO SERVICES BLOCK */}
-        <div className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden">
+        <div className="w-full pt-24 sm:pt-28 md:pt-32 pb-8 md:pb-12 relative overflow-hidden">
           {/* Marquee WHAT WE DO */}
           <div className="w-full overflow-hidden select-none">
             <div ref={servicesMarqueeRef} className="flex w-max whitespace-nowrap will-change-transform">
@@ -3774,9 +3817,11 @@ export const App: React.FC = () => {
           </div>
 
           <div className="w-full max-w-[1200px] px-6 sm:px-10 md:px-16 mt-20 md:mt-28">
-            <p className="text-[32px] sm:text-[42px] md:text-[54px] lg:text-[62px] leading-[1.05] tracking-[-0.035em] text-[#1a1a1a] font-normal">
-              Henri Barrett is more than just an agency; it's a movement, a mindset. We're here to change narratives, elevate brands, and make a lasting imprint in the world of design and creativity.
-            </p>
+            <MaskTextReveal
+              as="p"
+              className="text-[32px] sm:text-[42px] md:text-[54px] lg:text-[62px] leading-[1.05] tracking-[-0.035em] text-[#1a1a1a] font-normal"
+              text="Henri Barrett is more than just an agency; it's a movement, a mindset. We're here to change narratives, elevate brands, and make a lasting imprint in the world of design and creativity."
+            />
           </div>
 
           <div className="w-full max-w-[1500px] px-6 sm:px-10 md:px-16 mx-auto mt-20 md:mt-32 flex justify-between items-end">
@@ -3852,17 +3897,27 @@ export const App: React.FC = () => {
 
             {/* COLUMNA DERECHA: TITULAR, PÁRRAFOS Y ACCIONES */}
             <div className="md:col-span-8 flex flex-col lg:pl-10">
-              <h2 className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[67px] leading-[1.05] tracking-[-0.03em] text-black font-normal">
-                Beyond mere external <br className="hidden md:block"/> perceptions, it's a matter of <br className="hidden md:block"/> orchestrating an ecosystem.
-              </h2>
+              <MaskTextReveal
+                as="h2"
+                className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[67px] leading-[1.05] tracking-[-0.03em] text-black font-normal"
+                lines={[
+                  "Beyond mere external",
+                  "perceptions, it's a matter of",
+                  "orchestrating an ecosystem."
+                ]}
+              />
 
               <div className="flex flex-col gap-6 sm:gap-8 md:gap-10 mt-8 sm:mt-12 md:mt-16 text-lg sm:text-xl md:text-[26px] lg:text-[32px] leading-[1.3] text-black font-normal max-w-[38ch]">
-                <p>
-                  In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals.
-                </p>
-                <p>
-                  We a creative agency where strategy, design, and creativity converge. Over the years, we've honed our belief that a standout brand emerges when these three elements seamlessly intertwine.
-                </p>
+                <MaskTextReveal
+                  as="p"
+                  delay={0.16}
+                  text="In a world increasingly driven by technology, we anchor ourselves in genuine human connection. Here, it's not just about the job, it's about the bond we share as a team of dedicated professionals."
+                />
+                <MaskTextReveal
+                  as="p"
+                  delay={0.24}
+                  text="We a creative agency where strategy, design, and creativity converge. Over the years, we've honed our belief that a standout brand emerges when these three elements seamlessly intertwine."
+                />
               </div>
 
               <div className="flex items-center justify-between pt-16 sm:pt-24 mt-auto">
@@ -3935,7 +3990,6 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
-          bgColor="bg-white" 
         />
 
         {/* ABOUT US VIEW CONTENT */}
@@ -3952,10 +4006,10 @@ export const App: React.FC = () => {
     return (
       <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
 
         {/* HERO TITLE MARQUEE (MOVING LEFT TO RIGHT) */}
-        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-white">
+        <div className="w-full overflow-hidden pt-28 sm:pt-36 pb-10 sm:pb-16 select-none bg-white">
           <div 
             className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
             style={{ animationDuration: '32s' }}
@@ -4039,12 +4093,17 @@ export const App: React.FC = () => {
         <div id="press" className="w-full max-w-[1250px] mx-auto px-6 sm:px-10 md:px-16 py-20 md:py-32 flex flex-col md:flex-row items-center gap-16 md:gap-24">
           <div className="w-full md:w-1/2 aspect-[4/5] bg-[#E2E2E2] rounded-sm"></div>
           <div className="w-full md:w-1/2 flex flex-col items-start gap-8">
-            <h3 className="text-3xl md:text-5xl font-light font-[300] leading-[1.1] tracking-tight">
-              Are you a journalist<br />with a media or press<br />opportunity?
-            </h3>
-            <p className="text-gray-500 text-sm md:text-base font-light font-[300] leading-relaxed max-w-[400px]">
-              Giancarlo Morales love contributing to news, articles, and stories about entrepreneurship, business, branding, culture, leadership, and vision. They've been featured in NY Post, Inc., Fast Company, WSJ, and many more.
-            </p>
+            <MaskTextReveal
+              as="h3"
+              className="text-3xl md:text-5xl font-light font-[300] leading-[1.1] tracking-tight"
+              lines={['Are you a journalist', 'with a media or press', 'opportunity?']}
+            />
+            <MaskTextReveal
+              as="p"
+              delay={0.2}
+              className="text-gray-500 text-sm md:text-base font-light font-[300] leading-relaxed max-w-[400px]"
+              text="Giancarlo Morales love contributing to news, articles, and stories about entrepreneurship, business, branding, culture, leadership, and vision. They've been featured in NY Post, Inc., Fast Company, WSJ, and many more."
+            />
             <a href="mailto:press@henribarrett.com" className="text-sm md:text-base font-light font-[300] underline underline-offset-4 decoration-1 hover:opacity-60 transition-opacity">
               Send an Email
             </a>
@@ -4109,9 +4168,24 @@ export const App: React.FC = () => {
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
 
-      {/* VIDEO CLIP LAYER */}
-      <div ref={videoContainerRef} className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none" style={{ clipPath: 'inset(100vh 50% 0 50%)' }}>
-        <video className="w-full h-full object-cover" src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay muted loop playsInline />
+      {/* VIDEO CLIP LAYER (MÁSCARA ANIMADA QUE REVELA EL VIDEO) */}
+      <div 
+        ref={videoContainerRef} 
+        className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none overflow-hidden will-change-[clip-path]" 
+        style={{ 
+          clipPath: 'inset(100vh 50% 0 50%)',
+          WebkitClipPath: 'inset(100vh 50% 0 50%)',
+          transform: 'translateZ(0)'
+        }}
+      >
+        <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
+          <iframe
+            src="https://player.vimeo.com/video/1097936778?autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0"
+            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.78vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title="Reel Henri Barrett Work"
+          />
+        </div>
       </div>
 
       {/* INFO BAR */}
@@ -4128,33 +4202,36 @@ export const App: React.FC = () => {
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
             {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div className="absolute top-[18vh] w-screen px-10 md:px-20 flex justify-start text-black">
-                <div className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)]">
-                    <div className="flex items-center gap-10 relative">
+            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
+                <div 
+                  className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align"
+                  style={{
+                    marginLeft: hero1920Margin !== null ? `${hero1920Margin}px` : undefined,
+                  }}
+                >
+                    <div className="flex items-center gap-1 sm:gap-2 md:gap-3 relative">
                         <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase">ALWAYS</h1>
-                        <div className="w-[18vw] h-[18vw] translate-y-[-1vw] flex items-center justify-center opacity-90">
-                           <svg viewBox="0 0 200 200" className="w-full h-full stroke-current fill-none stroke-1">
-                              <path d="M40,150 Q100,20 160,150" />
-                              <circle cx="100" cy="80" r="40" />
-                              <circle cx="100" cy="80" r="15" />
-                              <path d="M60,80 Q100,60 140,80" />
-                              <path d="M80,120 L120,120" />
-                           </svg>
+                        <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto">
+                            <HomeCharacterLottie className="w-full h-full" />
                         </div>
                     </div>
-                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.82] -mt-[2.5vw]">WATCHING</h1>
+                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.78] -mt-[4vw] sm:-mt-[5vw] md:-mt-[5.5vw]">WATCHING</h1>
                 </div>
             </div>
 
             {/* 3 COLUMNS - PROPÓSITO */}
-            <div className="absolute top-[75vh] w-screen px-10 md:px-20 flex justify-center text-black">
+            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] w-screen px-10 md:px-20 flex justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
                         <ArrowDown className="w-20 h-20 stroke-[0.5]" />
                         <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-30">Our Purpose</span>
                     </div>
                     <p className="text-2xl md:text-[2vw] text-center max-w-[none] font-light leading-[1.1] tracking-tight flex-1 px-4">
-                        Our approach isn't just about producing eye-catching designs, it's about crafting <br className="hidden md:block" /> resonant brand messages that echo across audiences.
+                        <span ref={approachFirstLineRef} className="inline">
+                          Our approach isn't just about producing eye-catching designs, it's about crafting
+                        </span>{' '}
+                        <br className="hidden md:block" />
+                        <span>resonant brand messages that echo across audiences.</span>
                     </p>
                     <div className="flex justify-center md:justify-end min-w-[120px]">
                         <Sun className="w-20 h-20 animate-[spin_12s_linear_infinite] opacity-60" />
@@ -4179,16 +4256,25 @@ export const App: React.FC = () => {
             <div className="absolute top-[340vh] w-full px-6 md:px-12 pb-36 pointer-events-auto flex justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
                 <div className="w-full max-w-[1250px] flex flex-col md:flex-row gap-20 md:gap-4 pt-48">
                     <div className="w-full md:w-[30%]">
-                        <h3 className="text-xl font-normal leading-tight opacity-100 tracking-tight normal-case !capitalize">Think big with us.</h3>
+                        <MaskTextReveal
+                          as="h3"
+                          className="text-xl font-normal leading-tight opacity-100 tracking-tight normal-case !capitalize"
+                          text="Think big with us."
+                        />
                     </div>
                     <div className="w-full md:w-[70%] flex flex-col gap-10">
-                        <h2 className="text-[4.5vw] font-normal leading-[1.2] tracking-tight max-w-[22ch] !normal-case">
-                          As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar.
-                        </h2>
+                        <MaskTextReveal
+                          as="h2"
+                          className="text-[4.5vw] font-normal leading-[1.2] tracking-tight max-w-[22ch] !normal-case"
+                          text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
+                        />
                         <div className="max-w-3xl flex flex-col gap-12 mt-4">
-                            <p className="text-xl md:text-[1.3rem] text-gray-900 leading-[1.5] font-normal tracking-[0.06em]">
-                                At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges.
-                            </p>
+                            <MaskTextReveal
+                              as="p"
+                              delay={0.18}
+                              className="text-xl md:text-[1.3rem] text-gray-900 leading-[1.5] font-normal tracking-[0.06em]"
+                              text="At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges."
+                            />
                             
                             <div className="flex flex-col gap-4 mt-4">
                                 <span className="text-sm font-black uppercase tracking-[0.3em] opacity-100 mb-2 font-sans">(CHOOSE YOUR PURPOSE)</span>
@@ -4234,38 +4320,42 @@ export const App: React.FC = () => {
                         <LogosGroup />
                     </div>
 
-                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS) */}
-                    <ClientCaseStudiesSection
-                      onProjectClick={(id) => {
-                        if (id === 'umana') {
-                          setCurrentView('case-study-umana');
-                        } else if (id === 'rappi') {
-                          setCurrentView('case-study-rappi');
-                        } else if (id === 'barrett-session' || id === 'barrett') {
-                          setCurrentView('case-study-barrett-sessions');
-                        } else if (id === 'petco') {
-                          setCurrentView('case-study-petco');
-                        } else if (id === 'yummy') {
-                          setCurrentView('case-study-yummy');
-                        } else if (id === 'heineken' || id === 'heineken-fest') {
-                          setCurrentView('case-study-heineken-fest');
-                        } else if (id === 'teclab') {
-                          setCurrentView('case-study-teclab');
-                        }
-                      }}
-                      onImageHover={(e, isHovering) => {
-                        if (isHovering) {
-                          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-                          if (cursorArrowRef.current) {
-                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                          }
-                          setCursorType('upRight');
-                          setIsHoveringWork(true);
-                        } else {
-                          setIsHoveringWork(false);
-                        }
-                      }}
-                    />
+                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS - EXPANDIDO HASTA 1880px PARA THUMBNAILS DE 905px) */}
+                    <div className="w-screen relative left-1/2 -translate-x-1/2 flex justify-center px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12">
+                      <div className="w-full max-w-[1880px]">
+                        <ClientCaseStudiesSection
+                          onProjectClick={(id) => {
+                            if (id === 'umana') {
+                              setCurrentView('case-study-umana');
+                            } else if (id === 'rappi') {
+                              setCurrentView('case-study-rappi');
+                            } else if (id === 'barrett-session' || id === 'barrett') {
+                              setCurrentView('case-study-barrett-sessions');
+                            } else if (id === 'petco') {
+                              setCurrentView('case-study-petco');
+                            } else if (id === 'yummy') {
+                              setCurrentView('case-study-yummy');
+                            } else if (id === 'heineken' || id === 'heineken-fest') {
+                              setCurrentView('case-study-heineken-fest');
+                            } else if (id === 'teclab') {
+                              setCurrentView('case-study-teclab');
+                            }
+                          }}
+                          onImageHover={(e, isHovering) => {
+                            if (isHovering) {
+                              lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                              if (cursorArrowRef.current) {
+                                cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                              }
+                              setCursorType('upRight');
+                              setIsHoveringWork(true);
+                            } else {
+                              setIsHoveringWork(false);
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
 
                     {/* PRAISE FROM CLIENTS */}
                     <PraiseFromClientsSection />
@@ -4277,10 +4367,17 @@ export const App: React.FC = () => {
                     <div ref={hubSectionRef} className="w-full py-48 px-6 bg-white mt-20">
                         <div className="w-full max-w-[1250px] mx-auto flex flex-col md:flex-row gap-24 items-start">
                             <div className="w-full md:w-1/2 flex flex-col gap-12">
-                                <h2 className="text-5xl md:text-8xl font-light font-[300] leading-[0.85] uppercase tracking-tighter">Henri Barrett is a movement.</h2>
-                                <p className="text-2xl text-gray-500 font-light max-w-lg leading-relaxed">
-                                    We're here to change narratives, elevate brands, and make a lasting imprint in the world of design.
-                                </p>
+                                <MaskTextReveal
+                                  as="h2"
+                                  className="text-5xl md:text-8xl font-light font-[300] leading-[0.85] uppercase tracking-tighter"
+                                  text="Henri Barrett is a movement."
+                                />
+                                <MaskTextReveal
+                                  as="p"
+                                  delay={0.2}
+                                  className="text-2xl text-gray-500 font-light max-w-lg leading-relaxed"
+                                  text="We're here to change narratives, elevate brands, and make a lasting imprint in the world of design."
+                                />
                                 <a href="#" className="text-xl font-black border-b-4 border-black pb-2 self-start uppercase tracking-widest mt-4">Explore the Hub®</a>
                             </div>
                             <div className="w-full md:w-1/2 relative">

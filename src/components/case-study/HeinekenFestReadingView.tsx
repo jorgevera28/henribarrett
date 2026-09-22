@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppView } from '../../types';
+import { MaskTextReveal } from '../MaskTextReveal';
 
 interface HeinekenFestReadingViewProps {
   theme?: "dark" | "light";
@@ -180,21 +181,27 @@ export const HeinekenFestReadingView: React.FC<HeinekenFestReadingViewProps> = (
                   <p>Overview</p>
                 </div>
                 
-                <h1 className={`text-[1.85rem] sm:text-[2.25rem] lg:text-[2.75rem] font-[400] md:font-[350] tracking-[-0.03em] leading-[1.12] ${
-                  isDark ? 'text-white' : 'text-black'
-                } max-w-[820px]`}>
-                  Heineken, a primary sponsor of the UEFA Champions League, sought our assistance for their monumental event in Peru, the Heineken Fest.
-                </h1>
+                <MaskTextReveal
+                  as="h1"
+                  className={`text-[1.85rem] sm:text-[2.25rem] lg:text-[2.75rem] font-[400] md:font-[350] tracking-[-0.03em] leading-[1.12] ${
+                    isDark ? 'text-white' : 'text-black'
+                  } max-w-[820px]`}
+                  text="Heineken, a primary sponsor of the UEFA Champions League, sought our assistance for their monumental event in Peru, the Heineken Fest."
+                />
                 
                 <div className={`flex flex-col gap-6 text-[0.98rem] sm:text-[1.05rem] md:text-[1.08rem] ${
                   isDark ? 'text-gray-300' : 'text-[#222222]'
                 } font-light leading-[1.65] max-w-[780px] mt-8 sm:mt-10`}>
-                  <p>
-                    This gathering revolved around the Champions League final, and it was packed with exhilaration, memorable moments, and Heineken's unique touch.
-                  </p>
-                  <p>
-                    Despite the hurdles from conception to execution, our team efficiently handled market research, comprehensive planning (from logistics to marketing), and presented engaging activities, such as games, contests, music performances, and food options. We also secured partnerships and sponsorships with local businesses, which helped increase exposure, drive attendance, and generate additional revenue.
-                  </p>
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.16}
+                    text="This gathering revolved around the Champions League final, and it was packed with exhilaration, memorable moments, and Heineken's unique touch."
+                  />
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.24}
+                    text="Despite the hurdles from conception to execution, our team efficiently handled market research, comprehensive planning (from logistics to marketing), and presented engaging activities, such as games, contests, music performances, and food options. We also secured partnerships and sponsorships with local businesses, which helped increase exposure, drive attendance, and generate additional revenue."
+                  />
                 </div>
               </div>
 

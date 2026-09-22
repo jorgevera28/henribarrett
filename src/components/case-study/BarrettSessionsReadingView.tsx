@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppView } from '../../types';
+import { MaskTextReveal } from '../MaskTextReveal';
 
 interface BarrettSessionsReadingViewProps {
   theme?: "dark" | "light";
@@ -54,23 +55,31 @@ export const BarrettSessionsReadingView: React.FC<BarrettSessionsReadingViewProp
               <p>Overview</p>
             </div>
 
-            <h1 className={`mt-10 sm:mt-16 text-[1.75rem] sm:text-[2rem] md:text-[2.25rem] lg:text-[2.5rem] font-[400] tracking-[-0.035em] leading-[1.15] ${
-              isDark ? 'text-white' : 'text-black'
-            }`}>
-              More than just showcasing artists, Barrett Sessions is a testament to our love for culture and music, creating a space where you can unwind and immerse yourself in great tunes.
-            </h1>
+            <MaskTextReveal
+              as="h1"
+              className={`mt-10 sm:mt-16 text-[1.75rem] sm:text-[2rem] md:text-[2.25rem] lg:text-[2.5rem] font-[400] tracking-[-0.035em] leading-[1.15] ${
+                isDark ? 'text-white' : 'text-black'
+              }`}
+              text="More than just showcasing artists, Barrett Sessions is a testament to our love for culture and music, creating a space where you can unwind and immerse yourself in great tunes."
+            />
 
-            <p className={`mt-8 sm:mt-10 text-[0.95rem] sm:text-[1.0625rem] leading-[1.65] font-light ${
-              isDark ? 'text-neutral-300' : 'text-[#1a1a1a]'
-            }`}>
-              Our graphics and concept are inspired by fluidity, mirroring the movement and rhythm of music itself. Through dynamic shapes and flowing designs, we capture the essence of musical fluidity and the vibrant energy it evokes. Designed primarily for digital formats, we've also adapted our visuals for print to amplify their impact.
-            </p>
+            <MaskTextReveal
+              as="p"
+              delay={0.16}
+              className={`mt-8 sm:mt-10 text-[0.95rem] sm:text-[1.0625rem] leading-[1.65] font-light ${
+                isDark ? 'text-neutral-300' : 'text-[#1a1a1a]'
+              }`}
+              text="Our graphics and concept are inspired by fluidity, mirroring the movement and rhythm of music itself. Through dynamic shapes and flowing designs, we capture the essence of musical fluidity and the vibrant energy it evokes. Designed primarily for digital formats, we've also adapted our visuals for print to amplify their impact."
+            />
 
-            <p className={`mt-6 sm:mt-8 text-[0.95rem] sm:text-[1.0625rem] leading-[1.65] font-light ${
-              isDark ? 'text-neutral-300' : 'text-[#1a1a1a]'
-            }`}>
-              Our color palette sets the mood for each live session, with soothing blues for relaxed vibes, energetic reds for lively performances, and a touch of experimental yellow to push boundaries. As we continue to build and develop the platform, we invite you to join us on this musical journey.
-            </p>
+            <MaskTextReveal
+              as="p"
+              delay={0.24}
+              className={`mt-6 sm:mt-8 text-[0.95rem] sm:text-[1.0625rem] leading-[1.65] font-light ${
+                isDark ? 'text-neutral-300' : 'text-[#1a1a1a]'
+              }`}
+              text="Our color palette sets the mood for each live session, with soothing blues for relaxed vibes, energetic reds for lively performances, and a touch of experimental yellow to push boundaries. As we continue to build and develop the platform, we invite you to join us on this musical journey."
+            />
 
             {/* TABLA (DETAILS) */}
             <div className="mt-12 sm:mt-16 w-full max-w-[400px]">

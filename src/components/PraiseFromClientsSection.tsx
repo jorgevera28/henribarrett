@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { MaskTextReveal } from './MaskTextReveal';
 
 export interface TestimonialItem {
   id: number;
@@ -210,15 +211,19 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
       {/* CABECERA: PRAISE 4—18 / FROM CLIENTS + BOTÓN FLECHA */}
       <div className="w-full pt-16 pb-20 border-t border-gray-200 flex flex-col gap-4">
         <div className="flex justify-between items-start">
-          <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95] text-black">
-            Praise
-          </h2>
+          <MaskTextReveal
+            as="h2"
+            className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95] text-black"
+            text="Praise"
+          />
           <span className="text-2xl font-light font-[300] mt-4 opacity-20 text-black">4—18</span>
         </div>
         <div className="flex justify-between items-end">
-          <h2 className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95] text-black">
-            From Clients
-          </h2>
+          <MaskTextReveal
+            as="h2"
+            className="text-[11vw] font-light font-[300] tracking-tighter uppercase leading-[0.95] text-black"
+            text="From Clients"
+          />
           <button
             type="button"
             onClick={scrollTestimonials}

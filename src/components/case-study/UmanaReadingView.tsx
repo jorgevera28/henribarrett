@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { MaskTextReveal } from '../MaskTextReveal';
 
 export const UmanaReadingView = ({ theme = "dark" }: { theme?: "dark" | "light" }) => {
   const images = [
@@ -44,17 +45,23 @@ export const UmanaReadingView = ({ theme = "dark" }: { theme?: "dark" | "light" 
                 Overview
               </div>
               
-              <h2 className={`text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-[400] tracking-tight leading-[1.15] ${theme === "dark" ? "text-[#F3F4F6]" : "text-[#111]"}`}>
-                Umana's is focused on creating a warm, and people-centered brand that reflects their unique philosophy and approach to architecture and design.
-              </h2>
+              <MaskTextReveal
+                as="h2"
+                className={`text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-[400] tracking-tight leading-[1.15] ${theme === "dark" ? "text-[#F3F4F6]" : "text-[#111]"}`}
+                text="Umana's is focused on creating a warm, and people-centered brand that reflects their unique philosophy and approach to architecture and design."
+              />
               
               <div className={`flex flex-col gap-6 text-[0.95rem] sm:text-[1.05rem] ${theme === "dark" ? "text-[#D1D5DB]" : "text-[#444]"} font-light leading-[1.6]`}>
-                <p>
-                  The challenge lay in effectively translating their philosophy, and design approach into a visually cohesive and engaging brand identity that resonated with their target audience while maintaining a focus on people and their interactions within spaces.
-                </p>
-                <p>
-                  Our concept for Umana is based on the way that heat cameras capture the movement and behavior of people in spaces, which has allowed us to show their design approach that prioritize functionality and human interaction.
-                </p>
+                <MaskTextReveal
+                  as="p"
+                  delay={0.16}
+                  text="The challenge lay in effectively translating their philosophy, and design approach into a visually cohesive and engaging brand identity that resonated with their target audience while maintaining a focus on people and their interactions within spaces."
+                />
+                <MaskTextReveal
+                  as="p"
+                  delay={0.24}
+                  text="Our concept for Umana is based on the way that heat cameras capture the movement and behavior of people in spaces, which has allowed us to show their design approach that prioritize functionality and human interaction."
+                />
               </div>
             </div>
 

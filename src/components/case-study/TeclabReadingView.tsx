@@ -21,7 +21,8 @@ export interface TeclabReadingViewProps {
 }
 
 export const TeclabReadingView: React.FC<TeclabReadingViewProps> = ({
-  theme = "dark"
+  theme = "dark",
+  onNavigate
 }) => {
   const isDark = theme === "dark";
 

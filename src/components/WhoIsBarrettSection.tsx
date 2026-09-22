@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { MaskTextReveal } from './MaskTextReveal';
 
 // Icono Starburst / Sunburst que aparece en la imagen entre UNEXPECTED y HENRI BARRETT
 const StarburstIcon = () => (
@@ -113,9 +114,11 @@ export const WhoIsBarrettSection: React.FC = () => {
       {/* 2. CONTENIDO PRINCIPAL: TITULAR + FOTOS + TEXTO Y CTA */}
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
         {/* TITULAR: WHO IS BARRETT? */}
-        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7vw] font-light font-[300] tracking-[-0.03em] uppercase leading-none text-black mb-12 sm:mb-16 md:mb-20">
-          WHO IS BARRETT?
-        </h2>
+        <MaskTextReveal
+          as="h2"
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-[7vw] font-light font-[300] tracking-[-0.03em] uppercase leading-none text-black mb-12 sm:mb-16 md:mb-20"
+          text="WHO IS BARRETT?"
+        />
 
         {/* CONTENEDOR DE DOS FOTOS / BLOQUES GRISES CON DESCRIPCIONES */}
         <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 md:gap-5 items-start">
@@ -162,9 +165,12 @@ export const WhoIsBarrettSection: React.FC = () => {
 
             {/* TEXTO DE MANIFIESTO EDITORIAL */}
             <div className="mt-14 sm:mt-16 md:mt-20 max-w-2xl">
-              <p className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6vw] font-normal leading-[1.18] tracking-[-0.02em] text-black">
-                At Henri Barrett® We make your life easier and your brands louder through creativity, design and experimentation.
-              </p>
+              <MaskTextReveal
+                as="p"
+                delay={0.18}
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6vw] font-normal leading-[1.18] tracking-[-0.02em] text-black"
+                text="At Henri Barrett® We make your life easier and your brands louder through creativity, design and experimentation."
+              />
 
               {/* CALL TO ACTION CON SUBRAYADO */}
               <div className="mt-8 sm:mt-10">

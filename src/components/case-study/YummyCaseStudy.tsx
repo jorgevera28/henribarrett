@@ -31,7 +31,6 @@ export const YummyCaseStudy: React.FC<YummyCaseStudyProps> = ({ onNavigate }) =>
         currentView="case-study-yummy" 
         setCurrentView={onNavigate} 
         isHome={true} 
-        textColor="text-white"
       />
 
       {/* SECCIÓN 1: CARÁTULA PRINCIPAL DE YUMMY (IMAGEN A PANTALLA COMPLETA, MARQUEE, TEXTOS Y BOTONES) */}

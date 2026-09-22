@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { MaskTextReveal } from './MaskTextReveal';
 
 // --- LOGOS VECTORIALES DE ALTA FIDELIDAD ---
 
@@ -311,9 +312,11 @@ export const FeaturedClientsSection: React.FC = () => {
       <div className="w-full max-w-[1500px] mx-auto">
         {/* HEADER: FEATURED CLIENTS + TOP ARROWS */}
         <div className="w-full mb-14 sm:mb-20 md:mb-24 flex justify-between items-center">
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5vw] font-light font-[300] uppercase tracking-[-0.03em] leading-none text-black">
-            FEATURED CLIENTS
-          </h2>
+          <MaskTextReveal
+            as="h2"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-[5vw] font-light font-[300] uppercase tracking-[-0.03em] leading-none text-black"
+            text="FEATURED CLIENTS"
+          />
 
           {/* FLECHAS DE NAVEGACIÓN SUPERIORES (ROTAN DE 1 EN 1) */}
           <div className="flex items-center gap-4 sm:gap-6 text-black z-20">

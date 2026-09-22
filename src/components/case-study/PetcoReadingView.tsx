@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppView } from '../../types';
+import { MaskTextReveal } from '../MaskTextReveal';
 
 interface PetcoReadingViewProps {
   theme?: "dark" | "light";
@@ -289,21 +290,27 @@ export const PetcoReadingView: React.FC<PetcoReadingViewProps> = ({
                   <p>Overview</p>
                 </div>
                 
-                <h1 className={`text-[1.9rem] sm:text-[2.35rem] lg:text-[2.75rem] font-[400] md:font-[350] tracking-[-0.03em] leading-[1.12] ${
-                  isDark ? 'text-white' : 'text-black'
-                } max-w-[850px]`}>
-                  Natural nutrition for your pets' Well-being
-                </h1>
+                <MaskTextReveal
+                  as="h1"
+                  className={`text-[1.9rem] sm:text-[2.35rem] lg:text-[2.75rem] font-[400] md:font-[350] tracking-[-0.03em] leading-[1.12] ${
+                    isDark ? 'text-white' : 'text-black'
+                  } max-w-[850px]`}
+                  text="Natural nutrition for your pets' Well-being"
+                />
                 
                 <div className={`flex flex-col gap-6 text-[0.98rem] sm:text-[1.05rem] md:text-[1.08rem] ${
                   isDark ? 'text-gray-300' : 'text-[#222222]'
                 } font-light leading-[1.65] max-w-[780px] mt-8 sm:mt-10`}>
-                  <p>
-                    Petco is committed to offering products made with locally sourced, natural ingredients with proven functional benefits, making it the ideal choice for pet owners seeking a healthy, natural alternative to enhance their pets' diet. By providing essential information about each ingredient's role, Petco empowers owners to make informed decisions that improve their pets' diet and overall well-being.
-                  </p>
-                  <p>
-                    The brand's graphic concept is inspired by the internal transformation pets experience through proper nutrition—a process of nutrient absorption and cellular renewal. Petco reflects this scientifically supported process with a playful approach, emphasizing the benefits of its products. Their taglines reinforce this message by celebrating the positive moments that better nutrition brings, like stronger bonds, livelier walks, and joyful companionship.
-                  </p>
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.16}
+                    text="Petco is committed to offering products made with locally sourced, natural ingredients with proven functional benefits, making it the ideal choice for pet owners seeking a healthy, natural alternative to enhance their pets' diet. By providing essential information about each ingredient's role, Petco empowers owners to make informed decisions that improve their pets' diet and overall well-being."
+                  />
+                  <MaskTextReveal
+                    as="p"
+                    delay={0.24}
+                    text="The brand's graphic concept is inspired by the internal transformation pets experience through proper nutrition—a process of nutrient absorption and cellular renewal. Petco reflects this scientifically supported process with a playful approach, emphasizing the benefits of its products. Their taglines reinforce this message by celebrating the positive moments that better nutrition brings, like stronger bonds, livelier walks, and joyful companionship."
+                  />
                 </div>
               </div>
 
