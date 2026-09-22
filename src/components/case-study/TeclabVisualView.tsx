@@ -21,8 +21,7 @@ export interface TeclabVisualViewProps {
 }
 
 export const TeclabVisualView: React.FC<TeclabVisualViewProps> = ({
-  theme = "dark",
-  onNavigate
+  theme = "dark"
 }) => {
   const isDark = theme === "dark";
 

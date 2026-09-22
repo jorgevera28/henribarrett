@@ -31,6 +31,7 @@ export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ on
         currentView="case-study-heineken-fest" 
         setCurrentView={onNavigate} 
         isHome={true} 
+        textColor="text-white"
       />
 
       {/* SECCIÓN 1: ENCABEZADO PRINCIPAL DE HEINEKEN FEST (IMAGEN A PANTALLA COMPLETA, MARQUEE, TEXTOS Y BOTONES) */}

@@ -16,7 +16,6 @@ import { TeclabCaseStudy } from './src/components/case-study/TeclabCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
-import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import type { AppView } from './src/types';
 
 export type { AppView };
@@ -3146,42 +3145,6 @@ export const App: React.FC = () => {
   const hubSectionRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const lastSectionRef = useRef<HTMLDivElement>(null);
-  const heroWrapperRef = useRef<HTMLDivElement>(null);
-  const approachFirstLineRef = useRef<HTMLSpanElement>(null);
-  const [hero1920Margin, setHero1920Margin] = useState<number | null>(null);
-
-  // Alineación exclusiva para resolución 1920: alinea el bloque ALWAYS + personaje + WATCHING
-  useEffect(() => {
-    const updateHeroAlignment = () => {
-      if (window.innerWidth >= 1750 && approachFirstLineRef.current && heroWrapperRef.current) {
-        const textLeft = approachFirstLineRef.current.getBoundingClientRect().left;
-        const containerRect = heroWrapperRef.current.getBoundingClientRect();
-        const paddingLeft = parseFloat(window.getComputedStyle(heroWrapperRef.current).paddingLeft) || 0;
-        const margin = textLeft - (containerRect.left + paddingLeft) - 75;
-        if (margin > 0) {
-          setHero1920Margin(Math.round(margin));
-        } else {
-          setHero1920Margin(0);
-        }
-      } else {
-        setHero1920Margin(null);
-      }
-    };
-
-    updateHeroAlignment();
-    window.addEventListener('resize', updateHeroAlignment);
-    if (typeof document !== 'undefined' && document.fonts) {
-      document.fonts.ready.then(updateHeroAlignment);
-    }
-    const timer1 = setTimeout(updateHeroAlignment, 150);
-    const timer2 = setTimeout(updateHeroAlignment, 600);
-
-    return () => {
-      window.removeEventListener('resize', updateHeroAlignment);
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, []);
 
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
@@ -3211,7 +3174,7 @@ export const App: React.FC = () => {
   }, []);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setInternalView] = useState<AppView>('case-study-teclab');
+  const [currentView, setInternalView] = useState<AppView>('home');
   const currentViewRef = useRef(currentView);
   useEffect(() => {
     currentViewRef.current = currentView;
@@ -3421,11 +3384,7 @@ export const App: React.FC = () => {
           currentHeight = heightMid + (heightEnd - heightMid) * ease;
         }
 
-        if (currentViewRef.current === 'home') {
-          const clipVal = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
-          videoContainerRef.current.style.clipPath = clipVal;
-          (videoContainerRef.current.style as any).webkitClipPath = clipVal;
-        }
+        if (currentViewRef.current === 'home') videoContainerRef.current.style.clipPath = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
         
         if (infoBarRef.current && currentViewRef.current === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
@@ -3485,6 +3444,7 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
+          bgColor={viewMode === 'list' ? 'bg-transparent' : 'bg-white'} 
         />
 
         {viewMode === 'list' ? (
@@ -3493,7 +3453,7 @@ export const App: React.FC = () => {
         ) : (
           <>
             {/* TIRA DE MARQUEE: "WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
-            <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 select-none bg-white border-y border-transparent">
+            <div className="w-full overflow-hidden py-4 sm:py-6 select-none bg-white border-y border-transparent">
               <div 
                 className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
                 style={{ animationDuration: '32s' }}
@@ -3731,10 +3691,10 @@ export const App: React.FC = () => {
       <div key="quicklys" className="w-full min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white flex flex-col justify-between">
         <div className="w-full">
           {/* HEADER (NAVBAR) */}
-          <MainNav currentView={currentView} setCurrentView={setCurrentView} />
+          <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
           {/* TIRA ANIMADA DE QUICKLYS (MARQUEE) */}
-          <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-8 select-none bg-white border-y border-transparent">
+          <div className="w-full overflow-hidden py-4 sm:py-6 md:py-8 select-none bg-white border-y border-transparent">
             <div 
               className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
               style={{ animationDuration: '32s' }}
@@ -3796,10 +3756,10 @@ export const App: React.FC = () => {
     return (
       <div key="services" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
         {/* HERO SERVICES BLOCK */}
-        <div className="w-full pt-24 sm:pt-28 md:pt-32 pb-8 md:pb-12 relative overflow-hidden">
+        <div className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden">
           {/* Marquee WHAT WE DO */}
           <div className="w-full overflow-hidden select-none">
             <div ref={servicesMarqueeRef} className="flex w-max whitespace-nowrap will-change-transform">
@@ -3975,6 +3935,7 @@ export const App: React.FC = () => {
         <MainNav 
           currentView={currentView} 
           setCurrentView={setCurrentView} 
+          bgColor="bg-white" 
         />
 
         {/* ABOUT US VIEW CONTENT */}
@@ -3991,10 +3952,10 @@ export const App: React.FC = () => {
     return (
       <div key="work-with-us" className="w-full min-h-screen flex flex-col justify-between bg-white text-black font-sans selection:bg-black selection:text-white">
         {/* HEADER (NAVBAR) */}
-        <MainNav currentView={currentView} setCurrentView={setCurrentView} />
+        <MainNav currentView={currentView} setCurrentView={setCurrentView} bgColor="bg-white" />
 
         {/* HERO TITLE MARQUEE (MOVING LEFT TO RIGHT) */}
-        <div className="w-full overflow-hidden pt-28 sm:pt-36 pb-10 sm:pb-16 select-none bg-white">
+        <div className="w-full overflow-hidden py-10 sm:py-16 select-none bg-white">
           <div 
             className="flex w-max whitespace-nowrap animate-marquee-right will-change-transform"
             style={{ animationDuration: '32s' }}
@@ -4148,24 +4109,9 @@ export const App: React.FC = () => {
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
 
-      {/* VIDEO CLIP LAYER (MÁSCARA ANIMADA QUE REVELA EL VIDEO) */}
-      <div 
-        ref={videoContainerRef} 
-        className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none overflow-hidden will-change-[clip-path]" 
-        style={{ 
-          clipPath: 'inset(100vh 50% 0 50%)',
-          WebkitClipPath: 'inset(100vh 50% 0 50%)',
-          transform: 'translateZ(0)'
-        }}
-      >
-        <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
-          <iframe
-            src="https://player.vimeo.com/video/1097936778?autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0"
-            className="w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.78vh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            title="Reel Henri Barrett Work"
-          />
-        </div>
+      {/* VIDEO CLIP LAYER */}
+      <div ref={videoContainerRef} className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none" style={{ clipPath: 'inset(100vh 50% 0 50%)' }}>
+        <video className="w-full h-full object-cover" src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" autoPlay muted loop playsInline />
       </div>
 
       {/* INFO BAR */}
@@ -4182,36 +4128,33 @@ export const App: React.FC = () => {
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
             {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
-                <div 
-                  className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align"
-                  style={{
-                    marginLeft: hero1920Margin !== null ? `${hero1920Margin}px` : undefined,
-                  }}
-                >
-                    <div className="flex items-center gap-1 sm:gap-2 md:gap-3 relative">
+            <div className="absolute top-[18vh] w-screen px-10 md:px-20 flex justify-start text-black">
+                <div className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)]">
+                    <div className="flex items-center gap-10 relative">
                         <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase">ALWAYS</h1>
-                        <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto">
-                            <HomeCharacterLottie className="w-full h-full" />
+                        <div className="w-[18vw] h-[18vw] translate-y-[-1vw] flex items-center justify-center opacity-90">
+                           <svg viewBox="0 0 200 200" className="w-full h-full stroke-current fill-none stroke-1">
+                              <path d="M40,150 Q100,20 160,150" />
+                              <circle cx="100" cy="80" r="40" />
+                              <circle cx="100" cy="80" r="15" />
+                              <path d="M60,80 Q100,60 140,80" />
+                              <path d="M80,120 L120,120" />
+                           </svg>
                         </div>
                     </div>
-                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.78] -mt-[4vw] sm:-mt-[5vw] md:-mt-[5.5vw]">WATCHING</h1>
+                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.82] -mt-[2.5vw]">WATCHING</h1>
                 </div>
             </div>
 
             {/* 3 COLUMNS - PROPÓSITO */}
-            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] w-screen px-10 md:px-20 flex justify-center text-black">
+            <div className="absolute top-[75vh] w-screen px-10 md:px-20 flex justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
                         <ArrowDown className="w-20 h-20 stroke-[0.5]" />
                         <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-30">Our Purpose</span>
                     </div>
                     <p className="text-2xl md:text-[2vw] text-center max-w-[none] font-light leading-[1.1] tracking-tight flex-1 px-4">
-                        <span ref={approachFirstLineRef} className="inline">
-                          Our approach isn't just about producing eye-catching designs, it's about crafting
-                        </span>{' '}
-                        <br className="hidden md:block" />
-                        <span>resonant brand messages that echo across audiences.</span>
+                        Our approach isn't just about producing eye-catching designs, it's about crafting <br className="hidden md:block" /> resonant brand messages that echo across audiences.
                     </p>
                     <div className="flex justify-center md:justify-end min-w-[120px]">
                         <Sun className="w-20 h-20 animate-[spin_12s_linear_infinite] opacity-60" />
@@ -4291,42 +4234,38 @@ export const App: React.FC = () => {
                         <LogosGroup />
                     </div>
 
-                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS - EXPANDIDO HASTA 1880px PARA THUMBNAILS DE 905px) */}
-                    <div className="w-screen relative left-1/2 -translate-x-1/2 flex justify-center px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12">
-                      <div className="w-full max-w-[1880px]">
-                        <ClientCaseStudiesSection
-                          onProjectClick={(id) => {
-                            if (id === 'umana') {
-                              setCurrentView('case-study-umana');
-                            } else if (id === 'rappi') {
-                              setCurrentView('case-study-rappi');
-                            } else if (id === 'barrett-session' || id === 'barrett') {
-                              setCurrentView('case-study-barrett-sessions');
-                            } else if (id === 'petco') {
-                              setCurrentView('case-study-petco');
-                            } else if (id === 'yummy') {
-                              setCurrentView('case-study-yummy');
-                            } else if (id === 'heineken' || id === 'heineken-fest') {
-                              setCurrentView('case-study-heineken-fest');
-                            } else if (id === 'teclab') {
-                              setCurrentView('case-study-teclab');
-                            }
-                          }}
-                          onImageHover={(e, isHovering) => {
-                            if (isHovering) {
-                              lastMousePosRef.current = { x: e.clientX, y: e.clientY };
-                              if (cursorArrowRef.current) {
-                                cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                              }
-                              setCursorType('upRight');
-                              setIsHoveringWork(true);
-                            } else {
-                              setIsHoveringWork(false);
-                            }
-                          }}
-                        />
-                      </div>
-                    </div>
+                    {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS) */}
+                    <ClientCaseStudiesSection
+                      onProjectClick={(id) => {
+                        if (id === 'umana') {
+                          setCurrentView('case-study-umana');
+                        } else if (id === 'rappi') {
+                          setCurrentView('case-study-rappi');
+                        } else if (id === 'barrett-session' || id === 'barrett') {
+                          setCurrentView('case-study-barrett-sessions');
+                        } else if (id === 'petco') {
+                          setCurrentView('case-study-petco');
+                        } else if (id === 'yummy') {
+                          setCurrentView('case-study-yummy');
+                        } else if (id === 'heineken' || id === 'heineken-fest') {
+                          setCurrentView('case-study-heineken-fest');
+                        } else if (id === 'teclab') {
+                          setCurrentView('case-study-teclab');
+                        }
+                      }}
+                      onImageHover={(e, isHovering) => {
+                        if (isHovering) {
+                          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                          if (cursorArrowRef.current) {
+                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                          }
+                          setCursorType('upRight');
+                          setIsHoveringWork(true);
+                        } else {
+                          setIsHoveringWork(false);
+                        }
+                      }}
+                    />
 
                     {/* PRAISE FROM CLIENTS */}
                     <PraiseFromClientsSection />

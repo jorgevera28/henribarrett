@@ -12,7 +12,7 @@ export interface TeclabCaseStudyProps {
 }
 
 export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'visual' | 'reading'>('visual');
+  const [activeViewMode, setActiveViewMode] = useState<'visual' | 'reading'>('reading');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) 
         currentView="case-study-teclab" 
         setCurrentView={onNavigate} 
         isHome={true} 
+        textColor="text-white"
       />
 
       {/* SECCIÓN 1: ENCABEZADO PRINCIPAL DE TECLAB (IMAGEN A PANTALLA COMPLETA, MARQUEE, TEXTOS Y BOTONES SEGÚN SG_Teclab.png) */}
@@ -98,7 +99,7 @@ export const TeclabCaseStudy: React.FC<TeclabCaseStudyProps> = ({ onNavigate }) 
         onNavigate={onNavigate}
         currentProjectImage="/images/teclab_hero.jpg"
         currentProjectImageAlt="Teclab Construction Innovation"
-        marqueeWords={["HEINEKEN", "FEST"]}
+        marqueeWords={["HEINEKEN", "PETCO", "RAPPI"]}
         nextProjectTitle="Heineken Fest"
         nextProjectHeroImage="/images/heineken_fest_hero.jpg"
         onNextProjectClick={() => {
