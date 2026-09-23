@@ -64,19 +64,19 @@ export const CaseStudyFooter: React.FC<CaseStudyFooterProps> = ({
           <span className={`text-[10px] font-bold leading-none -mt-0.5 ${isDark ? 'text-white' : 'text-black'}`}>®</span>
         </button>
 
-        <div className="flex items-center gap-6 sm:gap-10 text-sm sm:text-base font-medium">
+        <div className="flex items-center gap-6 sm:gap-10 text-sm sm:text-base">
           <button 
             onClick={handleWorkTogether} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${
-              isDark ? 'border-white text-white' : 'border-black text-black'
+            className={`animated-underline pb-0.5 cursor-pointer font-medium font-[500] ${
+              isDark ? 'text-white' : 'text-black'
             }`}
           >
             Work with us
           </button>
           <button 
             onClick={handleMenuClick} 
-            className={`border-b pb-0.5 transition-opacity hover:opacity-70 cursor-pointer ${
-              isDark ? 'border-white text-white' : 'border-black text-black'
+            className={`animated-underline pb-0.5 cursor-pointer font-normal font-[400] ${
+              isDark ? 'text-white' : 'text-black'
             }`}
           >
             Menu
@@ -93,8 +93,8 @@ export const CaseStudyFooter: React.FC<CaseStudyFooterProps> = ({
           
           <button 
             onClick={handleWorkTogether}
-            className={`text-base sm:text-lg font-normal tracking-tight pb-0.5 border-b transition-opacity hover:opacity-60 cursor-pointer ${
-              isDark ? "border-white text-white" : "border-black text-black"
+            className={`animated-underline text-base sm:text-lg font-normal tracking-tight pb-0.5 cursor-pointer ${
+              isDark ? "text-white" : "text-black"
             }`}
           >
             Let's work together

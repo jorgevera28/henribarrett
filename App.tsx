@@ -1350,7 +1350,7 @@ const SpacesWeWorkInSection = () => {
           <div className="pt-12 sm:pt-16 md:pt-20 mt-auto">
             <a 
               href="#work-together"
-              className="inline-flex items-center gap-1.5 text-base sm:text-lg tracking-tight text-black border-b border-black/60 pb-0.5 hover:border-black hover:opacity-70 transition-all font-normal"
+              className="inline-flex items-center gap-1.5 text-base sm:text-lg tracking-tight text-black pb-0.5 animated-underline font-normal cursor-pointer"
             >
               <span>Lets work together</span>
               <span className="text-lg leading-none">↓</span>
@@ -1407,24 +1407,24 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Agency</h4>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors">Home</li>
-              <li onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors">Case Studies</li>
-              <li onClick={() => onNavigate?.('services')} className="hover:text-white cursor-pointer transition-colors">Services</li>
+              <li><button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button></li>
+              <li><button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button></li>
+              <li><button onClick={() => onNavigate?.('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button></li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Discover</h4>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors">Henri Barrett Hub®</li>
-              <li onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors">Shop</li>
+              <li><button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button></li>
+              <li><button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button></li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Learn</h4>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li className="hover:text-white cursor-pointer transition-colors">Articles</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Press</li>
-              <li className="hover:text-white cursor-pointer transition-colors">FAQs</li>
+              <li><button onClick={() => onNavigate?.('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button></li>
+              <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press</button></li>
+              <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button></li>
             </ul>
           </div>
           <div className="flex flex-col gap-6 col-span-2 md:col-span-1">
@@ -3157,6 +3157,8 @@ export const App: React.FC = () => {
   const lastSectionRef = useRef<HTMLDivElement>(null);
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const approachFirstLineRef = useRef<HTMLSpanElement>(null);
+  const inspiredDockingRef = useRef<HTMLDivElement>(null);
+  const [inspiredRevealed, setInspiredRevealed] = useState(false);
   const [hero1920Margin, setHero1920Margin] = useState<number | null>(null);
 
   // Alineación exclusiva para resolución 1920: alinea el bloque ALWAYS + personaje + WATCHING
@@ -3220,7 +3222,7 @@ export const App: React.FC = () => {
   }, []);
 
   // --- VISTAS Y FILTROS (SECCIÓN WORK) ---
-  const [currentView, setInternalView] = useState<AppView>('case-study-teclab');
+  const [currentView, setInternalView] = useState<AppView>('home');
   const currentViewRef = useRef(currentView);
   useEffect(() => {
     currentViewRef.current = currentView;
@@ -3470,6 +3472,14 @@ export const App: React.FC = () => {
             const offset = (rect.top - (windowHeight / 2)) * 0.1;
             hubImageRef.current.style.transform = `translate3d(0, ${offset}px, 0)`;
          }
+      }
+
+      // Disparar animación de revelado con máscara para INSPIRED BY THE UNEXPECTED al pasar por esa zona
+      if (inspiredDockingRef.current) {
+        const rect = inspiredDockingRef.current.getBoundingClientRect();
+        if (rect.top < windowHeight * 0.88 && rect.bottom > 0) {
+          setInspiredRevealed(true);
+        }
       }
 
       // Desactivar cursor de Selected Works si el elemento se desplaza fuera del puntero durante el scroll
@@ -3825,7 +3835,7 @@ export const App: React.FC = () => {
           </div>
 
           <div className="w-full max-w-[1500px] px-6 sm:px-10 md:px-16 mx-auto mt-20 md:mt-32 flex justify-between items-end">
-            <a href="#work-together" className="text-xl sm:text-2xl tracking-tight text-black border-b border-black pb-1 hover:opacity-70 transition-opacity">
+            <a href="#work-together" className="text-xl sm:text-2xl tracking-tight text-black pb-1 animated-underline cursor-pointer">
               Lets work together ↓
             </a>
             <span className="text-sm sm:text-base font-bold text-black">
@@ -4041,8 +4051,8 @@ export const App: React.FC = () => {
           <div className="w-full border-b border-[#D4D4D4] pb-4 flex justify-between items-end mb-12">
             <span className="text-sm sm:text-base font-light font-[300]">Lets work together ↓</span>
             <div className="flex gap-6 sm:gap-10 text-sm sm:text-base font-light font-[300]">
-              <a href="#press" className="hover:opacity-60 transition-opacity">Press</a>
-              <a href="#careers" className="hover:opacity-60 transition-opacity">Carreers</a>
+              <a href="#press" className="animated-underline pb-0.5">Press</a>
+              <a href="#careers" className="animated-underline pb-0.5">Carreers</a>
             </div>
           </div>
 
@@ -4104,7 +4114,7 @@ export const App: React.FC = () => {
               className="text-gray-500 text-sm md:text-base font-light font-[300] leading-relaxed max-w-[400px]"
               text="Giancarlo Morales love contributing to news, articles, and stories about entrepreneurship, business, branding, culture, leadership, and vision. They've been featured in NY Post, Inc., Fast Company, WSJ, and many more."
             />
-            <a href="mailto:press@henribarrett.com" className="text-sm md:text-base font-light font-[300] underline underline-offset-4 decoration-1 hover:opacity-60 transition-opacity">
+            <a href="mailto:press@henribarrett.com" className="animated-underline pb-0.5 text-sm md:text-base font-light font-[300] w-fit">
               Send an Email
             </a>
           </div>
@@ -4130,7 +4140,7 @@ export const App: React.FC = () => {
               <p className="text-gray-500 text-sm font-light font-[300] leading-relaxed max-w-[250px]">
                 Want Luis Tateishi and Oswaldo Pescador to speak at your next event or be panelists for topics on business, brand, or culture?
               </p>
-              <a href="mailto:speaking@henribarrett.com" className="text-sm font-light font-[300] underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+              <a href="mailto:speaking@henribarrett.com" className="animated-underline pb-0.5 text-sm md:text-base font-light font-[300] mt-2 w-fit">
                 Send an Email
               </a>
             </div>
@@ -4140,7 +4150,7 @@ export const App: React.FC = () => {
               <p className="text-gray-500 text-sm font-light font-[300] leading-relaxed max-w-[250px]">
                 We're always looking for talent to join our team. Apply now.
               </p>
-              <a href="#careers" className="text-sm font-light font-[300] underline underline-offset-4 decoration-1 mt-2 hover:opacity-60 transition-opacity">
+              <a href="#careers" className="animated-underline pb-0.5 text-sm md:text-base font-light font-[300] mt-2 w-fit">
                 See open positions
               </a>
             </div>
@@ -4202,25 +4212,33 @@ export const App: React.FC = () => {
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
             {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
+            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top hero-1366-wrapper w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
                 <div 
-                  className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align"
+                  className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align hero-1366-block"
                   style={{
                     marginLeft: hero1920Margin !== null ? `${hero1920Margin}px` : undefined,
                   }}
                 >
                     <div className="flex items-center gap-1 sm:gap-2 md:gap-3 relative">
-                        <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase">ALWAYS</h1>
-                        <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto">
+                        <div className="hero-mask-wrap hero-mask-wrap-always">
+                          <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase hero-1366-title hero-word-animated hero-word-always">
+                            ALWAYS
+                          </h1>
+                        </div>
+                        <div className="w-[28vw] h-[28vw] min-w-[120px] min-h-[120px] sm:min-w-[160px] sm:min-h-[160px] md:min-w-[220px] md:min-h-[220px] max-w-[540px] max-h-[540px] -ml-[1.5vw] sm:-ml-[2vw] translate-y-[-1vw] flex items-center justify-center opacity-100 pointer-events-auto hero-1366-character">
                             <HomeCharacterLottie className="w-full h-full" />
                         </div>
                     </div>
-                    <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.78] -mt-[4vw] sm:-mt-[5vw] md:-mt-[5.5vw]">WATCHING</h1>
+                    <div className="hero-mask-wrap hero-1366-watching-wrap -mt-[4vw] sm:-mt-[5vw] md:-mt-[5.5vw]">
+                      <h1 className="text-[15.5vw] font-normal tracking-tighter uppercase leading-[0.78] hero-1366-watching hero-word-animated hero-word-watching">
+                        WATCHING
+                      </h1>
+                    </div>
                 </div>
             </div>
 
             {/* 3 COLUMNS - PROPÓSITO */}
-            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] w-screen px-10 md:px-20 flex justify-center text-black">
+            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] hero-1366-purpose w-screen px-10 md:px-20 flex justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
                         <ArrowDown className="w-20 h-20 stroke-[0.5]" />
@@ -4240,15 +4258,45 @@ export const App: React.FC = () => {
             </div>
 
             {/* DOCKING */}
-            <div className="absolute top-[265vh] w-full flex justify-center px-4 text-black">
+            <div ref={inspiredDockingRef} className="absolute top-[265vh] w-full flex justify-center px-4 text-black">
                 <div className="flex flex-col items-center justify-center w-full max-w-[2200px] text-center overflow-visible">
                     <div className="flex items-center justify-center gap-x-12 leading-none mb-14 whitespace-nowrap">
-                        <span style={{ fontSize: '18vh' }} className="font-normal tracking-tight uppercase leading-[0.95]">Inspired</span>
+                        <div className="reveal-mask-container">
+                            <span 
+                                style={{ 
+                                    fontSize: '18vh',
+                                    transitionDelay: '0.05s' 
+                                }} 
+                                className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] ${inspiredRevealed ? 'is-revealed' : ''}`}
+                            >
+                                Inspired
+                            </span>
+                        </div>
                         <div ref={finalPlaceholderRef} className="w-[30vw] h-[18vh] bg-transparent mx-4"></div>
-                        <span style={{ fontSize: '18vh' }} className="font-normal tracking-tight uppercase leading-[0.95]">By</span>
+                        <div className="reveal-mask-container">
+                            <span 
+                                style={{ 
+                                    fontSize: '18vh',
+                                    transitionDelay: '0.15s' 
+                                }} 
+                                className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] ${inspiredRevealed ? 'is-revealed' : ''}`}
+                            >
+                                By
+                            </span>
+                        </div>
                     </div>
-                    <span style={{ fontSize: '18vh' }} className="font-normal tracking-tight uppercase leading-[0.95] whitespace-nowrap">The Unexpected</span>
-                    <p className="mt-20 text-gray-400 font-mono text-[10px] uppercase tracking-[0.5em] font-black">Creative Direction &bull; MMXXIV</p>
+                    <div className="reveal-mask-container">
+                        <span 
+                            style={{ 
+                                fontSize: '18vh',
+                                transitionDelay: '0.28s' 
+                            }} 
+                            className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] whitespace-nowrap ${inspiredRevealed ? 'is-revealed' : ''}`}
+                        >
+                            The Unexpected
+                        </span>
+                    </div>
+                    <p className={`mt-20 text-gray-400 font-mono text-[10px] uppercase tracking-[0.5em] font-black transition-opacity duration-1000 delay-500 ${inspiredRevealed ? 'opacity-100' : 'opacity-0'}`}>Creative Direction &bull; MMXXIV</p>
                 </div>
             </div>
 
@@ -4398,12 +4446,6 @@ export const App: React.FC = () => {
             </div>
         </div>
 
-      {/* PROGRESS UI */}
-      <div className="fixed bottom-10 left-10 z-50 mix-blend-difference">
-        <div className="border border-white/20 px-8 py-3 rounded-full backdrop-blur-2xl">
-          <p className="text-white text-[10px] font-black tracking-[0.5em] uppercase opacity-60">Scroll Progress</p>
-        </div>
-      </div>
 
       {/* CURSOR PERSONALIZADO (FLECHA GRANDE PARA SELECTED WORKS) */}
       <div

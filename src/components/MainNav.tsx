@@ -148,7 +148,7 @@ export const FullScreenMenu: React.FC<{
           className="group flex items-center gap-2.5 text-white hover:opacity-75 transition-opacity cursor-pointer text-base sm:text-lg font-medium tracking-wide focus:outline-hidden"
           aria-label="Cerrar menú"
         >
-          <span className="border-b border-white/60 group-hover:border-white pb-0.5 transition-colors">Close</span>
+          <span className="animated-underline pb-0.5">Close</span>
           <X className="w-5 h-5 text-white stroke-[2.2] transition-transform duration-300 group-hover:rotate-90" />
         </button>
       </div>
@@ -182,7 +182,9 @@ export const FullScreenMenu: React.FC<{
                 </span>
 
                 <span
-                  className={`text-[11vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7.2vw] font-bold tracking-[-0.03em] leading-[0.92] uppercase transition-all duration-300 ${
+                  className={`text-[11vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7.2vw] tracking-[-0.03em] leading-[0.92] uppercase transition-all duration-300 ${
+                    item.id === 'work-with-us' ? 'font-medium font-[500]' : 'font-normal font-[400]'
+                  } ${
                     isHighlighted 
                       ? 'text-white scale-[1.01] origin-left' 
                       : 'text-[#242424] sm:text-[#272727] group-hover:text-white'
@@ -309,19 +311,19 @@ export const MainNav: React.FC<{
             </div>
           </button>
           
-          <div className={`flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-medium tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
-            <button onClick={() => setCurrentView('about')} className={`text-white hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'about' ? 'font-bold' : ''}`}>About us</button>
-            <button onClick={() => setCurrentView('work')} className={`text-white hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work' ? 'font-bold' : ''}`}>Work</button>
-            <button onClick={() => setCurrentView('services')} className={`text-white hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'services' ? 'font-bold' : ''}`}>Services</button>
-            <button onClick={() => setCurrentView('quicklys')} className={`text-white hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'quicklys' ? 'font-bold' : ''}`}>Quicklys</button>
-            <button onClick={() => setCurrentView('work-with-us')} className={`text-white hover:opacity-60 transition-opacity cursor-pointer whitespace-nowrap ${currentView === 'work-with-us' ? 'font-bold' : ''}`}>Contact</button>
+          <div className={`flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-normal font-[400] tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
+            <button onClick={() => setCurrentView('about')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'about' ? 'is-active font-medium font-[500]' : ''}`}>About us</button>
+            <button onClick={() => setCurrentView('work')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work' ? 'is-active font-medium font-[500]' : ''}`}>Work</button>
+            <button onClick={() => setCurrentView('services')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'services' ? 'is-active font-medium font-[500]' : ''}`}>Services</button>
+            <button onClick={() => setCurrentView('quicklys')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'quicklys' ? 'is-active font-medium font-[500]' : ''}`}>Quicklys</button>
+            <button onClick={() => setCurrentView('work-with-us')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work-with-us' ? 'is-active font-medium font-[500]' : ''}`}>Contact</button>
           </div>
 
-          <div className={`flex items-center ${isCompact ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] font-bold tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto`}>
+          <div className={`flex items-center ${isCompact ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto`}>
             {isCompact && (
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap cursor-pointer text-white"
+                className="nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-normal font-[400]"
                 title="Abrir menú"
               >
                 Menu
@@ -329,10 +331,9 @@ export const MainNav: React.FC<{
             )}
             <button 
               onClick={() => setCurrentView('work-with-us')} 
-              className={`relative group pb-0.5 transition-opacity hover:opacity-80 shrink-0 whitespace-nowrap cursor-pointer text-white ${currentView === 'work-with-us' ? 'border-b-2 border-white' : ''}`}
+              className={`nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] ${currentView === 'work-with-us' ? 'is-active' : ''}`}
             >
               Work with us
-              <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-white transform origin-left transition-transform duration-300 ${currentView === 'work-with-us' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </button>
           </div>
         </div>

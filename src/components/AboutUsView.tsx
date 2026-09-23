@@ -762,11 +762,11 @@ Lima, Perú · Global Studio
             <div className="flex flex-col gap-5">
               <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Agency</h4>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li onClick={() => onNavigate('home')} className="hover:text-white cursor-pointer transition-colors">Home</li>
-                <li onClick={() => onNavigate('work')} className="hover:text-white cursor-pointer transition-colors">Case Studies</li>
-                <li onClick={() => onNavigate('services')} className="hover:text-white cursor-pointer transition-colors">Services</li>
-                <li onClick={() => onNavigate('about')} className="text-white font-light font-[300] cursor-pointer transition-colors">About</li>
-                <li onClick={() => onNavigate('about')} className="hover:text-white cursor-pointer transition-colors">Our Method®</li>
+                <li><button onClick={() => onNavigate('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button></li>
+                <li><button onClick={() => onNavigate('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button></li>
+                <li><button onClick={() => onNavigate('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button></li>
+                <li><button onClick={() => onNavigate('about')} className="nav-animated-link text-white font-light font-[300] cursor-pointer transition-colors pb-0.5 text-left">About</button></li>
+                <li><button onClick={() => onNavigate('about')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Our Method®</button></li>
               </ul>
             </div>
 
@@ -774,11 +774,11 @@ Lima, Perú · Global Studio
             <div className="flex flex-col gap-5">
               <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Discover</h4>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li className="hover:text-white cursor-pointer transition-colors">Henri Barrett Hub®</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Our Book</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Speaking</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Shop</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Events</li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Our Book</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Speaking</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Events</button></li>
               </ul>
             </div>
 
@@ -786,11 +786,11 @@ Lima, Perú · Global Studio
             <div className="flex flex-col gap-5">
               <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Learn</h4>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li onClick={() => onNavigate('quicklys')} className="hover:text-white cursor-pointer transition-colors">Articles</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Press & Media</li>
-                <li className="hover:text-white cursor-pointer transition-colors">FAQs</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Testimonials</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Careers</li>
+                <li><button onClick={() => onNavigate('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press & Media</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Testimonials</button></li>
+                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Careers</button></li>
               </ul>
             </div>
 

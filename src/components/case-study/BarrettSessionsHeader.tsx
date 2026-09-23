@@ -136,8 +136,8 @@ export const BarrettSessionsHeader: React.FC<BarrettSessionsHeaderProps> = ({
             if (onSeeAllProjects) onSeeAllProjects();
             else onNavigate('work');
           }}
-          className={`border-b border-black pb-0.5 font-medium transition-opacity hover:opacity-60 cursor-pointer ${
-            isDark ? "border-white text-white" : "border-black text-black"
+          className={`animated-underline pb-0.5 font-medium cursor-pointer ${
+            isDark ? "text-white" : "text-black"
           }`}
         >
           See all projects

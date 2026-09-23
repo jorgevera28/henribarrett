@@ -46,6 +46,19 @@ export interface MaskTextRevealProps {
 // Auge Design signature luxury ease: cushioned launch with ultra-smooth, slow deceleration
 const AUGE_EASE = [0.19, 1, 0.22, 1] as const;
 
+// Static component map to prevent recreation of dynamic motion elements on every render
+const MOTION_TAGS = {
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+  h4: motion.h4,
+  h5: motion.h5,
+  h6: motion.h6,
+  p: motion.p,
+  span: motion.span,
+  div: motion.div,
+} as const;
+
 export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
   text,
   lines: explicitLines,
@@ -119,8 +132,8 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
     },
   };
 
-  // Motion tag wrapper
-  const MotionTag = motion[Component] as any;
+  // Static motion tag component
+  const MotionTag = (Component && MOTION_TAGS[Component]) || motion.h2;
 
   // Viewport configuration for smooth progressive trigger while scrolling down
   const viewportConfig = { once, amount, margin };

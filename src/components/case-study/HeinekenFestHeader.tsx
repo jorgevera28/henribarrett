@@ -110,7 +110,7 @@ export const HeinekenFestHeader: React.FC<HeinekenFestHeaderProps> = ({
               if (onSeeAllProjects) onSeeAllProjects();
               else onNavigate('work');
             }}
-            className="text-sm sm:text-base md:text-lg font-medium tracking-wide border-b border-white pb-0.5 hover:opacity-75 transition-opacity cursor-pointer"
+            className="animated-underline text-sm sm:text-base md:text-lg font-medium tracking-wide text-white pb-0.5 cursor-pointer"
           >
             See all projects
           </button>
