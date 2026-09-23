@@ -26,10 +26,45 @@ export { MainNav };
 // --- MAIN CODE ---
 
 // --- DATOS ---
-const INITIAL_PROJECTS = [
-  { id: 1, name: 'UMANA', category: 'BRANDING', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=2000&auto=format&fit=crop', className: 'filter brightness-90 mix-blend-multiply' },
-  { id: 2, name: 'RAPPI', category: 'EVENT', image: '/images/rappi_spinning_kit.jpg', className: 'mix-blend-multiply' },
-  { id: 3, name: 'YUMMY', category: 'BRANDING', image: '/images/yummy_hero.jpg', quote: "Working with Henri Barrett feels like extending your internal team with world-class talent." }
+interface InitialProject {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+  videoUrl?: string;
+  view?: string;
+}
+
+const INITIAL_PROJECTS: InitialProject[] = [
+  { 
+    id: 1, 
+    name: 'UMANA', 
+    category: 'BRANDING', 
+    image: '/images/umanabyhenribarrett.png',
+    view: 'case-study-umana'
+  },
+  { 
+    id: 2, 
+    name: 'RAPPI', 
+    category: 'EVENT', 
+    image: '/images/rappi_spinning_kit.jpg',
+    videoUrl: 'https://player.vimeo.com/video/1229618296?h=b891103a4c&autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0',
+    view: 'case-study-rappi'
+  },
+  { 
+    id: 3, 
+    name: 'YUMMY', 
+    category: 'BRANDING', 
+    image: '/images/yummybyhenribarrett.png',
+    view: 'case-study-yummy'
+  },
+  { 
+    id: 4, 
+    name: 'HEINEKEN FEST', 
+    category: 'EVENT', 
+    image: '/images/heinekenbyhenribarrett.png',
+    view: 'case-study-heineken-fest'
+  }
 ];
 
 const ALL_PROJECTS = [
@@ -3142,6 +3177,154 @@ export const AllQuicklysSection: React.FC = () => {
 };
 
 
+// --- COMPONENTE DE TARJETA CON DEVELO DE MÁSCARA EXPANDIBLE DESDE EL CENTRO ---
+interface HomeWorkCardProps {
+  project: InitialProject;
+  isLast: boolean;
+  lastProjectRef?: React.RefObject<HTMLDivElement>;
+  onNavigate: (view: AppView) => void;
+  onHoverStart: (e: React.MouseEvent) => void;
+  onHoverMove: (e: React.MouseEvent) => void;
+  onHoverEnd: () => void;
+}
+
+const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
+  project,
+  isLast,
+  lastProjectRef,
+  onNavigate,
+  onHoverStart,
+  onHoverMove,
+  onHoverEnd,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  useEffect(() => {
+    if (isRevealed) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const check = () => {
+      if (isRevealed) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      // Se devela suavemente cuando la parte superior de la tarjeta entra en el 86% del viewport
+      if (rect.top <= windowHeight * 0.86 && rect.bottom >= 0) {
+        setIsRevealed(true);
+      }
+    };
+
+    check();
+    const interval = setInterval(check, 100);
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsRevealed(true);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
+      );
+      observer.observe(el);
+    }
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+      if (observer) observer.disconnect();
+    };
+  }, [isRevealed]);
+
+  const setRefs = (node: HTMLDivElement | null) => {
+    (containerRef as any).current = node;
+    if (isLast && lastProjectRef) {
+      (lastProjectRef as any).current = node;
+    }
+  };
+
+  return (
+    <div
+      ref={setRefs}
+      onClick={() => {
+        if (project.view) {
+          onNavigate(project.view as AppView);
+        }
+      }}
+      onMouseEnter={onHoverStart}
+      onMouseMove={onHoverMove}
+      onMouseLeave={onHoverEnd}
+      className="relative z-10 w-full max-w-[1430px] aspect-[1430/770] min-[1500px]:w-[1430px] min-[1500px]:h-[770px] overflow-hidden group cursor-pointer select-none bg-[#0a0a0a]"
+      style={{
+        maxWidth: '1430px',
+        aspectRatio: '1430 / 770',
+        opacity: isRevealed ? 1 : 0,
+        // Animación de develo de máscara: primero fade in suave y luego se expande hacia todos los lados desde el centro (arriba, abajo, izquierda y derecha)
+        clipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(20% 24% 20% 24%)',
+        WebkitClipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(20% 24% 20% 24%)',
+        transform: isRevealed ? 'scale(1)' : 'scale(0.93)',
+        filter: isRevealed ? 'blur(0px)' : 'blur(4px)',
+        transition: 'clip-path 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, -webkit-clip-path 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, filter 0.75s ease-out',
+        willChange: 'clip-path, opacity, transform, filter'
+      }}
+    >
+      {/* MEDIA (FOTO O VIDEO) */}
+      {project.videoUrl ? (
+        <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
+          <iframe
+            src={project.videoUrl}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none transition-transform duration-1000 ease-out group-hover:scale-105"
+            style={{ border: 'none' }}
+            allow="autoplay; fullscreen; picture-in-picture"
+            title={project.name}
+          />
+        </div>
+      ) : (
+        <img
+          src={project.image}
+          alt={project.name}
+          className={`w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 ${
+            isRevealed ? 'scale-100' : 'scale-108'
+          }`}
+          style={{
+            transition: 'transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+        />
+      )}
+
+      {/* Gradiente sutil inferior para asegurar contraste y legibilidad óptima */}
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none z-10" />
+
+      {/* ETIQUETAS INFERIORES: RÉPLICA DEL DISEÑO DE LA FOTO DE REFERENCIA */}
+      <div
+        className="absolute bottom-6 sm:bottom-10 md:bottom-12 left-0 right-0 px-6 sm:px-10 md:px-14 flex items-center justify-between z-20 pointer-events-none transition-all duration-700 delay-300"
+        style={{
+          opacity: isRevealed ? 1 : 0,
+          transform: isRevealed ? 'translateY(0)' : 'translateY(12px)',
+        }}
+      >
+        {/* IZQUIERDA: RECUADRO CON BORDE CIRCULAR */}
+        <div className="rounded-full border border-white/90 px-6 sm:px-8 py-2 sm:py-2.5 text-white text-xs sm:text-sm md:text-base font-normal tracking-wide uppercase flex items-center justify-center bg-black/20 backdrop-blur-[2px] pointer-events-auto transition-all duration-300 group-hover:border-white group-hover:bg-black/50">
+          <span>{project.name}</span>
+        </div>
+
+        {/* DERECHA: CATEGORÍA DEL TRABAJO */}
+        <div className="text-white text-xs sm:text-sm md:text-base font-normal tracking-wide uppercase select-none pointer-events-auto drop-shadow-sm">
+          <span>{project.category}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 // --- APP PRINCIPAL ---
 export const App: React.FC = () => {
   const mainContainerRef = useRef<HTMLDivElement>(null);
@@ -3150,6 +3333,8 @@ export const App: React.FC = () => {
   const finalPlaceholderRef = useRef<HTMLDivElement>(null);
   const infoBarRef = useRef<HTMLDivElement>(null);
   const workTextRef = useRef<HTMLSpanElement>(null);
+  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const lastProjectRef = useRef<HTMLDivElement>(null);
   const servicesMarqueeRef = useRef<HTMLDivElement>(null);
   const hubImageRef = useRef<HTMLImageElement>(null);
   const hubSectionRef = useRef<HTMLDivElement>(null);
@@ -3450,8 +3635,15 @@ export const App: React.FC = () => {
         const startOffset = lastSectionRef.current ? lastSectionRef.current.offsetTop : windowHeight * 4.8;
         const scrollDelta = currentScrollY.current - startOffset;
         if (scrollDelta > 0) {
-          // El texto avanza fluidamente hacia abajo acompañando el scroll y pasando por detrás de las tarjetas
-          const maxParallax = windowHeight * 2.4;
+          // El texto avanza fluidamente hacia abajo acompañando el scroll y pasando por detrás de las tarjetas.
+          // Se detiene exactamente al final del último trabajo (Heineken Fest) sin invadir las secciones inferiores.
+          let maxParallax = windowHeight * 2.2;
+          if (projectsSectionRef.current) {
+            const sectionHeight = projectsSectionRef.current.offsetHeight;
+            const textHeight = workTextRef.current.offsetHeight || 320;
+            // El tope asegura que la palabra WORK se detenga justo cuando termina el último trabajo
+            maxParallax = Math.max(0, sectionHeight - textHeight - 80);
+          }
           const parallaxY = Math.min(maxParallax, scrollDelta * 0.88);
           workTextRef.current.style.transform = `translate3d(0, ${parallaxY}px, 0)`;
         } else {
@@ -4339,34 +4531,56 @@ export const App: React.FC = () => {
 
             {/* CONTENIDO DINÁMICO (PORTFOLIO) */}
             <div ref={lastSectionRef} className="absolute top-[480vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10">
-                {/* WORK WATERMARK - Fondo con texto completo que avanza con el scroll detrás de los proyectos */}
-                <div className="absolute top-[2vh] left-0 w-full flex justify-center items-center z-0 select-none pointer-events-none overflow-visible">
-                    <span 
-                        ref={workTextRef} 
-                        className="text-[34.5vw] font-light font-[300] leading-none tracking-tighter text-black uppercase block will-change-transform select-none text-center"
-                    >
-                        WORK
-                    </span>
+                {/* SECCIÓN DE LOS 4 PROYECTOS PRINCIPALES CON 'WORK' DE FONDO */}
+                <div ref={projectsSectionRef} className="relative w-full flex flex-col items-center overflow-hidden">
+                    {/* WORK WATERMARK - Fondo con texto que avanza con el scroll detrás de los proyectos y se detiene en seco al final del último trabajo (Heineken Fest) */}
+                    <div className="absolute top-[2vh] left-0 w-full flex justify-center items-center z-0 select-none pointer-events-none">
+                        <span 
+                            ref={workTextRef} 
+                            className="text-[34.5vw] font-light font-[300] leading-none tracking-tighter text-black uppercase block will-change-transform select-none text-center"
+                        >
+                            WORK
+                        </span>
+                    </div>
+
+                    <div className="w-full max-w-[1550px] px-4 sm:px-6 md:px-8 flex flex-col items-center gap-16 sm:gap-20 md:gap-28 relative pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-24 z-10">
+                        {/* 4 BLOQUES DE 1430x770px CON ANIMACIÓN DE DEVELO DE MÁSCARA AL LLEGAR A LA ZONA */}
+                        {INITIAL_PROJECTS.map((project, idx) => (
+                            <HomeWorkCard
+                                key={project.id}
+                                project={project}
+                                isLast={idx === INITIAL_PROJECTS.length - 1}
+                                lastProjectRef={lastProjectRef}
+                                onNavigate={(view) => setCurrentView(view)}
+                                onHoverStart={(e) => {
+                                    lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                                    if (cursorArrowRef.current) {
+                                        cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                                    }
+                                    setCursorType('upRight');
+                                    setIsHoveringWork(true);
+                                }}
+                                onHoverMove={(e) => {
+                                    lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                                    if (cursorArrowRef.current) {
+                                        cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                                    }
+                                }}
+                                onHoverEnd={() => {
+                                    setIsHoveringWork(false);
+                                }}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                <div className="w-full max-w-[1250px] px-6 flex flex-col gap-12 relative pt-24 sm:pt-32 md:pt-40 z-10">
-                    {/* PROYECTOS */}
-                    {INITIAL_PROJECTS.map((project) => (
-                    <div key={project.id} className="relative z-10 w-full h-[75vh] md:h-[90vh] overflow-hidden group mb-24">
-                        <img src={project.image} alt={project.name} className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${project.className}`} />
-                        <div className="absolute bottom-16 left-16">
-                            <div className="bg-black/10 backdrop-blur-xl text-white px-10 py-3 rounded-full text-sm uppercase font-black tracking-widest border border-white/20">
-                                {project.name}
-                            </div>
-                        </div>
-                    </div>
-                    ))}
-
-                    {/* MARQUEE TRUSTED */}
+                {/* MARQUEE TRUSTED */}
+                <div className="w-full max-w-[1550px] px-4 sm:px-6 md:px-8">
                     <div className="w-full py-40 border-t border-gray-100 mt-20 overflow-hidden">
                         <p className="text-[11px] font-black uppercase tracking-[0.4em] mb-16 pl-2 opacity-20">(TRUSTED BY VISIONARIES)</p>
                         <LogosGroup />
                     </div>
+                </div>
 
                     {/* CLIENT CASE STUDIES (REPLACES SELECTED WORKS - EXPANDIDO HASTA 1880px PARA THUMBNAILS DE 905px) */}
                     <div className="w-screen relative left-1/2 -translate-x-1/2 flex justify-center px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12">
@@ -4438,8 +4652,6 @@ export const App: React.FC = () => {
 
                     {/* WHO IS BARRETT SECTION - REPLICATING ATTACHED DESIGN */}
                     <WhoIsBarrettSection />
-
-                </div>
 
                 {/* FOOTER */}
                 <Footer onNavigate={setCurrentView} />
