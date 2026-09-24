@@ -136,6 +136,52 @@ export const AboutUsView: React.FC<AboutUsViewProps> = ({
   // Download state
   const [isDownloaded, setIsDownloaded] = useState(false);
 
+  // Footer reveal state
+  const footerRef = useRef<HTMLElement>(null);
+  const [isFooterRevealed, setIsFooterRevealed] = useState(false);
+
+  useEffect(() => {
+    if (isFooterRevealed) return;
+    const el = footerRef.current;
+    if (!el) return;
+
+    const check = () => {
+      if (isFooterRevealed) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top <= windowHeight * 0.95 && rect.bottom >= 0) {
+        setIsFooterRevealed(true);
+      }
+    };
+
+    check();
+    const interval = setInterval(check, 100);
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsFooterRevealed(true);
+            }
+          });
+        },
+        { threshold: 0.05, rootMargin: '0px 0px 50px 0px' }
+      );
+      observer.observe(el);
+    }
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+      if (observer) observer.disconnect();
+    };
+  }, [isFooterRevealed]);
+
   // Toggle Video
   const handleToggleVideo = () => {
     if (!videoRef.current) return;
@@ -744,86 +790,253 @@ Lima, Perú · Global Studio
 
       {/* 11. FOOTER (HENRI BARRETT PURE BLACK FOOTER) */}
       <footer
+        ref={footerRef}
         className="relative w-full bg-black text-white z-20 pt-20 pb-12 px-6 sm:px-10 md:px-16 border-t border-gray-900"
         style={{ backgroundColor: '#000000' }}
       >
         <div className="w-full max-w-[1360px] mx-auto">
           {/* Top Brand Bar */}
           <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-900">
-            <DynamicIsotype className="w-14 h-14 md:w-20 md:h-20 text-white" />
-            <span className="text-2xl sm:text-3xl md:text-5xl font-light font-[300] uppercase tracking-tighter text-right leading-none">
-              HENRI BARRETT
-            </span>
+            <div className="overflow-hidden pt-1 pb-1">
+              <button 
+                onClick={() => onNavigate('home')} 
+                className="cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center will-change-transform" 
+                title="Henri Barrett - Home"
+                style={{
+                  transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                  opacity: isFooterRevealed ? 1 : 0,
+                  transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out'
+                }}
+              >
+                <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
+                  <DynamicIsotype className="w-14 h-14 md:w-20 md:h-20 text-white" />
+                </div>
+              </button>
+            </div>
+            <div className="overflow-hidden pt-1 pb-1">
+              <span 
+                className="inline-block text-2xl sm:text-3xl md:text-5xl font-light font-[300] uppercase tracking-tighter text-right leading-none will-change-transform"
+                style={{
+                  transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
+                  transformOrigin: '0% 100%',
+                  opacity: isFooterRevealed ? 1 : 0,
+                  transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.8s ease-out 0.08s'
+                }}
+              >
+                HENRI BARRETT
+              </span>
+            </div>
           </div>
 
           {/* Links Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-20">
             {/* Agency */}
             <div className="flex flex-col gap-5">
-              <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Agency</h4>
+              <div className="overflow-hidden pt-0.5 pb-0.5">
+                <h4 
+                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  style={{
+                    transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
+                    transformOrigin: '0% 100%',
+                    opacity: isFooterRevealed ? 1 : 0,
+                    transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, opacity 0.75s ease-out 0.2s'
+                  }}
+                >
+                  Agency
+                </h4>
+              </div>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li><button onClick={() => onNavigate('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button></li>
-                <li><button onClick={() => onNavigate('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button></li>
-                <li><button onClick={() => onNavigate('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button></li>
-                <li><button onClick={() => onNavigate('about')} className="nav-animated-link text-white font-light font-[300] cursor-pointer transition-colors pb-0.5 text-left">About</button></li>
-                <li><button onClick={() => onNavigate('about')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Our Method®</button></li>
+                {[
+                  { label: 'Home', action: () => onNavigate('home') },
+                  { label: 'Case Studies', action: () => onNavigate('work') },
+                  { label: 'Services', action: () => onNavigate('services') },
+                  { label: 'About', action: () => onNavigate('about'), active: true },
+                  { label: 'Our Method®', action: () => onNavigate('about') }
+                ].map((item, idx) => (
+                  <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
+                    <button 
+                      onClick={item.action} 
+                      className={`nav-animated-link ${item.active ? 'text-white font-light font-[300]' : 'text-gray-400 hover:text-white'} cursor-pointer transition-colors pb-0.5 text-left will-change-transform block`}
+                      style={{
+                        transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                        opacity: isFooterRevealed ? 1 : 0,
+                        transition: `transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${0.28 + idx * 0.06}s, opacity 0.75s ease-out ${0.28 + idx * 0.06}s`
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Discover */}
             <div className="flex flex-col gap-5">
-              <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Discover</h4>
+              <div className="overflow-hidden pt-0.5 pb-0.5">
+                <h4 
+                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  style={{
+                    transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
+                    transformOrigin: '0% 100%',
+                    opacity: isFooterRevealed ? 1 : 0,
+                    transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.22s, opacity 0.75s ease-out 0.22s'
+                  }}
+                >
+                  Discover
+                </h4>
+              </div>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Our Book</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Speaking</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Events</button></li>
+                {['Henri Barrett Hub®', 'Our Book', 'Speaking', 'Shop', 'Events'].map((label, idx) => (
+                  <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
+                    <button 
+                      className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
+                      style={{
+                        transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                        opacity: isFooterRevealed ? 1 : 0,
+                        transition: `transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${0.30 + idx * 0.06}s, opacity 0.75s ease-out ${0.30 + idx * 0.06}s`
+                      }}
+                    >
+                      {label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Learn */}
             <div className="flex flex-col gap-5">
-              <h4 className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500">Learn</h4>
+              <div className="overflow-hidden pt-0.5 pb-0.5">
+                <h4 
+                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  style={{
+                    transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
+                    transformOrigin: '0% 100%',
+                    opacity: isFooterRevealed ? 1 : 0,
+                    transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.24s, opacity 0.75s ease-out 0.24s'
+                  }}
+                >
+                  Learn
+                </h4>
+              </div>
               <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                <li><button onClick={() => onNavigate('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press & Media</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Testimonials</button></li>
-                <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Careers</button></li>
+                {[
+                  { label: 'Articles', action: () => onNavigate('quicklys') },
+                  { label: 'Press & Media' },
+                  { label: 'FAQs' },
+                  { label: 'Testimonials' },
+                  { label: 'Careers' }
+                ].map((item, idx) => (
+                  <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
+                    <button 
+                      onClick={item.action} 
+                      className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
+                      style={{
+                        transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                        opacity: isFooterRevealed ? 1 : 0,
+                        transition: `transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${0.32 + idx * 0.06}s, opacity 0.75s ease-out ${0.32 + idx * 0.06}s`
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Newsletter */}
             <div className="flex flex-col gap-5 col-span-2 md:col-span-1">
-              <h4 className="text-base sm:text-lg font-light font-[300] leading-snug">
-                Get valuable strategy, culture, and brand insights straight to your inbox.
-              </h4>
-              <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed!'); }} className="flex flex-col gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Your email here" 
-                  className="bg-transparent border-b border-gray-700 pb-2 text-sm focus:outline-none focus:border-white transition-colors w-full text-white placeholder-gray-500" 
-                />
-                <p className="text-[10px] text-gray-500 leading-tight">
-                  By signing up to receive emails from Motta, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
-                </p>
+              {/* Aparece después de las demás palabras */}
+              <div className="overflow-hidden pt-0.5 pb-0.5">
+                <h4 
+                  className="text-base sm:text-lg font-light font-[300] leading-snug will-change-transform"
+                  style={{
+                    transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(1.5deg)',
+                    transformOrigin: '0% 100%',
+                    opacity: isFooterRevealed ? 1 : 0,
+                    transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.68s, opacity 0.75s ease-out 0.68s'
+                  }}
+                >
+                  Get strategy and brand insights straight to your inbox.
+                </h4>
+              </div>
+
+              {/* "your email here" y la línea que se dibuja de 0% a 100% */}
+              <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col gap-3">
+                <div className="flex flex-col w-full">
+                  <div className="overflow-hidden pt-0.5 pb-0.5">
+                    <input 
+                      type="email" 
+                      placeholder="Your email here" 
+                      className="bg-transparent pb-2 text-sm focus:outline-none w-full text-white placeholder-gray-500 will-change-transform" 
+                      style={{
+                        transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                        opacity: isFooterRevealed ? 1 : 0,
+                        transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.84s, opacity 0.75s ease-out 0.84s'
+                      }}
+                    />
+                  </div>
+                  {/* Línea que se dibuja de 0% a 100% */}
+                  <div className="w-full overflow-hidden">
+                    <div 
+                      className="h-[1px] bg-gray-700 w-full will-change-transform"
+                      style={{
+                        transformOrigin: 'left center',
+                        transform: isFooterRevealed ? 'scaleX(1)' : 'scaleX(0)',
+                        transition: 'transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.95s'
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="overflow-hidden pt-0.5 pb-0.5">
+                  <p 
+                    className="text-[10px] text-gray-500 leading-tight will-change-transform"
+                    style={{
+                      transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                      opacity: isFooterRevealed ? 1 : 0,
+                      transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.05s, opacity 0.75s ease-out 1.05s'
+                    }}
+                  >
+                    By signing up to receive emails from Henri Barrett®, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
+                  </p>
+                </div>
               </form>
             </div>
           </div>
 
           {/* Bottom Copyright Bar */}
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-900 text-xs text-gray-500">
-            <span>Copyright © 2024/25 Henri Barrett® | Lima | Perú</span>
-            <div className="flex items-center gap-8 mt-6 md:mt-0">
-              <span className="font-bold text-white text-xs cursor-pointer hover:opacity-75">Bē</span>
-              <Instagram className="w-4 h-4 text-white cursor-pointer hover:opacity-75" />
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-                className="flex items-center gap-2 text-white hover:opacity-75 cursor-pointer text-xs"
+            <div className="overflow-hidden pt-0.5 pb-0.5">
+              <span 
+                className="inline-block will-change-transform"
+                style={{
+                  transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                  opacity: isFooterRevealed ? 1 : 0,
+                  transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s, opacity 0.75s ease-out 0.6s'
+                }}
               >
-                Back top top <ArrowDown className="w-3.5 h-3.5 rotate-180" />
-              </button>
+                Copyright © 2024/25 Henri Barrett® | Lima | Perú
+              </span>
+            </div>
+            <div className="flex items-center gap-8 mt-6 md:mt-0">
+              <div className="overflow-hidden pt-0.5 pb-0.5">
+                <div 
+                  className="flex items-center gap-8 will-change-transform"
+                  style={{
+                    transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                    opacity: isFooterRevealed ? 1 : 0,
+                    transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.65s, opacity 0.75s ease-out 0.65s'
+                  }}
+                >
+                  <span className="font-bold text-white text-xs cursor-pointer hover:opacity-75">Bē</span>
+                  <Instagram className="w-4 h-4 text-white cursor-pointer hover:opacity-75" />
+                  <button 
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
+                    className="flex items-center gap-2 text-white hover:opacity-75 cursor-pointer text-xs"
+                  >
+                    Back to top <ArrowDown className="w-3.5 h-3.5 rotate-180" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

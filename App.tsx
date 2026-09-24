@@ -1424,56 +1424,219 @@ const LogosGroup = () => {
   );
 };
 
+const FooterMaskItem: React.FC<{
+  children: React.ReactNode;
+  isRevealed: boolean;
+  delay?: number;
+  className?: string;
+  angle?: number;
+}> = ({ children, isRevealed, delay = 0, className = '', angle = 0 }) => (
+  <div className={`overflow-hidden pt-0.5 pb-0.5 ${className}`}>
+    <div
+      className="will-change-transform"
+      style={{
+        transform: isRevealed
+          ? 'translate3d(0, 0%, 0) rotate(0deg)'
+          : `translate3d(0, 125%, 0) rotate(${angle}deg)`,
+        transformOrigin: '0% 100%',
+        opacity: isRevealed ? 1 : 0,
+        transition: `transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, opacity 0.75s ease-out ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  </div>
+);
+
 const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => void }> = ({ className = "mt-32", onNavigate }) => {
+  const footerRef = useRef<HTMLElement>(null);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  useEffect(() => {
+    if (isRevealed) return;
+    const el = footerRef.current;
+    if (!el) return;
+
+    const check = () => {
+      if (isRevealed) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top <= windowHeight * 0.95 && rect.bottom >= 0) {
+        setIsRevealed(true);
+      }
+    };
+
+    check();
+    const interval = setInterval(check, 100);
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsRevealed(true);
+            }
+          });
+        },
+        { threshold: 0.05, rootMargin: '0px 0px 50px 0px' }
+      );
+      observer.observe(el);
+    }
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+      if (observer) observer.disconnect();
+    };
+  }, [isRevealed]);
+
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   return (
     <footer
+      ref={footerRef}
       className={`relative w-full bg-black text-white z-20 pt-24 pb-12 px-6 md:px-12 ${className}`}
       style={{ backgroundColor: '#000000' }}
     >
       <div className="w-full max-w-[1250px] mx-auto">
         <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-800">
-          <button onClick={() => onNavigate?.('home')} className="cursor-pointer hover:opacity-80 transition-opacity">
-            <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
-          </button>
-          <span className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-right leading-none">HENRI BARRETT</span>
+          <div className="overflow-hidden pt-1 pb-1">
+            <button 
+              onClick={() => onNavigate?.('home')} 
+              className="cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center will-change-transform" 
+              title="Henri Barrett - Home"
+              style={{
+                transform: isRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
+                opacity: isRevealed ? 1 : 0,
+                transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out'
+              }}
+            >
+              <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
+                <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
+              </div>
+            </button>
+          </div>
+          <div className="overflow-hidden pt-1 pb-1">
+            <span 
+              className="inline-block text-3xl md:text-5xl font-black uppercase tracking-tighter text-right leading-none will-change-transform"
+              style={{
+                transform: isRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
+                transformOrigin: '0% 100%',
+                opacity: isRevealed ? 1 : 0,
+                transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.8s ease-out 0.08s'
+              }}
+            >
+              HENRI BARRETT
+            </span>
+          </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
           <div className="flex flex-col gap-6">
-            <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Agency</h4>
+            <FooterMaskItem isRevealed={isRevealed} delay={0.2} angle={2}>
+              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Agency</h4>
+            </FooterMaskItem>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li><button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button></li>
-              <li><button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button></li>
-              <li><button onClick={() => onNavigate?.('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button></li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.28}>
+                  <button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.36}>
+                  <button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.44}>
+                  <button onClick={() => onNavigate?.('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button>
+                </FooterMaskItem>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
-            <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Discover</h4>
+            <FooterMaskItem isRevealed={isRevealed} delay={0.22} angle={2}>
+              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Discover</h4>
+            </FooterMaskItem>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li><button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button></li>
-              <li><button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button></li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.3}>
+                  <button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.38}>
+                  <button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button>
+                </FooterMaskItem>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col gap-6">
-            <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Learn</h4>
+            <FooterMaskItem isRevealed={isRevealed} delay={0.24} angle={2}>
+              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Learn</h4>
+            </FooterMaskItem>
             <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li><button onClick={() => onNavigate?.('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button></li>
-              <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press</button></li>
-              <li><button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button></li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.32}>
+                  <button onClick={() => onNavigate?.('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.4}>
+                  <button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.48}>
+                  <button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button>
+                </FooterMaskItem>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col gap-6 col-span-2 md:col-span-1">
-            <h4 className="text-lg font-bold leading-tight">Get strategy and brand insights straight to your inbox.</h4>
-            <input type="email" placeholder="Your email here" className="bg-transparent border-b border-gray-700 pb-2 focus:outline-none focus:border-white transition-colors w-full" />
+            {/* Aparece después de las demás palabras */}
+            <FooterMaskItem isRevealed={isRevealed} delay={0.68} angle={1.5}>
+              <h4 className="text-lg font-bold leading-tight">Get strategy and brand insights straight to your inbox.</h4>
+            </FooterMaskItem>
+
+            {/* "your email here" y la línea que se dibuja de 0% a 100% */}
+            <div className="flex flex-col w-full">
+              <FooterMaskItem isRevealed={isRevealed} delay={0.84}>
+                <input 
+                  type="email" 
+                  placeholder="Your email here" 
+                  className="bg-transparent pb-2 focus:outline-none text-white placeholder-gray-500 transition-colors w-full text-sm" 
+                />
+              </FooterMaskItem>
+              {/* Línea que se dibuja de 0% a 100% */}
+              <div className="w-full overflow-hidden">
+                <div 
+                  className="h-[1px] bg-gray-600 w-full will-change-transform"
+                  style={{
+                    transformOrigin: 'left center',
+                    transform: isRevealed ? 'scaleX(1)' : 'scaleX(0)',
+                    transition: 'transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.95s'
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800 text-[10px] text-gray-500 uppercase tracking-widest">
-          <span>© 2024/25 Henri Barrett® | Lima | Perú</span>
+          <FooterMaskItem isRevealed={isRevealed} delay={0.6}>
+            <span>© 2024/25 Henri Barrett® | Lima | Perú</span>
+          </FooterMaskItem>
           <div className="flex items-center gap-8 mt-6 md:mt-0">
-            <Instagram className="w-5 h-5 text-white cursor-pointer" />
-            <button onClick={scrollToTop} className="flex items-center gap-2 text-white">
-              Back to top <ArrowDown className="w-3 h-3 rotate-180" />
-            </button>
+            <FooterMaskItem isRevealed={isRevealed} delay={0.65}>
+              <div className="flex items-center gap-8">
+                <Instagram className="w-5 h-5 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+                <button onClick={scrollToTop} className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity cursor-pointer">
+                  Back to top <ArrowDown className="w-3 h-3 rotate-180" />
+                </button>
+              </div>
+            </FooterMaskItem>
           </div>
         </div>
       </div>
@@ -3266,12 +3429,12 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
         maxWidth: '1430px',
         aspectRatio: '1430 / 770',
         opacity: isRevealed ? 1 : 0,
-        // Animación de develo de máscara: primero fade in suave y luego se expande hacia todos los lados desde el centro (arriba, abajo, izquierda y derecha)
-        clipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(20% 24% 20% 24%)',
-        WebkitClipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(20% 24% 20% 24%)',
-        transform: isRevealed ? 'scale(1)' : 'scale(0.93)',
-        filter: isRevealed ? 'blur(0px)' : 'blur(4px)',
-        transition: 'clip-path 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, -webkit-clip-path 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, filter 0.75s ease-out',
+        // Animación de develo de máscara: apertura concéntrica de 85% a 100% (inset de 7.5% por cada lado = 85% del tamaño total)
+        clipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(7.5% 7.5% 7.5% 7.5%)',
+        WebkitClipPath: isRevealed ? 'inset(0% 0% 0% 0%)' : 'inset(7.5% 7.5% 7.5% 7.5%)',
+        transform: isRevealed ? 'scale(1)' : 'scale(0.98)',
+        filter: isRevealed ? 'blur(0px)' : 'blur(2px)',
+        transition: 'clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, -webkit-clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, filter 0.65s ease-out',
         willChange: 'clip-path, opacity, transform, filter'
       }}
     >
@@ -3291,10 +3454,10 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
           src={project.image}
           alt={project.name}
           className={`w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 ${
-            isRevealed ? 'scale-100' : 'scale-108'
+            isRevealed ? 'scale-100' : 'scale-102'
           }`}
           style={{
-            transition: 'transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)'
+            transition: 'transform 1.25s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         />
       )}
@@ -3492,7 +3655,7 @@ export const App: React.FC = () => {
   // --- ESTADO DEL CURSOR (FLECHA GRANDE PARA SELECTED WORKS) ---
   const cursorArrowRef = useRef<HTMLDivElement>(null);
   const [isHoveringWork, setIsHoveringWork] = useState(false);
-  const [cursorType, setCursorType] = useState<'upRight' | 'right'>('upRight');
+  const [cursorType, setCursorType] = useState<'upRight' | 'right'>('right');
   const [isMouseDown, setIsMouseDown] = useState(false);
   const isHoveringWorkRef = useRef(false);
   const lastMousePosRef = useRef({ x: -200, y: -200 });
@@ -3827,7 +3990,7 @@ export const App: React.FC = () => {
                           if (cursorArrowRef.current) {
                             cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                           }
-                          setCursorType('upRight');
+                          setCursorType('right');
                           setIsHoveringWork(true);
                         }}
                         onMouseLeave={() => setIsHoveringWork(false)}
@@ -3921,11 +4084,7 @@ export const App: React.FC = () => {
               isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
             }`}
           >
-            {cursorType === 'right' ? (
-              <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-            ) : (
-              <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-            )}
+            <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
           </div>
         </div>
       </div>
@@ -4557,7 +4716,7 @@ export const App: React.FC = () => {
                                     if (cursorArrowRef.current) {
                                         cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                                     }
-                                    setCursorType('upRight');
+                                    setCursorType('right');
                                     setIsHoveringWork(true);
                                 }}
                                 onHoverMove={(e) => {
@@ -4609,7 +4768,7 @@ export const App: React.FC = () => {
                               if (cursorArrowRef.current) {
                                 cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                               }
-                              setCursorType('upRight');
+                              setCursorType('right');
                               setIsHoveringWork(true);
                             } else {
                               setIsHoveringWork(false);
@@ -4676,11 +4835,7 @@ export const App: React.FC = () => {
             isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
           }`}
         >
-          {cursorType === 'right' ? (
-            <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-          ) : (
-            <MoveUpRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-          )}
+          <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
         </div>
       </div>
 

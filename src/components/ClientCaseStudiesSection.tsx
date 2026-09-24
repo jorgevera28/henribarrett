@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { MaskTextReveal } from './MaskTextReveal';
 
 export interface CaseStudyProject {
@@ -142,57 +143,81 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (TEXTO DE APROXIMADAMENTE 40px CON BORDES CURVOS) */}
-      <div className="w-full flex flex-wrap items-center gap-3 sm:gap-4 md:gap-5 mb-12 sm:mb-16 md:mb-20">
-        {CATEGORIES.map((cat) => {
-          const isActive = activeCategory === cat;
-          return (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => handleCategoryClick(cat)}
-              className={`rounded-full px-6 sm:px-8 lg:px-10 xl:px-11 py-2 sm:py-2.5 lg:py-3.5 text-lg sm:text-2xl md:text-3xl lg:text-[40px] font-normal uppercase tracking-tight border border-black transition-all duration-200 leading-none whitespace-nowrap ${
-                isActive
-                  ? 'bg-black text-white shadow-sm'
-                  : 'bg-transparent text-black hover:bg-black hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          );
-        })}
+      {/* 2. FILTROS POR TIPO DE TRABAJO (CENTRADOS, UNA SOLA LÍNEA, BORDE 2PX, 55 ROMAN / MEDIUM, MAYOR ESCALA) */}
+      <div className="w-full overflow-x-auto no-scrollbar py-2 mb-10 sm:mb-14 md:mb-16 flex justify-center">
+        <div className="flex items-center justify-center min-w-max mx-auto gap-2 sm:gap-3 md:gap-3.5 lg:gap-4 xl:gap-5 flex-nowrap px-2">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => handleCategoryClick(cat)}
+                className={`rounded-full px-3.5 sm:px-4 md:px-5 lg:px-6 xl:px-8 py-0.5 sm:py-1 md:py-1 lg:py-1 xl:py-1.5 text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl 2xl:text-[26px] font-medium font-[500] uppercase tracking-tight border-2 border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
+                  isActive
+                    ? 'bg-black text-white shadow-sm'
+                    : 'bg-transparent text-black hover:bg-black hover:text-white'
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* 3. GRILLA DE PROYECTOS (THUMBNAILS DE 905px ANCHO x 902px ALTO) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 sm:gap-x-8 md:gap-x-10 lg:gap-x-12 gap-y-12 sm:gap-y-16 md:gap-y-20 w-full justify-between">
-        {displayedProjects.map((project) => (
-          <div 
-            key={project.id} 
+        {displayedProjects.map((project, index) => (
+          <motion.div 
+            key={`${activeCategory ?? 'all'}-${project.id}-${index}`} 
+            initial={{ y: 45, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              duration: 0.85,
+              delay: index * 0.065,
+              ease: [0.19, 1, 0.22, 1],
+            }}
             onClick={() => onProjectClick?.(project.id)}
-            className="w-full max-w-[905px] flex flex-col group cursor-pointer mx-auto md:mx-0"
+            className="w-full max-w-[905px] flex flex-col group cursor-pointer mx-auto md:mx-0 will-change-transform"
           >
-            {/* Contenedor de thumbnail: 905px de ancho por 902px de alto (proporción exacta 905/902) */}
+            {/* Contenedor de thumbnail: cuadrado de color plomo base con fade-in suave de la imagen */}
             <div
               data-selected-work-image="true"
               onMouseEnter={(e) => onImageHover?.(e, true)}
               onMouseLeave={(e) => onImageHover?.(e, false)}
-              className="w-full max-w-[905px] aspect-[905/902] 2xl:w-[905px] 2xl:h-[902px] bg-[#EAEAEA] overflow-hidden relative shadow-none"
+              className="w-full max-w-[905px] aspect-[905/902] 2xl:w-[905px] 2xl:h-[902px] bg-[#E2E2E2] overflow-hidden relative shadow-none"
             >
               {project.video ? (
-                <video
+                <motion.video
+                  key={`video-${activeCategory ?? 'all'}-${project.id}`}
                   src={project.video}
                   autoPlay
                   muted
                   loop
                   playsInline
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.75,
+                    delay: 0.18 + index * 0.06,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
                 />
               ) : (
-                <img
+                <motion.img
+                  key={`img-${activeCategory ?? 'all'}-${project.id}`}
                   src={project.image}
                   alt={project.title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.75,
+                    delay: 0.18 + index * 0.06,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
-                  loading="lazy"
                 />
               )}
             </div>
@@ -206,7 +231,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
                 {project.description}
               </span>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
