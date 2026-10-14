@@ -67,6 +67,87 @@ const INITIAL_PROJECTS: InitialProject[] = [
   }
 ];
 
+// Proyectos adicionales que se cargan al pulsar LOAD MORE (los mismos de la pestaña Work sin repetir los 4 primeros)
+const MORE_WORK_PROJECTS: InitialProject[] = [
+  {
+    id: 103,
+    name: 'BARRETT SESSION',
+    category: 'BRAND, EVENT',
+    image: '/images/barrett_sessions_pedestal_sign.jpg',
+    view: 'case-study-barrett-sessions'
+  },
+  {
+    id: 104,
+    name: 'PETCO',
+    category: 'BRANDING',
+    image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop',
+    view: 'case-study-petco'
+  },
+  {
+    id: 106,
+    name: 'PISCO TACAMA',
+    category: 'REBRAND',
+    image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 108,
+    name: 'NIKE FORWARD',
+    category: 'CAMPAIGN',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 109,
+    name: 'SPOTIFY GREENROOM',
+    category: 'DIGITAL',
+    image: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 110,
+    name: 'INTERBANK HUB',
+    category: 'CAMPAIGN',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop'
+  }
+];
+
+interface HomeVideoServiceItem {
+  label: string;
+  icon: string;
+  fallback: string;
+}
+
+const HOME_VIDEO_SERVICES: HomeVideoServiceItem[] = [
+  { 
+    label: 'CAMPAINGS', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_001.svg', 
+    fallback: '/icons/icon_symbol_001.svg' 
+  },
+  { 
+    label: 'BRANDING', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_002.svg', 
+    fallback: '/icons/icon_symbol_002.svg' 
+  },
+  { 
+    label: 'EVENT', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_003.svg', 
+    fallback: '/icons/icon_symbol_003.svg' 
+  },
+  { 
+    label: 'TRADE', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_004.svg', 
+    fallback: '/icons/icon_symbol_004.svg' 
+  },
+  { 
+    label: 'DIGITAL', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_005.svg', 
+    fallback: '/icons/icon_symbol_005.svg' 
+  },
+  { 
+    label: 'CONTENT', 
+    icon: 'https://henribarrett.com/assets/site/svg/home/icon_symbol_006.svg', 
+    fallback: '/icons/icon_symbol_006.svg' 
+  },
+];
+
 const ALL_PROJECTS = [
   { id: 101, title: 'Umana', category: 'Brand', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1200&auto=format&fit=crop' },
   { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
@@ -1188,15 +1269,12 @@ const BrandOakberry = () => (
 );
 
 const TrustedByVisionariesSection = () => {
-  const brandSet = (
-    <div className="flex items-center gap-16 sm:gap-24 md:gap-28 lg:gap-32 shrink-0 pr-16 sm:pr-24 md:pr-28 lg:pr-32">
-      <BrandHeineken />
-      <BrandFlorDeCana />
-      <BrandCientifica />
-      <BrandTanqueray />
-      <BrandOakberry />
-    </div>
-  );
+  useEffect(() => {
+    VISIONARIES_LOGOS.forEach((item) => {
+      const img = new Image();
+      img.src = item.url;
+    });
+  }, []);
 
   return (
     <section className="w-full pt-6 sm:pt-10 pb-20 sm:pb-28 overflow-hidden">
@@ -1206,21 +1284,33 @@ const TrustedByVisionariesSection = () => {
         </h3>
       </div>
 
-      <div className="w-full overflow-hidden select-none">
+      <div className="w-full overflow-hidden select-none opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
         <div 
-          className="flex w-max animate-marquee-right items-center" 
-          style={{ animationDuration: '30s' }}
+          className="flex w-max animate-marquee-right items-center will-change-transform" 
+          style={{ animationDuration: '45s' }}
         >
-          {/* Half 1 (50% del ancho del carrusel) */}
-          <div className="flex items-center shrink-0">
-            {brandSet}
-            {brandSet}
-          </div>
-          {/* Half 2 (50% del ancho del carrusel para loop infinito de izquierda a derecha) */}
-          <div className="flex items-center shrink-0">
-            {brandSet}
-            {brandSet}
-          </div>
+          {[0, 1].map((trackIdx) => (
+            <div 
+              key={`tbv-track-${trackIdx}`} 
+              className="flex items-center shrink-0 gap-10 sm:gap-14 md:gap-16 pr-10 sm:pr-14 md:pr-16"
+            >
+              {VISIONARIES_LOGOS.map((item, idx) => (
+                <div
+                  key={`tbv-${trackIdx}-${item.name}-${idx}`}
+                  className="inline-flex items-center justify-center shrink-0 min-w-[100px] sm:min-w-[130px] md:min-w-[150px] h-9 sm:h-11 md:h-12 px-2 select-none hover:scale-105 transition-transform"
+                >
+                  <img
+                    src={item.url}
+                    alt={item.name}
+                    className="h-7 sm:h-8 md:h-9 max-w-[140px] sm:max-w-[160px] w-auto object-contain pointer-events-none"
+                    loading="eager"
+                    decoding="sync"
+                    draggable={false}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -1397,28 +1487,66 @@ const SpacesWeWorkInSection = () => {
   );
 };
 
+const VISIONARIES_LOGOS = [
+  { name: 'Heineken', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_heineken.svg' },
+  { name: 'UPC', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_upc.svg' },
+  { name: 'Interbank', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_interbank.svg' },
+  { name: 'PedidosYa', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pedidos_ya.svg' },
+  { name: 'Laive', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_laive.svg' },
+  { name: 'Café Lima', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cafe_lima.svg' },
+  { name: 'El Comercio', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_comercio.svg' },
+  { name: 'Rókys', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_rokys.svg' },
+  { name: 'MG', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_MG.svg' },
+  { name: 'Dove', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_dove.svg' },
+  { name: 'Sarcay', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_sarcay.svg' },
+  { name: 'Oeschle', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oeschle.svg' },
+  { name: 'Universidad Científica', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_uni_cientifica.svg' },
+  { name: 'Pickagood', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pickagood.svg' },
+  { name: 'Teclab', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_teclab.svg' },
+  { name: 'Cordillera', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cordillera.svg' },
+  { name: 'Avinka', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_avinka.svg' },
+  { name: 'Amoramar', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_amoramar.svg' },
+  { name: 'Oakberry', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oakberry.svg' },
+  { name: 'El Turco', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_turco.svg' },
+];
+
 const LogosGroup = () => {
-  const logos = [
-    <span key="1" className="text-2xl font-black text-gray-800 tracking-tighter uppercase">Heineken</span>,
-    <span key="2" className="text-2xl font-bold text-gray-800 tracking-tight uppercase">Interbank</span>,
-    <span key="3" className="text-3xl font-black text-gray-800 italic uppercase">PedidosYa</span>,
-    <span key="4" className="text-2xl font-bold text-gray-800 uppercase">Alicorp</span>,
-    <span key="5" className="text-3xl font-black text-gray-800 tracking-tighter uppercase">Nike</span>,
-    <span key="6" className="text-2xl font-bold text-gray-800 italic uppercase">Spotify</span>,
-    <span key="7" className="text-2xl font-black text-gray-800 tracking-widest uppercase">Stripe</span>,
-    <span key="8" className="text-3xl font-bold text-gray-800 tracking-tight uppercase">Vercel</span>,
-    <span key="9" className="text-2xl font-black text-gray-800 uppercase">TikTok</span>,
-  ];
+  useEffect(() => {
+    // Eagerly preload all visionary brand logos into browser memory to eliminate image load jumps
+    VISIONARIES_LOGOS.forEach((item) => {
+      const img = new Image();
+      img.src = item.url;
+    });
+  }, []);
 
   return (
-    <div className="w-full overflow-hidden flex opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-      <div className="flex w-max animate-marquee-right whitespace-nowrap" style={{ animationDuration: '40s' }}>
-        <div className="flex items-center gap-16 md:gap-32 pr-16 md:pr-32">
-          {logos}
-        </div>
-        <div className="flex items-center gap-16 md:gap-32 pr-16 md:pr-32">
-          {logos}
-        </div>
+    <div className="w-full overflow-hidden flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+      <div 
+        className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
+        style={{ animationDuration: '45s' }}
+      >
+        {[0, 1].map((trackIdx) => (
+          <div 
+            key={`logos-track-${trackIdx}`} 
+            className="flex items-center shrink-0 gap-8 sm:gap-12 md:gap-16 pr-8 sm:pr-12 md:pr-16"
+          >
+            {VISIONARIES_LOGOS.map((item, idx) => (
+              <div
+                key={`vis-logo-${trackIdx}-${item.name}-${idx}`}
+                className="inline-flex items-center justify-center shrink-0 min-w-[110px] sm:min-w-[140px] md:min-w-[170px] h-10 sm:h-12 md:h-14 px-4 sm:px-6 md:px-8 select-none transition-transform duration-300 hover:scale-105"
+              >
+                <img
+                  src={item.url}
+                  alt={item.name}
+                  className="h-7 sm:h-9 md:h-10 lg:h-11 max-w-[140px] sm:max-w-[170px] md:max-w-[200px] w-auto object-contain pointer-events-none"
+                  loading="eager"
+                  decoding="sync"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -3641,6 +3769,8 @@ export const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [homeProjects, setHomeProjects] = useState<InitialProject[]>(INITIAL_PROJECTS);
+  const [isLoadingMoreProjects, setIsLoadingMoreProjects] = useState(false);
 
   const filteredProjects = ALL_PROJECTS.filter((p) => {
     if (selectedCategory.startsWith('All Projects')) return true;
@@ -3750,7 +3880,7 @@ export const App: React.FC = () => {
         const textVal = Math.round(0 + (255 * darkness));
 
         if (mainContainerRef.current) mainContainerRef.current.style.backgroundColor = `rgb(${bgVal}, ${bgVal}, ${bgVal})`;
-        if (infoBarRef.current) infoBarRef.current.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
+        if (infoBarRef.current) infoBarRef.current.style.color = '#ffffff';
         if (navRef.current) navRef.current.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
 
         let widthEnd = 180, heightEnd = 80, topEnd = windowHeight - 200, leftEnd = (windowWidth - 180) / 2;
@@ -4549,13 +4679,33 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {/* INFO BAR */}
-      <div ref={infoBarRef} className="fixed w-full z-30 flex justify-center opacity-0 pointer-events-none">
-        <div className="flex gap-12 text-sm md:text-xl font-black tracking-[0.3em] uppercase">
-          <div className="flex items-center gap-3"><span>Campaigns</span><Sun className="w-5 h-5 opacity-40"/></div>
-          <div className="flex items-center gap-3"><span>Branding</span><Zap className="w-5 h-5 opacity-40"/></div>
-          <div className="flex items-center gap-3"><span>Digital</span><Target className="w-5 h-5 opacity-40"/></div>
-          <div className="flex items-center gap-3"><span>Content</span><Fingerprint className="w-5 h-5 opacity-40"/></div>
+      {/* INFO BAR (SERVICIOS DEBAJO DEL VIDEO PRINCIPAL: ESTILO ROMAN 55, COLOR BLANCO, ICONOS SVG) */}
+      <div 
+        ref={infoBarRef} 
+        className="fixed w-full z-30 flex justify-center opacity-0 pointer-events-none px-4 sm:px-6 select-none"
+        style={{ color: '#ffffff' }}
+      >
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-6 sm:gap-x-8 md:gap-x-10 lg:gap-x-12 xl:gap-x-14 gap-y-3 font-normal font-[400] tracking-[0.20em] uppercase text-white leading-none">
+          {HOME_VIDEO_SERVICES.map((item, idx) => (
+            <div key={idx} className="flex items-center gap-2 sm:gap-2.5 md:gap-3 lg:gap-3.5 shrink-0">
+              <span className="text-white font-normal font-[400] text-sm sm:text-base md:text-[17px] lg:text-[19px] xl:text-[21px] tracking-[0.20em] leading-none whitespace-nowrap">
+                {item.label}
+              </span>
+              <span className="inline-flex items-center justify-center shrink-0 w-[50px] h-[50px]">
+                <img
+                  src={item.icon}
+                  alt={item.label}
+                  className="w-[50px] h-[50px] object-contain brightness-0 invert pointer-events-none animate-clock-hand"
+                  style={{ width: '50px', height: '50px', filter: 'brightness(0) invert(1)' }}
+                  onError={(e) => {
+                    if (item.fallback && e.currentTarget.src !== window.location.origin + item.fallback) {
+                      e.currentTarget.src = item.fallback;
+                    }
+                  }}
+                />
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -4703,12 +4853,12 @@ export const App: React.FC = () => {
                     </div>
 
                     <div className="w-full max-w-[1550px] px-4 sm:px-6 md:px-8 flex flex-col items-center gap-16 sm:gap-20 md:gap-28 relative pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-24 z-10">
-                        {/* 4 BLOQUES DE 1430x770px CON ANIMACIÓN DE DEVELO DE MÁSCARA AL LLEGAR A LA ZONA */}
-                        {INITIAL_PROJECTS.map((project, idx) => (
+                        {/* BLOQUES DE 1430x770px CON ANIMACIÓN DE DEVELO DE MÁSCARA AL LLEGAR A LA ZONA */}
+                        {homeProjects.map((project, idx) => (
                             <HomeWorkCard
                                 key={project.id}
                                 project={project}
-                                isLast={idx === INITIAL_PROJECTS.length - 1}
+                                isLast={idx === homeProjects.length - 1}
                                 lastProjectRef={lastProjectRef}
                                 onNavigate={(view) => setCurrentView(view)}
                                 onHoverStart={(e) => {
@@ -4730,13 +4880,46 @@ export const App: React.FC = () => {
                                 }}
                             />
                         ))}
+
+                        {/* BOTÓN LOAD MORE DEBAJO DE LOS TRABAJOS (HEINEKEN FEST) */}
+                        {homeProjects.length < INITIAL_PROJECTS.length + MORE_WORK_PROJECTS.length && (
+                          <div className="w-full flex justify-center pt-8 sm:pt-12 md:pt-16 pb-6">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setIsLoadingMoreProjects(true);
+                                setTimeout(() => {
+                                  setHomeProjects((prev) => {
+                                    const next = [...prev];
+                                    // Agregar únicamente 3 proyectos más
+                                    const remaining = MORE_WORK_PROJECTS.filter(
+                                      (item) => !next.some((p) => p.id === item.id || p.name.toLowerCase() === item.name.toLowerCase())
+                                    );
+                                    const batch = remaining.slice(0, 3);
+                                    return [...next, ...batch];
+                                  });
+                                  setIsLoadingMoreProjects(false);
+                                }, 300);
+                              }}
+                              disabled={isLoadingMoreProjects}
+                              aria-label="Load more projects"
+                              className="group relative inline-flex items-center justify-center px-10 sm:px-14 md:px-20 py-3.5 sm:py-4 md:py-5 rounded-full border border-black bg-white hover:bg-black text-black hover:text-white transition-all duration-300 ease-out cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98]"
+                            >
+                              <span className="text-[17px] sm:text-[20px] md:text-[23px] font-normal tracking-[-0.01em] uppercase select-none transition-colors duration-300">
+                                {isLoadingMoreProjects ? 'LOADING...' : 'LOAD MORE'}
+                              </span>
+                            </button>
+                          </div>
+                        )}
                     </div>
                 </div>
 
-                {/* MARQUEE TRUSTED */}
-                <div className="w-full max-w-[1550px] px-4 sm:px-6 md:px-8">
-                    <div className="w-full py-40 border-t border-gray-100 mt-20 overflow-hidden">
-                        <p className="text-[11px] font-black uppercase tracking-[0.4em] mb-16 pl-2 opacity-20">(TRUSTED BY VISIONARIES)</p>
+                {/* MARQUEE TRUSTED - FULL WIDTH */}
+                <div className="w-full border-t border-gray-100 mt-20 py-24 sm:py-32 md:py-40 overflow-hidden">
+                    <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-6 md:px-8 mb-12 sm:mb-16">
+                        <p className="text-[11px] font-black uppercase tracking-[0.4em] pl-2 opacity-20">(TRUSTED BY VISIONARIES)</p>
+                    </div>
+                    <div className="w-full overflow-hidden">
                         <LogosGroup />
                     </div>
                 </div>
