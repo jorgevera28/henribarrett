@@ -1,69 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { MaskTextReveal } from './MaskTextReveal';
 
 // --- LOGOS VECTORIALES DE ALTA FIDELIDAD ---
 
 const RedBullLogo = () => (
-  <div className="h-16 flex items-center select-none text-black">
-    <svg viewBox="0 0 180 65" className="h-12 w-auto fill-current" xmlns="http://www.w3.org/2000/svg">
-      {/* Red Bull stylized title */}
-      <text x="90" y="24" textAnchor="middle" fontFamily="'Arial Black', Impact, sans-serif" fontWeight="900" fontSize="22" letterSpacing="-0.5" fill="currentColor">
-        Red Bull
-      </text>
-      {/* Sun and charging bulls silhouette */}
-      <g transform="translate(90, 48)">
-        <circle cx="0" cy="0" r="11.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        {/* Left bull */}
-        <path d="M-8,-2 C-13,-4 -20,-7 -26,-6 C-31,-5 -36,-1 -40,3 C-37,3 -34,5 -32,7 C-29,5 -25,7 -21,10 C-18,6 -13,4 -9,5 C-5,3 -4,0 -8,-2 Z" fill="currentColor" />
-        <path d="M-19,-6 C-22,-10 -25,-12 -28,-13 C-26,-10 -25,-8 -24,-5 Z" fill="currentColor" />
-        {/* Right bull */}
-        <path d="M8,-2 C13,-4 20,-7 26,-6 C31,-5 36,-1 40,3 C37,3 34,5 32,7 C29,5 25,7 21,10 C18,6 13,4 9,5 C5,3 4,0 8,-2 Z" fill="currentColor" />
-        <path d="M19,-6 C22,-10 25,-12 28,-13 C26,-10 25,-8 24,-5 Z" fill="currentColor" />
-      </g>
-    </svg>
+  <div className="h-20 sm:h-24 flex items-center select-none">
+    <img
+      src="https://henribarrett.com/assets/site/svg/home/red_bull_by_henribarrett.svg"
+      alt="Red Bull"
+      className="h-14 sm:h-16 md:h-[72px] w-auto max-w-[210px] sm:max-w-[240px] md:max-w-[260px] object-contain select-none pointer-events-none"
+      decoding="async"
+    />
   </div>
 );
 
 const LaBicolorLogo = () => (
-  <div className="h-16 flex items-center select-none text-black">
-    <svg viewBox="0 0 210 65" className="h-11 w-auto" xmlns="http://www.w3.org/2000/svg">
-      {/* FPF Crest */}
-      <g transform="translate(8, 8)">
-        <path d="M0,0 L32,0 C32,24 24,40 16,46 C8,40 0,24 0,0 Z" fill="none" stroke="currentColor" strokeWidth="2.5" />
-        <path d="M11,0 L21,0 C21,26 16,44 16,44 C16,44 11,26 11,0 Z" fill="currentColor" opacity="0.25" />
-        <text x="16" y="22" textAnchor="middle" fontFamily="sans-serif" fontWeight="900" fontSize="10" letterSpacing="0.5" fill="currentColor">FPF</text>
-      </g>
-      {/* Trapezoid badge with LA BICOLOR */}
-      <g transform="translate(56, 10)">
-        <polygon points="12,0 145,0 133,42 0,42" fill="currentColor" />
-        <text x="68" y="18" textAnchor="middle" fontFamily="sans-serif" fontWeight="900" fontStyle="italic" fontSize="12" letterSpacing="1" fill="#fff">LA</text>
-        <text x="68" y="33" textAnchor="middle" fontFamily="sans-serif" fontWeight="900" fontStyle="italic" fontSize="12" letterSpacing="1" fill="#fff">BICOLOR™</text>
-      </g>
-    </svg>
+  <div className="h-16 flex items-center select-none">
+    <img
+      src="https://henribarrett.com/assets/site/svg/home/labicolor_by_henribarrett.svg"
+      alt="La Bicolor"
+      className="h-12 w-auto max-w-[170px] object-contain select-none pointer-events-none"
+      decoding="async"
+    />
   </div>
 );
 
 const NikeLogo = () => (
-  <div className="h-16 flex items-center select-none text-black">
-    <svg viewBox="0 0 160 55" className="h-9 w-auto fill-current" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19.5 44.5C12.1 41.5 8.5 34.7 11.2 28.7C13.2 24.4 18.3 21.1 24.6 20.1C28.1 19.5 32.1 20 36.3 21.6L143 5.2C145.9 4.8 147.7 6.8 145.8 10L49.8 53.7C43.3 56.7 37 57.7 31.6 56.6C26.6 55.6 22.8 52 19.5 44.5ZM108.1 20.1L38.8 38.4C34 39.7 30.2 39.5 27.8 37.7C25.3 36 24.7 33 26.2 29.8C27.6 26.8 30.5 24.8 34.8 24.2C37.7 23.8 41.4 24.5 45.8 26.2L108.1 20.1Z" />
-    </svg>
+  <div className="h-16 flex items-center select-none">
+    <img
+      src="https://henribarrett.com/assets/site/svg/home/nike_by_henribarrett.svg"
+      alt="Nike"
+      className="h-10 w-auto max-w-[150px] object-contain select-none pointer-events-none"
+      decoding="async"
+    />
   </div>
 );
 
 const HeinekenLogo = () => (
-  <div className="h-16 flex flex-col justify-center select-none text-black">
-    <div className="flex items-center gap-1.5 mb-1 pl-0.5">
-      <span className="text-[7px] font-bold tracking-widest uppercase opacity-60">TRADE</span>
-      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-      </svg>
-      <span className="text-[7px] font-bold tracking-widest uppercase opacity-60">MARK</span>
-    </div>
-    <span className="text-3xl font-black tracking-[-0.04em] font-serif leading-none">
-      Heineken<span className="text-[10px] font-sans font-normal align-top ml-0.5">®</span>
-    </span>
+  <div className="h-20 sm:h-24 flex items-center select-none">
+    <img
+      src="https://henribarrett.com/assets/site/svg/home/heineken_by_henribarrett.svg"
+      alt="Heineken"
+      className="h-14 sm:h-16 md:h-[68px] w-auto max-w-[210px] sm:max-w-[240px] md:max-w-[260px] object-contain select-none pointer-events-none"
+      decoding="async"
+    />
   </div>
 );
 
@@ -228,10 +210,98 @@ export const FeaturedClientsSection: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(true);
 
   // Estado del cursor personalizado flotante
-  const [mousePos, setMousePos] = useState({ x: -200, y: -200 });
+  const [mounted, setMounted] = useState(false);
   const [isHoveringCarousel, setIsHoveringCarousel] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const carouselContainerRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  // Detección de llegada a la sección con fade-in suave de los logos
+  const [isSectionInView, setIsSectionInView] = useState(false);
+  const [initialRevealComplete, setInitialRevealComplete] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsSectionInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsSectionInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -30px 0px',
+      }
+    );
+
+    if (sectionRef.current) {
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
+        setIsSectionInView(true);
+      } else {
+        observer.observe(sectionRef.current);
+      }
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Una vez completado el fade-in inicial, quitamos el delay escalonado para fluidez en la navegación
+  useEffect(() => {
+    if (isSectionInView) {
+      const timer = setTimeout(() => {
+        setInitialRevealComplete(true);
+      }, 1600);
+      return () => clearTimeout(timer);
+    }
+  }, [isSectionInView]);
+
+  // Tracking del mouse continuo cuando se encuentra en el carrusel
+  useEffect(() => {
+    if (!isHoveringCarousel) return;
+
+    const handleWindowMouseMove = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) scale(${
+          isPressed ? 0.92 : 1
+        })`;
+      }
+      if (carouselContainerRef.current) {
+        const rect = carouselContainerRef.current.getBoundingClientRect();
+        const isInside =
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom;
+        if (!isInside) {
+          setIsHoveringCarousel(false);
+          setIsPressed(false);
+        }
+      }
+    };
+
+    const handleWindowMouseUp = () => {
+      setIsPressed(false);
+    };
+
+    window.addEventListener('mousemove', handleWindowMouseMove, { passive: true });
+    window.addEventListener('mouseup', handleWindowMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleWindowMouseMove);
+      window.removeEventListener('mouseup', handleWindowMouseUp);
+    };
+  }, [isHoveringCarousel, isPressed]);
 
   // Ajuste responsive de elementos visibles por vista
   const [visibleCount, setVisibleCount] = useState(4);
@@ -308,7 +378,10 @@ export const FeaturedClientsSection: React.FC = () => {
   };
 
   return (
-    <section className="w-screen relative left-1/2 -translate-x-1/2 bg-white py-20 sm:py-28 md:py-32 px-6 sm:px-10 md:px-16 lg:px-20 select-none overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="w-screen relative left-1/2 -translate-x-1/2 bg-white py-20 sm:py-28 md:py-32 px-6 sm:px-10 md:px-16 lg:px-20 select-none overflow-hidden"
+    >
       <div className="w-full max-w-[1500px] mx-auto">
         {/* HEADER: FEATURED CLIENTS + TOP ARROWS */}
         <div className="w-full mb-14 sm:mb-20 md:mb-24 flex justify-between items-center">
@@ -346,8 +419,19 @@ export const FeaturedClientsSection: React.FC = () => {
         {/* CONTENEDOR DEL CARRUSEL (INTERACTIVO CON CURSOR BLANCO REDONDO Y ROTACIÓN DE 4 EN 4) */}
         <div
           ref={carouselContainerRef}
-          onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
-          onMouseEnter={() => setIsHoveringCarousel(true)}
+          onMouseEnter={(e) => {
+            setIsHoveringCarousel(true);
+            if (cursorRef.current) {
+              cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) scale(1)`;
+            }
+          }}
+          onMouseMove={(e) => {
+            if (cursorRef.current) {
+              cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) scale(${
+                isPressed ? 0.92 : 1
+              })`;
+            }
+          }}
           onMouseLeave={() => {
             setIsHoveringCarousel(false);
             setIsPressed(false);
@@ -374,9 +458,22 @@ export const FeaturedClientsSection: React.FC = () => {
                 className="shrink-0 px-4 sm:px-6 md:px-8 flex flex-col justify-start"
                 style={{ width: `${100 / visibleCount}%` }}
               >
-                {/* LOGO DE LA MARCA */}
+                {/* LOGO DE LA MARCA CON FADE IN SUAVE AL LLEGAR A LA ZONA */}
                 <div className="h-24 sm:h-28 flex items-center justify-start mb-6 sm:mb-8">
-                  {client.logo}
+                  <div
+                    className="w-full flex items-center justify-start transition-all will-change-[opacity,transform]"
+                    style={{
+                      opacity: isSectionInView ? 1 : 0,
+                      transform: isSectionInView ? 'translateY(0) scale(1)' : 'translateY(18px) scale(0.97)',
+                      transitionDuration: '1100ms',
+                      transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                      transitionDelay: !initialRevealComplete && isSectionInView
+                        ? `${Math.min(idx % visibleCount, 3) * 130 + 80}ms`
+                        : '0ms',
+                    }}
+                  >
+                    {client.logo}
+                  </div>
                 </div>
 
                 {/* TÍTULO */}
@@ -394,24 +491,24 @@ export const FeaturedClientsSection: React.FC = () => {
         </div>
       </div>
 
-      {/* CURSOR FLOTANTE PERSONALIZADO: CÍRCULO BLANCO CON FLECHA NEGRA EN MEDIO */}
-      <div
-        className={`hidden md:block fixed pointer-events-none z-50 transition-opacity duration-200 ${
-          isHoveringCarousel ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{
-          left: 0,
-          top: 0,
-          transform: `translate3d(${mousePos.x}px, ${mousePos.y}px, 0) translate(-50%, -50%) scale(${
-            isPressed ? 0.92 : 1
-          })`,
-          transition: 'transform 0.08s ease-out, opacity 0.2s ease',
-        }}
-      >
-        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-[0_14px_45px_rgba(0,0,0,0.18)] border border-black/[0.06] flex items-center justify-center text-black">
-          <ArrowRight className="w-8 h-8 sm:w-9 sm:h-9 stroke-[2.2]" />
-        </div>
-      </div>
+      {/* CURSOR FLOTANTE PERSONALIZADO PORTALIZADO AL BODY: CÍRCULO BLANCO CON FLECHA NEGRA EN MEDIO */}
+      {mounted &&
+        createPortal(
+          <div
+            ref={cursorRef}
+            className={`fixed top-0 left-0 pointer-events-none z-[999999] transition-opacity duration-150 will-change-transform ${
+              isHoveringCarousel ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              transform: `translate3d(-200px, -200px, 0) translate(-50%, -50%) scale(1)`,
+            }}
+          >
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-[0_14px_45px_rgba(0,0,0,0.22)] border border-black/[0.08] flex items-center justify-center text-black">
+              <ArrowRight className="w-8 h-8 sm:w-9 sm:h-9 stroke-[2.2]" />
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 };

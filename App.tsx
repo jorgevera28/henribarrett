@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import { Sun, MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
+import { MoveUpRight, MoveRight, Zap, Target, Aperture, Fingerprint, ArrowDown, ArrowRight, ArrowLeft, Instagram, ChevronDown, Play, X, Volume2, VolumeX, Pause, RotateCcw, Link2, ExternalLink, Settings2, Edit3, Check, RefreshCw } from 'lucide-react';
 import { FeaturedClientsSection } from './src/components/FeaturedClientsSection';
 import { WhoIsBarrettSection } from './src/components/WhoIsBarrettSection';
 import { ClientCaseStudiesSection } from './src/components/ClientCaseStudiesSection';
@@ -1268,6 +1268,90 @@ const BrandOakberry = () => (
   </div>
 );
 
+const VISIONARIES_LOGOS = [
+  { name: 'Heineken', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_heineken.svg' },
+  { name: 'UPC', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_upc.svg' },
+  { name: 'Interbank', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_interbank.svg' },
+  { name: 'PedidosYa', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pedidos_ya.svg' },
+  { name: 'Laive', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_laive.svg' },
+  { name: 'Café Lima', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cafe_lima.svg' },
+  { name: 'El Comercio', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_comercio.svg' },
+  { name: 'Rókys', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_rokys.svg' },
+  { name: 'MG', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_MG.svg' },
+  { name: 'Dove', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_dove.svg' },
+  { name: 'Sarcay', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_sarcay.svg' },
+  { name: 'Oeschle', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oeschle.svg' },
+  { name: 'Universidad Científica', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_uni_cientifica.svg' },
+  { name: 'Pickagood', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pickagood.svg' },
+  { name: 'Teclab', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_teclab.svg' },
+  { name: 'Cordillera', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cordillera.svg' },
+  { name: 'Avinka', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_avinka.svg' },
+  { name: 'Amoramar', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_amoramar.svg' },
+  { name: 'Oakberry', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oakberry.svg' },
+  { name: 'El Turco', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_turco.svg' },
+];
+
+const getVisionaryLogoConfig = (name: string, isHomeLogosGroup: boolean) => {
+  switch (name) {
+    case 'El Turco':
+      return {
+        // Generous container and padding to ensure hat and letters never touch borders or get cut off
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[150px] sm:min-w-[180px] md:min-w-[210px] h-20 sm:h-24 md:h-28 flex items-center justify-center p-1 sm:p-2' 
+          : 'min-w-[130px] sm:min-w-[160px] md:min-w-[190px] h-16 sm:h-18 md:h-20 flex items-center justify-center p-1',
+        imgClass: isHomeLogosGroup 
+          ? 'h-14 sm:h-18 md:h-22 lg:h-24 max-w-[180px] sm:max-w-[210px] md:max-w-[240px]' 
+          : 'h-12 sm:h-14 md:h-16 max-w-[160px] sm:max-w-[185px]',
+      };
+    case 'MG':
+      return {
+        // Enlarge MG octagon logo so it matches the visual presence of horizontal logos
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[125px] sm:min-w-[155px] md:min-w-[185px] h-18 sm:h-22 md:h-24 flex items-center justify-center' 
+          : 'min-w-[110px] sm:min-w-[135px] md:min-w-[160px] h-14 sm:h-16 md:h-18 flex items-center justify-center',
+        imgClass: isHomeLogosGroup 
+          ? 'h-12 sm:h-14 md:h-17 lg:h-19 max-w-[140px] sm:max-w-[170px] md:max-w-[190px]' 
+          : 'h-10 sm:h-12 md:h-14 max-w-[120px] sm:max-w-[145px]',
+      };
+    case 'PedidosYa':
+      return {
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[135px] sm:min-w-[165px] md:min-w-[195px] h-14 sm:h-16 md:h-18 flex items-center justify-center' 
+          : 'min-w-[120px] sm:min-w-[150px] md:min-w-[175px] h-12 sm:h-14 md:h-16 flex items-center justify-center',
+        imgClass: isHomeLogosGroup 
+          ? 'h-11 sm:h-13 md:h-15 lg:h-16 max-w-[180px] sm:max-w-[210px] md:max-w-[240px]' 
+          : 'h-9 sm:h-11 md:h-13 max-w-[160px] sm:max-w-[190px]',
+      };
+    case 'Heineken':
+      return {
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[155px] sm:min-w-[195px] md:min-w-[235px] h-16 sm:h-18 md:h-20 flex items-center justify-center' 
+          : 'min-w-[130px] sm:min-w-[165px] md:min-w-[195px] h-13 sm:h-15 md:h-17 flex items-center justify-center',
+        imgClass: isHomeLogosGroup 
+          ? 'h-13 sm:h-15 md:h-17 lg:h-19 max-w-[210px] sm:max-w-[245px] md:max-w-[280px]' 
+          : 'h-10 sm:h-12 md:h-14 max-w-[185px] sm:max-w-[220px]',
+      };
+    case 'Cordillera':
+      return {
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[145px] sm:min-w-[180px] md:min-w-[215px] h-14 sm:h-16 md:h-18 flex items-center justify-center' 
+          : 'min-w-[125px] sm:min-w-[155px] md:min-w-[185px] h-12 sm:h-14 md:h-16 flex items-center justify-center',
+        imgClass: isHomeLogosGroup 
+          ? 'h-11 sm:h-13 md:h-15 lg:h-16 max-w-[200px] sm:max-w-[230px] md:max-w-[260px]' 
+          : 'h-9 sm:h-11 md:h-13 max-w-[180px] sm:max-w-[210px]',
+      };
+    default:
+      return {
+        containerClass: isHomeLogosGroup 
+          ? 'min-w-[110px] sm:min-w-[140px] md:min-w-[170px] h-10 sm:h-12 md:h-14 flex items-center justify-center' 
+          : 'min-w-[100px] sm:min-w-[130px] md:min-w-[150px] h-9 sm:h-11 md:h-12 flex items-center justify-center',
+        imgClass: isHomeLogosGroup 
+          ? 'h-7 sm:h-9 md:h-10 lg:h-11 max-w-[140px] sm:max-w-[170px] md:max-w-[200px]' 
+          : 'h-7 sm:h-8 md:h-9 max-w-[140px] sm:max-w-[160px]',
+      };
+  }
+};
+
 const TrustedByVisionariesSection = () => {
   useEffect(() => {
     VISIONARIES_LOGOS.forEach((item) => {
@@ -1284,7 +1368,7 @@ const TrustedByVisionariesSection = () => {
         </h3>
       </div>
 
-      <div className="w-full overflow-hidden select-none opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+      <div className="w-full overflow-hidden select-none opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 py-4 sm:py-6">
         <div 
           className="flex w-max animate-marquee-right items-center will-change-transform" 
           style={{ animationDuration: '45s' }}
@@ -1294,21 +1378,24 @@ const TrustedByVisionariesSection = () => {
               key={`tbv-track-${trackIdx}`} 
               className="flex items-center shrink-0 gap-10 sm:gap-14 md:gap-16 pr-10 sm:pr-14 md:pr-16"
             >
-              {VISIONARIES_LOGOS.map((item, idx) => (
-                <div
-                  key={`tbv-${trackIdx}-${item.name}-${idx}`}
-                  className="inline-flex items-center justify-center shrink-0 min-w-[100px] sm:min-w-[130px] md:min-w-[150px] h-9 sm:h-11 md:h-12 px-2 select-none hover:scale-105 transition-transform"
-                >
-                  <img
-                    src={item.url}
-                    alt={item.name}
-                    className="h-7 sm:h-8 md:h-9 max-w-[140px] sm:max-w-[160px] w-auto object-contain pointer-events-none"
-                    loading="eager"
-                    decoding="sync"
-                    draggable={false}
-                  />
-                </div>
-              ))}
+              {VISIONARIES_LOGOS.map((item, idx) => {
+                const config = getVisionaryLogoConfig(item.name, false);
+                return (
+                  <div
+                    key={`tbv-${trackIdx}-${item.name}-${idx}`}
+                    className={`inline-flex items-center justify-center shrink-0 ${config.containerClass} px-2 select-none hover:scale-105 transition-transform`}
+                  >
+                    <img
+                      src={item.url}
+                      alt={item.name}
+                      className={`${config.imgClass} w-auto object-contain pointer-events-none origin-center`}
+                      loading="eager"
+                      decoding="sync"
+                      draggable={false}
+                    />
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>
@@ -1487,29 +1574,6 @@ const SpacesWeWorkInSection = () => {
   );
 };
 
-const VISIONARIES_LOGOS = [
-  { name: 'Heineken', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_heineken.svg' },
-  { name: 'UPC', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_upc.svg' },
-  { name: 'Interbank', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_interbank.svg' },
-  { name: 'PedidosYa', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pedidos_ya.svg' },
-  { name: 'Laive', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_laive.svg' },
-  { name: 'Café Lima', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cafe_lima.svg' },
-  { name: 'El Comercio', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_comercio.svg' },
-  { name: 'Rókys', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_rokys.svg' },
-  { name: 'MG', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_MG.svg' },
-  { name: 'Dove', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_dove.svg' },
-  { name: 'Sarcay', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_sarcay.svg' },
-  { name: 'Oeschle', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oeschle.svg' },
-  { name: 'Universidad Científica', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_uni_cientifica.svg' },
-  { name: 'Pickagood', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_pickagood.svg' },
-  { name: 'Teclab', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_teclab.svg' },
-  { name: 'Cordillera', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_cordillera.svg' },
-  { name: 'Avinka', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_avinka.svg' },
-  { name: 'Amoramar', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_amoramar.svg' },
-  { name: 'Oakberry', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_oakberry.svg' },
-  { name: 'El Turco', url: 'https://henribarrett.com/assets/site/svg/home/visionaries_logo_el_turco.svg' },
-];
-
 const LogosGroup = () => {
   useEffect(() => {
     // Eagerly preload all visionary brand logos into browser memory to eliminate image load jumps
@@ -1520,9 +1584,9 @@ const LogosGroup = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+    <div className="w-full overflow-hidden flex opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 py-4 sm:py-6 md:py-8">
       <div 
-        className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
+        className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform items-center" 
         style={{ animationDuration: '45s' }}
       >
         {[0, 1].map((trackIdx) => (
@@ -1530,21 +1594,24 @@ const LogosGroup = () => {
             key={`logos-track-${trackIdx}`} 
             className="flex items-center shrink-0 gap-8 sm:gap-12 md:gap-16 pr-8 sm:pr-12 md:pr-16"
           >
-            {VISIONARIES_LOGOS.map((item, idx) => (
-              <div
-                key={`vis-logo-${trackIdx}-${item.name}-${idx}`}
-                className="inline-flex items-center justify-center shrink-0 min-w-[110px] sm:min-w-[140px] md:min-w-[170px] h-10 sm:h-12 md:h-14 px-4 sm:px-6 md:px-8 select-none transition-transform duration-300 hover:scale-105"
-              >
-                <img
-                  src={item.url}
-                  alt={item.name}
-                  className="h-7 sm:h-9 md:h-10 lg:h-11 max-w-[140px] sm:max-w-[170px] md:max-w-[200px] w-auto object-contain pointer-events-none"
-                  loading="eager"
-                  decoding="sync"
-                  draggable={false}
-                />
-              </div>
-            ))}
+            {VISIONARIES_LOGOS.map((item, idx) => {
+              const config = getVisionaryLogoConfig(item.name, true);
+              return (
+                <div
+                  key={`vis-logo-${trackIdx}-${item.name}-${idx}`}
+                  className={`inline-flex items-center justify-center shrink-0 ${config.containerClass} px-4 sm:px-6 md:px-8 select-none transition-transform duration-300 hover:scale-105`}
+                >
+                  <img
+                    src={item.url}
+                    alt={item.name}
+                    className={`${config.imgClass} w-auto object-contain pointer-events-none origin-center`}
+                    loading="eager"
+                    decoding="sync"
+                    draggable={false}
+                  />
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>
@@ -3633,6 +3700,9 @@ export const App: React.FC = () => {
   const lastSectionRef = useRef<HTMLDivElement>(null);
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const approachFirstLineRef = useRef<HTMLSpanElement>(null);
+  const approachIsologoRef = useRef<HTMLImageElement>(null);
+  const approachIsologoRotation = useRef(0);
+  const lastScrollYForIsologo = useRef(0);
   const inspiredDockingRef = useRef<HTMLDivElement>(null);
   const [inspiredRevealed, setInspiredRevealed] = useState(false);
   const [hero1920Margin, setHero1920Margin] = useState<number | null>(null);
@@ -3743,6 +3813,7 @@ export const App: React.FC = () => {
       setInternalView(nextView);
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
       currentScrollY.current = 0;
+      lastScrollYForIsologo.current = 0;
 
       // 2. Mantenimiento / Punto medio (el logo en el centro gira de forma dinámica y continua): 1100ms
       setTimeout(() => {
@@ -3762,6 +3833,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     currentScrollY.current = 0;
+    lastScrollYForIsologo.current = 0;
     if (currentView === 'work') {
       setViewMode('grid');
     }
@@ -3867,6 +3939,16 @@ export const App: React.FC = () => {
       if (contentRef.current && currentViewRef.current === 'home') {
         contentRef.current.style.transform = `translate3d(0, -${currentScrollY.current}px, 0)`;
       }
+
+      // Rotación del isologo de Henri Barrett: gira exclusivamente al hacer scroll down
+      const isologoScrollDiff = currentScrollY.current - lastScrollYForIsologo.current;
+      if (isologoScrollDiff > 0.05) {
+        approachIsologoRotation.current = (approachIsologoRotation.current + isologoScrollDiff * 0.45) % 360;
+        if (approachIsologoRef.current) {
+          approachIsologoRef.current.style.transform = `rotate(${approachIsologoRotation.current}deg)`;
+        }
+      }
+      lastScrollYForIsologo.current = currentScrollY.current;
 
       const animationRange = windowHeight * 2.5; 
       const scrollProgress = Math.max(0, Math.min(currentScrollY.current / animationRange, 1));
@@ -4753,7 +4835,13 @@ export const App: React.FC = () => {
                         <span>resonant brand messages that echo across audiences.</span>
                     </p>
                     <div className="flex justify-center md:justify-end min-w-[120px]">
-                        <Sun className="w-20 h-20 animate-[spin_12s_linear_infinite] opacity-60" />
+                        <img
+                          ref={approachIsologoRef}
+                          src="https://henribarrett.com/assets/site/svg/home/isologo_henribarrett.svg"
+                          alt="Henri Barrett Isologo"
+                          className="w-20 h-20 object-contain select-none pointer-events-none will-change-transform"
+                          style={{ transformOrigin: 'center center' }}
+                        />
                     </div>
                 </div>
             </div>
@@ -4962,7 +5050,9 @@ export const App: React.FC = () => {
                     </div>
 
                     {/* PRAISE FROM CLIENTS */}
-                    <PraiseFromClientsSection />
+                    <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-6 md:px-8">
+                      <PraiseFromClientsSection />
+                    </div>
 
                     {/* FEATURED CLIENTS CAROUSEL */}
                     <FeaturedClientsSection />
