@@ -121,7 +121,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
   return (
     <section className="w-full bg-white pb-32 pt-8 select-none">
       {/* 1. CABECERA: CLIENT CASE STUDIES + FLECHA SUPERIOR DERECHA */}
-      <div className="w-full flex justify-between items-start mb-10 sm:mb-14 md:mb-16">
+      <div className="w-full flex justify-between items-start mb-16 sm:mb-20 md:mb-24 lg:mb-28">
         <MaskTextReveal
           as="h2"
           className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5vw] 2xl:text-[130px] font-light font-[300] tracking-[-0.04em] uppercase leading-[0.86] text-black"
@@ -143,9 +143,9 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (CENTRADOS, UNA SOLA LÍNEA, ESCALA AJUSTADA PARA 744x1133) */}
-      <div className="w-full py-2 mb-8 sm:mb-12 md:mb-16 flex justify-center px-4 overflow-x-auto no-scrollbar">
-        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-4 flex-nowrap shrink-0">
+      {/* 2. FILTROS POR TIPO DE TRABAJO (ALINEADOS A LA IZQUIERDA CON EL TITULAR SEGÚN CAPTURA) */}
+      <div className="w-full mb-12 sm:mb-16 md:mb-20 lg:mb-24 flex justify-start overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-start gap-2 sm:gap-3 md:gap-3.5 lg:gap-4 xl:gap-4.5 flex-nowrap shrink-0">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -153,7 +153,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
                 key={cat}
                 type="button"
                 onClick={() => handleCategoryClick(cat)}
-                className={`rounded-full px-3 sm:px-4 md:px-4.5 lg:px-6 xl:px-7 py-1 sm:py-1.5 lg:py-2 text-[11px] sm:text-[13px] md:text-[14px] lg:text-[16px] xl:text-[19px] 2xl:text-[21px] font-medium font-[500] uppercase tracking-tight border sm:border-[1.5px] lg:border-2 border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
+                className={`rounded-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 text-[13px] sm:text-[15px] md:text-[17px] lg:text-[20px] xl:text-[23px] 2xl:text-[25px] font-normal font-[450] uppercase tracking-tight border border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
                   isActive
                     ? 'bg-black text-white shadow-sm'
                     : 'bg-transparent text-black hover:bg-black hover:text-white'

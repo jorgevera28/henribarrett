@@ -20,9 +20,6 @@ import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import { MaskTextReveal } from './src/components/MaskTextReveal';
 import type { AppView } from './src/types';
 
-export type { AppView };
-export { MainNav };
-
 // --- MAIN CODE ---
 
 // --- DATOS ---
@@ -173,7 +170,7 @@ interface ReelItem {
   instagramShortcode?: string;
 }
 
-export const extractInstagramShortcode = (urlOrCode: string): string => {
+const extractInstagramShortcode = (urlOrCode: string): string => {
   if (!urlOrCode) return '';
   const clean = urlOrCode.trim();
   const match = clean.match(/(?:instagram\.com\/(?:reel|p|tv)\/|instagram\.com\/[^/]+\/reel\/)([A-Za-z0-9_-]+)/);
@@ -182,7 +179,7 @@ export const extractInstagramShortcode = (urlOrCode: string): string => {
   return '';
 };
 
-export const HB_REELS_ASSETS = {
+const HB_REELS_ASSETS = {
   kauawai: 'https://henribarrett.com/assets/site/content/instagram/reels/kauawai.mp4',
   redBull: 'https://henribarrett.com/assets/site/content/instagram/reels/red_bull.mp4',
   sessions: 'https://henribarrett.com/assets/site/content/instagram/reels/sessions.mp4',
@@ -403,9 +400,9 @@ class GlobalVideoPlaybackManager {
   }
 }
 
-export const globalVideoManager = new GlobalVideoPlaybackManager();
+const globalVideoManager = new GlobalVideoPlaybackManager();
 
-export const LoopedReelVideo: React.FC<{
+const LoopedReelVideo: React.FC<{
   id?: string;
   src: string;
   poster?: string;
@@ -2404,7 +2401,7 @@ const QUICKLYS_ARTICLES: QuicklysArticle[] = [
   }
 ];
 
-export const QuicklysArticlesSection: React.FC = () => {
+const QuicklysArticlesSection: React.FC = () => {
   const [selectedArticle, setSelectedArticle] = useState<QuicklysArticle | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -2943,7 +2940,7 @@ const ALL_QUICKLYS_ARTICLES: QuicklysArticleItem[] = [
   },
 ];
 
-export const AllQuicklysSection: React.FC = () => {
+const AllQuicklysSection: React.FC = () => {
   const [cultureIndex, setCultureIndex] = useState(0);
   const [nikeIndex, setNikeIndex] = useState(0);
   const [tottusIndex, setTottusIndex] = useState(0);
@@ -3844,6 +3841,19 @@ export const App: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [homeProjects, setHomeProjects] = useState<InitialProject[]>(INITIAL_PROJECTS);
   const [isLoadingMoreProjects, setIsLoadingMoreProjects] = useState(false);
+
+  const handleExploreMore = () => {
+    const remaining = MORE_WORK_PROJECTS.filter(
+      (moreProj) => !homeProjects.some((p) => p.id === moreProj.id || p.name === moreProj.name)
+    );
+
+    if (remaining.length > 0) {
+      const nextBatch = remaining.slice(0, 3);
+      setHomeProjects((prev) => [...prev, ...nextBatch]);
+    } else {
+      setCurrentView('work');
+    }
+  };
 
   const filteredProjects = ALL_PROJECTS.filter((p) => {
     if (selectedCategory.startsWith('All Projects')) return true;
@@ -5106,14 +5116,14 @@ export const App: React.FC = () => {
                         ))}
 
                         {/* BOTÓN EXPLORE MORE DEBAJO DE LOS TRABAJOS (SEGÚN CAPTURA) */}
-                        <div className="w-full flex justify-center pt-8 sm:pt-10 pb-4 sm:pb-6">
+                        <div className="w-full flex justify-center pt-10 sm:pt-14 md:pt-16 pb-6 sm:pb-8">
                           <button
                             type="button"
-                            onClick={() => setCurrentView('work')}
+                            onClick={handleExploreMore}
                             aria-label="Explore more projects"
-                            className="group relative inline-flex items-center justify-center px-8 sm:px-10 py-2.5 sm:py-3 rounded-full border border-black bg-white hover:bg-black text-black hover:text-white transition-all duration-300 ease-out cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98]"
+                            className="group relative inline-flex items-center justify-center px-8 sm:px-11 md:px-14 lg:px-16 py-2.5 sm:py-3.5 md:py-4 rounded-full border border-black bg-white hover:bg-black text-black hover:text-white transition-all duration-300 ease-out cursor-pointer shadow-none hover:shadow-md active:scale-[0.98]"
                           >
-                            <span className="text-[12px] sm:text-[13px] md:text-[14px] font-normal tracking-[0.14em] uppercase select-none transition-colors duration-300">
+                            <span className="text-[16px] sm:text-[19px] md:text-[22px] lg:text-[25px] xl:text-[27px] font-normal font-[450] tracking-[-0.01em] uppercase select-none leading-none transition-colors duration-300">
                               EXPLORE MORE
                             </span>
                           </button>

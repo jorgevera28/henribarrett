@@ -3,6 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Gracefully prevent disconnected Vite HMR errors in cloud sandbox
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e && e.reason && typeof e.reason.message === 'string' && e.reason.message.includes('send was called before connect')) {
+          e.preventDefault();
+        }
+      });
+      window.addEventListener('error', function(e) {
+        if (e && typeof e.message === 'string' && e.message.includes('send was called before connect')) {
+          e.preventDefault();
+        }
+      });
+    </script>
     <title>Henri Barrett® remix george</title>
     <meta name="description" content="Portafolio interactivo de Henri Barrett® con pestaña About Us de diseño editorial de alta fidelidad, grilla dinámica masonry de Quicklys 9:16 y reproductor embebido de Reels oficiales." />
     <meta property="og:title" content="Henri Barrett® remix george" />

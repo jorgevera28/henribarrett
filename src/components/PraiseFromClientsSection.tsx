@@ -11,7 +11,7 @@ export interface TestimonialItem {
   quote: string;
 }
 
-export const TESTIMONIALS: TestimonialItem[] = [
+const TESTIMONIALS: TestimonialItem[] = [
   {
     id: 1,
     name: 'Allie kuzyk',
@@ -165,24 +165,47 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
     setIsMounted(true);
   }, []);
 
-  const getTestimonialMetrics = () => {
+  const [containerLeftPad, setContainerLeftPad] = useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      let basePad = 20;
+      if (width >= 1024) basePad = 80;
+      else if (width >= 768) basePad = 56;
+      else if (width >= 640) basePad = 32;
+      return width > 1500 ? Math.round((width - 1500) / 2) + basePad : basePad;
+    }
+    return 20;
+  });
+
+  const getLeftPadding = () => {
+    if (typeof window === 'undefined') return 20;
+    const width = window.innerWidth;
+    let basePad = 20;
+    if (width >= 1024) basePad = 80;
+    else if (width >= 768) basePad = 56;
+    else if (width >= 640) basePad = 32;
+
+    if (width > 1500) {
+      return Math.round((width - 1500) / 2) + basePad;
+    }
+    return basePad;
+  };
+
+  const getTestimonialMetrics = (leftPadArg?: number) => {
     if (typeof window === 'undefined') {
-      return { cardWidth: 325, gap: 20, twoItemsWidth: 690 };
+      return { cardWidth: 520, gap: 24, twoItemsWidth: 1088 };
     }
     const width = window.innerWidth;
     const gap = width < 640 ? 16 : width < 1024 ? 20 : 28;
+    const leftPad = leftPadArg !== undefined ? leftPadArg : getLeftPadding();
+    const visibleSpace = width - leftPad;
 
     let cardW = 325;
     if (width < 640) {
-      // Mobile: tarjeta ancha
-      cardW = Math.round(width * 0.84);
-    } else if (width <= 900) {
-      // 744x1133 iPad / Tablet: exactamente 2 tarjetas completas + 1 asomando por la derecha
-      cardW = 325;
-    } else if (width < 1440) {
-      cardW = Math.min(520, Math.round((width - 120) * 0.44));
+      cardW = Math.max(280, Math.round((visibleSpace - gap) * 0.85));
     } else {
-      cardW = 560;
+      // 2 tarjetas completas + la 3ra tarjeta llegando y cortándose directamente en el borde derecho de la pantalla
+      cardW = Math.max(300, Math.round((visibleSpace - gap * 2) / 2.36));
     }
 
     const twoItemsWidth = (cardW + gap) * 2;
@@ -198,31 +221,34 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
     const scrollLeft = testimonialsRef.current.scrollLeft;
     const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
     const isMobile = window.innerWidth < 640;
-    const visibleCards = isMobile ? 1 : 2;
+    const baseCount = isMobile ? 2 : 4;
 
     if (maxScroll <= 5) {
       setCurrentCard(totalCards);
       return;
     }
 
-    if (scrollLeft <= 15) {
-      setCurrentCard(isMobile ? 2 : 4);
+    if (scrollLeft <= 20) {
+      setCurrentCard(baseCount);
       return;
     }
 
-    if (scrollLeft >= maxScroll - 20) {
+    if (scrollLeft >= maxScroll - 35) {
       setCurrentCard(totalCards);
       return;
     }
 
-    const calculated = Math.round(scrollLeft / cardFullWidth) * 2 + visibleCards;
-    const clamped = Math.min(totalCards, Math.max(visibleCards, calculated));
+    const cardsScrolled = Math.round(scrollLeft / cardFullWidth);
+    const calculated = cardsScrolled * (isMobile ? 1 : 2) + baseCount;
+    const clamped = Math.min(totalCards, Math.max(baseCount, calculated));
     setCurrentCard(clamped);
   };
 
   useEffect(() => {
     const updateMetricsAndIndex = () => {
-      const { cardWidth } = getTestimonialMetrics();
+      const leftPad = getLeftPadding();
+      setContainerLeftPad(leftPad);
+      const { cardWidth } = getTestimonialMetrics(leftPad);
       setTestimonialCardWidth(cardWidth);
       updateCurrentCard();
     };
@@ -349,15 +375,32 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
   const handleTouchEnd = () => {
     if (!dragRef.current.isDragging) return;
     dragRef.current.isDragging = false;
-    snapToNearest();
+    if (Math.abs(dragRef.current.walk) < 10) {
+      scrollTestimonials();
+    } else {
+      snapToNearest();
+    }
   };
 
   const snapToNearest = () => {
     if (!testimonialsRef.current) return;
     const { twoItemsWidth } = getTestimonialMetrics();
+    const isMobile = window.innerWidth < 640;
 
     const currentScroll = testimonialsRef.current.scrollLeft;
     const walk = dragRef.current.walk;
+    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+
+    // Si arrastra hacia la izquierda estando al final para avanzar tras el 18:
+    if ((currentScroll >= maxScroll - 35 || currentCard >= totalCards) && walk < -25) {
+      testimonialsRef.current.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+      setCurrentCard(isMobile ? 2 : 4);
+      dragRef.current.walk = 0;
+      return;
+    }
 
     let targetScroll;
     if (walk < -50) {
@@ -368,7 +411,10 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
       targetScroll = Math.round(currentScroll / twoItemsWidth) * twoItemsWidth;
     }
 
-    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+    if (targetScroll >= maxScroll - 35) {
+      targetScroll = maxScroll;
+    }
+
     targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
 
     testimonialsRef.current.scrollTo({
@@ -386,37 +432,40 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
     const step = isMobile ? cardWidth + gap : twoItemsWidth;
 
     const currentScroll = testimonialsRef.current.scrollLeft;
+    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+
+    // Si ya estamos cerca del final o el contador llegó a 18:
+    // Al hacer click, reiniciar suavemente al principio para seguir avanzando en bucle continuo
+    if (currentScroll >= maxScroll - 35 || currentCard >= totalCards) {
+      testimonialsRef.current.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+      setCurrentCard(isMobile ? 2 : 4);
+      return;
+    }
+
     let nextSnap = Math.round(currentScroll / step) * step + step;
 
-    const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
-    if (nextSnap >= maxScroll - 10) {
-      if (currentScroll + 15 >= maxScroll) {
-        nextSnap = 0;
-      } else {
-        nextSnap = maxScroll;
-      }
+    if (nextSnap >= maxScroll - 35) {
+      nextSnap = maxScroll;
+      setCurrentCard(totalCards);
+    } else {
+      const calculated = Math.round(nextSnap / (cardWidth + gap)) * 2 + (isMobile ? 1 : 2);
+      setCurrentCard(Math.min(totalCards, calculated));
     }
 
     testimonialsRef.current.scrollTo({
       left: nextSnap,
       behavior: 'smooth',
     });
-
-    if (nextSnap === 0) {
-      setCurrentCard(isMobile ? 2 : 4);
-    } else if (nextSnap >= maxScroll - 15) {
-      setCurrentCard(totalCards);
-    } else {
-      const calculated = Math.round(nextSnap / (cardWidth + gap)) * 2 + (isMobile ? 1 : 2);
-      setCurrentCard(Math.min(totalCards, calculated));
-    }
   };
 
   return (
-    <section className={`w-screen relative left-1/2 -translate-x-1/2 bg-[#EDEDED] py-20 sm:py-28 md:py-32 px-5 sm:px-8 md:px-14 lg:px-20 select-none overflow-hidden ${className}`}>
-      <div className="w-full max-w-[1500px] mx-auto">
-        {/* CABECERA EDITORIAL: PRAISE / FROM CLIENTS + 4—18 (SEGÚN CAPTURA IPAD) */}
-        <div className="w-full flex justify-between items-start mb-12 sm:mb-16 md:mb-20">
+    <section className={`w-screen relative left-1/2 -translate-x-1/2 bg-white py-20 sm:py-28 md:py-32 select-none overflow-hidden ${className}`}>
+      {/* CABECERA EDITORIAL: PRAISE / FROM CLIENTS + 4—18 (SEGÚN CAPTURA IPAD) */}
+      <div className="w-full max-w-[1500px] mx-auto px-5 sm:px-8 md:px-14 lg:px-20 mb-12 sm:mb-16 md:mb-20">
+        <div className="w-full flex justify-between items-start">
           <div className="flex flex-col">
             <MaskTextReveal
               as="h2"
@@ -438,59 +487,62 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
             </span>
           </div>
         </div>
+      </div>
 
-        {/* CONTENEDOR DEL CARRUSEL DE TARJETAS BLANCAS CON FONDO GRIS Y CURSOR PERSONALIZADO */}
-        <div
-          ref={testimonialsRef}
-          onScroll={updateCurrentCard}
-          onMouseEnter={handleMouseEnter}
-          onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className="w-full overflow-x-auto no-scrollbar cursor-none select-none py-2"
-        >
-          <div className="flex gap-4 sm:gap-5 md:gap-6 lg:gap-7 w-max items-stretch cursor-none">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.id}
-                style={{ width: `${testimonialCardWidth}px` }}
-                className="bg-white p-7 sm:p-9 md:p-10 flex flex-col justify-start rounded-[24px] sm:rounded-[28px] shrink-0 border border-black/[0.03] shadow-[0_4px_20px_rgba(0,0,0,0.03)] cursor-none pointer-events-auto transition-transform duration-300"
-              >
-                {/* CABECERA DE LA TARJETA: AVATAR CIRCULAR + NOMBRE Y CARGO */}
-                <div className="flex items-center gap-3.5 sm:gap-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 overflow-hidden border border-black/[0.06] shrink-0">
-                    <img
-                      src={t.image}
-                      alt={t.name}
-                      className="w-full h-full object-cover select-none pointer-events-none"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex flex-col leading-tight">
-                    <span className="font-normal font-[450] text-[15.5px] sm:text-[17px] text-black tracking-normal">
-                      {t.name}
-                    </span>
-                    <span className="text-[13px] sm:text-[14px] text-gray-500 font-normal mt-0.5 tracking-normal">
-                      {t.role}
-                    </span>
-                  </div>
+      {/* CONTENEDOR DEL CARRUSEL: ALINEADO A LA IZQUIERDA CON EL CONTENEDOR, PERO LLEGANDO HASTA EL BORDE DERECHO DE LA PANTALLA */}
+      <div
+        ref={testimonialsRef}
+        onScroll={updateCurrentCard}
+        onMouseEnter={handleMouseEnter}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          paddingLeft: `${containerLeftPad}px`,
+        }}
+        className="w-full overflow-x-auto no-scrollbar cursor-none select-none py-2 pr-0"
+      >
+        <div className="flex gap-4 sm:gap-5 md:gap-6 lg:gap-7 w-max items-stretch cursor-none pr-8 sm:pr-14 md:pr-20">
+          {TESTIMONIALS.map((t) => (
+            <div
+              key={t.id}
+              style={{ width: `${testimonialCardWidth}px` }}
+              className="bg-white pt-8 sm:pt-10 md:pt-12 px-7 sm:px-9 md:px-11 pb-16 sm:pb-20 md:pb-24 min-h-[350px] sm:min-h-[380px] md:min-h-[410px] flex flex-col justify-start rounded-[10px] sm:rounded-[12px] shrink-0 border border-[#E2E2E2] shadow-none cursor-none pointer-events-auto transition-all duration-300"
+            >
+              {/* CABECERA DE LA TARJETA: AVATAR CIRCULAR + NOMBRE Y CARGO */}
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 overflow-hidden shrink-0">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-full h-full object-cover select-none pointer-events-none"
+                    loading="lazy"
+                  />
                 </div>
-
-                {/* TEXTO DEL TESTIMONIO (TIPO EDITORIAL ROMAN, SIN ITÁLICA, COLOR NEGRO) */}
-                <div className="mt-7 sm:mt-9 md:mt-11 flex-1 flex flex-col justify-start">
-                  <p className="text-[15px] sm:text-[16.5px] md:text-[17.5px] leading-[1.38] sm:leading-[1.42] font-normal font-[400] text-black tracking-[-0.01em]">
-                    {t.quote}
-                  </p>
+                <div className="flex flex-col leading-tight">
+                  <span className="font-normal font-[450] text-[15.5px] sm:text-[17px] text-black tracking-normal">
+                    {t.name}
+                  </span>
+                  <span className="text-[13px] sm:text-[14px] text-gray-500 font-normal mt-0.5 tracking-normal">
+                    {t.role}
+                  </span>
                 </div>
               </div>
-            ))}
-            {/* Espaciador final para permitir que la última tarjeta quede centrada y sin cortes */}
-            <div className="w-8 sm:w-12 shrink-0"></div>
-          </div>
+
+              {/* TEXTO DEL TESTIMONIO (TIPO EDITORIAL ROMAN, SIN ITÁLICA, COLOR NEGRO) */}
+              <div className="mt-8 sm:mt-10 md:mt-12 flex-1 flex flex-col justify-start">
+                <p className="text-[15px] sm:text-[16.5px] md:text-[17.5px] leading-[1.42] sm:leading-[1.46] font-normal font-[400] text-black tracking-[-0.01em]">
+                  {t.quote}
+                </p>
+              </div>
+            </div>
+          ))}
+          {/* Espaciador final para permitir que la última tarjeta quede centrada y sin cortes */}
+          <div className="w-12 sm:w-20 shrink-0"></div>
         </div>
       </div>
 

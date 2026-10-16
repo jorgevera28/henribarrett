@@ -27,6 +27,17 @@ const LaBicolorLogo = () => (
   </div>
 );
 
+const KotexLogo = () => (
+  <div className="h-20 sm:h-24 flex items-center select-none">
+    <img
+      src="https://henribarrett.com/assets/site/svg/home/kotex_by_henribarrett.svg"
+      alt="Kotex"
+      className="h-10 sm:h-12 md:h-14 w-auto max-w-[170px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      decoding="async"
+    />
+  </div>
+);
+
 const NikeLogo = () => (
   <div className="h-20 sm:h-24 flex items-center select-none">
     <img
@@ -49,17 +60,6 @@ const HeinekenLogo = () => (
   </div>
 );
 
-const SpotifyLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center gap-2 select-none text-[#555555]">
-    <svg className="w-8 h-8 fill-current shrink-0" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="11" />
-      <path d="M6 9.5c3.5-1 7.5-.8 11.2.7" stroke="#ededed" strokeWidth="2" strokeLinecap="round" fill="none" />
-      <path d="M7 12.5c2.8-.8 6-.6 9 .6" stroke="#ededed" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-      <path d="M8 15.5c2.2-.6 4.7-.5 7 .5" stroke="#ededed" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-    </svg>
-    <span className="text-2xl font-black tracking-tighter">Spotify</span>
-  </div>
-);
 
 const AppleLogo = () => (
   <div className="h-20 sm:h-24 flex items-center select-none text-[#555555]">
@@ -135,9 +135,9 @@ const FEATURED_CLIENTS: FeaturedClientItem[] = [
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
-    id: 'labicolor',
-    logo: <LaBicolorLogo />,
-    titleLine1: 'LABICOLOR® x',
+    id: 'kotex',
+    logo: <KotexLogo />,
+    titleLine1: 'KOTEX® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
@@ -156,9 +156,9 @@ const FEATURED_CLIENTS: FeaturedClientItem[] = [
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
-    id: 'spotify',
-    logo: <SpotifyLogo />,
-    titleLine1: 'SPOTIFY® x',
+    id: 'labicolor',
+    logo: <LaBicolorLogo />,
+    titleLine1: 'LABICOLOR® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
@@ -324,10 +324,10 @@ export const FeaturedClientsSection: React.FC = () => {
     const diff = e.changedTouches[0].clientX - touchStartXRef.current;
     if (diff > 50) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => prev - 1);
+      setCurrentIndex((prev) => prev - visibleCount);
     } else if (diff < -50) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prev) => prev + visibleCount);
     }
     touchStartXRef.current = null;
   };
@@ -345,7 +345,7 @@ export const FeaturedClientsSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-screen relative left-1/2 -translate-x-1/2 bg-[#EDEDED] pt-12 sm:pt-16 md:pt-20 pb-24 sm:pb-32 md:pb-40 px-6 sm:px-10 md:px-14 lg:px-20 select-none overflow-hidden"
+      className="w-screen relative left-1/2 -translate-x-1/2 bg-white pt-12 sm:pt-16 md:pt-20 pb-24 sm:pb-32 md:pb-40 px-6 sm:px-10 md:px-14 lg:px-20 select-none overflow-hidden"
     >
       <div className="w-full max-w-[1500px] mx-auto">
         {/* HEADER: FEATURED / CLIENTS (DOS LÍNEAS EN MAYÚSCULAS SEGÚN CAPTURA IPAD) */}
@@ -452,7 +452,7 @@ export const FeaturedClientsSection: React.FC = () => {
               transform: `translate3d(-200px, -200px, 0) translate(-50%, -50%) scale(1)`,
             }}
           >
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full shadow-[0_14px_45px_rgba(0,0,0,0.22)] border border-black/[0.08] flex items-center justify-center text-black">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-black text-white rounded-full shadow-[0_16px_50px_rgba(0,0,0,0.35)] flex items-center justify-center">
               <ArrowRight className="w-8 h-8 sm:w-9 sm:h-9 stroke-[2.2]" />
             </div>
           </div>,
