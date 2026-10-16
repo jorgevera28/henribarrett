@@ -272,6 +272,18 @@ export const MainNav: React.FC<{
     blendMode ? 'mix-blend-difference pointer-events-none' : 'pointer-events-auto'
   } ${isCompact ? 'py-5 sm:py-6 md:py-7' : 'py-7 sm:py-8 md:py-10'}`;
 
+  const [isTabletOrMobile, setIsTabletOrMobile] = useState(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTabletOrMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
       <FullScreenMenu
@@ -311,7 +323,7 @@ export const MainNav: React.FC<{
             </div>
           </button>
           
-          <div className={`flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-normal font-[400] tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
+          <div className={`hidden lg:flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-normal font-[400] tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
             <button onClick={() => setCurrentView('about')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'about' ? 'is-active font-medium font-[500]' : ''}`}>About us</button>
             <button onClick={() => setCurrentView('work')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work' ? 'is-active font-medium font-[500]' : ''}`}>Work</button>
             <button onClick={() => setCurrentView('services')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'services' ? 'is-active font-medium font-[500]' : ''}`}>Services</button>
@@ -319,8 +331,8 @@ export const MainNav: React.FC<{
             <button onClick={() => setCurrentView('work-with-us')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work-with-us' ? 'is-active font-medium font-[500]' : ''}`}>Contact</button>
           </div>
 
-          <div className={`flex items-center ${isCompact ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto`}>
-            {isCompact && (
+          <div className={`flex items-center ${isCompact || isTabletOrMobile ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto`}>
+            {(isCompact || isTabletOrMobile) && (
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-normal font-[400]"
@@ -331,7 +343,7 @@ export const MainNav: React.FC<{
             )}
             <button 
               onClick={() => setCurrentView('work-with-us')} 
-              className={`nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] ${currentView === 'work-with-us' ? 'is-active' : ''}`}
+              className={`nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] border-b border-white/60 hover:border-white ${currentView === 'work-with-us' ? 'is-active border-white' : ''}`}
             >
               Work with us
             </button>

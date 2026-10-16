@@ -48,7 +48,6 @@ const INITIAL_PROJECTS: InitialProject[] = [
     name: 'RAPPI', 
     category: 'EVENT', 
     image: '/images/rappi_spinning_kit.jpg',
-    videoUrl: 'https://player.vimeo.com/video/1229618296?h=b891103a4c&autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0',
     view: 'case-study-rappi'
   },
   { 
@@ -60,10 +59,10 @@ const INITIAL_PROJECTS: InitialProject[] = [
   },
   { 
     id: 4, 
-    name: 'HEINEKEN FEST', 
-    category: 'EVENT', 
-    image: '/images/heinekenbyhenribarrett.png',
-    view: 'case-study-heineken-fest'
+    name: 'TECLAB', 
+    category: 'BRANDING', 
+    image: '/images/teclab_hero.jpg',
+    view: 'case-study-teclab'
   }
 ];
 
@@ -3662,19 +3661,19 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
 
       {/* ETIQUETAS INFERIORES: RÉPLICA DEL DISEÑO DE LA FOTO DE REFERENCIA */}
       <div
-        className="absolute bottom-6 sm:bottom-10 md:bottom-12 left-0 right-0 px-6 sm:px-10 md:px-14 flex items-center justify-between z-20 pointer-events-none transition-all duration-700 delay-300"
+        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-0 right-0 px-4 sm:px-6 md:px-8 flex items-center justify-between z-20 pointer-events-none transition-all duration-700 delay-300"
         style={{
           opacity: isRevealed ? 1 : 0,
           transform: isRevealed ? 'translateY(0)' : 'translateY(12px)',
         }}
       >
         {/* IZQUIERDA: RECUADRO CON BORDE CIRCULAR */}
-        <div className="rounded-full border border-white/90 px-6 sm:px-8 py-2 sm:py-2.5 text-white text-xs sm:text-sm md:text-base font-normal tracking-wide uppercase flex items-center justify-center bg-black/20 backdrop-blur-[2px] pointer-events-auto transition-all duration-300 group-hover:border-white group-hover:bg-black/50">
+        <div className="rounded-full border border-white/90 px-4 sm:px-5 md:px-6 py-1 sm:py-1.5 text-white text-[11px] sm:text-[12px] md:text-[13px] font-normal tracking-wider uppercase flex items-center justify-center bg-black/25 backdrop-blur-[2px] pointer-events-auto transition-all duration-300 group-hover:border-white group-hover:bg-black/50">
           <span>{project.name}</span>
         </div>
 
         {/* DERECHA: CATEGORÍA DEL TRABAJO */}
-        <div className="text-white text-xs sm:text-sm md:text-base font-normal tracking-wide uppercase select-none pointer-events-auto drop-shadow-sm">
+        <div className="text-white text-[11px] sm:text-[12px] md:text-[13px] font-normal tracking-[0.16em] uppercase select-none pointer-events-auto drop-shadow-sm">
           <span>{project.category}</span>
         </div>
       </div>
@@ -3701,6 +3700,8 @@ export const App: React.FC = () => {
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const approachFirstLineRef = useRef<HTMLSpanElement>(null);
   const approachIsologoRef = useRef<HTMLImageElement>(null);
+  const approachIsologoTabletRef = useRef<HTMLImageElement>(null);
+  const startVideoPlaceholderTabletRef = useRef<HTMLDivElement>(null);
   const approachIsologoRotation = useRef(0);
   const lastScrollYForIsologo = useRef(0);
   const inspiredDockingRef = useRef<HTMLDivElement>(null);
@@ -3947,6 +3948,9 @@ export const App: React.FC = () => {
         if (approachIsologoRef.current) {
           approachIsologoRef.current.style.transform = `rotate(${approachIsologoRotation.current}deg)`;
         }
+        if (approachIsologoTabletRef.current) {
+          approachIsologoTabletRef.current.style.transform = `rotate(${approachIsologoRotation.current}deg)`;
+        }
       }
       lastScrollYForIsologo.current = currentScrollY.current;
 
@@ -3965,24 +3969,54 @@ export const App: React.FC = () => {
         if (infoBarRef.current) infoBarRef.current.style.color = '#ffffff';
         if (navRef.current) navRef.current.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
 
+        const isTablet = windowWidth <= 1024;
+
         let widthEnd = 180, heightEnd = 80, topEnd = windowHeight - 200, leftEnd = (windowWidth - 180) / 2;
         if (finalPlaceholderRef.current) {
           const rect = finalPlaceholderRef.current.getBoundingClientRect();
           topEnd = rect.top; leftEnd = rect.left; widthEnd = rect.width; heightEnd = rect.height;
         }
 
-        // SEPARA EL VIDEO: Inicia un poco más abajo (0.95 de la altura de la ventana)
-        const widthStart = 500, heightStart = 300, topStart = windowHeight * 0.95, leftStart = (windowWidth - 500) / 2;
-        const widthMid = windowWidth, leftMid = 0, heightMid = 600, topMid = (windowHeight - 600) / 2 - 80;
+        let widthStart = 500, heightStart = 300, topStart = windowHeight * 0.95, leftStart = (windowWidth - 500) / 2;
+        let widthMid = windowWidth, leftMid = 0, heightMid = 600, topMid = (windowHeight - 600) / 2 - 80;
+
+        if (isTablet) {
+          if (startVideoPlaceholderTabletRef.current) {
+            const startRect = startVideoPlaceholderTabletRef.current.getBoundingClientRect();
+            widthStart = startRect.width || Math.min(460, windowWidth * 0.82);
+            heightStart = startRect.height || Math.round(widthStart * 0.5625);
+            leftStart = startRect.left || (windowWidth - widthStart) / 2;
+            topStart = startRect.top + currentScrollY.current;
+          } else {
+            widthStart = Math.min(460, windowWidth * 0.82);
+            heightStart = Math.round(widthStart * 0.5625);
+            leftStart = (windowWidth - widthStart) / 2;
+            topStart = 680;
+          }
+
+          widthMid = windowWidth;
+          leftMid = 0;
+          heightMid = Math.round(windowWidth * 0.5625);
+          topMid = Math.round((windowHeight - heightMid) / 2 - 36);
+        }
 
         let currentTop, currentLeft, currentWidth, currentHeight;
         if (scrollProgress <= 0.5) {
           const phase = scrollProgress * 2;
           const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
-          currentTop = topStart + (topMid - topStart) * ease;
-          currentLeft = leftStart + (leftMid - leftStart) * ease;
-          currentWidth = widthStart + (widthMid - widthStart) * ease;
-          currentHeight = heightStart + (heightMid - heightStart) * ease;
+
+          if (isTablet) {
+            const effectiveStartTop = topStart - currentScrollY.current;
+            currentTop = effectiveStartTop + (topMid - effectiveStartTop) * ease;
+            currentLeft = leftStart + (leftMid - leftStart) * ease;
+            currentWidth = widthStart + (widthMid - widthStart) * ease;
+            currentHeight = heightStart + (heightMid - heightStart) * ease;
+          } else {
+            currentTop = topStart + (topMid - topStart) * ease;
+            currentLeft = leftStart + (leftMid - leftStart) * ease;
+            currentWidth = widthStart + (widthMid - widthStart) * ease;
+            currentHeight = heightStart + (heightMid - heightStart) * ease;
+          }
         } else {
           const phase = (scrollProgress - 0.5) * 2;
           const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
@@ -3993,15 +4027,30 @@ export const App: React.FC = () => {
         }
 
         if (currentViewRef.current === 'home') {
-          const clipVal = `inset(${currentTop}px ${windowWidth - (currentLeft + currentWidth)}px ${windowHeight - (currentTop + currentHeight)}px ${currentLeft}px)`;
+          const clampedTop = Math.max(-150, currentTop);
+          const clampedLeft = Math.max(0, currentLeft);
+          const clampedRight = Math.max(0, windowWidth - (currentLeft + currentWidth));
+          const clampedBottom = Math.max(0, windowHeight - (currentTop + currentHeight));
+          const clipVal = `inset(${clampedTop}px ${clampedRight}px ${clampedBottom}px ${clampedLeft}px)`;
           videoContainerRef.current.style.clipPath = clipVal;
           (videoContainerRef.current.style as any).webkitClipPath = clipVal;
+
+          if (scrollProgress >= 1 && finalPlaceholderRef.current) {
+            const rect = finalPlaceholderRef.current.getBoundingClientRect();
+            if (rect.bottom < -100) {
+              videoContainerRef.current.style.opacity = '0';
+            } else {
+              videoContainerRef.current.style.opacity = '1';
+            }
+          } else {
+            videoContainerRef.current.style.opacity = '1';
+          }
         }
         
         if (infoBarRef.current && currentViewRef.current === 'home') {
             let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
             infoBarRef.current.style.opacity = opacity.toString();
-            infoBarRef.current.style.top = `${topMid + heightMid + 32}px`;
+            infoBarRef.current.style.top = `${topMid + heightMid + (isTablet ? 24 : 32)}px`;
         }
       }
 
@@ -4767,18 +4816,18 @@ export const App: React.FC = () => {
         className="fixed w-full z-30 flex justify-center opacity-0 pointer-events-none px-4 sm:px-6 select-none"
         style={{ color: '#ffffff' }}
       >
-        <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-6 sm:gap-x-8 md:gap-x-10 lg:gap-x-12 xl:gap-x-14 gap-y-3 font-normal font-[400] tracking-[0.20em] uppercase text-white leading-none">
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-4 sm:gap-x-6 md:gap-x-10 lg:gap-x-12 xl:gap-x-14 gap-y-2 sm:gap-y-3 font-normal font-[400] tracking-[0.16em] sm:tracking-[0.20em] uppercase text-white leading-none">
           {HOME_VIDEO_SERVICES.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-2 sm:gap-2.5 md:gap-3 lg:gap-3.5 shrink-0">
-              <span className="text-white font-normal font-[400] text-sm sm:text-base md:text-[17px] lg:text-[19px] xl:text-[21px] tracking-[0.20em] leading-none whitespace-nowrap">
+            <div key={idx} className="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-3.5 shrink-0">
+              <span className="text-white font-normal font-[400] text-xs sm:text-sm md:text-[17px] lg:text-[19px] xl:text-[21px] tracking-[0.16em] sm:tracking-[0.20em] leading-none whitespace-nowrap">
                 {item.label}
               </span>
-              <span className="inline-flex items-center justify-center shrink-0 w-[50px] h-[50px]">
+              <span className="inline-flex items-center justify-center shrink-0 w-6 h-6 sm:w-8 sm:h-8 md:w-[45px] md:h-[45px]">
                 <img
                   src={item.icon}
                   alt={item.label}
-                  className="w-[50px] h-[50px] object-contain brightness-0 invert pointer-events-none animate-clock-hand"
-                  style={{ width: '50px', height: '50px', filter: 'brightness(0) invert(1)' }}
+                  className="w-full h-full object-contain brightness-0 invert pointer-events-none animate-clock-hand"
+                  style={{ filter: 'brightness(0) invert(1)' }}
                   onError={(e) => {
                     if (item.fallback && e.currentTarget.src !== window.location.origin + item.fallback) {
                       e.currentTarget.src = item.fallback;
@@ -4794,8 +4843,63 @@ export const App: React.FC = () => {
       {/* CONTENIDO SCROLLABLE */}
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
-            {/* HERO - ALINEACIÓN IZQUIERDA */}
-            <div ref={heroWrapperRef} className="absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top hero-1366-wrapper w-screen px-6 sm:px-10 md:px-20 flex justify-start text-black">
+            {/* TABLET / 744x1133 HERO & PURPOSE FLOW (DISTRIBUCIÓN SECUENCIAL SEGÚN CAPTURA IPAD) */}
+            <div className="flex lg:hidden flex-col items-center w-full px-6 pt-[90px] sm:pt-[105px] text-black text-center select-none absolute top-0 left-0">
+                {/* PERSONAJE CENTRADO CON MANOS EN FORMA DE CÁMARA */}
+                <div className="w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] flex items-center justify-center opacity-100 pointer-events-auto mb-2 sm:mb-4">
+                    <HomeCharacterLottie className="w-full h-full" />
+                </div>
+
+                {/* ALWAYS WATCHING CENTRADO */}
+                <div className="flex flex-col items-center tracking-tighter uppercase mb-6 sm:mb-8 gap-2.5 sm:gap-4 md:gap-5">
+                    <div className="hero-mask-wrap">
+                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.98] sm:leading-[1.02] hero-word-animated hero-word-always">
+                        ALWAYS
+                      </h1>
+                    </div>
+                    <div className="hero-mask-wrap">
+                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.98] sm:leading-[1.02] hero-word-animated hero-word-watching">
+                        WATCHING
+                      </h1>
+                    </div>
+                </div>
+
+                {/* ISOLOGO HENRI BARRETT (GIRA CON EL SCROLL) */}
+                <div className="flex justify-center mb-6 sm:mb-8">
+                    <img
+                      ref={approachIsologoTabletRef}
+                      src="https://henribarrett.com/assets/site/svg/home/isologo_henribarrett.svg"
+                      alt="Henri Barrett Isologo"
+                      className="w-14 h-14 sm:w-16 sm:h-16 object-contain select-none pointer-events-none will-change-transform"
+                      style={{ transformOrigin: 'center center' }}
+                    />
+                </div>
+
+                {/* TEXTO DE PROPÓSITO */}
+                <p className="text-[16px] sm:text-[18px] md:text-[20px] max-w-[500px] font-light leading-[1.3] tracking-tight px-3 text-center text-black mb-4 sm:mb-5">
+                    Our approach isn't just about producing eye-catching designs, it's about crafting resonant brand messages that echo across audiences.
+                </p>
+
+                {/* ENLACE "HERE'S HOW WE CAN HELP" */}
+                <div className="flex justify-center mb-8 sm:mb-10 pointer-events-auto">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentView('services')}
+                      className="text-[14px] sm:text-[15px] font-normal text-black underline underline-offset-4 hover:opacity-70 transition-opacity cursor-pointer"
+                    >
+                      Here's how we can help
+                    </button>
+                </div>
+
+                {/* CAJA INICIAL DEL VIDEO (DONDE ARRANCA EL VIDEO EN VIVO, NO FOTO ESTÁTICA) */}
+                <div
+                  ref={startVideoPlaceholderTabletRef}
+                  className="w-[82vw] max-w-[460px] aspect-video bg-transparent mx-auto rounded-sm"
+                />
+            </div>
+
+            {/* HERO - ALINEACIÓN IZQUIERDA (DESKTOP) */}
+            <div ref={heroWrapperRef} className="hidden lg:flex absolute top-[10vh] sm:top-[11vh] md:top-[12vh] hero-fhd-top hero-1366-wrapper w-screen px-6 sm:px-10 md:px-20 justify-start text-black">
                 <div 
                   className="flex flex-col items-start leading-[0.82] max-w-max md:ml-[calc(120px+2rem)] hero-fhd-align hero-1366-block"
                   style={{
@@ -4820,8 +4924,8 @@ export const App: React.FC = () => {
                 </div>
             </div>
 
-            {/* 3 COLUMNS - PROPÓSITO */}
-            <div className="absolute top-[78vh] sm:top-[80vh] md:top-[82vh] hero-1366-purpose w-screen px-10 md:px-20 flex justify-center text-black">
+            {/* 3 COLUMNS - PROPÓSITO (DESKTOP) */}
+            <div className="hidden lg:flex absolute top-[78vh] sm:top-[80vh] md:top-[82vh] hero-1366-purpose w-screen px-10 md:px-20 justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
                     <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
                         <ArrowDown className="w-20 h-20 stroke-[0.5]" />
@@ -4849,11 +4953,11 @@ export const App: React.FC = () => {
             {/* DOCKING */}
             <div ref={inspiredDockingRef} className="absolute top-[265vh] w-full flex justify-center px-4 text-black">
                 <div className="flex flex-col items-center justify-center w-full max-w-[2200px] text-center overflow-visible">
-                    <div className="flex items-center justify-center gap-x-12 leading-none mb-14 whitespace-nowrap">
+                    <div className="flex items-center justify-center gap-x-2 sm:gap-x-3.5 md:gap-x-8 lg:gap-x-12 leading-none mb-1 sm:mb-2 md:mb-6 lg:mb-14 whitespace-nowrap">
                         <div className="reveal-mask-container">
                             <span 
                                 style={{ 
-                                    fontSize: '18vh',
+                                    fontSize: 'clamp(44px, 10.5vw, 18vh)',
                                     transitionDelay: '0.05s' 
                                 }} 
                                 className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] ${inspiredRevealed ? 'is-revealed' : ''}`}
@@ -4861,11 +4965,14 @@ export const App: React.FC = () => {
                                 Inspired
                             </span>
                         </div>
-                        <div ref={finalPlaceholderRef} className="w-[30vw] h-[18vh] bg-transparent mx-4"></div>
+                        <div 
+                          ref={finalPlaceholderRef} 
+                          className="w-[25vw] max-w-[215px] min-w-[130px] aspect-[2.85/1] sm:aspect-[3.1/1] max-h-[62px] sm:max-h-[70px] lg:max-h-none lg:w-[30vw] lg:max-w-none lg:aspect-auto lg:h-[18vh] bg-transparent mx-1.5 sm:mx-2.5 md:mx-4 shrink-0 self-center"
+                        />
                         <div className="reveal-mask-container">
                             <span 
                                 style={{ 
-                                    fontSize: '18vh',
+                                    fontSize: 'clamp(44px, 10.5vw, 18vh)',
                                     transitionDelay: '0.15s' 
                                 }} 
                                 className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] ${inspiredRevealed ? 'is-revealed' : ''}`}
@@ -4874,52 +4981,81 @@ export const App: React.FC = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="reveal-mask-container">
+                    <div className="reveal-mask-container -mt-2.5 sm:-mt-4 md:-mt-6 lg:mt-0">
                         <span 
                             style={{ 
-                                fontSize: '18vh',
+                                fontSize: 'clamp(44px, 10.5vw, 18vh)',
                                 transitionDelay: '0.28s' 
                             }} 
-                            className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.95] whitespace-nowrap ${inspiredRevealed ? 'is-revealed' : ''}`}
+                            className={`reveal-text-item font-normal tracking-tight uppercase leading-[0.92] whitespace-nowrap ${inspiredRevealed ? 'is-revealed' : ''}`}
                         >
                             The Unexpected
                         </span>
                     </div>
-                    <p className={`mt-20 text-gray-400 font-mono text-[10px] uppercase tracking-[0.5em] font-black transition-opacity duration-1000 delay-500 ${inspiredRevealed ? 'opacity-100' : 'opacity-0'}`}>Creative Direction &bull; MMXXIV</p>
+                    <p className={`hidden lg:block mt-8 sm:mt-10 md:mt-20 text-gray-400 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black transition-opacity duration-1000 delay-500 ${inspiredRevealed ? 'opacity-100' : 'opacity-0'}`}>Creative Direction &bull; MMXXIV</p>
                 </div>
             </div>
 
-            {/* ABOUT / ARCHITECTS - ACTUALIZADO: normal-case explícito y tracking-wide reforzado */}
-            <div className="absolute top-[340vh] w-full px-6 md:px-12 pb-36 pointer-events-auto flex justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
-                <div className="w-full max-w-[1250px] flex flex-col md:flex-row gap-20 md:gap-4 pt-48">
-                    <div className="w-full md:w-[30%]">
+            {/* ABOUT / ARCHITECTS (DISTRIBUCIÓN 2 COLUMNAS EDITORIAL SEGÚN CAPTURA) */}
+            <div className="absolute top-[266vh] sm:top-[270vh] lg:top-[320vh] w-full px-6 sm:px-10 md:px-16 pb-28 sm:pb-36 pointer-events-auto flex justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
+                <div className="w-full max-w-[1200px] flex flex-row gap-6 sm:gap-10 md:gap-16 pt-6 sm:pt-8 md:pt-14">
+                    {/* COLUMNA IZQUIERDA: Think big with us. */}
+                    <div className="w-[28%] sm:w-[30%] shrink-0 pt-8 sm:pt-10 md:pt-12 select-none">
                         <MaskTextReveal
-                          as="h3"
-                          className="text-xl font-normal leading-tight opacity-100 tracking-tight normal-case !capitalize"
+                          as="p"
+                          className="text-[15px] sm:text-[17px] md:text-xl font-normal leading-snug tracking-tight text-black normal-case"
                           text="Think big with us."
                         />
                     </div>
-                    <div className="w-full md:w-[70%] flex flex-col gap-10">
-                        <MaskTextReveal
-                          as="h2"
-                          className="text-[4.5vw] font-normal leading-[1.2] tracking-tight max-w-[22ch] !normal-case"
-                          text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
-                        />
-                        <div className="max-w-3xl flex flex-col gap-12 mt-4">
+
+                    {/* COLUMNA DERECHA: HEADLINE + PÁRRAFO + CHOOSE YOUR PURPOSE */}
+                    <div className="w-[72%] sm:w-[70%] flex flex-col">
+                        {/* HEADLINE 4 LÍNEAS */}
+                        <div className="max-w-[460px] sm:max-w-[500px] md:max-w-[580px]">
+                          <MaskTextReveal
+                            as="h2"
+                            className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[46px] font-normal leading-[1.12] sm:leading-[1.14] tracking-tight text-black !normal-case"
+                            text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
+                          />
+                        </div>
+
+                        {/* PÁRRAFO DESCRIPTIVO */}
+                        <div className="max-w-[460px] sm:max-w-[490px] md:max-w-[540px] mt-8 sm:mt-10 md:mt-12">
                             <MaskTextReveal
                               as="p"
-                              delay={0.18}
-                              className="text-xl md:text-[1.3rem] text-gray-900 leading-[1.5] font-normal tracking-[0.06em]"
+                              delay={0.15}
+                              className="text-[14.5px] sm:text-[16px] md:text-[17px] text-black leading-[1.42] sm:leading-[1.45] font-light font-[350] tracking-normal"
                               text="At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges."
                             />
-                            
-                            <div className="flex flex-col gap-4 mt-4">
-                                <span className="text-sm font-black uppercase tracking-[0.3em] opacity-100 mb-2 font-sans">(CHOOSE YOUR PURPOSE)</span>
-                                <div className="flex flex-col gap-2 items-start">
-                                    <a href="#" className="text-xl md:text-2xl font-normal border-b border-black/30 pb-1 hover:border-black transition-all tracking-[0.04em]">Discover our services</a>
-                                    <a href="#" className="text-xl md:text-2xl font-normal border-b border-black/30 pb-1 hover:border-black transition-all tracking-[0.04em]">Read our case studies</a>
-                                    <a href="#" className="text-xl md:text-2xl font-normal border-b border-black/30 pb-1 hover:border-black transition-all tracking-[0.04em]">Explore the HUB® Method</a>
-                                </div>
+                        </div>
+                        
+                        {/* CHOOSE YOUR PURPOSE + ENLACES */}
+                        <div className="flex flex-col mt-10 sm:mt-12 md:mt-14 select-none">
+                            <span className="text-[11px] sm:text-[12px] font-normal uppercase tracking-[0.20em] text-black mb-3 sm:mb-4">
+                              (CHOOSE YOUR PURPOSE)
+                            </span>
+                            <div className="flex flex-col gap-1.5 sm:gap-2 items-start">
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('services')} 
+                                  className="text-[16px] sm:text-[18px] md:text-[19px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Discover our services
+                                </button>
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('work')} 
+                                  className="text-[16px] sm:text-[18px] md:text-[19px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Read our case studies
+                                </button>
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('services')} 
+                                  className="text-[16px] sm:text-[18px] md:text-[19px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Explore the HUB® Method
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -4927,20 +5063,20 @@ export const App: React.FC = () => {
             </div>
 
             {/* CONTENIDO DINÁMICO (PORTFOLIO) */}
-            <div ref={lastSectionRef} className="absolute top-[480vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10">
+            <div ref={lastSectionRef} className="absolute top-[328vh] sm:top-[332vh] lg:top-[420vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10">
                 {/* SECCIÓN DE LOS 4 PROYECTOS PRINCIPALES CON 'WORK' DE FONDO */}
                 <div ref={projectsSectionRef} className="relative w-full flex flex-col items-center overflow-hidden">
-                    {/* WORK WATERMARK - Fondo con texto que avanza con el scroll detrás de los proyectos y se detiene en seco al final del último trabajo (Heineken Fest) */}
-                    <div className="absolute top-[2vh] left-0 w-full flex justify-center items-center z-0 select-none pointer-events-none">
+                    {/* WORK WATERMARK - Fondo con texto que avanza con el scroll detrás de los proyectos */}
+                    <div className="absolute top-[18vh] sm:top-[22vh] md:top-[25vh] left-0 w-full flex justify-center items-center z-0 select-none pointer-events-none">
                         <span 
                             ref={workTextRef} 
-                            className="text-[34.5vw] font-light font-[300] leading-none tracking-tighter text-black uppercase block will-change-transform select-none text-center"
+                            className="text-[34vw] sm:text-[36vw] font-normal font-[500] leading-none tracking-tighter text-black uppercase block will-change-transform select-none text-center"
                         >
                             WORK
                         </span>
                     </div>
 
-                    <div className="w-full max-w-[1550px] px-4 sm:px-6 md:px-8 flex flex-col items-center gap-16 sm:gap-20 md:gap-28 relative pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-24 z-10">
+                    <div className="w-full max-w-[1430px] px-4 sm:px-6 md:px-8 flex flex-col items-center gap-7 sm:gap-8 md:gap-10 lg:gap-16 relative pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-12 z-10">
                         {/* BLOQUES DE 1430x770px CON ANIMACIÓN DE DEVELO DE MÁSCARA AL LLEGAR A LA ZONA */}
                         {homeProjects.map((project, idx) => (
                             <HomeWorkCard
@@ -4969,43 +5105,28 @@ export const App: React.FC = () => {
                             />
                         ))}
 
-                        {/* BOTÓN LOAD MORE DEBAJO DE LOS TRABAJOS (HEINEKEN FEST) */}
-                        {homeProjects.length < INITIAL_PROJECTS.length + MORE_WORK_PROJECTS.length && (
-                          <div className="w-full flex justify-center pt-8 sm:pt-12 md:pt-16 pb-6">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setIsLoadingMoreProjects(true);
-                                setTimeout(() => {
-                                  setHomeProjects((prev) => {
-                                    const next = [...prev];
-                                    // Agregar únicamente 3 proyectos más
-                                    const remaining = MORE_WORK_PROJECTS.filter(
-                                      (item) => !next.some((p) => p.id === item.id || p.name.toLowerCase() === item.name.toLowerCase())
-                                    );
-                                    const batch = remaining.slice(0, 3);
-                                    return [...next, ...batch];
-                                  });
-                                  setIsLoadingMoreProjects(false);
-                                }, 300);
-                              }}
-                              disabled={isLoadingMoreProjects}
-                              aria-label="Load more projects"
-                              className="group relative inline-flex items-center justify-center px-10 sm:px-14 md:px-20 py-3.5 sm:py-4 md:py-5 rounded-full border border-black bg-white hover:bg-black text-black hover:text-white transition-all duration-300 ease-out cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98]"
-                            >
-                              <span className="text-[17px] sm:text-[20px] md:text-[23px] font-normal tracking-[-0.01em] uppercase select-none transition-colors duration-300">
-                                {isLoadingMoreProjects ? 'LOADING...' : 'LOAD MORE'}
-                              </span>
-                            </button>
-                          </div>
-                        )}
+                        {/* BOTÓN EXPLORE MORE DEBAJO DE LOS TRABAJOS (SEGÚN CAPTURA) */}
+                        <div className="w-full flex justify-center pt-8 sm:pt-10 pb-4 sm:pb-6">
+                          <button
+                            type="button"
+                            onClick={() => setCurrentView('work')}
+                            aria-label="Explore more projects"
+                            className="group relative inline-flex items-center justify-center px-8 sm:px-10 py-2.5 sm:py-3 rounded-full border border-black bg-white hover:bg-black text-black hover:text-white transition-all duration-300 ease-out cursor-pointer shadow-sm hover:shadow-md active:scale-[0.98]"
+                          >
+                            <span className="text-[12px] sm:text-[13px] md:text-[14px] font-normal tracking-[0.14em] uppercase select-none transition-colors duration-300">
+                              EXPLORE MORE
+                            </span>
+                          </button>
+                        </div>
                     </div>
                 </div>
 
                 {/* MARQUEE TRUSTED - FULL WIDTH */}
                 <div className="w-full border-t border-gray-100 mt-20 py-24 sm:py-32 md:py-40 overflow-hidden">
-                    <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-6 md:px-8 mb-12 sm:mb-16">
-                        <p className="text-[11px] font-black uppercase tracking-[0.4em] pl-2 opacity-20">(TRUSTED BY VISIONARIES)</p>
+                    <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-6 md:px-8 mb-8 sm:mb-12">
+                        <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black pl-2 select-none">
+                          (TRUSTED BY VISIONARIES)
+                        </p>
                     </div>
                     <div className="w-full overflow-hidden">
                         <LogosGroup />
@@ -5050,40 +5171,13 @@ export const App: React.FC = () => {
                     </div>
 
                     {/* PRAISE FROM CLIENTS */}
-                    <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-6 md:px-8">
-                      <PraiseFromClientsSection />
-                    </div>
+                    <PraiseFromClientsSection />
 
                     {/* FEATURED CLIENTS CAROUSEL */}
                     <FeaturedClientsSection />
 
-                    {/* THE HUB */}
-                    <div ref={hubSectionRef} className="w-full py-48 px-6 bg-white mt-20">
-                        <div className="w-full max-w-[1250px] mx-auto flex flex-col md:flex-row gap-24 items-start">
-                            <div className="w-full md:w-1/2 flex flex-col gap-12">
-                                <MaskTextReveal
-                                  as="h2"
-                                  className="text-5xl md:text-8xl font-light font-[300] leading-[0.85] uppercase tracking-tighter"
-                                  text="Henri Barrett is a movement."
-                                />
-                                <MaskTextReveal
-                                  as="p"
-                                  delay={0.2}
-                                  className="text-2xl text-gray-500 font-light max-w-lg leading-relaxed"
-                                  text="We're here to change narratives, elevate brands, and make a lasting imprint in the world of design."
-                                />
-                                <a href="#" className="text-xl font-black border-b-4 border-black pb-2 self-start uppercase tracking-widest mt-4">Explore the Hub®</a>
-                            </div>
-                            <div className="w-full md:w-1/2 relative">
-                                <div className="w-full aspect-[4/5] overflow-hidden relative shadow-2xl rounded-lg">
-                                    <img ref={hubImageRef} src="https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?q=80&w=1200" alt="Studio" className="w-full h-full object-cover absolute top-0 left-0" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* WHO IS BARRETT SECTION - REPLICATING ATTACHED DESIGN */}
-                    <WhoIsBarrettSection />
+                    {/* WHO IS BARRETT SECTION */}
+                    <WhoIsBarrettSection onNavigate={setCurrentView} />
 
                 {/* FOOTER */}
                 <Footer onNavigate={setCurrentView} />

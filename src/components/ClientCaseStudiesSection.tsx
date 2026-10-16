@@ -143,9 +143,9 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (CENTRADOS, UNA SOLA LÍNEA, BORDE 2PX, 55 ROMAN / MEDIUM, MAYOR ESCALA) */}
-      <div className="w-full overflow-x-auto no-scrollbar py-2 mb-10 sm:mb-14 md:mb-16 flex justify-center">
-        <div className="flex items-center justify-center min-w-max mx-auto gap-2 sm:gap-3 md:gap-3.5 lg:gap-4 xl:gap-5 flex-nowrap px-2">
+      {/* 2. FILTROS POR TIPO DE TRABAJO (CENTRADOS, UNA SOLA LÍNEA, ESCALA AJUSTADA PARA 744x1133) */}
+      <div className="w-full py-2 mb-8 sm:mb-12 md:mb-16 flex justify-center px-4 overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-4 flex-nowrap shrink-0">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -153,7 +153,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
                 key={cat}
                 type="button"
                 onClick={() => handleCategoryClick(cat)}
-                className={`rounded-full px-3.5 sm:px-4 md:px-5 lg:px-6 xl:px-8 py-0.5 sm:py-1 md:py-1 lg:py-1 xl:py-1.5 text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl 2xl:text-[26px] font-medium font-[500] uppercase tracking-tight border-2 border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
+                className={`rounded-full px-3 sm:px-4 md:px-4.5 lg:px-6 xl:px-7 py-1 sm:py-1.5 lg:py-2 text-[11px] sm:text-[13px] md:text-[14px] lg:text-[16px] xl:text-[19px] 2xl:text-[21px] font-medium font-[500] uppercase tracking-tight border sm:border-[1.5px] lg:border-2 border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
                   isActive
                     ? 'bg-black text-white shadow-sm'
                     : 'bg-transparent text-black hover:bg-black hover:text-white'
