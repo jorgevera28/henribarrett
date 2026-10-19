@@ -127,6 +127,30 @@
         will-change: transform;
       }
 
+      /* ANIMACIÓN DE ENTRADA DEL TROFEO / RAYO LADA EN HOVER DE YUMMY */
+      @keyframes trophy-scale-in {
+        0% {
+          transform: scale(0.15);
+          opacity: 0;
+        }
+        30% {
+          opacity: 1;
+        }
+        75% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .animate-trophy-scale-in {
+        animation: trophy-scale-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        transform-origin: center center;
+        will-change: transform, opacity;
+      }
+
       /* CURTAIN LOADER TRANSITIONS */
       /* Fondo que sale y entra desde la sangre/borde (desaceleración continua, fluida y orgánica) */
       @keyframes curtain-bg-enter {
@@ -526,6 +550,7 @@
       a:not([class*="no-underline"]):not([class*="rounded"]):not([class*="bg-"]):not([class*="p-"]):hover::after,
       .animated-underline:hover::after,
       button.animated-underline:hover::after,
+      .group:hover .animated-underline::after,
       .group:hover .group-hover-animated-underline::after {
         transform: scaleX(1);
       }

@@ -595,7 +595,7 @@ Lima, Perú · Global Studio
           <div className="lg:col-span-5 flex flex-col justify-center">
             <MaskTextReveal
               as="h2"
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-8"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[5.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-8"
               lines={['Beyond a single', 'discipline']}
             />
 
@@ -794,13 +794,13 @@ Lima, Perú · Global Studio
         className="relative w-full bg-black text-white z-20 pt-20 pb-12 px-6 sm:px-10 md:px-16 border-t border-gray-900"
         style={{ backgroundColor: '#000000' }}
       >
-        <div className="w-full max-w-[1360px] mx-auto">
-          {/* Top Brand Bar */}
-          <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-900">
+        <div className="w-full max-w-[1400px] mx-auto">
+          {/* Top Brand Bar: Sunburst® + Henri Barrett */}
+          <div className="flex justify-between items-start w-full">
             <div className="overflow-hidden pt-1 pb-1">
               <button 
                 onClick={() => onNavigate('home')} 
-                className="cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center will-change-transform" 
+                className="cursor-pointer hover:opacity-85 transition-opacity flex items-center justify-center will-change-transform" 
                 title="Henri Barrett - Home"
                 style={{
                   transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
@@ -808,14 +808,17 @@ Lima, Perú · Global Studio
                   transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out'
                 }}
               >
-                <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
-                  <DynamicIsotype className="w-14 h-14 md:w-20 md:h-20 text-white" />
+                <div className="relative inline-flex items-center justify-center select-none text-white">
+                  <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
+                    <DynamicIsotype className="w-14 h-14 md:w-20 md:h-20 text-white" />
+                  </div>
+                  <span className="absolute -top-1 -right-3 text-[10px] sm:text-[11px] font-normal text-white select-none">®</span>
                 </div>
               </button>
             </div>
             <div className="overflow-hidden pt-1 pb-1">
               <span 
-                className="inline-block text-2xl sm:text-3xl md:text-5xl font-light font-[300] uppercase tracking-tighter text-right leading-none will-change-transform"
+                className="inline-block text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] text-right leading-none will-change-transform text-white"
                 style={{
                   transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
                   transformOrigin: '0% 100%',
@@ -828,13 +831,16 @@ Lima, Perú · Global Studio
             </div>
           </div>
 
+          {/* Thin Horizontal Divider */}
+          <div className="w-full border-b border-[#262626] my-10 sm:my-14 md:my-16" />
+
           {/* Links Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 mb-20">
             {/* Agency */}
-            <div className="flex flex-col gap-5">
+            <div className="lg:col-span-2 flex flex-col gap-5 sm:gap-6">
               <div className="overflow-hidden pt-0.5 pb-0.5">
                 <h4 
-                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal will-change-transform"
                   style={{
                     transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
                     transformOrigin: '0% 100%',
@@ -845,18 +851,18 @@ Lima, Perú · Global Studio
                   Agency
                 </h4>
               </div>
-              <ul className="flex flex-col gap-3 text-gray-400 text-sm">
+              <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
                 {[
                   { label: 'Home', action: () => onNavigate('home') },
                   { label: 'Case Studies', action: () => onNavigate('work') },
                   { label: 'Services', action: () => onNavigate('services') },
-                  { label: 'About', action: () => onNavigate('about'), active: true },
+                  { label: 'About', action: () => onNavigate('about') },
                   { label: 'Our Method®', action: () => onNavigate('about') }
                 ].map((item, idx) => (
                   <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
                     <button 
                       onClick={item.action} 
-                      className={`nav-animated-link ${item.active ? 'text-white font-light font-[300]' : 'text-gray-400 hover:text-white'} cursor-pointer transition-colors pb-0.5 text-left will-change-transform block`}
+                      className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
                       style={{
                         transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
                         opacity: isFooterRevealed ? 1 : 0,
@@ -871,10 +877,10 @@ Lima, Perú · Global Studio
             </div>
 
             {/* Discover */}
-            <div className="flex flex-col gap-5">
+            <div className="lg:col-span-3 flex flex-col gap-5 sm:gap-6">
               <div className="overflow-hidden pt-0.5 pb-0.5">
                 <h4 
-                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal will-change-transform"
                   style={{
                     transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
                     transformOrigin: '0% 100%',
@@ -885,18 +891,25 @@ Lima, Perú · Global Studio
                   Discover
                 </h4>
               </div>
-              <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-                {['Henri Barrett Hub®', 'Our Book', 'Speaking', 'Shop', 'Events'].map((label, idx) => (
+              <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
+                {[
+                  { label: 'Henri Barrett Hub®', action: () => onNavigate('home') },
+                  { label: 'Our Book', action: () => onNavigate('about') },
+                  { label: 'Speaking', action: () => onNavigate('work-with-us') },
+                  { label: 'Shop', action: () => onNavigate('work') },
+                  { label: 'Events', action: () => onNavigate('quicklys') }
+                ].map((item, idx) => (
                   <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
                     <button 
-                      className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
+                      onClick={item.action}
+                      className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
                       style={{
                         transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
                         opacity: isFooterRevealed ? 1 : 0,
                         transition: `transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) ${0.30 + idx * 0.06}s, opacity 0.75s ease-out ${0.30 + idx * 0.06}s`
                       }}
                     >
-                      {label}
+                      {item.label}
                     </button>
                   </li>
                 ))}
@@ -904,10 +917,10 @@ Lima, Perú · Global Studio
             </div>
 
             {/* Learn */}
-            <div className="flex flex-col gap-5">
+            <div className="lg:col-span-3 flex flex-col gap-5 sm:gap-6">
               <div className="overflow-hidden pt-0.5 pb-0.5">
                 <h4 
-                  className="text-base sm:text-lg font-light font-[300] uppercase tracking-widest text-gray-500 will-change-transform"
+                  className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal will-change-transform"
                   style={{
                     transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2deg)',
                     transformOrigin: '0% 100%',
@@ -918,18 +931,18 @@ Lima, Perú · Global Studio
                   Learn
                 </h4>
               </div>
-              <ul className="flex flex-col gap-3 text-gray-400 text-sm">
+              <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
                 {[
                   { label: 'Articles', action: () => onNavigate('quicklys') },
-                  { label: 'Press & Media' },
-                  { label: 'FAQs' },
-                  { label: 'Testimonials' },
-                  { label: 'Careers' }
+                  { label: 'Press & Media', action: () => onNavigate('about') },
+                  { label: 'FAQs', action: () => onNavigate('about') },
+                  { label: 'Testimonials', action: () => onNavigate('home') },
+                  { label: 'Careers', action: () => onNavigate('work-with-us') }
                 ].map((item, idx) => (
                   <li key={idx} className="overflow-hidden pt-0.5 pb-0.5">
                     <button 
                       onClick={item.action} 
-                      className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
+                      className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left will-change-transform block"
                       style={{
                         transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
                         opacity: isFooterRevealed ? 1 : 0,
@@ -944,11 +957,10 @@ Lima, Perú · Global Studio
             </div>
 
             {/* Newsletter */}
-            <div className="flex flex-col gap-5 col-span-2 md:col-span-1">
-              {/* Aparece después de las demás palabras */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="overflow-hidden pt-0.5 pb-0.5">
                 <h4 
-                  className="text-base sm:text-lg font-light font-[300] leading-snug will-change-transform"
+                  className="text-[18px] sm:text-[20px] md:text-[22px] font-normal font-[400] text-white leading-[1.28] sm:leading-[1.32] max-w-[420px] will-change-transform"
                   style={{
                     transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(1.5deg)',
                     transformOrigin: '0% 100%',
@@ -956,18 +968,17 @@ Lima, Perú · Global Studio
                     transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.68s, opacity 0.75s ease-out 0.68s'
                   }}
                 >
-                  Get strategy and brand insights straight to your inbox.
+                  Get valuable strategy, culture, and brand insights straight to your inbox.
                 </h4>
               </div>
 
-              {/* "your email here" y la línea que se dibuja de 0% a 100% */}
-              <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col gap-3">
+              <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col gap-4 mt-2 max-w-[440px]">
                 <div className="flex flex-col w-full">
                   <div className="overflow-hidden pt-0.5 pb-0.5">
                     <input 
                       type="email" 
                       placeholder="Your email here" 
-                      className="bg-transparent pb-2 text-sm focus:outline-none w-full text-white placeholder-gray-500 will-change-transform" 
+                      className="bg-transparent pb-3 text-[15px] sm:text-[16px] font-normal font-[400] focus:outline-none w-full text-white placeholder-[#71717A] border-b border-[#333333] focus:border-white transition-colors will-change-transform" 
                       style={{
                         transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
                         opacity: isFooterRevealed ? 1 : 0,
@@ -975,28 +986,17 @@ Lima, Perú · Global Studio
                       }}
                     />
                   </div>
-                  {/* Línea que se dibuja de 0% a 100% */}
-                  <div className="w-full overflow-hidden">
-                    <div 
-                      className="h-[1px] bg-gray-700 w-full will-change-transform"
-                      style={{
-                        transformOrigin: 'left center',
-                        transform: isFooterRevealed ? 'scaleX(1)' : 'scaleX(0)',
-                        transition: 'transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.95s'
-                      }}
-                    />
-                  </div>
                 </div>
                 <div className="overflow-hidden pt-0.5 pb-0.5">
                   <p 
-                    className="text-[10px] text-gray-500 leading-tight will-change-transform"
+                    className="text-[11px] sm:text-[11.5px] md:text-[12px] font-normal font-[400] text-[#71717A] leading-[1.48] max-w-[390px] will-change-transform"
                     style={{
                       transform: isFooterRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
                       opacity: isFooterRevealed ? 1 : 0,
                       transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.05s, opacity 0.75s ease-out 1.05s'
                     }}
                   >
-                    By signing up to receive emails from Henri Barrett®, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
+                    By signing up to receive emails from Motto, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
                   </p>
                 </div>
               </form>

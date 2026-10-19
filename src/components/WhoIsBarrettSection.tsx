@@ -187,12 +187,15 @@ export const WhoIsBarrettSection: React.FC<WhoIsBarrettSectionProps> = ({ onNavi
             </div>
           </div>
 
-          {/* COLUMNA DERECHA: FOTOGRAFÍA DE LA FACHADA CON MURAL Y OJO */}
+          {/* COLUMNA DERECHA: FOTOGRAFÍA DE LA AGENCIA */}
           <div className="w-full md:w-[46%] lg:w-[48%] flex justify-end">
-            <div className="w-full aspect-[4/5] bg-[#F4F4F4] overflow-hidden relative shadow-sm">
+            <div className="w-full aspect-[4/5] sm:aspect-[860/1196] bg-[#F4F4F4] overflow-hidden relative shadow-sm">
               <img
-                src="/images/henri_barrett_hub_facade.jpg"
-                alt="Henri Barrett Studio Facade"
+                src="https://henribarrett.com/assets/site/images/home/henribarrett_is_section/henribarrett_agency_is.png"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/henribarrett_agency_is.png';
+                }}
+                alt="Henri Barrett Agency"
                 className="w-full h-full object-cover select-none pointer-events-none"
                 loading="lazy"
                 decoding="async"

@@ -18,6 +18,7 @@ import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
 import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import { MaskTextReveal } from './src/components/MaskTextReveal';
+import { CookieBanner } from './src/components/CookieBanner';
 import type { AppView } from './src/types';
 
 // --- MAIN CODE ---
@@ -1689,15 +1690,16 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
   return (
     <footer
       ref={footerRef}
-      className={`relative w-full bg-black text-white z-20 pt-24 pb-12 px-6 md:px-12 ${className}`}
+      className={`relative w-full bg-black text-white z-20 pt-20 sm:pt-28 pb-12 px-6 sm:px-10 md:px-14 lg:px-20 ${className}`}
       style={{ backgroundColor: '#000000' }}
     >
-      <div className="w-full max-w-[1250px] mx-auto">
-        <div className="flex justify-between items-start w-full mb-16 pb-12 border-b border-gray-800">
+      <div className="w-full max-w-[1400px] mx-auto">
+        {/* TOP ROW: SUNBURST® ON LEFT, HENRI BARRETT ON RIGHT */}
+        <div className="flex justify-between items-start w-full">
           <div className="overflow-hidden pt-1 pb-1">
             <button 
               onClick={() => onNavigate?.('home')} 
-              className="cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center will-change-transform" 
+              className="cursor-pointer hover:opacity-85 transition-opacity flex items-center justify-center will-change-transform" 
               title="Henri Barrett - Home"
               style={{
                 transform: isRevealed ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 125%, 0)',
@@ -1705,14 +1707,17 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
                 transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out'
               }}
             >
-              <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
-                <DynamicIsotype className="w-16 h-16 md:w-20 md:h-20 text-white" />
+              <div className="relative inline-flex items-center justify-center select-none text-white">
+                <div className="inline-flex items-center justify-center animate-clock-tick origin-center">
+                  <DynamicIsotype className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 text-white" />
+                </div>
+                <span className="absolute -top-1 -right-3 text-[10px] sm:text-[11px] font-normal text-white select-none">®</span>
               </div>
             </button>
           </div>
           <div className="overflow-hidden pt-1 pb-1">
             <span 
-              className="inline-block text-3xl md:text-5xl font-black uppercase tracking-tighter text-right leading-none will-change-transform"
+              className="inline-block text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] text-right leading-none will-change-transform text-white"
               style={{
                 transform: isRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
                 transformOrigin: '0% 100%',
@@ -1724,107 +1729,154 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
             </span>
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-          <div className="flex flex-col gap-6">
+
+        {/* THIN HORIZONTAL DIVIDER FULL WIDTH */}
+        <div className="w-full border-b border-[#262626] my-10 sm:my-14 md:my-16" />
+
+        {/* 4 COLUMNS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 mb-20">
+          {/* COLUMN 1: Agency */}
+          <div className="lg:col-span-2 flex flex-col gap-5 sm:gap-6">
             <FooterMaskItem isRevealed={isRevealed} delay={0.2} angle={2}>
-              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Agency</h4>
+              <h4 className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal">Agency</h4>
             </FooterMaskItem>
-            <ul className="flex flex-col gap-3 text-gray-400 text-sm">
+            <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
               <li>
                 <FooterMaskItem isRevealed={isRevealed} delay={0.28}>
-                  <button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Home</button>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Home</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.34}>
+                  <button onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Case Studies</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.40}>
+                  <button onClick={() => onNavigate?.('services')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Services</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.46}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">About</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.52}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Our Method®</button>
+                </FooterMaskItem>
+              </li>
+            </ul>
+          </div>
+
+          {/* COLUMN 2: Discover */}
+          <div className="lg:col-span-3 flex flex-col gap-5 sm:gap-6">
+            <FooterMaskItem isRevealed={isRevealed} delay={0.22} angle={2}>
+              <h4 className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal">Discover</h4>
+            </FooterMaskItem>
+            <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.30}>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Henri Barrett Hub®</button>
                 </FooterMaskItem>
               </li>
               <li>
                 <FooterMaskItem isRevealed={isRevealed} delay={0.36}>
-                  <button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Case Studies</button>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Our Book</button>
                 </FooterMaskItem>
               </li>
               <li>
-                <FooterMaskItem isRevealed={isRevealed} delay={0.44}>
-                  <button onClick={() => onNavigate?.('services')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Services</button>
-                </FooterMaskItem>
-              </li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-6">
-            <FooterMaskItem isRevealed={isRevealed} delay={0.22} angle={2}>
-              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Discover</h4>
-            </FooterMaskItem>
-            <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li>
-                <FooterMaskItem isRevealed={isRevealed} delay={0.3}>
-                  <button onClick={() => onNavigate?.('home')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Henri Barrett Hub®</button>
-                </FooterMaskItem>
-              </li>
-              <li>
-                <FooterMaskItem isRevealed={isRevealed} delay={0.38}>
-                  <button onClick={() => onNavigate?.('work')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Shop</button>
-                </FooterMaskItem>
-              </li>
-            </ul>
-          </div>
-          <div className="flex flex-col gap-6">
-            <FooterMaskItem isRevealed={isRevealed} delay={0.24} angle={2}>
-              <h4 className="text-lg font-bold uppercase tracking-widest opacity-40">Learn</h4>
-            </FooterMaskItem>
-            <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-              <li>
-                <FooterMaskItem isRevealed={isRevealed} delay={0.32}>
-                  <button onClick={() => onNavigate?.('quicklys')} className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Articles</button>
-                </FooterMaskItem>
-              </li>
-              <li>
-                <FooterMaskItem isRevealed={isRevealed} delay={0.4}>
-                  <button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">Press</button>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.42}>
+                  <button onClick={() => onNavigate?.('work-with-us')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Speaking</button>
                 </FooterMaskItem>
               </li>
               <li>
                 <FooterMaskItem isRevealed={isRevealed} delay={0.48}>
-                  <button className="nav-animated-link text-gray-400 hover:text-white cursor-pointer transition-colors pb-0.5 text-left">FAQs</button>
+                  <button onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Shop</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.54}>
+                  <button onClick={() => onNavigate?.('quicklys')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Events</button>
                 </FooterMaskItem>
               </li>
             </ul>
           </div>
-          <div className="flex flex-col gap-6 col-span-2 md:col-span-1">
-            {/* Aparece después de las demás palabras */}
+
+          {/* COLUMN 3: Learn */}
+          <div className="lg:col-span-3 flex flex-col gap-5 sm:gap-6">
+            <FooterMaskItem isRevealed={isRevealed} delay={0.24} angle={2}>
+              <h4 className="text-[17px] sm:text-[18px] md:text-[19px] font-normal font-[400] text-white tracking-normal">Learn</h4>
+            </FooterMaskItem>
+            <ul className="flex flex-col gap-2.5 sm:gap-3 text-[15px] sm:text-[15.5px] md:text-[16px] font-normal font-[400] text-[#8E8E93]">
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.32}>
+                  <button onClick={() => onNavigate?.('quicklys')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Articles</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.38}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Press & Media</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.44}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">FAQs</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.50}>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Testimonials</button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.56}>
+                  <button onClick={() => onNavigate?.('work-with-us')} className="hover:text-white cursor-pointer transition-colors pb-0.5 text-left block">Careers</button>
+                </FooterMaskItem>
+              </li>
+            </ul>
+          </div>
+
+          {/* COLUMN 4: Newsletter */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
             <FooterMaskItem isRevealed={isRevealed} delay={0.68} angle={1.5}>
-              <h4 className="text-lg font-bold leading-tight">Get strategy and brand insights straight to your inbox.</h4>
+              <h4 className="text-[18px] sm:text-[20px] md:text-[22px] font-normal font-[400] text-white leading-[1.28] sm:leading-[1.32] max-w-[420px]">
+                Get valuable strategy, culture, and brand insights straight to your inbox.
+              </h4>
             </FooterMaskItem>
 
-            {/* "your email here" y la línea que se dibuja de 0% a 100% */}
-            <div className="flex flex-col w-full">
-              <FooterMaskItem isRevealed={isRevealed} delay={0.84}>
-                <input 
-                  type="email" 
-                  placeholder="Your email here" 
-                  className="bg-transparent pb-2 focus:outline-none text-white placeholder-gray-500 transition-colors w-full text-sm" 
-                />
-              </FooterMaskItem>
-              {/* Línea que se dibuja de 0% a 100% */}
-              <div className="w-full overflow-hidden">
-                <div 
-                  className="h-[1px] bg-gray-600 w-full will-change-transform"
-                  style={{
-                    transformOrigin: 'left center',
-                    transform: isRevealed ? 'scaleX(1)' : 'scaleX(0)',
-                    transition: 'transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.95s'
-                  }}
-                />
+            <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col gap-4 mt-2 max-w-[440px]">
+              <div className="flex flex-col w-full">
+                <FooterMaskItem isRevealed={isRevealed} delay={0.84}>
+                  <input 
+                    type="email" 
+                    placeholder="Your email here" 
+                    className="bg-transparent pb-3 text-[15px] sm:text-[16px] font-normal font-[400] focus:outline-none text-white placeholder-[#71717A] w-full border-b border-[#333333] focus:border-white transition-colors" 
+                  />
+                </FooterMaskItem>
               </div>
-            </div>
+
+              <FooterMaskItem isRevealed={isRevealed} delay={0.96}>
+                <p className="text-[11px] sm:text-[11.5px] md:text-[12px] font-normal font-[400] text-[#71717A] leading-[1.48] max-w-[390px]">
+                  By signing up to receive emails from Motto, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
+                </p>
+              </FooterMaskItem>
+            </form>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800 text-[10px] text-gray-500 uppercase tracking-widest">
+
+        {/* BOTTOM COPYRIGHT AND LINKS BAR */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-[#1C1C1E] text-[11px] text-[#71717A] uppercase tracking-wider">
           <FooterMaskItem isRevealed={isRevealed} delay={0.6}>
             <span>© 2024/25 Henri Barrett® | Lima | Perú</span>
           </FooterMaskItem>
           <div className="flex items-center gap-8 mt-6 md:mt-0">
             <FooterMaskItem isRevealed={isRevealed} delay={0.65}>
               <div className="flex items-center gap-8">
+                <span className="font-bold text-white text-xs cursor-pointer hover:opacity-75">Bē</span>
                 <Instagram className="w-5 h-5 text-white cursor-pointer hover:opacity-80 transition-opacity" />
-                <button onClick={scrollToTop} className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity cursor-pointer">
-                  Back to top <ArrowDown className="w-3 h-3 rotate-180" />
+                <button onClick={scrollToTop} className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity cursor-pointer normal-case">
+                  Back to top <ArrowDown className="w-3.5 h-3.5 rotate-180" />
                 </button>
               </div>
             </FooterMaskItem>
@@ -3607,6 +3659,7 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
   return (
     <div
       ref={setRefs}
+      data-selected-work-image="true"
       onClick={() => {
         if (project.view) {
           onNavigate(project.view as AppView);
@@ -3653,25 +3706,25 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
         />
       )}
 
-      {/* Gradiente sutil inferior para asegurar contraste y legibilidad óptima */}
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none z-10" />
+      {/* Gradiente sutil inferior para asegurar contraste y legibilidad preservando los colores vivos de la imagen */}
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/40 via-black/15 to-transparent pointer-events-none z-10" />
 
-      {/* ETIQUETAS INFERIORES: RÉPLICA DEL DISEÑO DE LA FOTO DE REFERENCIA */}
+      {/* ETIQUETAS INFERIORES: RÉPLICA EXACTA DE LA FOTO DE REFERENCIA */}
       <div
-        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-0 right-0 px-4 sm:px-6 md:px-8 flex items-center justify-between z-20 pointer-events-none transition-all duration-700 delay-300"
+        className="absolute bottom-6 sm:bottom-8 md:bottom-10 lg:bottom-12 xl:bottom-14 left-0 right-0 px-6 sm:px-8 md:px-11 lg:px-14 xl:px-16 flex items-center justify-between z-20 pointer-events-none transition-all duration-700 delay-300"
         style={{
           opacity: isRevealed ? 1 : 0,
           transform: isRevealed ? 'translateY(0)' : 'translateY(12px)',
         }}
       >
-        {/* IZQUIERDA: RECUADRO CON BORDE CIRCULAR */}
-        <div className="rounded-full border border-white/90 px-4 sm:px-5 md:px-6 py-1 sm:py-1.5 text-white text-[11px] sm:text-[12px] md:text-[13px] font-normal tracking-wider uppercase flex items-center justify-center bg-black/25 backdrop-blur-[2px] pointer-events-auto transition-all duration-300 group-hover:border-white group-hover:bg-black/50">
-          <span>{project.name}</span>
+        {/* IZQUIERDA: RECUADRO CON BORDE CIRCULAR (TITULAR DEL PROYECTO) */}
+        <div className="rounded-full border border-white sm:border-[1.5px] px-6 sm:px-8 md:px-10 lg:px-12 py-2 sm:py-2.5 md:py-3 lg:py-3.5 text-white text-[15px] sm:text-[19px] md:text-[23px] lg:text-[27px] xl:text-[29px] font-normal font-[450] tracking-[-0.01em] uppercase flex items-center justify-center bg-transparent pointer-events-auto transition-all duration-300 group-hover:border-white group-hover:bg-white/10">
+          <span className="leading-none">{project.name}</span>
         </div>
 
         {/* DERECHA: CATEGORÍA DEL TRABAJO */}
-        <div className="text-white text-[11px] sm:text-[12px] md:text-[13px] font-normal tracking-[0.16em] uppercase select-none pointer-events-auto drop-shadow-sm">
-          <span>{project.category}</span>
+        <div className="text-white text-[15px] sm:text-[18px] md:text-[22px] lg:text-[25px] xl:text-[28px] font-normal font-[450] tracking-wider uppercase select-none pointer-events-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+          <span className="leading-none">{project.category}</span>
         </div>
       </div>
     </div>
@@ -3865,13 +3918,21 @@ export const App: React.FC = () => {
     return true;
   });
 
-  // --- ESTADO DEL CURSOR (FLECHA GRANDE PARA SELECTED WORKS) ---
+  // --- ESTADO DEL CURSOR (FLECHA GRANDE PARA SELECTED WORKS / TROFEO PARA YUMMY) ---
   const cursorArrowRef = useRef<HTMLDivElement>(null);
   const [isHoveringWork, setIsHoveringWork] = useState(false);
+  const [isHoveringYummy, setIsHoveringYummy] = useState(false);
   const [cursorType, setCursorType] = useState<'upRight' | 'right'>('right');
   const [isMouseDown, setIsMouseDown] = useState(false);
   const isHoveringWorkRef = useRef(false);
   const lastMousePosRef = useRef({ x: -200, y: -200 });
+
+  useEffect(() => {
+    // Preload rotating trophy WebM for instant Yummy hover
+    const video = document.createElement('video');
+    video.src = 'https://henribarrett.com/assets/site/images/home/work_section/ladaaward.webm';
+    video.preload = 'auto';
+  }, []);
 
   useEffect(() => {
     isHoveringWorkRef.current = isHoveringWork;
@@ -4113,6 +4174,7 @@ export const App: React.FC = () => {
         const elem = document.elementFromPoint(lastMousePosRef.current.x, lastMousePosRef.current.y);
         if (!elem || !elem.closest('[data-selected-work-image="true"]')) {
           setIsHoveringWork(false);
+          setIsHoveringYummy(false);
         }
       }
 
@@ -4232,7 +4294,9 @@ export const App: React.FC = () => {
             ) : (
               <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pb-4 sm:pb-6 md:pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 w-full">
-                  {filteredProjects.map((work) => (
+                  {filteredProjects.map((work) => {
+                    const isYummy = work.title.toLowerCase().includes('yummy');
+                    return (
                     <div 
                       key={work.id} 
                       className="flex flex-col group"
@@ -4262,9 +4326,19 @@ export const App: React.FC = () => {
                             cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                           }
                           setCursorType('right');
+                          setIsHoveringYummy(isYummy);
                           setIsHoveringWork(true);
                         }}
-                        onMouseLeave={() => setIsHoveringWork(false)}
+                        onMouseMove={(e) => {
+                          lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+                          if (cursorArrowRef.current) {
+                            cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          setIsHoveringWork(false);
+                          setIsHoveringYummy(false);
+                        }}
                         className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative shadow-sm cursor-none select-none"
                       >
                         <img
@@ -4282,7 +4356,8 @@ export const App: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -4340,7 +4415,7 @@ export const App: React.FC = () => {
         {/* FOOTER PEGADO DIRECTAMENTE A LA TERMINACIÓN DE QUICKLYS */}
         <Footer onNavigate={setCurrentView} />
 
-        {/* CURSOR PERSONALIZADO (FLECHA GRANDE PARA SELECTED WORKS) */}
+        {/* CURSOR PERSONALIZADO (FLECHA GRANDE PARA SELECTED WORKS / TROFEO PARA YUMMY) */}
         <div
           ref={cursorArrowRef}
           id="selected-works-custom-cursor"
@@ -4350,13 +4425,35 @@ export const App: React.FC = () => {
           style={{ transform: 'translate3d(-200px, -200px, 0)' }}
           aria-hidden="true"
         >
-          <div
-            className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-28 md:h-28 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.35)] flex items-center justify-center border border-black/10 transition-transform duration-300 ease-out ${
-              isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
-            }`}
-          >
-            <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-          </div>
+          {isHoveringYummy ? (
+            <div
+              className={`-translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-transform duration-300 ease-out select-none pointer-events-none ${
+                isMouseDown ? 'scale-90' : 'scale-100'
+              }`}
+            >
+              <div className="animate-trophy-scale-in flex items-center justify-center">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="w-72 md:w-96 max-w-none h-auto object-contain filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] pointer-events-none select-none"
+                >
+                  <source src="https://henribarrett.com/assets/site/images/home/work_section/ladaaward.webm" type="video/webm" />
+                  <source src="/images/ladaaward.webm" type="video/webm" />
+                </video>
+              </div>
+            </div>
+          ) : (
+            <div
+              className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-28 md:h-28 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.35)] flex items-center justify-center border border-black/10 transition-transform duration-300 ease-out ${
+                isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
+              }`}
+            >
+              <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -4895,7 +4992,7 @@ export const App: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCurrentView('services')}
-                      className="text-[14px] sm:text-[15px] font-normal text-black underline underline-offset-4 hover:opacity-70 transition-opacity cursor-pointer"
+                      className="text-[14px] sm:text-[15px] font-normal text-black animated-underline pb-0.5 cursor-pointer"
                     >
                       Here's how we can help
                     </button>
@@ -4937,9 +5034,21 @@ export const App: React.FC = () => {
             {/* 3 COLUMNS - PROPÓSITO (DESKTOP) */}
             <div className="hidden lg:flex absolute top-[78vh] sm:top-[80vh] md:top-[82vh] hero-1366-purpose w-screen px-10 md:px-20 justify-center text-black">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8">
-                    <div className="flex flex-col items-center md:items-start gap-4 min-w-[120px]">
-                        <ArrowDown className="w-20 h-20 stroke-[0.5]" />
-                        <span className="text-[11px] font-black uppercase tracking-[0.4em] opacity-30">Our Purpose</span>
+                    <div className="flex justify-center md:justify-start min-w-[200px] pointer-events-auto">
+                        <button
+                          type="button"
+                          onClick={() => setCurrentView('services')}
+                          className="group flex flex-col items-center gap-4 cursor-pointer focus:outline-none"
+                        >
+                          <img
+                            src="https://henribarrett.com/assets/site/svg/home/icon_arrow_btm_header.svg"
+                            alt="Arrow Down"
+                            className="w-[36px] h-[56px] md:w-[42px] md:h-[65px] object-contain select-none pointer-events-none group-hover:translate-y-1.5 transition-transform duration-300 ease-out"
+                          />
+                          <span className="animated-underline group-hover-animated-underline text-[15px] md:text-[16px] font-normal tracking-tight text-black pb-0.5">
+                            Here's how we can help
+                          </span>
+                        </button>
                     </div>
                     <p className="text-2xl md:text-[2vw] text-center max-w-[none] font-light leading-[1.1] tracking-tight flex-1 px-4">
                         <span ref={approachFirstLineRef} className="inline">
@@ -4948,7 +5057,7 @@ export const App: React.FC = () => {
                         <br className="hidden md:block" />
                         <span>resonant brand messages that echo across audiences.</span>
                     </p>
-                    <div className="flex justify-center md:justify-end min-w-[120px]">
+                    <div className="flex justify-center md:justify-end min-w-[200px]">
                         <img
                           ref={approachIsologoRef}
                           src="https://henribarrett.com/assets/site/svg/home/isologo_henribarrett.svg"
@@ -5088,7 +5197,9 @@ export const App: React.FC = () => {
 
                     <div className="w-full max-w-[1430px] px-4 sm:px-6 md:px-8 flex flex-col items-center gap-7 sm:gap-8 md:gap-10 lg:gap-16 relative pt-12 sm:pt-16 md:pt-24 pb-8 sm:pb-12 z-10">
                         {/* BLOQUES DE 1430x770px CON ANIMACIÓN DE DEVELO DE MÁSCARA AL LLEGAR A LA ZONA */}
-                        {homeProjects.map((project, idx) => (
+                        {homeProjects.map((project, idx) => {
+                            const isYummy = project.name.toLowerCase().includes('yummy');
+                            return (
                             <HomeWorkCard
                                 key={project.id}
                                 project={project}
@@ -5101,6 +5212,7 @@ export const App: React.FC = () => {
                                         cursorArrowRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                                     }
                                     setCursorType('right');
+                                    setIsHoveringYummy(isYummy);
                                     setIsHoveringWork(true);
                                 }}
                                 onHoverMove={(e) => {
@@ -5111,9 +5223,11 @@ export const App: React.FC = () => {
                                 }}
                                 onHoverEnd={() => {
                                     setIsHoveringWork(false);
+                                    setIsHoveringYummy(false);
                                 }}
                             />
-                        ))}
+                        );
+                        })}
 
                         {/* BOTÓN EXPLORE MORE DEBAJO DE LOS TRABAJOS (SEGÚN CAPTURA) */}
                         <div className="w-full flex justify-center pt-10 sm:pt-14 md:pt-16 pb-6 sm:pb-8">
@@ -5207,13 +5321,35 @@ export const App: React.FC = () => {
         }}
         aria-hidden="true"
       >
-        <div
-          className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-28 md:h-28 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.35)] flex items-center justify-center border border-black/10 transition-transform duration-300 ease-out ${
-            isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
-          }`}
-        >
-          <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
-        </div>
+        {isHoveringYummy ? (
+          <div
+            className={`-translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-transform duration-300 ease-out select-none pointer-events-none ${
+              isMouseDown ? 'scale-90' : 'scale-100'
+            }`}
+          >
+            <div className="animate-trophy-scale-in flex items-center justify-center">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="w-72 md:w-96 max-w-none h-auto object-contain filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] pointer-events-none select-none"
+              >
+                <source src="https://henribarrett.com/assets/site/images/home/work_section/ladaaward.webm" type="video/webm" />
+                <source src="/images/ladaaward.webm" type="video/webm" />
+              </video>
+            </div>
+          </div>
+        ) : (
+          <div
+            className={`-translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-28 md:h-28 rounded-full bg-white text-black shadow-[0_20px_50px_rgba(0,0,0,0.35)] flex items-center justify-center border border-black/10 transition-transform duration-300 ease-out ${
+              isHoveringWork ? (isMouseDown ? 'scale-90' : 'scale-100') : 'scale-40'
+            }`}
+          >
+            <MoveRight className="w-12 h-12 md:w-14 md:h-14 stroke-[2.5]" />
+          </div>
+        )}
       </div>
 
     </div>
@@ -5228,6 +5364,7 @@ export const App: React.FC = () => {
         phase={curtainPhase}
       />
       {renderCurrentView()}
+      <CookieBanner isHome={currentView === 'home'} />
     </>
   );
 };
