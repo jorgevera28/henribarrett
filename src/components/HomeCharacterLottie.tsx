@@ -1,39 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import lottie, { AnimationItem } from 'lottie-web';
 
 interface HomeCharacterLottieProps {
   className?: string;
+  cropToBounds?: boolean;
 }
 
-export const HomeCharacterLottie: React.FC<HomeCharacterLottieProps> = ({ className = '' }) => {
+export const HomeCharacterLottie: React.FC<HomeCharacterLottieProps> = ({
+  className = '',
+  cropToBounds = false,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<AnimationItem | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const applyCrop = useCallback(() => {
+    if (cropToBounds && containerRef.current) {
+      const svg = containerRef.current.querySelector('svg');
+      if (svg) {
+        svg.setAttribute('viewBox', '560 600 770 790');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+      }
+    }
+  }, [cropToBounds]);
+
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Inicializar la animación Lottie del personaje
     try {
       animRef.current = lottie.loadAnimation({
         container: containerRef.current,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        // Usamos la ruta local (/assets/character.json) para evitar restricciones CORS
-        // y garantizar carga instantánea sin latencia de red.
         path: '/assets/character.json',
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid meet',
+          preserveAspectRatio: cropToBounds ? 'xMidYMax meet' : 'xMidYMid meet',
           progressiveLoad: true,
         },
       });
 
       animRef.current.addEventListener('DOMLoaded', () => {
         setIsLoaded(true);
+        applyCrop();
       });
 
-      // Manejo de error si falla la carga local, intenta fallback remoto
       animRef.current.addEventListener('data_failed', () => {
         if (!containerRef.current) return;
         animRef.current?.destroy();
@@ -44,8 +55,12 @@ export const HomeCharacterLottie: React.FC<HomeCharacterLottieProps> = ({ classN
           autoplay: true,
           path: 'https://henribarrett.com/assets/site/json/home/character.json',
           rendererSettings: {
-            preserveAspectRatio: 'xMidYMid meet',
+            preserveAspectRatio: cropToBounds ? 'xMidYMax meet' : 'xMidYMid meet',
           },
+        });
+        animRef.current.addEventListener('DOMLoaded', () => {
+          setIsLoaded(true);
+          applyCrop();
         });
       });
     } catch (err) {
@@ -56,7 +71,13 @@ export const HomeCharacterLottie: React.FC<HomeCharacterLottieProps> = ({ classN
       animRef.current?.destroy();
       animRef.current = null;
     };
-  }, []);
+  }, [cropToBounds, applyCrop]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      applyCrop();
+    }
+  }, [isLoaded, applyCrop]);
 
   return (
     <div

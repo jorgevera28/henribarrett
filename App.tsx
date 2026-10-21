@@ -4953,19 +4953,19 @@ export const App: React.FC = () => {
             {/* TABLET / 744x1133 HERO & PURPOSE FLOW (DISTRIBUCIÓN SECUENCIAL SEGÚN CAPTURA IPAD) */}
             <div className="flex lg:hidden flex-col items-center w-full px-6 pt-[90px] sm:pt-[105px] text-black text-center select-none absolute top-0 left-0">
                 {/* PERSONAJE CENTRADO CON MANOS EN FORMA DE CÁMARA */}
-                <div className="w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] flex items-center justify-center opacity-100 pointer-events-auto mb-2 sm:mb-4">
-                    <HomeCharacterLottie className="w-full h-full" />
+                <div className="w-[170px] h-[120px] sm:w-[208px] sm:h-[146px] md:w-[220px] md:h-[154px] flex items-center justify-center opacity-100 pointer-events-auto mb-1 sm:mb-1.5 relative z-10">
+                    <HomeCharacterLottie cropToBounds className="w-full h-full" />
                 </div>
 
                 {/* ALWAYS WATCHING CENTRADO */}
-                <div className="flex flex-col items-center tracking-tighter uppercase mb-6 sm:mb-8 gap-2.5 sm:gap-4 md:gap-5">
+                <div className="flex flex-col items-center tracking-tighter uppercase mb-6 sm:mb-8 gap-1 sm:gap-1.5 md:gap-2">
                     <div className="hero-mask-wrap">
-                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.98] sm:leading-[1.02] hero-word-animated hero-word-always">
+                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.88] sm:leading-[0.88] hero-word-animated hero-word-always">
                         ALWAYS
                       </h1>
                     </div>
                     <div className="hero-mask-wrap">
-                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.98] sm:leading-[1.02] hero-word-animated hero-word-watching">
+                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.88] sm:leading-[0.88] hero-word-animated hero-word-watching">
                         WATCHING
                       </h1>
                     </div>
