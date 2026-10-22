@@ -143,9 +143,9 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (ALINEADOS A LA IZQUIERDA CON EL TITULAR SEGÚN CAPTURA) */}
-      <div className="w-full mb-12 sm:mb-16 md:mb-20 lg:mb-24 flex justify-start overflow-x-auto no-scrollbar">
-        <div className="flex items-center justify-start gap-2 sm:gap-3 md:gap-3.5 lg:gap-4 xl:gap-4.5 flex-nowrap shrink-0">
+      {/* 2. FILTROS POR TIPO DE TRABAJO (EXPANDIDOS PARA ABARCAR CASI TODO EL ANCHO DEL BLOQUE DE PROYECTOS) */}
+      <div className="w-full mb-12 sm:mb-16 md:mb-20 lg:mb-24 overflow-x-auto no-scrollbar">
+        <div className="w-full flex items-center justify-between gap-2.5 sm:gap-3.5 md:gap-4.5 lg:gap-5.5 xl:gap-6 flex-wrap sm:flex-nowrap">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -153,7 +153,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
                 key={cat}
                 type="button"
                 onClick={() => handleCategoryClick(cat)}
-                className={`rounded-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 text-[13px] sm:text-[15px] md:text-[17px] lg:text-[20px] xl:text-[23px] 2xl:text-[25px] font-normal font-[450] uppercase tracking-tight border border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center ${
+                className={`flex-1 min-w-max text-center rounded-full px-5 sm:px-6 md:px-7 lg:px-8 xl:px-9 py-2 sm:py-2.5 md:py-3 lg:py-3.5 xl:py-4 text-[14px] sm:text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] 2xl:text-[26px] font-normal font-[450] uppercase tracking-tight border border-black transition-all duration-200 leading-none whitespace-nowrap cursor-pointer inline-flex items-center justify-center ${
                   isActive
                     ? 'bg-black text-white shadow-sm'
                     : 'bg-transparent text-black hover:bg-black hover:text-white'

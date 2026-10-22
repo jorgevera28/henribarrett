@@ -5111,7 +5111,6 @@ export const App: React.FC = () => {
                             The Unexpected
                         </span>
                     </div>
-                    <p className={`hidden lg:block mt-8 sm:mt-10 md:mt-20 text-gray-400 font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black transition-opacity duration-1000 delay-500 ${inspiredRevealed ? 'opacity-100' : 'opacity-0'}`}>Creative Direction &bull; MMXXIV</p>
                 </div>
             </div>
 

@@ -42,6 +42,8 @@ export const DynamicLogotype = ({ className = "", style }: { className?: string,
   );
 };
 
+const NEUE_HAAS_FONT = '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif';
+
 interface FullMenuItem {
   id: string;
   num: string;
@@ -54,7 +56,7 @@ const FULL_MENU_ITEMS: FullMenuItem[] = [
   { id: 'services', num: '02.', label: 'SERVICES', view: 'services' },
   { id: 'quicklys', num: '03.', label: 'QUICKLYS', view: 'quicklys' },
   { id: 'about', num: '04.', label: 'ABOUT US', view: 'about' },
-  { id: 'work-with-us', num: '05.', label: 'WORK WITH US', view: 'work-with-us' },
+  { id: 'work-with-us', num: '05.', label: 'CONTACT', view: 'work-with-us' },
 ];
 
 export const FullScreenMenu: React.FC<{
@@ -63,62 +65,239 @@ export const FullScreenMenu: React.FC<{
   currentView: string;
   setCurrentView: (view: AppView) => void;
 }> = ({ isOpen, onClose, currentView, setCurrentView }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [centerIdx, setCenterIdx] = useState<number>(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [activeItemIdx, setActiveItemIdx] = useState<number>(0);
+  const activeItemIdxRef = useRef<number>(0);
 
-  const REPEATED_MENU = [
-    ...FULL_MENU_ITEMS,
-    ...FULL_MENU_ITEMS,
-    ...FULL_MENU_ITEMS,
-    ...FULL_MENU_ITEMS,
-    ...FULL_MENU_ITEMS,
-  ];
+  const getItemHeight = () => {
+    if (typeof window === 'undefined') return 160;
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+    if (w < 640) return Math.max(88, Math.round(h * 0.125));
+    if (w < 1024) return Math.max(115, Math.round(h * 0.145));
+    if (w >= 1750) {
+      // Resolución 1920 de ancho: separación vertical amplia y despejada entre textos
+      return Math.max(260, Math.round(h * 0.255));
+    }
+    return Math.max(150, Math.round(h * 0.17));
+  };
 
+  const [itemHeight, setItemHeight] = useState(getItemHeight);
+
+  useEffect(() => {
+    const handleResize = () => setItemHeight(getItemHeight());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const SETS_COUNT = 7;
+  const REPEATED_ITEMS = Array.from({ length: SETS_COUNT }).flatMap((_, setIdx) =>
+    FULL_MENU_ITEMS.map((item, origIdx) => ({
+      ...item,
+      uniqueKey: `${setIdx}-${item.id}-${origIdx}`,
+      origIdx,
+      setIdx,
+    }))
+  );
+
+  const scrollPos = useRef<number>(0);
+  const targetScroll = useRef<number>(0);
+  const velocity = useRef<number>(0);
+  const isInteracting = useRef<boolean>(false);
+  const snapTimeout = useRef<any>(null);
+
+  // Initialize position to center the current view when menu opens
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const itemH = getItemHeight();
+    const N = FULL_MENU_ITEMS.length;
+    const cycleHeight = N * itemH;
+
+    const targetIdx = FULL_MENU_ITEMS.findIndex(i => i.view === currentView);
+    const initialIdx = targetIdx >= 0 ? targetIdx : 0;
+    const middleSetIdx = 3;
+
+    // Position of item in the 3rd set so its center is exactly in the window vertical center
+    const itemCenterInList = (middleSetIdx * N + initialIdx) * itemH + itemH / 2;
+    const windowCenter = window.innerHeight / 2;
+    const initialScroll = itemCenterInList - windowCenter;
+
+    scrollPos.current = initialScroll;
+    targetScroll.current = initialScroll;
+    velocity.current = 0;
+    isInteracting.current = false;
+    setActiveItemIdx(initialIdx);
+    activeItemIdxRef.current = initialIdx;
+
+    if (listRef.current) {
+      listRef.current.style.transform = `translate3d(0, ${-initialScroll}px, 0)`;
+    }
+  }, [isOpen, currentView]);
+
+  // Animation frame loop with natural physical inertia, friction damping and infinite wrapping
+  useEffect(() => {
+    if (!isOpen) return;
+
+    let rafId: number;
+    const N = FULL_MENU_ITEMS.length;
+
+    const animate = () => {
+      const itemH = getItemHeight();
+      const cycleHeight = N * itemH;
+      const middleSetBase = 3 * cycleHeight;
+
+      if (isInteracting.current) {
+        // Natural gliding friction damping - slower, controlled glide
+        velocity.current *= 0.88;
+        scrollPos.current += velocity.current;
+        targetScroll.current = scrollPos.current;
+      } else {
+        // When user stops scrolling, very gently glide and align into nearest centered slot
+        const windowCenter = window.innerHeight / 2;
+        const currentCenter = scrollPos.current + windowCenter;
+        const nearestSlot = Math.round((currentCenter - itemH / 2) / itemH);
+        const snapTarget = nearestSlot * itemH + itemH / 2 - windowCenter;
+
+        // Extra soft, slow easing (0.038) for a serene settling
+        const diff = snapTarget - scrollPos.current;
+        scrollPos.current += diff * 0.038;
+        targetScroll.current = scrollPos.current;
+        velocity.current = 0;
+      }
+
+      // Seamless modulo wrap (invisible jump across repeating sets)
+      if (scrollPos.current > middleSetBase + cycleHeight) {
+        scrollPos.current -= cycleHeight;
+        targetScroll.current -= cycleHeight;
+      } else if (scrollPos.current < middleSetBase - cycleHeight) {
+        scrollPos.current += cycleHeight;
+        targetScroll.current += cycleHeight;
+      }
+
+      if (listRef.current) {
+        listRef.current.style.transform = `translate3d(0, ${-scrollPos.current}px, 0)`;
+      }
+
+      // Compute which item is closest to the vertical center of the screen
+      const currentCenterY = scrollPos.current + window.innerHeight / 2;
+      const rawIdx = Math.floor((currentCenterY - itemH / 2) / itemH);
+      const closestItemIdx = ((rawIdx % N) + N) % N;
+
+      if (closestItemIdx !== activeItemIdxRef.current) {
+        activeItemIdxRef.current = closestItemIdx;
+        setActiveItemIdx(closestItemIdx);
+      }
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, [isOpen]);
+
+  // Wheel and touch listeners on the container for infinite, calm and buttery scrolling
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= 20;
+      else if (e.deltaMode === 2) delta *= 45;
+
+      // Slower, softer velocity impulse
+      velocity.current += delta * 0.14;
+      velocity.current = Math.max(-50, Math.min(50, velocity.current));
+
+      isInteracting.current = true;
+
+      // Smoothly settle once user stops wheeling
+      clearTimeout(snapTimeout.current);
+      snapTimeout.current = setTimeout(() => {
+        isInteracting.current = false;
+      }, 320);
+    };
+
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      velocity.current = 0;
+      isInteracting.current = true;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const clientY = e.touches[0].clientY;
+      const delta = touchStartY - clientY;
+      touchStartY = clientY;
+      velocity.current += delta * 0.18;
+      velocity.current = Math.max(-50, Math.min(50, velocity.current));
+      isInteracting.current = true;
+      if (e.cancelable) e.preventDefault();
+    };
+
+    const handleTouchEnd = () => {
+      clearTimeout(snapTimeout.current);
+      snapTimeout.current = setTimeout(() => {
+        isInteracting.current = false;
+      }, 340);
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      clearTimeout(snapTimeout.current);
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isOpen]);
+
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
+      } else if (e.key === 'ArrowDown') {
+        const itemH = getItemHeight();
+        velocity.current += itemH * 0.15;
+        isInteracting.current = true;
+        clearTimeout(snapTimeout.current);
+        snapTimeout.current = setTimeout(() => {
+          isInteracting.current = false;
+        }, 320);
+      } else if (e.key === 'ArrowUp') {
+        const itemH = getItemHeight();
+        velocity.current -= itemH * 0.15;
+        isInteracting.current = true;
+        clearTimeout(snapTimeout.current);
+        snapTimeout.current = setTimeout(() => {
+          isInteracting.current = false;
+        }, 320);
       }
     };
 
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
-
-      setTimeout(() => {
-        if (scrollRef.current) {
-          const itemHeight = 120;
-          const targetIndex = FULL_MENU_ITEMS.findIndex(item => item.view === currentView);
-          const activeIdxInSet = FULL_MENU_ITEMS.length * 2 + (targetIndex >= 0 ? targetIndex : 0);
-          scrollRef.current.scrollTop = activeIdxInSet * itemHeight - (scrollRef.current.clientHeight / 2) + (itemHeight / 2);
-          setCenterIdx(activeIdxInSet);
-        }
-      }, 60);
     }
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose, currentView]);
-
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-    const centerY = container.scrollTop + container.clientHeight / 2;
-    const itemHeight = 120;
-    const approxIndex = Math.round(centerY / itemHeight);
-    setCenterIdx(approxIndex);
-
-    const totalItems = REPEATED_MENU.length;
-    const singleSetCount = FULL_MENU_ITEMS.length;
-    if (container.scrollTop < singleSetCount * itemHeight * 0.5) {
-      container.scrollTop += singleSetCount * itemHeight * 2;
-    } else if (container.scrollTop > (totalItems - singleSetCount * 1.5) * itemHeight) {
-      container.scrollTop -= singleSetCount * itemHeight * 2;
-    }
-  };
+  }, [isOpen, onClose]);
 
   const handleSelectItem = (view: AppView) => {
     setCurrentView(view);
@@ -128,11 +307,13 @@ export const FullScreenMenu: React.FC<{
 
   return (
     <div
-      className={`fixed inset-0 z-[100000] bg-[#0A0A0A] text-white flex flex-col justify-between overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      ref={containerRef}
+      className={`fixed inset-0 z-[100000] bg-[#0C0C0C] text-white flex flex-col justify-between overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
         isOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
       }`}
       style={{ willChange: 'transform' }}
     >
+      {/* TOP BAR */}
       <div className="w-full px-6 sm:px-10 md:px-16 py-7 sm:py-8 md:py-10 flex items-center justify-between z-30 shrink-0 select-none">
         <button
           onClick={() => handleSelectItem('home')}
@@ -145,52 +326,58 @@ export const FullScreenMenu: React.FC<{
 
         <button
           onClick={onClose}
-          className="group flex items-center gap-2.5 text-white hover:opacity-75 transition-opacity cursor-pointer text-base sm:text-lg font-medium tracking-wide focus:outline-hidden"
+          className="group flex items-center text-white hover:opacity-75 transition-opacity cursor-pointer text-base sm:text-lg md:text-xl font-normal font-[400] tracking-wide focus:outline-hidden"
+          style={{ fontFamily: NEUE_HAAS_FONT }}
           aria-label="Cerrar menú"
         >
-          <span className="animated-underline pb-0.5">Close</span>
-          <X className="w-5 h-5 text-white stroke-[2.2] transition-transform duration-300 group-hover:rotate-90" />
+          <span className="animated-underline pb-0.5 border-b border-white">Close</span>
         </button>
       </div>
 
-      <div 
-        ref={scrollRef}
-        onScroll={handleScroll}
-        className="w-full flex-1 overflow-y-auto no-scrollbar relative flex flex-col py-[20vh] px-6 sm:px-10 md:px-16 lg:px-24 select-none"
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 my-auto">
-          {REPEATED_MENU.map((item, idx) => {
-            const isHovered = hoveredIdx === idx;
-            const isCentered = hoveredIdx === null && centerIdx === idx;
+      {/* INFINITE SCROLLING WORDS LIST CONTAINER */}
+      <div className="w-full flex-1 overflow-hidden relative select-none">
+        <div
+          ref={listRef}
+          className="w-full flex flex-col px-6 sm:px-10 md:px-16 lg:px-24"
+          style={{ willChange: 'transform' }}
+        >
+          {REPEATED_ITEMS.map((item) => {
+            const isHovered = hoveredKey === item.uniqueKey;
+            const isCentered = hoveredKey === null && activeItemIdx === item.origIdx;
             const isHighlighted = isHovered || isCentered;
 
             return (
               <div
-                key={`${item.id}-${idx}`}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
+                key={item.uniqueKey}
+                onMouseEnter={() => setHoveredKey(item.uniqueKey)}
+                onMouseLeave={() => setHoveredKey(null)}
                 onClick={() => handleSelectItem(item.view)}
-                className="group flex items-baseline cursor-pointer transition-all duration-300 ease-out py-1.5 sm:py-2.5"
+                style={{ height: `${itemHeight}px` }}
+                className="group flex items-center cursor-pointer select-none"
               >
-                <span 
-                  className={`text-base sm:text-xl md:text-2xl lg:text-3xl font-light font-mono mr-4 sm:mr-8 md:mr-12 w-8 sm:w-12 md:w-16 text-right shrink-0 transition-colors duration-300 ${
-                    isHighlighted ? 'text-white/80' : 'text-white/20'
-                  }`}
-                >
-                  {item.num}
-                </span>
-
+                {/* NUMBERS IN NEUE HAAS GROTESK 55 ROMAN */}
                 <span
-                  className={`text-[11vw] sm:text-[9.5vw] md:text-[8vw] lg:text-[7.2vw] tracking-[-0.03em] leading-[0.92] uppercase transition-all duration-300 ${
-                    item.id === 'work-with-us' ? 'font-medium font-[500]' : 'font-normal font-[400]'
-                  } ${
-                    isHighlighted 
-                      ? 'text-white scale-[1.01] origin-left' 
-                      : 'text-[#242424] sm:text-[#272727] group-hover:text-white'
+                  className={`menu-1920-item-num text-xl sm:text-2xl md:text-3xl lg:text-[2.6vw] xl:text-[3vw] font-normal font-[400] tracking-tight mr-4 sm:mr-8 md:mr-10 lg:mr-14 w-10 sm:w-16 md:w-20 lg:w-24 text-right shrink-0 transition-all duration-550 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
+                    isHighlighted ? 'text-white opacity-100' : 'text-white/20 opacity-40'
                   }`}
                   style={{
-                    fontFamily: '"neue-haas-grotesk-display", "Helvetica Neue", Arial, sans-serif'
+                    fontFamily: NEUE_HAAS_FONT,
+                    fontWeight: 400,
+                  }}
+                >
+                  {item.num || '\u00A0\u00A0\u00A0'}
+                </span>
+
+                {/* TEXT LABELS IN NEUE HAAS GROTESK 55 ROMAN, MONUMENTAL DISPLAY SCALE */}
+                <span
+                  className={`menu-1920-item-text text-[13vw] sm:text-[12vw] md:text-[11vw] lg:text-[11.2vw] xl:text-[11.8vw] 2xl:text-[12.2vw] tracking-[-0.035em] leading-[0.88] uppercase font-normal font-[400] transition-all duration-550 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
+                    isHighlighted
+                      ? 'text-white scale-[1.01] origin-left opacity-100'
+                      : 'text-[#202020] sm:text-[#252525] group-hover:text-white/80 opacity-50'
+                  }`}
+                  style={{
+                    fontFamily: NEUE_HAAS_FONT,
+                    fontWeight: 400,
                   }}
                 >
                   {item.label}
@@ -201,8 +388,12 @@ export const FullScreenMenu: React.FC<{
         </div>
       </div>
 
+      {/* FOOTER */}
       <div className="w-full px-6 sm:px-10 md:px-16 py-6 md:py-8 flex items-center justify-end z-30 shrink-0 pointer-events-none select-none">
-        <span className="text-xs sm:text-sm text-white/25 font-mono tracking-widest">
+        <span
+          className="text-xs sm:text-sm text-white/20 font-normal font-[400] tracking-wider"
+          style={{ fontFamily: NEUE_HAAS_FONT }}
+        >
           2024/25
         </span>
       </div>
