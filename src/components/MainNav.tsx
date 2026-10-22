@@ -2,6 +2,29 @@ import React, { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { AppView } from '../types';
 
+export const MobileIsologo = ({ className = "w-[28px] h-[28px]", style }: { className?: string, style?: React.CSSProperties }) => {
+  return (
+    <div className="relative inline-flex items-center shrink-0">
+      <svg className={`${className} shrink-0`} style={style} viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M13.3496 17.5024C13.3496 19.7793 15.1943 21.624 17.4712 21.624C19.7481 21.624 21.5928 19.7793 21.5928 17.5024C21.5928 15.2255 19.7481 13.3809 17.4712 13.3809C15.1943 13.3809 13.3496 15.2255 13.3496 17.5024Z" fill="currentColor"/>
+        <path d="M16.2456 24.1777L15.5684 35.0008L19.4315 34.9963L18.7587 24.1866L16.2456 24.1777Z" fill="currentColor"/>
+        <path d="M7.07617 31.6886L10.4269 33.618L15.248 23.9178L13.0736 22.6523L7.07617 31.6886Z" fill="currentColor"/>
+        <path d="M11.0905 19.752L1.37695 24.5775L3.31521 27.9194L12.3426 21.9308L11.0905 19.752Z" fill="currentColor"/>
+        <path d="M10.823 16.2456L0 15.5684L0.00445576 19.436L10.8186 18.7587L10.823 16.2456Z" fill="currentColor"/>
+        <path d="M12.3469 13.0736L3.31063 7.07617L1.38574 10.4269L11.0859 15.248L12.3469 13.0736Z" fill="currentColor"/>
+        <path d="M15.2519 11.0905L10.4264 1.37695L7.08008 3.31521L13.0686 12.3426L15.2519 11.0905Z" fill="currentColor"/>
+        <path d="M18.7587 10.823L19.4315 0L15.5684 0.00445576L16.2456 10.8186L18.7587 10.823Z" fill="currentColor"/>
+        <path d="M27.9238 3.31161L24.5731 1.38672L19.752 11.0869L21.9264 12.3479L27.9238 3.31161Z" fill="currentColor"/>
+        <path d="M23.9097 15.2519L33.6233 10.4264L31.685 7.08008L22.6621 13.0686L23.9097 15.2519Z" fill="currentColor"/>
+        <path d="M24.1768 18.7587L34.9998 19.4315L34.9953 15.5684L24.1857 16.2456L24.1768 18.7587Z" fill="currentColor"/>
+        <path d="M22.6533 21.9264L31.6896 27.9238L33.6189 24.5731L23.9188 19.752L22.6533 21.9264Z" fill="currentColor"/>
+        <path d="M19.752 23.9097L24.5775 33.6233L27.9194 31.685L21.9308 22.6621L19.752 23.9097Z" fill="currentColor"/>
+      </svg>
+      <span className="absolute top-[0.5px] right-[-2.5px] text-[7.5px] sm:text-[8px] font-bold text-current leading-none select-none pointer-events-none">®</span>
+    </div>
+  );
+};
+
 export const DynamicIsotype = ({ className = "w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9", style }: { className?: string, style?: React.CSSProperties }) => {
   return (
     <svg className={`${className} shrink-0`} style={style} viewBox="0 0 42 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -487,12 +510,32 @@ export const MainNav: React.FC<{
       <nav 
         ref={navRef} 
         style={blendMode ? { mixBlendMode: 'difference' } : undefined}
-        className={`${navClasses} px-6 sm:px-10 md:px-16 flex items-center justify-between gap-4 select-none`}
+        className={`${navClasses} px-5 sm:px-8 md:px-12 lg:px-16 flex items-center justify-between gap-4 select-none`}
       >
         <div className={`w-full ${isHome ? 'max-w-[1400px] mx-auto' : ''} flex justify-between items-center text-white gap-4 transition-all duration-300`}>
+          {/* LOGO EN MOBILE: Solo el pequeño isologo oficial de henribarrett.com */}
+          <button 
+            onClick={() => {
+              setCurrentView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }} 
+            className="flex lg:hidden items-center text-left cursor-pointer focus:outline-none shrink-0 pointer-events-auto select-none" 
+            title="Henri Barrett - Home"
+          >
+            <MobileIsologo 
+              className="origin-center text-white w-[26px] h-[26px] sm:w-[30px] sm:h-[30px]" 
+              style={{ 
+                transformOrigin: 'center center',
+                transform: `rotate(${rotation}deg)`,
+                transition: 'transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)'
+              }} 
+            />
+          </button>
+
+          {/* LOGO EN DESKTOP: Isotipo grande + Logotipo HENRI BARRETT */}
           <button 
             onClick={() => setCurrentView('home')} 
-            className="flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0 pointer-events-auto group" 
+            className="hidden lg:flex items-center gap-1.5 sm:gap-2 text-left cursor-pointer focus:outline-none shrink-0 pointer-events-auto group select-none" 
             title="Henri Barrett - Ir a inicio"
           >
             <div className="relative flex items-start">
@@ -514,6 +557,7 @@ export const MainNav: React.FC<{
             </div>
           </button>
           
+          {/* ENLACES CENTRALES SOLO EN DESKTOP */}
           <div className={`hidden lg:flex items-center gap-4 sm:gap-7 md:gap-9 lg:gap-11 font-normal font-[400] tracking-[0.03em] overflow-hidden transition-all duration-500 ease-in-out pointer-events-auto ${isCompact ? 'max-w-0 opacity-0 overflow-hidden' : 'max-w-[800px] opacity-100 text-[0.92rem] sm:text-[1rem] md:text-[1.12rem] py-1 overflow-x-auto no-scrollbar'}`}>
             <button onClick={() => setCurrentView('about')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'about' ? 'is-active font-medium font-[500]' : ''}`}>About us</button>
             <button onClick={() => setCurrentView('work')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work' ? 'is-active font-medium font-[500]' : ''}`}>Work</button>
@@ -522,8 +566,9 @@ export const MainNav: React.FC<{
             <button onClick={() => setCurrentView('work-with-us')} className={`nav-animated-link text-white cursor-pointer whitespace-nowrap font-normal font-[400] pb-0.5 ${currentView === 'work-with-us' ? 'is-active font-medium font-[500]' : ''}`}>Contact</button>
           </div>
 
-          <div className={`flex items-center ${isCompact || isTabletOrMobile ? 'gap-6 sm:gap-8 md:gap-12' : 'gap-4'} text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto`}>
-            {(isCompact || isTabletOrMobile) && (
+          {/* DERECHA EN DESKTOP */}
+          <div className="hidden lg:flex items-center gap-4 text-[0.95rem] sm:text-[1.05rem] md:text-[1.2rem] tracking-[0.03em] shrink-0 transition-all duration-300 pointer-events-auto">
+            {isCompact && (
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-normal font-[400]"
@@ -535,6 +580,24 @@ export const MainNav: React.FC<{
             <button 
               onClick={() => setCurrentView('work-with-us')} 
               className={`nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] border-b border-white/60 hover:border-white ${currentView === 'work-with-us' ? 'is-active border-white' : ''}`}
+            >
+              Work with us
+            </button>
+          </div>
+
+          {/* DERECHA EN MOBILE (ACOMPAÑANDO TODA LA NAVEGACIÓN: "Menu" Y "Work with us") */}
+          <div className="flex lg:hidden items-center gap-5 sm:gap-7 text-[15px] sm:text-[16px] tracking-tight shrink-0 transition-all duration-300 pointer-events-auto select-none">
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] focus:outline-none"
+              title="Abrir menú"
+            >
+              Menu
+            </button>
+            <button 
+              onClick={() => setCurrentView('work-with-us')} 
+              className={`nav-animated-link pb-0.5 shrink-0 whitespace-nowrap cursor-pointer text-white font-medium font-[500] focus:outline-none ${currentView === 'work-with-us' ? 'is-active' : ''}`}
+              title="Work with us"
             >
               Work with us
             </button>

@@ -3791,6 +3791,44 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  const mobileWatchingRef = useRef<HTMLHeadingElement>(null);
+  const mobileApproachContainerRef = useRef<HTMLDivElement>(null);
+  const mobileTopRef = useRef<HTMLDivElement>(null);
+  const [mobileWatchingLeft, setMobileWatchingLeft] = useState<number | null>(null);
+  const [mobileTopHeight, setMobileTopHeight] = useState<number>(0);
+
+  // Alineación en mobile: alinea el bloque Our approach exactamente con la palabra "WATCHING"
+  useEffect(() => {
+    const updateMobileWatchingAlignment = () => {
+      if (window.innerWidth < 1024 && mobileWatchingRef.current && mobileApproachContainerRef.current) {
+        const watchingRect = mobileWatchingRef.current.getBoundingClientRect();
+        const containerRect = mobileApproachContainerRef.current.getBoundingClientRect();
+        const shift = Math.round(watchingRect.left - containerRect.left);
+        if (shift > 0) {
+          setMobileWatchingLeft(shift);
+        } else {
+          setMobileWatchingLeft(0);
+        }
+      } else {
+        setMobileWatchingLeft(null);
+      }
+    };
+
+    updateMobileWatchingAlignment();
+    window.addEventListener('resize', updateMobileWatchingAlignment);
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(updateMobileWatchingAlignment);
+    }
+    const timer1 = setTimeout(updateMobileWatchingAlignment, 150);
+    const timer2 = setTimeout(updateMobileWatchingAlignment, 600);
+
+    return () => {
+      window.removeEventListener('resize', updateMobileWatchingAlignment);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
+
   const currentScrollY = useRef(0);
   const [pageHeight, setPageHeight] = useState<number>(0);
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
@@ -3964,11 +4002,24 @@ export const App: React.FC = () => {
     if (currentView !== 'home') return;
 
     const calculateHeight = () => {
-      if (lastSectionRef.current) {
-        const startOffset = lastSectionRef.current.offsetTop;
-        const contentHeight = lastSectionRef.current.offsetHeight;
-        if (startOffset > 0 && contentHeight > 0) {
-          setPageHeight(startOffset + contentHeight);
+      const isMobile = window.innerWidth < 1024;
+      if (isMobile) {
+        let mHeight = 0;
+        if (mobileTopRef.current) {
+          mHeight = mobileTopRef.current.offsetHeight;
+          setMobileTopHeight(mHeight);
+        }
+        if (lastSectionRef.current) {
+          const contentHeight = lastSectionRef.current.offsetHeight;
+          setPageHeight((mHeight || 1550) + contentHeight);
+        }
+      } else {
+        if (lastSectionRef.current) {
+          const startOffset = lastSectionRef.current.offsetTop;
+          const contentHeight = lastSectionRef.current.offsetHeight;
+          if (startOffset > 0 && contentHeight > 0) {
+            setPageHeight(startOffset + contentHeight);
+          }
         }
       }
     };
@@ -3979,13 +4030,21 @@ export const App: React.FC = () => {
     const t3 = setTimeout(calculateHeight, 1200);
 
     window.addEventListener('resize', calculateHeight);
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(calculateHeight);
+    }
 
     let resizeObserver: ResizeObserver | null = null;
-    if (lastSectionRef.current && typeof ResizeObserver !== 'undefined') {
+    if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
         calculateHeight();
       });
-      resizeObserver.observe(lastSectionRef.current);
+      if (lastSectionRef.current) {
+        resizeObserver.observe(lastSectionRef.current);
+      }
+      if (mobileTopRef.current) {
+        resizeObserver.observe(mobileTopRef.current);
+      }
     }
 
     return () => {
@@ -4029,99 +4088,77 @@ export const App: React.FC = () => {
       const scrollProgress = Math.max(0, Math.min(currentScrollY.current / animationRange, 1));
 
       if (videoContainerRef.current) {
-        const distFromCenter = Math.abs(scrollProgress - 0.5);
-        const progressToCenter = Math.max(0, 1 - (distFromCenter / 0.5));
-        const darkness = Math.min(1, Math.pow(progressToCenter, 1.4) * 1.7); 
-        
-        const bgVal = Math.round(255 - (255 * darkness)); 
-        const textVal = Math.round(0 + (255 * darkness));
-
-        if (mainContainerRef.current) mainContainerRef.current.style.backgroundColor = `rgb(${bgVal}, ${bgVal}, ${bgVal})`;
-        if (infoBarRef.current) infoBarRef.current.style.color = '#ffffff';
-        if (navRef.current) navRef.current.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
-
         const isTablet = windowWidth <= 1024;
 
-        let widthEnd = 180, heightEnd = 80, topEnd = windowHeight - 200, leftEnd = (windowWidth - 180) / 2;
-        if (finalPlaceholderRef.current) {
-          const rect = finalPlaceholderRef.current.getBoundingClientRect();
-          topEnd = rect.top; leftEnd = rect.left; widthEnd = rect.width; heightEnd = rect.height;
-        }
-
-        let widthStart = 500, heightStart = 300, topStart = windowHeight * 0.95, leftStart = (windowWidth - 500) / 2;
-        let widthMid = windowWidth, leftMid = 0, heightMid = 600, topMid = (windowHeight - 600) / 2 - 80;
-
         if (isTablet) {
-          if (startVideoPlaceholderTabletRef.current) {
-            const startRect = startVideoPlaceholderTabletRef.current.getBoundingClientRect();
-            widthStart = startRect.width || Math.min(460, windowWidth * 0.82);
-            heightStart = startRect.height || Math.round(widthStart * 0.5625);
-            leftStart = startRect.left || (windowWidth - widthStart) / 2;
-            topStart = startRect.top + currentScrollY.current;
-          } else {
-            widthStart = Math.min(460, windowWidth * 0.82);
-            heightStart = Math.round(widthStart * 0.5625);
-            leftStart = (windowWidth - widthStart) / 2;
-            topStart = 680;
+          // Solo en mobile/tablet el video se mantiene en su recuadro y no hace ninguna animación
+          if (mainContainerRef.current) mainContainerRef.current.style.backgroundColor = '#ffffff';
+          if (navRef.current) navRef.current.style.color = '#000000';
+          if (infoBarRef.current) infoBarRef.current.style.opacity = '0';
+        } else {
+          const distFromCenter = Math.abs(scrollProgress - 0.5);
+          const progressToCenter = Math.max(0, 1 - (distFromCenter / 0.5));
+          const darkness = Math.min(1, Math.pow(progressToCenter, 1.4) * 1.7); 
+          
+          const bgVal = Math.round(255 - (255 * darkness)); 
+          const textVal = Math.round(0 + (255 * darkness));
+
+          if (mainContainerRef.current) mainContainerRef.current.style.backgroundColor = `rgb(${bgVal}, ${bgVal}, ${bgVal})`;
+          if (infoBarRef.current) infoBarRef.current.style.color = '#ffffff';
+          if (navRef.current) navRef.current.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
+
+          let widthEnd = 180, heightEnd = 80, topEnd = windowHeight - 200, leftEnd = (windowWidth - 180) / 2;
+          if (finalPlaceholderRef.current) {
+            const rect = finalPlaceholderRef.current.getBoundingClientRect();
+            topEnd = rect.top; leftEnd = rect.left; widthEnd = rect.width; heightEnd = rect.height;
           }
 
-          widthMid = windowWidth;
-          leftMid = 0;
-          heightMid = Math.round(windowWidth * 0.5625);
-          topMid = Math.round((windowHeight - heightMid) / 2 - 36);
-        }
+          let widthStart = 500, heightStart = 300, topStart = windowHeight * 0.95, leftStart = (windowWidth - 500) / 2;
+          let widthMid = windowWidth, leftMid = 0, heightMid = 600, topMid = (windowHeight - 600) / 2 - 80;
 
-        let currentTop, currentLeft, currentWidth, currentHeight;
-        if (scrollProgress <= 0.5) {
-          const phase = scrollProgress * 2;
-          const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
-
-          if (isTablet) {
-            const effectiveStartTop = topStart - currentScrollY.current;
-            currentTop = effectiveStartTop + (topMid - effectiveStartTop) * ease;
-            currentLeft = leftStart + (leftMid - leftStart) * ease;
-            currentWidth = widthStart + (widthMid - widthStart) * ease;
-            currentHeight = heightStart + (heightMid - heightStart) * ease;
-          } else {
+          let currentTop, currentLeft, currentWidth, currentHeight;
+          if (scrollProgress <= 0.5) {
+            const phase = scrollProgress * 2;
+            const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
             currentTop = topStart + (topMid - topStart) * ease;
             currentLeft = leftStart + (leftMid - leftStart) * ease;
             currentWidth = widthStart + (widthMid - widthStart) * ease;
             currentHeight = heightStart + (heightMid - heightStart) * ease;
+          } else {
+            const phase = (scrollProgress - 0.5) * 2;
+            const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
+            currentTop = topMid + (topEnd - topMid) * ease;
+            currentLeft = leftMid + (leftEnd - leftMid) * ease;
+            currentWidth = widthMid + (widthEnd - widthMid) * ease;
+            currentHeight = heightMid + (heightEnd - heightMid) * ease;
           }
-        } else {
-          const phase = (scrollProgress - 0.5) * 2;
-          const ease = phase < 0.5 ? 2 * phase * phase : -1 + (4 - 2 * phase) * phase;
-          currentTop = topMid + (topEnd - topMid) * ease;
-          currentLeft = leftMid + (leftEnd - leftMid) * ease;
-          currentWidth = widthMid + (widthEnd - widthMid) * ease;
-          currentHeight = heightMid + (heightEnd - heightMid) * ease;
-        }
 
-        if (currentViewRef.current === 'home') {
-          const clampedTop = Math.max(-150, currentTop);
-          const clampedLeft = Math.max(0, currentLeft);
-          const clampedRight = Math.max(0, windowWidth - (currentLeft + currentWidth));
-          const clampedBottom = Math.max(0, windowHeight - (currentTop + currentHeight));
-          const clipVal = `inset(${clampedTop}px ${clampedRight}px ${clampedBottom}px ${clampedLeft}px)`;
-          videoContainerRef.current.style.clipPath = clipVal;
-          (videoContainerRef.current.style as any).webkitClipPath = clipVal;
+          if (currentViewRef.current === 'home') {
+            const clampedTop = Math.max(-150, currentTop);
+            const clampedLeft = Math.max(0, currentLeft);
+            const clampedRight = Math.max(0, windowWidth - (currentLeft + currentWidth));
+            const clampedBottom = Math.max(0, windowHeight - (currentTop + currentHeight));
+            const clipVal = `inset(${clampedTop}px ${clampedRight}px ${clampedBottom}px ${clampedLeft}px)`;
+            videoContainerRef.current.style.clipPath = clipVal;
+            (videoContainerRef.current.style as any).webkitClipPath = clipVal;
 
-          if (scrollProgress >= 1 && finalPlaceholderRef.current) {
-            const rect = finalPlaceholderRef.current.getBoundingClientRect();
-            if (rect.bottom < -100) {
-              videoContainerRef.current.style.opacity = '0';
+            if (scrollProgress >= 1 && finalPlaceholderRef.current) {
+              const rect = finalPlaceholderRef.current.getBoundingClientRect();
+              if (rect.bottom < -100) {
+                videoContainerRef.current.style.opacity = '0';
+              } else {
+                videoContainerRef.current.style.opacity = '1';
+              }
             } else {
               videoContainerRef.current.style.opacity = '1';
             }
-          } else {
-            videoContainerRef.current.style.opacity = '1';
           }
-        }
-        
-        if (infoBarRef.current && currentViewRef.current === 'home') {
-            let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
-            infoBarRef.current.style.opacity = opacity.toString();
-            infoBarRef.current.style.top = `${topMid + heightMid + (isTablet ? 24 : 32)}px`;
+          
+          if (infoBarRef.current && currentViewRef.current === 'home') {
+              let opacity = Math.max(0, Math.min(1 - Math.abs(scrollProgress - 0.5) * 8, 1));
+              infoBarRef.current.style.opacity = opacity.toString();
+              infoBarRef.current.style.top = `${topMid + heightMid + 32}px`;
+          }
         }
       }
 
@@ -4897,10 +4934,10 @@ export const App: React.FC = () => {
       {/* NAVEGACIÓN */}
       <MainNav currentView={currentView} setCurrentView={setCurrentView} isHome navRef={navRef} />
 
-      {/* VIDEO CLIP LAYER (MÁSCARA ANIMADA QUE REVELA EL VIDEO) */}
+      {/* VIDEO CLIP LAYER (MÁSCARA ANIMADA QUE REVELA EL VIDEO - SOLO DESKTOP) */}
       <div 
         ref={videoContainerRef} 
-        className="fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none overflow-hidden will-change-[clip-path]" 
+        className="hidden lg:block fixed inset-0 w-full h-full bg-black z-10 shadow-2xl pointer-events-none overflow-hidden will-change-[clip-path]" 
         style={{ 
           clipPath: 'inset(100vh 50% 0 50%)',
           WebkitClipPath: 'inset(100vh 50% 0 50%)',
@@ -4950,10 +4987,13 @@ export const App: React.FC = () => {
       {/* CONTENIDO SCROLLABLE */}
       <div ref={contentRef} className="fixed inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
             
-            {/* TABLET / 744x1133 HERO & PURPOSE FLOW (DISTRIBUCIÓN SECUENCIAL SEGÚN CAPTURA IPAD) */}
-            <div className="flex lg:hidden flex-col items-center w-full px-6 pt-[90px] sm:pt-[105px] text-black text-center select-none absolute top-0 left-0">
+            {/* TABLET / MOBILE HERO, PURPOSE & ABOUT FLOW (SIN RECORRIDO INNECESARIO, FLUJO CONTINUO) */}
+            <div 
+              ref={mobileTopRef}
+              className="flex lg:hidden flex-col items-center w-full px-5 sm:px-8 md:px-12 pt-[90px] sm:pt-[105px] text-black text-center select-none absolute top-0 left-0 pb-16 sm:pb-24 pointer-events-auto"
+            >
                 {/* PERSONAJE CENTRADO CON MANOS EN FORMA DE CÁMARA */}
-                <div className="w-[170px] h-[120px] sm:w-[208px] sm:h-[146px] md:w-[220px] md:h-[154px] flex items-center justify-center opacity-100 pointer-events-auto mb-1 sm:mb-1.5 relative z-10">
+                <div className="w-[200px] h-[160px] sm:w-[225px] sm:h-[180px] md:w-[240px] md:h-[195px] flex items-center justify-center opacity-100 pointer-events-auto mb-1 sm:mb-1.5 relative z-10 overflow-visible">
                     <HomeCharacterLottie cropToBounds className="w-full h-full" />
                 </div>
 
@@ -4965,7 +5005,10 @@ export const App: React.FC = () => {
                       </h1>
                     </div>
                     <div className="hero-mask-wrap">
-                      <h1 className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.88] sm:leading-[0.88] hero-word-animated hero-word-watching">
+                      <h1 
+                        ref={mobileWatchingRef}
+                        className="text-[13vw] sm:text-[11.5vw] font-normal tracking-tighter uppercase leading-[0.88] sm:leading-[0.88] hero-word-animated hero-word-watching"
+                      >
                         WATCHING
                       </h1>
                     </div>
@@ -4982,27 +5025,107 @@ export const App: React.FC = () => {
                     />
                 </div>
 
-                {/* TEXTO DE PROPÓSITO */}
-                <p className="text-[16px] sm:text-[18px] md:text-[20px] max-w-[500px] font-light leading-[1.3] tracking-tight px-3 text-center text-black mb-4 sm:mb-5">
-                    Our approach isn't just about producing eye-catching designs, it's about crafting resonant brand messages that echo across audiences.
-                </p>
+                {/* TEXTO DE PROPÓSITO Y CALL TO ACTION (ALINEADOS EXACTAMENTE CON LA PALABRA "WATCHING" EN MOBILE) */}
+                <div 
+                  ref={mobileApproachContainerRef}
+                  className="w-full self-start flex flex-col items-start text-left mb-8 sm:mb-10 pointer-events-auto transition-[padding] duration-150"
+                  style={{
+                    paddingLeft: mobileWatchingLeft !== null && mobileWatchingLeft > 0 ? `${mobileWatchingLeft}px` : undefined,
+                  }}
+                >
+                    <p className="text-[17px] sm:text-[19px] md:text-[21px] font-light leading-[1.3] tracking-[0.01em] text-left text-black mb-6">
+                        Our approach isn't just about<br />
+                        producing eye-catching designs,<br />
+                        it's about crafting resonant brand<br />
+                        messages that echo across<br />
+                        audiences.
+                    </p>
 
-                {/* ENLACE "HERE'S HOW WE CAN HELP" */}
-                <div className="flex justify-center mb-8 sm:mb-10 pointer-events-auto">
                     <button
                       type="button"
                       onClick={() => setCurrentView('services')}
-                      className="text-[14px] sm:text-[15px] font-normal text-black animated-underline pb-0.5 cursor-pointer"
+                      className="text-[15px] sm:text-[16px] font-normal tracking-[0.01em] text-black border-b border-black/40 hover:border-black pb-1 cursor-pointer text-left transition-colors duration-200"
                     >
                       Here's how we can help
                     </button>
                 </div>
 
-                {/* CAJA INICIAL DEL VIDEO (DONDE ARRANCA EL VIDEO EN VIVO, NO FOTO ESTÁTICA) */}
+                {/* CAJA DEL VIDEO (SOLO MOBILE: SE MANTIENE EN SU RECUADRO ESTÁTICO SIN ANIMACIONES) */}
                 <div
                   ref={startVideoPlaceholderTabletRef}
-                  className="w-[82vw] max-w-[460px] aspect-video bg-transparent mx-auto rounded-sm"
-                />
+                  className="w-[86vw] max-w-[460px] aspect-video mx-auto rounded-lg overflow-hidden bg-black relative shadow-lg pointer-events-auto mt-6 sm:mt-8 mb-14 sm:mb-20"
+                >
+                  <iframe
+                    src="https://player.vimeo.com/video/1097936778?autoplay=1&loop=1&muted=1&background=1&autopause=0&controls=0&playsinline=1&title=0&byline=0&portrait=0"
+                    className="w-full h-full pointer-events-none border-0 scale-[1.02]"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title="Reel Henri Barrett Work Mobile"
+                  />
+                </div>
+
+                {/* SECCIÓN INSPIRED BY THE UNEXPECTED Y ABOUT (SOLO MOBILE: DIRECTO DEBAJO DEL VIDEO SEGÚN CAPTURA ADJUNTA) */}
+                <div className="w-full max-w-[1200px] flex flex-col items-start text-left pt-6 sm:pt-10 pointer-events-auto">
+                    {/* TÍTULO EN 2 LÍNEAS ALINEADO A LA IZQUIERDA */}
+                    <div className="w-full mb-8 sm:mb-12">
+                        <h2 className="text-[10vw] sm:text-[8vw] md:text-[52px] font-normal tracking-[-0.03em] uppercase leading-[0.92] text-black select-none">
+                            INSPIRED BY<br />
+                            THE UNEXPECTED
+                        </h2>
+                    </div>
+
+                    {/* 2 COLUMNAS EDITORIALES SEGÚN CAPTURA ADJUNTA */}
+                    <div className="w-full flex flex-row gap-5 sm:gap-8 md:gap-14 pt-2">
+                        {/* COLUMNA IZQUIERDA: Think big with us. */}
+                        <div className="w-[28%] sm:w-[30%] shrink-0 pt-1 select-none">
+                            <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-snug tracking-tight text-black">
+                                Think big with us.
+                            </p>
+                        </div>
+
+                        {/* COLUMNA DERECHA: HEADLINE + PÁRRAFO + CHOOSE YOUR PURPOSE */}
+                        <div className="w-[72%] sm:w-[70%] flex flex-col">
+                            {/* HEADLINE */}
+                            <h3 className="text-[20px] sm:text-[26px] md:text-[34px] font-normal leading-[1.16] tracking-tight text-black mb-6 sm:mb-8">
+                                As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar.
+                            </h3>
+
+                            {/* PÁRRAFO DESCRIPTIVO */}
+                            <p className="text-[14px] sm:text-[15.5px] md:text-[16.5px] text-black leading-[1.46] font-light font-[350] tracking-normal mb-8 sm:mb-10">
+                                At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges.
+                            </p>
+
+                            {/* CHOOSE YOUR PURPOSE + ENLACES */}
+                            <div className="flex flex-col select-none">
+                                <span className="text-[11px] sm:text-[12px] font-normal uppercase tracking-[0.20em] text-black mb-3">
+                                    (CHOOSE YOUR PURPOSE)
+                                </span>
+                                <div className="flex flex-col gap-1.5 sm:gap-2 items-start">
+                                    <button 
+                                      type="button"
+                                      onClick={() => setCurrentView('services')} 
+                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                    >
+                                      Discover our services
+                                    </button>
+                                    <button 
+                                      type="button"
+                                      onClick={() => setCurrentView('work')} 
+                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                    >
+                                      Read our case studies
+                                    </button>
+                                    <button 
+                                      type="button"
+                                      onClick={() => setCurrentView('services')} 
+                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                    >
+                                      Explore the HUB® Method
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* HERO - ALINEACIÓN IZQUIERDA (DESKTOP) */}
@@ -5069,8 +5192,8 @@ export const App: React.FC = () => {
                 </div>
             </div>
 
-            {/* DOCKING */}
-            <div ref={inspiredDockingRef} className="absolute top-[265vh] w-full flex justify-center px-4 text-black">
+            {/* DOCKING (SOLO DESKTOP) */}
+            <div ref={inspiredDockingRef} className="hidden lg:flex absolute top-[265vh] w-full justify-center px-4 text-black">
                 <div className="flex flex-col items-center justify-center w-full max-w-[2200px] text-center overflow-visible">
                     <div className="flex items-center justify-center gap-x-2 sm:gap-x-3.5 md:gap-x-8 lg:gap-x-12 leading-none mb-1 sm:mb-2 md:mb-6 lg:mb-14 whitespace-nowrap">
                         <div className="reveal-mask-container">
@@ -5114,8 +5237,8 @@ export const App: React.FC = () => {
                 </div>
             </div>
 
-            {/* ABOUT / ARCHITECTS (DISTRIBUCIÓN 2 COLUMNAS EDITORIAL SEGÚN CAPTURA) */}
-            <div className="absolute top-[266vh] sm:top-[270vh] lg:top-[320vh] w-full px-6 sm:px-10 md:px-16 pb-28 sm:pb-36 pointer-events-auto flex justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
+            {/* ABOUT / ARCHITECTS (SOLO DESKTOP) */}
+            <div className="hidden lg:flex absolute lg:top-[320vh] w-full px-6 sm:px-10 md:px-16 pb-28 sm:pb-36 pointer-events-auto justify-center bg-white z-0 text-black shadow-[0_-50px_100px_rgba(255,255,255,1)]">
                 <div className="w-full max-w-[1200px] flex flex-row gap-6 sm:gap-10 md:gap-16 pt-6 sm:pt-8 md:pt-14">
                     {/* COLUMNA IZQUIERDA: Think big with us. */}
                     <div className="w-[28%] sm:w-[30%] shrink-0 pt-8 sm:pt-10 md:pt-12 select-none">
@@ -5181,7 +5304,15 @@ export const App: React.FC = () => {
             </div>
 
             {/* CONTENIDO DINÁMICO (PORTFOLIO) */}
-            <div ref={lastSectionRef} className="absolute top-[328vh] sm:top-[332vh] lg:top-[420vh] w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10">
+            <div 
+              ref={lastSectionRef} 
+              className="absolute w-full pointer-events-auto flex flex-col items-center bg-white text-black z-10 lg:top-[420vh]"
+              style={{
+                top: typeof window !== 'undefined' && window.innerWidth < 1024 
+                  ? `${mobileTopHeight > 0 ? mobileTopHeight : 1550}px` 
+                  : undefined,
+              }}
+            >
                 {/* SECCIÓN DE LOS 4 PROYECTOS PRINCIPALES CON 'WORK' DE FONDO */}
                 <div ref={projectsSectionRef} className="relative w-full flex flex-col items-center overflow-hidden">
                     {/* WORK WATERMARK - Fondo con texto que avanza con el scroll detrás de los proyectos */}

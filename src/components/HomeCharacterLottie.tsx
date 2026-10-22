@@ -18,8 +18,10 @@ export const HomeCharacterLottie: React.FC<HomeCharacterLottieProps> = ({
     if (cropToBounds && containerRef.current) {
       const svg = containerRef.current.querySelector('svg');
       if (svg) {
-        svg.setAttribute('viewBox', '560 600 770 790');
-        svg.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+        // Máscara más alta exclusiva para mobile para que la animación (cabeza, manos y torso) nunca se corte
+        svg.setAttribute('viewBox', '520 360 860 1100');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svg.style.overflow = 'visible';
       }
     }
   }, [cropToBounds]);
