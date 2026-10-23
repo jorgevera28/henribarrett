@@ -154,12 +154,7 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
   const dragRef = useRef({ isDragging: false, startX: 0, scrollLeft: 0, walk: 0 });
 
   const totalCards = TESTIMONIALS.length; // 18 tarjetas en total como en la captura (4—18)
-  const [currentCard, setCurrentCard] = useState<number>(() => {
-    if (typeof window !== 'undefined' && window.innerWidth >= 640) {
-      return 4; // Muestra 4—18 tal como en la captura
-    }
-    return 2;
-  });
+  const [currentCard, setCurrentCard] = useState<number>(4);
 
   useEffect(() => {
     setIsMounted(true);
@@ -221,7 +216,7 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
     const scrollLeft = testimonialsRef.current.scrollLeft;
     const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
     const isMobile = window.innerWidth < 640;
-    const baseCount = isMobile ? 2 : 4;
+    const baseCount = 4;
 
     if (maxScroll <= 5) {
       setCurrentCard(totalCards);
@@ -441,7 +436,7 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
         left: 0,
         behavior: 'smooth',
       });
-      setCurrentCard(isMobile ? 2 : 4);
+      setCurrentCard(4);
       return;
     }
 
@@ -451,7 +446,7 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
       nextSnap = maxScroll;
       setCurrentCard(totalCards);
     } else {
-      const calculated = Math.round(nextSnap / (cardWidth + gap)) * 2 + (isMobile ? 1 : 2);
+      const calculated = Math.round(nextSnap / (cardWidth + gap)) * (isMobile ? 1 : 2) + 4;
       setCurrentCard(Math.min(totalCards, calculated));
     }
 
@@ -461,10 +456,91 @@ export const PraiseFromClientsSection: React.FC<PraiseFromClientsSectionProps> =
     });
   };
 
+  const scrollPrev = () => {
+    if (!testimonialsRef.current) return;
+    const { cardWidth, gap, twoItemsWidth } = getTestimonialMetrics();
+    const isMobile = window.innerWidth < 640;
+    const step = isMobile ? cardWidth + gap : twoItemsWidth;
+
+    const currentScroll = testimonialsRef.current.scrollLeft;
+    if (currentScroll <= 15) {
+      const maxScroll = testimonialsRef.current.scrollWidth - testimonialsRef.current.clientWidth;
+      testimonialsRef.current.scrollTo({
+        left: maxScroll,
+        behavior: 'smooth',
+      });
+      setCurrentCard(totalCards);
+      return;
+    }
+
+    const prevSnap = Math.max(0, Math.round(currentScroll / step) * step - step);
+    testimonialsRef.current.scrollTo({
+      left: prevSnap,
+      behavior: 'smooth',
+    });
+    const calculated = Math.round(prevSnap / (cardWidth + gap)) * (isMobile ? 1 : 2) + 4;
+    setCurrentCard(Math.max(4, Math.min(totalCards, calculated)));
+  };
+
+  const scrollNext = () => {
+    scrollTestimonials();
+  };
+
   return (
-    <section className={`w-screen relative left-1/2 -translate-x-1/2 bg-white py-20 sm:py-28 md:py-32 select-none overflow-hidden ${className}`}>
-      {/* CABECERA EDITORIAL: PRAISE / FROM CLIENTS + 4—18 (SEGÚN CAPTURA IPAD) */}
-      <div className="w-full max-w-[1500px] mx-auto px-5 sm:px-8 md:px-14 lg:px-20 mb-12 sm:mb-16 md:mb-20">
+    <section className={`w-screen relative left-1/2 -translate-x-1/2 bg-white py-16 sm:py-28 md:py-32 select-none overflow-hidden ${className}`}>
+      {/* CABECERA EDITORIAL (SOLO MOBILE: TITULAR EN 2 LÍNEAS 'PRAISE FROM' Y 'CLIENTS' + NÚMEROS A LA IZQUIERDA Y FLECHAS A LA DERECHA) */}
+      <div className="block sm:hidden w-full px-5 mb-8">
+        {/* TITULAR MÁS PEQUEÑO CON 'PRAISE FROM' EN LÍNEA 1 Y 'CLIENTS' EN LÍNEA 2 */}
+        <div className="mb-6">
+          <MaskTextReveal
+            as="h2"
+            className="text-[10vw] font-normal tracking-[-0.03em] uppercase leading-[1.04] text-black"
+            lines={['PRAISE FROM', 'CLIENTS']}
+          />
+        </div>
+
+        {/* FILA DEBAJO: NÚMEROS 4—18 A LA IZQUIERDA Y FLECHAS DE NAVEGACIÓN A LA DERECHA */}
+        <div className="w-full flex items-center justify-between pt-1">
+          <span
+            className="text-[17px] font-normal text-black select-none tracking-tight"
+            style={{
+              fontFamily: '"neue-haas-grotesk-text", "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+            }}
+          >
+            {currentCard}—{totalCards}
+          </span>
+
+          {/* FLECHAS DE NAVEGACIÓN (SEGÚN FOTO ADJUNTA) */}
+          <div className="flex items-center gap-3.5">
+            <button
+              type="button"
+              onClick={scrollPrev}
+              className="p-1 text-black hover:opacity-50 active:scale-95 transition-all cursor-pointer"
+              aria-label="Previous testimonials"
+            >
+              <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12,19 5,12 12,5" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={scrollNext}
+              className="p-1 text-black hover:opacity-50 active:scale-95 transition-all cursor-pointer"
+              aria-label="Next testimonials"
+            >
+              <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12,5 19,12 12,19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* CABECERA EDITORIAL (DESKTOP: PRAISE / FROM CLIENTS + 4—18 SUPERIOR DERECHO) */}
+      <div className="hidden sm:block w-full max-w-[1500px] mx-auto px-5 sm:px-8 md:px-14 lg:px-20 mb-12 sm:mb-16 md:mb-20">
         <div className="w-full flex justify-between items-start">
           <div className="flex flex-col">
             <MaskTextReveal

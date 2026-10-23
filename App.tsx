@@ -1522,7 +1522,7 @@ const SpacesWeWorkInSection = () => {
       {/* TÍTULO GRANDE DISPLAY */}
       <MaskTextReveal
         as="h2"
-        className="text-[13vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.035em] text-black leading-[0.88] select-none"
+        className="text-[10vw] sm:text-[11vw] md:text-[9.5vw] lg:text-[8.5vw] font-normal uppercase tracking-[-0.03em] text-black leading-[1.04] sm:leading-[0.88] select-none"
         lines={['SPACES WE', 'WORK IN']}
       />
 
@@ -1640,7 +1640,7 @@ const FooterMaskItem: React.FC<{
   </div>
 );
 
-const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => void }> = ({ className = "mt-32", onNavigate }) => {
+const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => void }> = ({ className = "mt-4 sm:mt-24 md:mt-32", onNavigate }) => {
   const footerRef = useRef<HTMLElement>(null);
   const [isRevealed, setIsRevealed] = useState(false);
 
@@ -5067,61 +5067,65 @@ export const App: React.FC = () => {
                 <div className="w-full max-w-[1200px] flex flex-col items-start text-left pt-6 sm:pt-10 pointer-events-auto">
                     {/* TÍTULO EN 2 LÍNEAS ALINEADO A LA IZQUIERDA */}
                     <div className="w-full mb-8 sm:mb-12">
-                        <h2 className="text-[10vw] sm:text-[8vw] md:text-[52px] font-normal tracking-[-0.03em] uppercase leading-[0.92] text-black select-none">
-                            INSPIRED BY<br />
-                            THE UNEXPECTED
+                        <h2 className="text-[10vw] sm:text-[8vw] md:text-[52px] font-normal tracking-[-0.03em] uppercase leading-[1.04] sm:leading-[0.90] text-black select-none">
+                            <span className="block mb-2 sm:mb-0">INSPIRED BY</span>
+                            <span className="block">THE UNEXPECTED</span>
                         </h2>
                     </div>
 
-                    {/* 2 COLUMNAS EDITORIALES SEGÚN CAPTURA ADJUNTA */}
-                    <div className="w-full flex flex-row gap-5 sm:gap-8 md:gap-14 pt-2">
-                        {/* COLUMNA IZQUIERDA: Think big with us. */}
-                        <div className="w-[28%] sm:w-[30%] shrink-0 pt-1 select-none">
-                            <p className="text-[14px] sm:text-[16px] md:text-[18px] font-normal leading-snug tracking-tight text-black">
-                                Think big with us.
-                            </p>
-                        </div>
+                    {/* FLUJO VERTICAL EN UNA SOLA COLUMNA SEGÚN CAPTURA ADJUNTA */}
+                    <div className="w-full flex flex-col items-start text-left max-w-[540px] pt-1">
+                        {/* 1. Think big with us. */}
+                        <p 
+                          className="text-[14px] sm:text-[15.5px] font-normal leading-snug tracking-[0.02em] text-black mb-6 sm:mb-8 select-none"
+                          style={{ letterSpacing: '0.02em' }}
+                        >
+                            Think big with us.
+                        </p>
 
-                        {/* COLUMNA DERECHA: HEADLINE + PÁRRAFO + CHOOSE YOUR PURPOSE */}
-                        <div className="w-[72%] sm:w-[70%] flex flex-col">
-                            {/* HEADLINE */}
-                            <h3 className="text-[20px] sm:text-[26px] md:text-[34px] font-normal leading-[1.16] tracking-tight text-black mb-6 sm:mb-8">
-                                As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar.
-                            </h3>
+                        {/* 2. As architects of brand narratives... */}
+                        <h3 
+                          className="text-[22px] sm:text-[28px] md:text-[32px] font-normal leading-[1.20] sm:leading-[1.22] tracking-[0.025em] text-black mb-7 sm:mb-9"
+                          style={{ letterSpacing: '0.025em' }}
+                        >
+                            As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar.
+                        </h3>
 
-                            {/* PÁRRAFO DESCRIPTIVO */}
-                            <p className="text-[14px] sm:text-[15.5px] md:text-[16.5px] text-black leading-[1.46] font-light font-[350] tracking-normal mb-8 sm:mb-10">
-                                At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges.
-                            </p>
+                        {/* 3. At Henri Barrett, our essence is to simplify... */}
+                        <p 
+                          className="text-[14px] sm:text-[15.5px] text-black leading-[1.50] sm:leading-[1.56] font-light font-[350] tracking-[0.02em] mb-10 sm:mb-12"
+                          style={{ letterSpacing: '0.02em' }}
+                        >
+                            At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges.
+                        </p>
 
-                            {/* CHOOSE YOUR PURPOSE + ENLACES */}
-                            <div className="flex flex-col select-none">
-                                <span className="text-[11px] sm:text-[12px] font-normal uppercase tracking-[0.20em] text-black mb-3">
-                                    (CHOOSE YOUR PURPOSE)
-                                </span>
-                                <div className="flex flex-col gap-1.5 sm:gap-2 items-start">
-                                    <button 
-                                      type="button"
-                                      onClick={() => setCurrentView('services')} 
-                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
-                                    >
-                                      Discover our services
-                                    </button>
-                                    <button 
-                                      type="button"
-                                      onClick={() => setCurrentView('work')} 
-                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
-                                    >
-                                      Read our case studies
-                                    </button>
-                                    <button 
-                                      type="button"
-                                      onClick={() => setCurrentView('services')} 
-                                      className="text-[15px] sm:text-[17px] md:text-[18px] font-normal text-black underline underline-offset-4 decoration-black/40 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
-                                    >
-                                      Explore the HUB® Method
-                                    </button>
-                                </div>
+                        {/* 4. CHOOSE YOUR PURPOSE + ENLACES */}
+                        <div className="flex flex-col select-none items-start">
+                            <span className="text-[11px] sm:text-[12px] font-normal uppercase tracking-[0.20em] text-black mb-3.5 sm:mb-4">
+                                (CHOOSE YOUR PURPOSE)
+                            </span>
+                            <div className="flex flex-col gap-2 sm:gap-2.5 items-start">
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('services')} 
+                                  className="text-[16px] sm:text-[17.5px] font-normal text-black underline underline-offset-4 decoration-black/50 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Discover our services
+                                </button>
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('work')} 
+                                  className="text-[16px] sm:text-[17.5px] font-normal text-black underline underline-offset-4 decoration-black/50 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Read our case studies
+                                </button>
+                                <button 
+                                  type="button"
+                                  onClick={() => setCurrentView('services')} 
+                                  className="text-[16px] sm:text-[17.5px] font-normal text-black underline underline-offset-4 decoration-black/50 hover:decoration-black cursor-pointer tracking-normal transition-colors text-left"
+                                >
+                                  Explore the HUB® Method
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -5244,7 +5248,8 @@ export const App: React.FC = () => {
                     <div className="w-[28%] sm:w-[30%] shrink-0 pt-8 sm:pt-10 md:pt-12 select-none">
                         <MaskTextReveal
                           as="p"
-                          className="text-[15px] sm:text-[17px] md:text-xl font-normal leading-snug tracking-tight text-black normal-case"
+                          className="text-[15px] sm:text-[17px] md:text-xl font-normal leading-snug tracking-[0.02em] text-black normal-case"
+                          style={{ letterSpacing: '0.02em' }}
                           text="Think big with us."
                         />
                     </div>
@@ -5255,7 +5260,8 @@ export const App: React.FC = () => {
                         <div className="max-w-[460px] sm:max-w-[500px] md:max-w-[580px]">
                           <MaskTextReveal
                             as="h2"
-                            className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[46px] font-normal leading-[1.12] sm:leading-[1.14] tracking-tight text-black !normal-case"
+                            className="text-[26px] sm:text-[34px] md:text-[42px] lg:text-[46px] font-normal leading-[1.16] sm:leading-[1.18] tracking-[0.025em] text-black !normal-case"
+                            style={{ letterSpacing: '0.025em' }}
                             text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
                           />
                         </div>
@@ -5265,7 +5271,8 @@ export const App: React.FC = () => {
                             <MaskTextReveal
                               as="p"
                               delay={0.15}
-                              className="text-[14.5px] sm:text-[16px] md:text-[17px] text-black leading-[1.42] sm:leading-[1.45] font-light font-[350] tracking-normal"
+                              className="text-[14.5px] sm:text-[16px] md:text-[17px] text-black leading-[1.48] sm:leading-[1.52] font-light font-[350] tracking-[0.02em]"
+                              style={{ letterSpacing: '0.02em' }}
                               text="At Henri Barrett, our essence is to simplify the complex. We understand that in the fast-paced world of business, our clients need agile, yet potent solutions. By leaning into our strengths in creativity, design, and a thirst for experimentation, we untangle the intricate knots of branding challenges."
                             />
                         </div>
@@ -5434,7 +5441,7 @@ export const App: React.FC = () => {
                     <WhoIsBarrettSection onNavigate={setCurrentView} />
 
                 {/* FOOTER */}
-                <Footer onNavigate={setCurrentView} />
+                <Footer onNavigate={setCurrentView} className="mt-4 sm:mt-24 md:mt-32" />
             </div>
         </div>
 

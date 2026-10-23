@@ -223,12 +223,22 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
           return (
             <span
               key={`line-${lineIdx}`}
-              className="block overflow-hidden pt-[0.06em] -mt-[0.06em] pb-[0.18em] -mb-[0.18em]"
+              className="block overflow-hidden pt-[0.12em] -mt-[0.12em] pb-[0.26em] -mb-[0.26em] mb-2 sm:mb-0 last:mb-0"
+              style={{
+                paddingRight: '0.22em',
+                paddingLeft: '0.04em',
+                marginRight: '-0.22em',
+                marginLeft: '-0.04em',
+              }}
             >
               <motion.span
                 variants={itemVariants}
                 className="block will-change-transform"
-                style={{ transformOrigin }}
+                style={{
+                  transformOrigin,
+                  paddingRight: '0.22em',
+                  paddingLeft: '0.04em',
+                }}
               >
                 {lineText}
               </motion.span>
@@ -242,17 +252,27 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
         return (
           <span
             key={`line-${lineIdx}`}
-            className="block"
+            className="block mb-2 sm:mb-0 last:mb-0"
           >
             {words.map((word, wordIdx) => (
               <span
                 key={`word-${lineIdx}-${wordIdx}`}
-                className="inline-block overflow-hidden pt-[0.06em] -mt-[0.06em] pb-[0.18em] -mb-[0.18em] align-top mr-[0.26em] last:mr-0"
+                className="inline-block overflow-hidden pt-[0.12em] -mt-[0.12em] pb-[0.26em] -mb-[0.26em] align-top"
+                style={{
+                  paddingRight: '0.22em',
+                  paddingLeft: '0.04em',
+                  marginRight: wordIdx < words.length - 1 ? '0.14em' : '-0.22em',
+                  marginLeft: '-0.04em',
+                }}
               >
                 <motion.span
                   variants={itemVariants}
                   className="inline-block will-change-transform"
-                  style={{ transformOrigin }}
+                  style={{
+                    transformOrigin,
+                    paddingRight: '0.22em',
+                    paddingLeft: '0.04em',
+                  }}
                 >
                   {word}
                 </motion.span>

@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Check } from 'lucide-react';
 import { MaskTextReveal } from './MaskTextReveal';
 
 export interface CaseStudyProject {
@@ -93,6 +94,29 @@ const CATEGORIES = [
   'DIGITAL',
 ] as const;
 
+const CATEGORY_LABELS: Record<string, string> = {
+  BRANDING: 'Branding',
+  CAMPAINGS: 'Campaigns',
+  TRADE: 'Trade',
+  CONTENT: 'Content',
+  EVENT: 'Event',
+  DIGITAL: 'Digital',
+};
+
+const getCategoryCount = (categoryKey: string | null): number => {
+  if (!categoryKey) return CASE_STUDIES.length;
+  return CASE_STUDIES.filter((p) => p.categories.includes(categoryKey)).length;
+};
+
+const getCategoryDisplayLabel = (categoryKey: string | null): string => {
+  if (!categoryKey) {
+    return `All Projects (${CASE_STUDIES.length})`;
+  }
+  const name = CATEGORY_LABELS[categoryKey] || categoryKey;
+  const count = getCategoryCount(categoryKey);
+  return `${name} (${count})`;
+};
+
 interface ClientCaseStudiesSectionProps {
   onImageHover?: (e: React.MouseEvent, isHovering: boolean) => void;
   onProjectClick?: (projectId: string | number) => void;
@@ -100,6 +124,25 @@ interface ClientCaseStudiesSectionProps {
 
 export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> = ({ onImageHover, onProjectClick }) => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar el desplegable al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   // Filtrar y ordenar los proyectos según la categoría seleccionada
   const displayedProjects = useMemo(() => {
@@ -124,7 +167,7 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
       <div className="w-full flex justify-between items-start mb-16 sm:mb-20 md:mb-24 lg:mb-28">
         <MaskTextReveal
           as="h2"
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5vw] 2xl:text-[130px] font-light font-[300] tracking-[-0.04em] uppercase leading-[0.86] text-black"
+          className="text-[10vw] sm:text-7xl md:text-8xl lg:text-[7.5vw] 2xl:text-[130px] font-normal tracking-[-0.03em] uppercase leading-[1.04] sm:leading-[0.86] text-black"
           lines={['CLIENT CASE', 'STUDIES']}
         />
 
@@ -143,8 +186,85 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. FILTROS POR TIPO DE TRABAJO (EXPANDIDOS PARA ABARCAR CASI TODO EL ANCHO DEL BLOQUE DE PROYECTOS) */}
-      <div className="w-full mb-12 sm:mb-16 md:mb-20 lg:mb-24 overflow-x-auto no-scrollbar">
+      {/* 2. DESPLEGABLE EN MOBILE (CORTO EN ANCHO, SIN FONDO Y CON DELINEADO CURVO SEGÚN IMAGEN ADJUNTA) */}
+      <div className="block md:hidden w-full mb-10 sm:mb-12 relative z-30" ref={dropdownRef}>
+        <div className="relative inline-block">
+          <button
+            type="button"
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+            className="inline-flex items-center justify-between gap-5 sm:gap-6 rounded-full border border-black px-6 py-2.5 sm:py-3 bg-transparent text-black cursor-pointer select-none transition-all duration-200 active:scale-[0.98] focus:outline-none min-w-[210px] shadow-none"
+            aria-expanded={isDropdownOpen}
+            aria-haspopup="listbox"
+            aria-label="Filter case studies by category"
+          >
+            <span className="text-[15px] sm:text-[16px] font-normal tracking-normal text-black font-sans whitespace-nowrap">
+              {getCategoryDisplayLabel(activeCategory)}
+            </span>
+            <ChevronDown
+              className={`w-4 h-4 text-black transition-transform duration-300 shrink-0 ${
+                isDropdownOpen ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
+                className="absolute top-full left-0 mt-2 min-w-[220px] w-max max-w-[290px] bg-white border border-black rounded-2xl shadow-xl overflow-hidden py-1.5 z-40"
+                role="listbox"
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveCategory(null);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-5 py-2.5 text-[14px] text-left transition-colors cursor-pointer ${
+                    activeCategory === null
+                      ? 'bg-black text-white font-medium'
+                      : 'text-black hover:bg-neutral-100 active:bg-neutral-200'
+                  }`}
+                  role="option"
+                  aria-selected={activeCategory === null}
+                >
+                  <span>{getCategoryDisplayLabel(null)}</span>
+                  {activeCategory === null && <Check className="w-4 h-4 ml-2 shrink-0" />}
+                </button>
+                {CATEGORIES.map((cat) => {
+                  const isSelected = activeCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-5 py-2.5 text-[14px] text-left transition-colors cursor-pointer ${
+                        isSelected
+                          ? 'bg-black text-white font-medium'
+                          : 'text-black hover:bg-neutral-100 active:bg-neutral-200'
+                      }`}
+                      role="option"
+                      aria-selected={isSelected}
+                    >
+                      <span>{getCategoryDisplayLabel(cat)}</span>
+                      {isSelected && <Check className="w-4 h-4 ml-2 shrink-0" />}
+                    </button>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* 2. FILTROS POR TIPO DE TRABAJO (SOLO DESKTOP: PILLS COMPLETOS EN LÍNEA) */}
+      <div className="hidden md:block w-full mb-12 sm:mb-16 md:mb-20 lg:mb-24 overflow-x-auto no-scrollbar">
         <div className="w-full flex items-center justify-between gap-2.5 sm:gap-3.5 md:gap-4.5 lg:gap-5.5 xl:gap-6 flex-wrap sm:flex-nowrap">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;

@@ -531,7 +531,7 @@ Lima, Perú · Global Studio
           <div className="max-w-2xl">
             <MaskTextReveal
               as="h2"
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-black mb-6"
+              className="text-[10vw] sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[1.04] sm:leading-[0.88] text-black mb-6"
               lines={['MEET THE', 'MARKERS']}
             />
             <MaskTextReveal
@@ -753,7 +753,7 @@ Lima, Perú · Global Studio
         <div className="w-full max-w-[1100px] mx-auto flex flex-col items-center text-center z-10">
           <MaskTextReveal
             as="h2"
-            className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[0.88] text-white text-center mb-6 sm:mb-8"
+            className="text-[10vw] sm:text-7xl md:text-8xl lg:text-[7.2vw] font-light font-[300] tracking-[-0.03em] uppercase leading-[1.04] sm:leading-[0.88] text-white text-center mb-6 sm:mb-8"
             lines={['RANDOM', 'IGNITERS']}
           />
 

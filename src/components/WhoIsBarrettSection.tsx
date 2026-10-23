@@ -148,7 +148,7 @@ const DoubleMarqueeStrip: React.FC = () => {
 
 export const WhoIsBarrettSection: React.FC<WhoIsBarrettSectionProps> = ({ onNavigate }) => {
   return (
-    <section className="w-screen relative left-1/2 -translate-x-1/2 bg-white pt-12 sm:pt-16 md:pt-20 pb-20 sm:pb-28 md:pb-36 overflow-hidden select-none">
+    <section className="w-screen relative left-1/2 -translate-x-1/2 bg-white pt-12 sm:pt-16 md:pt-20 pb-3 sm:pb-28 md:pb-36 overflow-hidden select-none">
       {/* 1. TIRA DOBLE SUPERIOR DE ALWAYS WATCHING */}
       <DoubleMarqueeStrip />
 

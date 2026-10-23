@@ -6,55 +6,55 @@ import { MaskTextReveal } from './MaskTextReveal';
 // --- LOGOS VECTORIALES DE ALTA FIDELIDAD EN TONO GRIS MONOCROMÁTICO (SEGÚN CAPTURA) ---
 
 const RedBullLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none">
+  <div className="h-16 sm:h-24 flex items-center select-none">
     <img
       src="https://henribarrett.com/assets/site/svg/home/red_bull_by_henribarrett.svg"
       alt="Red Bull"
-      className="h-12 sm:h-14 md:h-16 w-auto max-w-[190px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      className="h-11 sm:h-14 md:h-16 w-auto max-w-[135px] sm:max-w-[190px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
       decoding="async"
     />
   </div>
 );
 
 const LaBicolorLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none">
+  <div className="h-16 sm:h-24 flex items-center select-none">
     <img
       src="https://henribarrett.com/assets/site/svg/home/labicolor_by_henribarrett.svg"
       alt="La Bicolor"
-      className="h-11 sm:h-12 md:h-14 w-auto max-w-[170px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      className="h-10 sm:h-12 md:h-14 w-auto max-w-[130px] sm:max-w-[170px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
       decoding="async"
     />
   </div>
 );
 
 const KotexLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none">
+  <div className="h-16 sm:h-24 flex items-center select-none">
     <img
       src="https://henribarrett.com/assets/site/svg/home/kotex_by_henribarrett.svg"
       alt="Kotex"
-      className="h-10 sm:h-12 md:h-14 w-auto max-w-[170px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      className="h-9 sm:h-12 md:h-14 w-auto max-w-[120px] sm:max-w-[170px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
       decoding="async"
     />
   </div>
 );
 
 const NikeLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none">
+  <div className="h-16 sm:h-24 flex items-center select-none">
     <img
       src="https://henribarrett.com/assets/site/svg/home/nike_by_henribarrett.svg"
       alt="Nike"
-      className="h-9 sm:h-10 md:h-12 w-auto max-w-[140px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      className="h-8 sm:h-10 md:h-12 w-auto max-w-[110px] sm:max-w-[140px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
       decoding="async"
     />
   </div>
 );
 
 const HeinekenLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none">
+  <div className="h-16 sm:h-24 flex items-center select-none">
     <img
       src="https://henribarrett.com/assets/site/svg/home/heineken_by_henribarrett.svg"
       alt="Heineken"
-      className="h-12 sm:h-14 md:h-16 w-auto max-w-[190px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
+      className="h-11 sm:h-14 md:h-16 w-auto max-w-[135px] sm:max-w-[190px] object-contain select-none pointer-events-none opacity-65 grayscale contrast-125"
       decoding="async"
     />
   </div>
@@ -62,16 +62,16 @@ const HeinekenLogo = () => (
 
 
 const AppleLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none text-[#555555]">
-    <svg className="h-10 w-auto fill-current" viewBox="0 0 170 170">
+  <div className="h-16 sm:h-24 flex items-center select-none text-[#555555]">
+    <svg className="h-9 sm:h-10 w-auto fill-current" viewBox="0 0 170 170">
       <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12.01-14.42-6.19-9.35-11.05-20.08-14.58-32.22-3.53-12.14-5.3-23.75-5.3-34.82 0-14.65 3.79-26.69 11.36-36.14 7.57-9.45 17.06-14.28 28.47-14.49 4.35 0 9.38 1.16 15.08 3.48 5.71 2.32 9.5 3.53 11.37 3.64 1.45 0 5.43-1.32 11.96-3.96 6.53-2.64 12.19-3.8 16.98-3.48 12.92.74 23.33 5.48 31.23 14.22-11.22 6.86-16.73 16.29-16.52 28.29.21 9.4 3.79 17.29 10.74 23.68 6.95 6.38 15.09 10.15 24.42 11.31-2.22 6.64-4.8 13.04-7.74 19.2zm-28.52-108.38c0 4.11-1.22 8.33-3.65 12.66-2.43 4.33-5.81 7.9-10.14 10.71-3.69 2.43-7.55 3.91-11.58 4.43-.21-.74-.32-1.53-.32-2.38 0-4.12 1.27-8.38 3.8-12.79 2.53-4.41 5.86-7.87 9.99-10.39 3.69-2.32 7.64-3.79 11.85-4.43.05.74.05 1.47.05 2.19z" />
     </svg>
   </div>
 );
 
 const TikTokLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center gap-2 select-none text-[#555555]">
-    <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
+  <div className="h-16 sm:h-24 flex items-center gap-2 select-none text-[#555555]">
+    <svg className="w-7 h-7 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
       <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-1-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
     </svg>
     <span className="text-2xl font-black tracking-tight">TikTok</span>
@@ -79,8 +79,8 @@ const TikTokLogo = () => (
 );
 
 const AdidasLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none text-[#555555]">
-    <svg className="h-9 w-auto fill-current" viewBox="0 0 100 55">
+  <div className="h-16 sm:h-24 flex items-center select-none text-[#555555]">
+    <svg className="h-8 sm:h-9 w-auto fill-current" viewBox="0 0 100 55">
       <path d="M12 45 L25 45 L15 28 L2 45 Z" />
       <path d="M30 45 L46 45 L32 15 L16 45 Z" />
       <path d="M51 45 L70 45 L50 2 L31 45 Z" />
@@ -90,27 +90,27 @@ const AdidasLogo = () => (
 );
 
 const StripeLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center select-none text-[#555555]">
+  <div className="h-16 sm:h-24 flex items-center select-none text-[#555555]">
     <span className="text-3xl font-black tracking-[-0.05em] lowercase">stripe</span>
   </div>
 );
 
 const FlorDeCanaLogo = () => (
-  <div className="h-20 sm:h-24 flex flex-col justify-center select-none text-[#555555]">
-    <span className="text-[9px] font-mono tracking-[0.25em] uppercase opacity-50">EST. 1890</span>
+  <div className="h-16 sm:h-24 flex flex-col justify-center select-none text-[#555555]">
+    <span className="text-[10px] sm:text-[9px] font-mono tracking-[0.25em] uppercase opacity-50">EST. 1890</span>
     <span className="text-2xl font-serif italic font-bold tracking-tight">Flor de Caña</span>
   </div>
 );
 
 const TanquerayLogo = () => (
-  <div className="h-20 sm:h-24 flex flex-col justify-center select-none text-[#555555]">
+  <div className="h-16 sm:h-24 flex flex-col justify-center select-none text-[#555555]">
     <span className="text-2xl font-serif tracking-[0.08em] uppercase font-bold">Tanqueray</span>
-    <span className="text-[8px] tracking-[0.2em] uppercase opacity-50">LONDON DRY GIN</span>
+    <span className="text-[9px] sm:text-[8px] tracking-[0.2em] uppercase opacity-50">LONDON DRY GIN</span>
   </div>
 );
 
 const InterbankLogo = () => (
-  <div className="h-20 sm:h-24 flex items-center gap-2 select-none text-[#555555]">
+  <div className="h-16 sm:h-24 flex items-center gap-2 select-none text-[#555555]">
     <div className="w-6 h-6 rounded-md bg-[#555555] flex items-center justify-center text-white font-black text-xs">IB</div>
     <span className="text-2xl font-bold tracking-tight uppercase">Interbank</span>
   </div>
@@ -135,6 +135,13 @@ const FEATURED_CLIENTS: FeaturedClientItem[] = [
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
+    id: 'labicolor',
+    logo: <LaBicolorLogo />,
+    titleLine1: 'LABICOLOR® x',
+    titleLine2: 'HENRIBARRETT',
+    description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
+  },
+  {
     id: 'kotex',
     logo: <KotexLogo />,
     titleLine1: 'KOTEX® x',
@@ -152,13 +159,6 @@ const FEATURED_CLIENTS: FeaturedClientItem[] = [
     id: 'heineken',
     logo: <HeinekenLogo />,
     titleLine1: 'HEINEKEN® x',
-    titleLine2: 'HENRIBARRETT',
-    description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
-  },
-  {
-    id: 'labicolor',
-    logo: <LaBicolorLogo />,
-    titleLine1: 'LABICOLOR® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
@@ -297,7 +297,7 @@ export const FeaturedClientsSection: React.FC = () => {
   useEffect(() => {
     const updateVisibleCount = () => {
       if (window.innerWidth < 640) {
-        setVisibleCount(1);
+        setVisibleCount(1.6);
       } else if (window.innerWidth <= 1024) {
         // 744x1133 iPad / Tablet: 3 columnas según la captura
         setVisibleCount(3);
@@ -310,9 +310,16 @@ export const FeaturedClientsSection: React.FC = () => {
     return () => window.removeEventListener('resize', updateVisibleCount);
   }, []);
 
+  const getStep = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 640) {
+      return 1;
+    }
+    return visibleCount;
+  };
+
   const handleNextStep = () => {
     setIsTransitioning(true);
-    setCurrentIndex((prev) => prev + visibleCount);
+    setCurrentIndex((prev) => prev + getStep());
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -322,12 +329,13 @@ export const FeaturedClientsSection: React.FC = () => {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartXRef.current === null) return;
     const diff = e.changedTouches[0].clientX - touchStartXRef.current;
-    if (diff > 50) {
+    const step = getStep();
+    if (diff > 40) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => prev - visibleCount);
-    } else if (diff < -50) {
+      setCurrentIndex((prev) => prev - step);
+    } else if (diff < -40) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => prev + visibleCount);
+      setCurrentIndex((prev) => prev + step);
     }
     touchStartXRef.current = null;
   };
@@ -353,7 +361,7 @@ export const FeaturedClientsSection: React.FC = () => {
           <div className="flex flex-col">
             <MaskTextReveal
               as="h2"
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-[7vw] xl:text-[96px] 2xl:text-[110px] font-normal font-[400] uppercase tracking-[-0.04em] leading-[0.88] text-black"
+              className="text-[10vw] sm:text-6xl md:text-7xl lg:text-[7vw] xl:text-[96px] 2xl:text-[110px] font-normal font-[400] uppercase tracking-[-0.03em] leading-[1.04] sm:leading-[0.88] text-black"
               lines={['FEATURED', 'CLIENTS']}
             />
           </div>
@@ -402,7 +410,7 @@ export const FeaturedClientsSection: React.FC = () => {
                 style={{ width: `${100 / visibleCount}%` }}
               >
                 {/* LOGO DE LA MARCA CON FADE IN SUAVE */}
-                <div className="h-20 sm:h-24 md:h-28 flex items-center justify-start mb-6 sm:mb-8 md:mb-10">
+                <div className="h-18 sm:h-24 md:h-28 flex items-center justify-start mb-5 sm:mb-8 md:mb-10">
                   <div
                     className="w-full flex items-center justify-start transition-all will-change-[opacity,transform]"
                     style={{
@@ -420,17 +428,17 @@ export const FeaturedClientsSection: React.FC = () => {
                 </div>
 
                 {/* TÍTULO EN 2 LÍNEAS (SEGÚN CAPTURA) */}
-                <div className="flex flex-col mb-3 sm:mb-4 leading-tight">
-                  <h3 className="text-[15px] sm:text-[16px] md:text-[17px] font-normal font-[450] uppercase tracking-normal text-black leading-tight">
+                <div className="flex flex-col mb-3.5 sm:mb-4 leading-tight">
+                  <h3 className="text-[16px] sm:text-[16px] md:text-[17px] font-normal font-[450] uppercase tracking-normal text-black leading-tight">
                     {client.titleLine1}
                   </h3>
-                  <h3 className="text-[15px] sm:text-[16px] md:text-[17px] font-normal font-[450] uppercase tracking-normal text-black leading-tight">
+                  <h3 className="text-[16px] sm:text-[16px] md:text-[17px] font-normal font-[450] uppercase tracking-normal text-black leading-tight">
                     {client.titleLine2}
                   </h3>
                 </div>
 
                 {/* DESCRIPCIÓN */}
-                <p className="text-[13px] sm:text-[14px] md:text-[14.5px] text-black font-normal font-[350] leading-[1.38] sm:leading-[1.42] max-w-[34ch] sm:max-w-none">
+                <p className="text-[15.5px] sm:text-[14px] md:text-[14.5px] text-black font-normal font-[350] leading-[1.36] sm:leading-[1.42] max-w-[34ch] sm:max-w-none">
                   {client.description}
                 </p>
               </div>
