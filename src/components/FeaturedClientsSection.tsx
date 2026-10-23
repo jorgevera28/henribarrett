@@ -120,7 +120,7 @@ const InterbankLogo = () => (
 
 interface FeaturedClientItem {
   id: string;
-  logo: React.ReactNode;
+  logo: React.ComponentType;
   titleLine1: string;
   titleLine2: string;
   description: string;
@@ -129,84 +129,84 @@ interface FeaturedClientItem {
 const FEATURED_CLIENTS: FeaturedClientItem[] = [
   {
     id: 'redbull',
-    logo: <RedBullLogo />,
+    logo: RedBullLogo,
     titleLine1: 'REDBULL® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'labicolor',
-    logo: <LaBicolorLogo />,
+    logo: LaBicolorLogo,
     titleLine1: 'LABICOLOR® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'kotex',
-    logo: <KotexLogo />,
+    logo: KotexLogo,
     titleLine1: 'KOTEX® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'nike',
-    logo: <NikeLogo />,
+    logo: NikeLogo,
     titleLine1: 'NIKE® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'heineken',
-    logo: <HeinekenLogo />,
+    logo: HeinekenLogo,
     titleLine1: 'HEINEKEN® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'apple',
-    logo: <AppleLogo />,
+    logo: AppleLogo,
     titleLine1: 'APPLE® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'tiktok',
-    logo: <TikTokLogo />,
+    logo: TikTokLogo,
     titleLine1: 'TIKTOK® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'adidas',
-    logo: <AdidasLogo />,
+    logo: AdidasLogo,
     titleLine1: 'ADIDAS® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'stripe',
-    logo: <StripeLogo />,
+    logo: StripeLogo,
     titleLine1: 'STRIPE® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'flordecana',
-    logo: <FlorDeCanaLogo />,
+    logo: FlorDeCanaLogo,
     titleLine1: 'FLOR DE CAÑA® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'tanqueray',
-    logo: <TanquerayLogo />,
+    logo: TanquerayLogo,
     titleLine1: 'TANQUERAY® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
   },
   {
     id: 'interbank',
-    logo: <InterbankLogo />,
+    logo: InterbankLogo,
     titleLine1: 'INTERBANK® x',
     titleLine2: 'HENRIBARRETT',
     description: 'Our employer branding engagement activated the brand internally, enabling staff to deliver on the brand promise.',
@@ -423,7 +423,7 @@ export const FeaturedClientsSection: React.FC = () => {
                         : '0ms',
                     }}
                   >
-                    {client.logo}
+                    <client.logo />
                   </div>
                 </div>
 

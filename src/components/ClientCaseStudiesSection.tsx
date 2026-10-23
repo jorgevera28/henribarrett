@@ -14,38 +14,10 @@ export interface CaseStudyProject {
 
 const CASE_STUDIES: CaseStudyProject[] = [
   {
-    id: 'heineken-fest',
-    title: 'Heineken Fest',
-    description: 'Event',
-    image: '/src/assets/images/heineken_fest_box_1789000030629.jpg',
-    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
-  },
-  {
-    id: 'pisco-tacama',
-    title: 'Pisco Tacama',
-    description: 'Rebrand',
-    image: '/src/assets/images/pisco_tacama_table_1789000042775.jpg',
-    categories: ['BRANDING', 'TRADE', 'CONTENT'],
-  },
-  {
-    id: 'barrett-session',
-    title: 'Barrett Session',
-    description: 'Brand, Event',
-    image: '/src/assets/images/barrett_sessions_pedestal_1789000054629.jpg',
-    categories: ['BRANDING', 'EVENT', 'CONTENT', 'DIGITAL'],
-  },
-  {
-    id: 'petco',
-    title: 'Petco',
-    description: 'Rebrand',
-    image: '/src/assets/images/petco_cannabidol_box_1789000066953.jpg',
-    categories: ['BRANDING', 'CAMPAINGS', 'DIGITAL'],
-  },
-  {
     id: 'umana',
     title: 'Umana',
     description: 'Architecture & Design',
-    image: '/src/assets/images/umana_powder_cube_1788889215309.jpg',
+    image: '/images/umanabyhenribarrett.png',
     categories: ['BRANDING', 'TRADE', 'CONTENT'],
   },
   {
@@ -56,10 +28,45 @@ const CASE_STUDIES: CaseStudyProject[] = [
     categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
   },
   {
+    id: 'yummy',
+    title: 'Yummy',
+    description: 'Super App & Delivery',
+    image: '/images/yummybyhenribarrett.png',
+    categories: ['BRANDING', 'CAMPAINGS', 'DIGITAL'],
+  },
+  {
     id: 'teclab',
     title: 'Teclab',
     description: 'Brand & Industrial Identity',
     image: '/images/teclab_hero.jpg',
+    categories: ['BRANDING', 'TRADE', 'CONTENT'],
+  },
+  {
+    id: 'barrett-session',
+    title: 'Barrett Session',
+    description: 'Brand, Event',
+    image: '/images/barrett_sessions_pedestal_sign.jpg',
+    categories: ['BRANDING', 'EVENT', 'CONTENT', 'DIGITAL'],
+  },
+  {
+    id: 'petco',
+    title: 'Petco',
+    description: 'Rebrand',
+    image: '/images/petco_cannabidol_box.jpg',
+    categories: ['BRANDING', 'CAMPAINGS', 'DIGITAL'],
+  },
+  {
+    id: 'heineken-fest',
+    title: 'Heineken Fest',
+    description: 'Event',
+    image: '/images/heineken_fest_box.jpg',
+    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
+  },
+  {
+    id: 'pisco-tacama',
+    title: 'Pisco Tacama',
+    description: 'Rebrand',
+    image: '/images/pisco_tacama_table.jpg',
     categories: ['BRANDING', 'TRADE', 'CONTENT'],
   },
   {
@@ -75,13 +82,6 @@ const CASE_STUDIES: CaseStudyProject[] = [
     description: 'Digital Experience',
     image: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1200&auto=format&fit=crop',
     categories: ['DIGITAL', 'EVENT', 'CONTENT'],
-  },
-  {
-    id: 'rappi-fest',
-    title: 'Rappi Fest',
-    description: 'Live Brand Experience',
-    image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=1200&auto=format&fit=crop',
-    categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
   },
 ];
 
@@ -186,81 +186,75 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
         </div>
       </div>
 
-      {/* 2. DESPLEGABLE EN MOBILE (CORTO EN ANCHO, SIN FONDO Y CON DELINEADO CURVO SEGÚN IMAGEN ADJUNTA) */}
+      {/* 2. DESPLEGABLE EN MOBILE (ANCHO COMPLETO Y DISEÑO ESTANDARIZADO TAL CUAL EN WORK) */}
       <div className="block md:hidden w-full mb-10 sm:mb-12 relative z-30" ref={dropdownRef}>
-        <div className="relative inline-block">
+        {!isDropdownOpen ? (
           <button
             type="button"
-            onClick={() => setIsDropdownOpen((prev) => !prev)}
-            className="inline-flex items-center justify-between gap-5 sm:gap-6 rounded-full border border-black px-6 py-2.5 sm:py-3 bg-transparent text-black cursor-pointer select-none transition-all duration-200 active:scale-[0.98] focus:outline-none min-w-[210px] shadow-none"
+            onClick={() => setIsDropdownOpen(true)}
+            className="w-full bg-white hover:bg-gray-50 border border-gray-200/90 rounded-full px-7 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex items-center justify-between text-[0.95rem] font-medium text-black transition-all cursor-pointer"
             aria-expanded={isDropdownOpen}
             aria-haspopup="listbox"
             aria-label="Filter case studies by category"
           >
-            <span className="text-[15px] sm:text-[16px] font-normal tracking-normal text-black font-sans whitespace-nowrap">
-              {getCategoryDisplayLabel(activeCategory)}
-            </span>
-            <ChevronDown
-              className={`w-4 h-4 text-black transition-transform duration-300 shrink-0 ${
-                isDropdownOpen ? 'rotate-180' : ''
-              }`}
-            />
+            <span>{getCategoryDisplayLabel(activeCategory)}</span>
+            <ChevronDown className="w-4 h-4 text-black/70 transition-transform duration-200" />
           </button>
+        ) : (
+          <div className="w-full bg-white border border-gray-200/90 rounded-[26px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden transition-all">
+            {/* Header / Cerrar */}
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(false)}
+              className="w-full px-7 py-4 flex items-center justify-between text-[0.95rem] font-medium text-black border-b border-gray-100 bg-white hover:bg-gray-50/70 transition-colors cursor-pointer"
+            >
+              <span>{getCategoryDisplayLabel(activeCategory)}</span>
+              <ChevronDown className="w-4 h-4 text-black/70 rotate-180 transition-transform duration-200" />
+            </button>
 
-          <AnimatePresence>
-            {isDropdownOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                transition={{ duration: 0.16, ease: 'easeOut' }}
-                className="absolute top-full left-0 mt-2 min-w-[220px] w-max max-w-[290px] bg-white border border-black rounded-2xl shadow-xl overflow-hidden py-1.5 z-40"
-                role="listbox"
+            {/* Opciones con hover/selección en negro y texto blanco */}
+            <div className="flex flex-col w-full" role="listbox">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategory(null);
+                  setIsDropdownOpen(false);
+                }}
+                className={`w-full px-7 py-3.5 text-left text-[0.95rem] transition-colors duration-150 border-b border-gray-100 last:border-b-0 cursor-pointer flex items-center justify-between ${
+                  activeCategory === null
+                    ? 'bg-[#222222] text-white font-medium'
+                    : 'bg-white text-black hover:bg-[#222222] hover:text-white active:bg-[#222222] active:text-white font-normal'
+                }`}
+                role="option"
+                aria-selected={activeCategory === null}
               >
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveCategory(null);
-                    setIsDropdownOpen(false);
-                  }}
-                  className={`w-full flex items-center justify-between px-5 py-2.5 text-[14px] text-left transition-colors cursor-pointer ${
-                    activeCategory === null
-                      ? 'bg-black text-white font-medium'
-                      : 'text-black hover:bg-neutral-100 active:bg-neutral-200'
-                  }`}
-                  role="option"
-                  aria-selected={activeCategory === null}
-                >
-                  <span>{getCategoryDisplayLabel(null)}</span>
-                  {activeCategory === null && <Check className="w-4 h-4 ml-2 shrink-0" />}
-                </button>
-                {CATEGORIES.map((cat) => {
-                  const isSelected = activeCategory === cat;
-                  return (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => {
-                        setActiveCategory(cat);
-                        setIsDropdownOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-5 py-2.5 text-[14px] text-left transition-colors cursor-pointer ${
-                        isSelected
-                          ? 'bg-black text-white font-medium'
-                          : 'text-black hover:bg-neutral-100 active:bg-neutral-200'
-                      }`}
-                      role="option"
-                      aria-selected={isSelected}
-                    >
-                      <span>{getCategoryDisplayLabel(cat)}</span>
-                      {isSelected && <Check className="w-4 h-4 ml-2 shrink-0" />}
-                    </button>
-                  );
-                })}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                <span>{getCategoryDisplayLabel(null)}</span>
+              </button>
+              {CATEGORIES.map((cat) => {
+                const isSelected = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => {
+                      setActiveCategory(cat);
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`w-full px-7 py-3.5 text-left text-[0.95rem] transition-colors duration-150 border-b border-gray-100 last:border-b-0 cursor-pointer flex items-center justify-between ${
+                      isSelected
+                        ? 'bg-[#222222] text-white font-medium'
+                        : 'bg-white text-black hover:bg-[#222222] hover:text-white active:bg-[#222222] active:text-white font-normal'
+                    }`}
+                    role="option"
+                    aria-selected={isSelected}
+                  >
+                    <span>{getCategoryDisplayLabel(cat)}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 2. FILTROS POR TIPO DE TRABAJO (SOLO DESKTOP: PILLS COMPLETOS EN LÍNEA) */}

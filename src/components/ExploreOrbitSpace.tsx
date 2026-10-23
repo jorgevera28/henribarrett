@@ -75,6 +75,10 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
     const isRappi = project.title.toLowerCase().includes('rappi');
     const isPetco = project.title.toLowerCase().includes('petco');
     const isYummy = project.title.toLowerCase().includes('yummy');
+    const isBarrett = project.title.toLowerCase().includes('barrett') || project.title.toLowerCase().includes('session');
+    const isHeineken = project.title.toLowerCase().includes('heineken');
+    const isTeclab = project.title.toLowerCase().includes('teclab');
+
     if (isUmana && onOpenCaseStudy) {
       onOpenCaseStudy('case-study-umana');
     } else if (isRappi && onOpenCaseStudy) {
@@ -83,6 +87,12 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
       onOpenCaseStudy('case-study-petco');
     } else if (isYummy && onOpenCaseStudy) {
       onOpenCaseStudy('case-study-yummy');
+    } else if (isBarrett && onOpenCaseStudy) {
+      onOpenCaseStudy('case-study-barrett-sessions');
+    } else if (isHeineken && onOpenCaseStudy) {
+      onOpenCaseStudy('case-study-heineken-fest');
+    } else if (isTeclab && onOpenCaseStudy) {
+      onOpenCaseStudy('case-study-teclab');
     } else {
       setSelectedModalProject(project);
     }

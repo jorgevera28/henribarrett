@@ -41,6 +41,8 @@ export interface MaskTextRevealProps {
   animateOnMount?: boolean;
   /** Transform origin corner (default: bottom left "0% 100%") */
   transformOrigin?: string;
+  /** Optional custom class for each line wrapper (e.g. "block mb-0" to remove inter-line gap) */
+  lineClassName?: string;
 }
 
 // Auge Design signature luxury ease: cushioned launch with ultra-smooth, slow deceleration
@@ -77,6 +79,7 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
   margin = '0px 0px -70px 0px',
   animateOnMount = false,
   transformOrigin = '0% 100%',
+  lineClassName,
 }) => {
   // Determine text content
   const resolvedContent = text ?? (typeof children === 'string' ? children : null);
@@ -223,7 +226,7 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
           return (
             <span
               key={`line-${lineIdx}`}
-              className="block overflow-hidden pt-[0.12em] -mt-[0.12em] pb-[0.26em] -mb-[0.26em] mb-2 sm:mb-0 last:mb-0"
+              className={`block overflow-hidden pt-[0.12em] -mt-[0.12em] pb-[0.26em] -mb-[0.26em] ${lineClassName !== undefined ? lineClassName : 'mb-2 sm:mb-0'} last:mb-0`}
               style={{
                 paddingRight: '0.22em',
                 paddingLeft: '0.04em',
@@ -252,17 +255,16 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
         return (
           <span
             key={`line-${lineIdx}`}
-            className="block mb-2 sm:mb-0 last:mb-0"
+            className={lineClassName !== undefined ? lineClassName : "block mb-2 sm:mb-0 last:mb-0"}
           >
             {words.map((word, wordIdx) => (
               <span
                 key={`word-${lineIdx}-${wordIdx}`}
                 className="inline-block overflow-hidden pt-[0.12em] -mt-[0.12em] pb-[0.26em] -mb-[0.26em] align-top"
                 style={{
-                  paddingRight: '0.22em',
-                  paddingLeft: '0.04em',
-                  marginRight: wordIdx < words.length - 1 ? '0.14em' : '-0.22em',
-                  marginLeft: '-0.04em',
+                  paddingRight: '0.08em',
+                  paddingLeft: '0.02em',
+                  marginRight: wordIdx < words.length - 1 ? '0.04em' : '0',
                 }}
               >
                 <motion.span
@@ -270,8 +272,6 @@ export const MaskTextReveal: React.FC<MaskTextRevealProps> = ({
                   className="inline-block will-change-transform"
                   style={{
                     transformOrigin,
-                    paddingRight: '0.22em',
-                    paddingLeft: '0.04em',
                   }}
                 >
                   {word}

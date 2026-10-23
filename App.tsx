@@ -77,14 +77,21 @@ const MORE_WORK_PROJECTS: InitialProject[] = [
     id: 104,
     name: 'PETCO',
     category: 'BRANDING',
-    image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/petco_cannabidol_box.jpg',
     view: 'case-study-petco'
+  },
+  {
+    id: 105,
+    name: 'HEINEKEN FEST',
+    category: 'EVENT',
+    image: '/images/heineken_fest_box.jpg',
+    view: 'case-study-heineken-fest'
   },
   {
     id: 106,
     name: 'PISCO TACAMA',
     category: 'REBRAND',
-    image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop'
+    image: '/images/pisco_tacama_table.jpg'
   },
   {
     id: 108,
@@ -146,13 +153,14 @@ const HOME_VIDEO_SERVICES: HomeVideoServiceItem[] = [
 ];
 
 const ALL_PROJECTS = [
-  { id: 101, title: 'Umana', category: 'Brand', image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1200&auto=format&fit=crop' },
+  { id: 101, title: 'Umana', category: 'Brand', image: '/images/umanabyhenribarrett.png' },
   { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
+  { id: 107, title: 'Yummy Delivery', category: 'Brand', image: '/images/yummybyhenribarrett.png' },
+  { id: 100, title: 'Teclab', category: 'Brand', image: '/images/teclab_hero.jpg' },
   { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: '/images/barrett_sessions_pedestal_sign.jpg' },
-  { id: 104, title: 'Petco', category: 'Brand', image: 'https://images.unsplash.com/photo-1522276498395-f4f68f7f8a9d?q=80&w=1200&auto=format&fit=crop' },
-  { id: 105, title: 'Heineken Fest', category: 'Event', image: '/images/heineken_fest_hero.jpg' },
-  { id: 106, title: 'Pisco Tacama', category: 'Rebrand', image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop' },
-  { id: 107, title: 'Yummy Delivery', category: 'Brand', image: '/images/yummy_hero.jpg' },
+  { id: 104, title: 'Petco', category: 'Brand', image: '/images/petco_cannabidol_box.jpg' },
+  { id: 105, title: 'Heineken Fest', category: 'Event', image: '/images/heineken_fest_box.jpg' },
+  { id: 106, title: 'Pisco Tacama', category: 'Rebrand', image: '/images/pisco_tacama_table.jpg' },
   { id: 108, title: 'Nike Forward', category: 'Campaign', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop' },
   { id: 109, title: 'Spotify Greenroom', category: 'Digital', image: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1200&auto=format&fit=crop' },
   { id: 110, title: 'Interbank Hub', category: 'Campaign', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop' }
@@ -1693,7 +1701,188 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
       className={`relative w-full bg-black text-white z-20 pt-20 sm:pt-28 pb-12 px-6 sm:px-10 md:px-14 lg:px-20 ${className}`}
       style={{ backgroundColor: '#000000' }}
     >
-      <div className="w-full max-w-[1400px] mx-auto">
+      {/* ============================================================== */}
+      {/* MOBILE FOOTER (< md): 2 Columnas, primero registro email,     */}
+      {/* sin isologo pero con logotipo HENRI BARRETT (según foto)       */}
+      {/* ============================================================== */}
+      <div className="block md:hidden w-full max-w-[440px] mx-auto text-left">
+        {/* LOGOTIPO HENRI BARRETT (SIN ISOLOGO) */}
+        <div className="mb-7">
+          <FooterMaskItem isRevealed={isRevealed} delay={0.08} angle={1.5}>
+            <span className="block text-[28px] xs:text-[32px] font-black uppercase tracking-[-0.03em] leading-none text-white">
+              HENRI BARRETT
+            </span>
+          </FooterMaskItem>
+        </div>
+
+        {/* REGISTRO DE EMAIL (PRIMERO) */}
+        <div className="mb-11">
+          <FooterMaskItem isRevealed={isRevealed} delay={0.16}>
+            <form onSubmit={(e) => e.preventDefault()} className="w-full flex flex-col">
+              <input
+                type="email"
+                placeholder="Your email here"
+                className="bg-transparent pb-3.5 text-[17px] font-normal text-white placeholder-[#71717A] w-full border-b border-[#2C2C2E] focus:outline-none focus:border-white transition-colors"
+              />
+              <p className="text-[12px] font-normal text-[#666666] leading-[1.45] mt-3">
+                By signing up to receive emails from Henri Barrett, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
+              </p>
+            </form>
+          </FooterMaskItem>
+        </div>
+
+        {/* 2 COLUMNAS SUPERIORES: AGENCY & DISCOVER */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 w-full mb-11">
+          {/* COLUMNA 1: Agency */}
+          <div className="flex flex-col">
+            <FooterMaskItem isRevealed={isRevealed} delay={0.22}>
+              <h4 className="text-[19px] font-medium font-[500] text-white mb-4">Agency</h4>
+            </FooterMaskItem>
+            <ul className="flex flex-col gap-3 text-[16.5px] font-normal text-[#9E9EA0]">
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.26}>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Home
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.30}>
+                  <button onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Case Studies
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.34}>
+                  <button onClick={() => onNavigate?.('services')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Services
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.38}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    About
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.42}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Our Method®
+                  </button>
+                </FooterMaskItem>
+              </li>
+            </ul>
+          </div>
+
+          {/* COLUMNA 2: Discover */}
+          <div className="flex flex-col">
+            <FooterMaskItem isRevealed={isRevealed} delay={0.24}>
+              <h4 className="text-[19px] font-medium font-[500] text-white mb-4">Discover</h4>
+            </FooterMaskItem>
+            <ul className="flex flex-col gap-3 text-[16.5px] font-normal text-[#9E9EA0]">
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.28}>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors text-left block leading-tight">
+                    Henri Barrett<br />Hub®
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.32}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Our Book
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.36}>
+                  <button onClick={() => onNavigate?.('work-with-us')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Speaking
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.40}>
+                  <button onClick={() => onNavigate?.('work')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Shop
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.44}>
+                  <button onClick={() => onNavigate?.('quicklys')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Events
+                  </button>
+                </FooterMaskItem>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* COLUMNA INFERIOR: LEARN */}
+        <div className="w-1/2 pr-3 mb-14">
+          <div className="flex flex-col">
+            <FooterMaskItem isRevealed={isRevealed} delay={0.46}>
+              <h4 className="text-[19px] font-medium font-[500] text-white mb-4">Learn</h4>
+            </FooterMaskItem>
+            <ul className="flex flex-col gap-3 text-[16.5px] font-normal text-[#9E9EA0]">
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.50}>
+                  <button onClick={() => onNavigate?.('quicklys')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Articles
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.54}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Press & Media
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.58}>
+                  <button onClick={() => onNavigate?.('about')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    FAQs
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.62}>
+                  <button onClick={() => onNavigate?.('home')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Testimonials
+                  </button>
+                </FooterMaskItem>
+              </li>
+              <li>
+                <FooterMaskItem isRevealed={isRevealed} delay={0.66}>
+                  <button onClick={() => onNavigate?.('work-with-us')} className="hover:text-white cursor-pointer transition-colors text-left block">
+                    Careers
+                  </button>
+                </FooterMaskItem>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ICONOS REDES SOCIALES CENTRADOS (Bē e INSTAGRAM) */}
+        <div className="w-full flex justify-center items-center gap-7 pt-4 pb-4">
+          <FooterMaskItem isRevealed={isRevealed} delay={0.70}>
+            <div className="flex items-center gap-7">
+              <span className="font-bold text-white text-[19px] cursor-pointer hover:opacity-75 leading-none">Bē</span>
+              <Instagram className="w-5 h-5 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+            </div>
+          </FooterMaskItem>
+        </div>
+      </div>
+
+      {/* ============================================================== */}
+      {/* DESKTOP FOOTER (>= md): Configuración original sin alteraciones*/}
+      {/* ============================================================== */}
+      <div className="hidden md:block w-full max-w-[1400px] mx-auto">
         {/* TOP ROW: SUNBURST® ON LEFT, HENRI BARRETT ON RIGHT */}
         <div className="flex justify-between items-start w-full">
           <div className="overflow-hidden pt-1 pb-1">
@@ -1858,7 +2047,7 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
 
               <FooterMaskItem isRevealed={isRevealed} delay={0.96}>
                 <p className="text-[11px] sm:text-[11.5px] md:text-[12px] font-normal font-[400] text-[#71717A] leading-[1.48] max-w-[390px]">
-                  By signing up to receive emails from Motto, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
+                  By signing up to receive emails from Henri Barrett, you agree to our Privacy Policy. We treat your info responsibly. Unsubscribe anytime.
                 </p>
               </FooterMaskItem>
             </form>
@@ -1904,50 +2093,43 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     id: 'yummy',
     name: 'YUMMY',
     category: 'Brand',
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/yummybyhenribarrett.png',
     client: 'Yummy Delivery'
   },
   {
     id: 'heineken',
     name: 'HEINEKEN',
     category: 'Event',
-    image: 'https://images.unsplash.com/photo-1605218427368-35b86d9575ae?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/heineken_fest_box.jpg',
     client: 'Heineken Fest'
   },
   {
     id: 'umana',
     name: 'UMANA',
     category: 'Brand',
-    image: '/src/assets/images/umana_powder_cube_1788889215309.jpg',
+    image: '/images/umanabyhenribarrett.png',
     client: 'Umana Beauty'
   },
   {
     id: 'rappi',
     name: 'RAPPI',
     category: 'Event',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/rappi_spinning_kit.jpg',
     client: 'Rappi Fest'
+  },
+  {
+    id: 'barrett',
+    name: 'BARRETT',
+    category: 'Brand, Event',
+    image: '/images/barrett_sessions_pedestal_sign.jpg',
+    client: 'Barrett Sessions'
   },
   {
     id: 'petco',
     name: 'PETCO',
     category: 'Brand',
-    image: '/images/petco_header.png',
+    image: '/images/petco_cannabidol_box.jpg',
     client: 'Petco Botanicals'
-  },
-  {
-    id: 'yummy',
-    name: 'YUMMY',
-    category: 'Brand',
-    image: '/images/yummy_hero.jpg',
-    client: 'Yummy Super App'
-  },
-  {
-    id: 'tiger',
-    name: 'TIGER',
-    category: 'Campaign',
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1200&auto=format&fit=crop',
-    client: 'Tiger Beer'
   },
   {
     id: 'teclab',
@@ -1957,11 +2139,25 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     client: 'Teclab Packaging'
   },
   {
-    id: 'eureka',
-    name: 'EUREKA',
+    id: 'tacama',
+    name: 'TACAMA',
+    category: 'Rebrand',
+    image: '/images/pisco_tacama_table.jpg',
+    client: 'Pisco Tacama'
+  },
+  {
+    id: 'nike',
+    name: 'NIKE',
+    category: 'Campaign',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop',
+    client: 'Nike Forward'
+  },
+  {
+    id: 'spotify',
+    name: 'SPOTIFY',
     category: 'Digital',
-    image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=1200&auto=format&fit=crop',
-    client: 'Eureka Creative'
+    image: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1200&auto=format&fit=crop',
+    client: 'Spotify Greenroom'
   }
 ];
 
@@ -1970,17 +2166,17 @@ const ListRouletteView: React.FC<{
   setViewMode: (mode: 'grid' | 'explore' | 'list') => void;
   onOpenCaseStudy?: (view: AppView) => void;
 }> = ({ viewMode, setViewMode, onOpenCaseStudy }) => {
-  const NUM_PROJECTS = ROULETTE_PROJECTS.length; // 8 proyectos
+  const NUM_PROJECTS = ROULETTE_PROJECTS.length; // 10 proyectos
   const ITEM_HEIGHT = 104; // Altura exacta en px de cada fila de texto tipográfico
-  const CYCLE_HEIGHT = NUM_PROJECTS * ITEM_HEIGHT; // 832px
-  const REPEATS = 5; // 40 items total para un loop virtual infinito e imperceptible
+  const CYCLE_HEIGHT = NUM_PROJECTS * ITEM_HEIGHT; // 1040px
+  const REPEATS = 5; // 50 items total para un loop virtual infinito e imperceptible
   const EXTENDED_LIST = Array.from({ length: REPEATS }, () => ROULETTE_PROJECTS).flat();
 
-  // En el ciclo central (Cycle 2, indices 16..23), UMANA está en el índice 18 (16 + 2).
+  // En el ciclo central (Cycle 2, indices 20..29), UMANA está en el índice 22 (20 + 2).
   // En la captura de referencia, UMANA está exactamente en la fila focal (y = 170px),
-  // y YUMMY sangra cortado por el borde superior (y = -38px).
+  // y YUMMY sangra cortado por el borde superior.
   const FOCAL_Y = 170;
-  const INITIAL_OFFSET = FOCAL_Y - (18 * ITEM_HEIGHT); // 170 - 1872 = -1702px
+  const INITIAL_OFFSET = FOCAL_Y - (22 * ITEM_HEIGHT);
 
   const [activeProject, setActiveProject] = useState<RouletteProject>(ROULETTE_PROJECTS[2]);
   const [hoveredProject, setHoveredProject] = useState<RouletteProject | null>(null);
@@ -2396,7 +2592,29 @@ const ListRouletteView: React.FC<{
 const EditorialStatementText: React.FC = () => {
   return (
     <div className="w-full relative select-none z-20">
-      <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-10 md:pt-16 pb-10 md:pb-14">
+      {/* Mobile view (< sm): perfectamente alineado a la izquierda, 4 líneas exactas, interlineado compacto y ordenado, sin huecos */}
+      <div className="block sm:hidden w-full px-6 pt-6 pb-8">
+        <div className="w-fit max-w-full text-left">
+          <MaskTextReveal
+            as="p"
+            splitBy="lines"
+            className="text-[20px] min-[375px]:text-[22px] min-[410px]:text-[24px] leading-[1.18] font-normal tracking-[-0.02em] text-black !text-black text-left normal-case"
+            style={{
+              fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            }}
+            lines={[
+              'As architects of brand',
+              'narratives, we amplify the voice',
+              'to ensure they don\'t just talk',
+              'but roar.',
+            ]}
+            lineClassName="block whitespace-nowrap mb-0 last:mb-0"
+          />
+        </div>
+      </div>
+
+      {/* Desktop view (>= sm): configuración original sin alteraciones */}
+      <div className="hidden sm:block w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-10 md:pt-16 pb-10 md:pb-14">
         <MaskTextReveal
           as="p"
           className="text-[32px] sm:text-[46px] md:text-[67px] leading-[38px] sm:leading-[54px] md:leading-[74px] font-normal tracking-[-0.03em] text-black !text-black normal-case max-w-[1240px]"
@@ -2998,6 +3216,7 @@ const AllQuicklysSection: React.FC = () => {
   const [tottusIndex, setTottusIndex] = useState(0);
   const [precioUnoIndex, setPrecioUnoIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [visibleArticlesCount, setVisibleArticlesCount] = useState<number>(6);
   const [activeCursor, setActiveCursor] = useState<{
     visible: boolean;
@@ -3411,8 +3630,65 @@ const AllQuicklysSection: React.FC = () => {
 
       {/* SECCIÓN DE FILTROS, ARTÍCULOS Y BOTÓN DE VER MÁS */}
       <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 mt-20 sm:mt-28 md:mt-36">
-        {/* FILTROS (BRANDING, EVENT, SOCIAL, ILLUSTRATION) */}
-        <div className="flex items-center gap-3 sm:gap-4 flex-wrap mb-10 sm:mb-14">
+        {/* FILTRO ESTANDARIZADO EN MOBILE (SEGÚN FOTO DE REFERENCIA) */}
+        <div className="block sm:hidden w-full mb-10">
+          {!isMobileFilterOpen ? (
+            <button
+              onClick={() => setIsMobileFilterOpen(true)}
+              className="w-full bg-white hover:bg-gray-50 border border-gray-200/90 rounded-full px-7 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex items-center justify-between text-[0.95rem] font-medium text-black transition-all cursor-pointer"
+            >
+              <span>
+                {selectedCategory === 'All' ? 'All Articles (9)' : `${selectedCategory} (${selectedCategory === 'Branding' ? 3 : 2})`}
+              </span>
+              <ChevronDown className="w-4 h-4 text-black/70 transition-transform duration-200" />
+            </button>
+          ) : (
+            <div className="w-full bg-white border border-gray-200/90 rounded-[26px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden transition-all">
+              {/* Header / Cerrar */}
+              <button
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="w-full px-7 py-4 flex items-center justify-between text-[0.95rem] font-medium text-black border-b border-gray-100 bg-white hover:bg-gray-50/70 transition-colors cursor-pointer"
+              >
+                <span>
+                  {selectedCategory === 'All' ? 'All Articles (9)' : `${selectedCategory} (${selectedCategory === 'Branding' ? 3 : 2})`}
+                </span>
+                <ChevronDown className="w-4 h-4 text-black/70 rotate-180 transition-transform duration-200" />
+              </button>
+
+              {/* Opciones con hover/selección en negro y texto blanco */}
+              <div className="flex flex-col w-full">
+                {[
+                  { label: 'All Articles (9)', value: 'All' },
+                  { label: 'Branding (3)', value: 'Branding' },
+                  { label: 'Event (2)', value: 'Event' },
+                  { label: 'Social (2)', value: 'Social' },
+                  { label: 'Illustration (2)', value: 'Illustration' },
+                ].map((filter) => {
+                  const isSelected = selectedCategory === filter.value;
+                  return (
+                    <button
+                      key={filter.value}
+                      onClick={() => {
+                        setSelectedCategory(filter.value);
+                        setIsMobileFilterOpen(false);
+                      }}
+                      className={`w-full px-7 py-3.5 text-left text-[0.95rem] transition-colors duration-150 border-b border-gray-100 last:border-b-0 cursor-pointer flex items-center justify-between ${
+                        isSelected
+                          ? 'bg-[#222222] text-white font-medium'
+                          : 'bg-white text-black hover:bg-[#222222] hover:text-white active:bg-[#222222] active:text-white font-normal'
+                      }`}
+                    >
+                      <span>{filter.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* FILTROS EN DESKTOP (TAGS HORIZONTALES) */}
+        <div className="hidden sm:flex items-center gap-3 sm:gap-4 flex-wrap mb-10 sm:mb-14">
           {(['Branding', 'Event', 'Social', 'Illustration'] as const).map((cat) => {
             const isActive = selectedCategory === cat;
             return (
@@ -3928,7 +4204,7 @@ export const App: React.FC = () => {
     }
   }, [currentView]);
   const [viewMode, setViewMode] = useState<'grid' | 'explore' | 'list'>('grid');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (10)');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Projects (11)');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [homeProjects, setHomeProjects] = useState<InitialProject[]>(INITIAL_PROJECTS);
   const [isLoadingMoreProjects, setIsLoadingMoreProjects] = useState(false);
@@ -4236,26 +4512,44 @@ export const App: React.FC = () => {
           <ListRouletteView viewMode={viewMode} setViewMode={setViewMode} onOpenCaseStudy={setCurrentView} />
         ) : (
           <>
-            {/* TIRA DE MARQUEE: "WORK" EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
+            {/* TIRA DE MARQUEE: "OUR WORK" EN MOBILE / "WORK" EN DESKTOP EN PESO LIGHT PASANDO DE IZQUIERDA A DERECHA CON EL SOL */}
             <div className="w-full overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 select-none bg-white border-y border-transparent">
               <div 
                 className="flex w-max animate-marquee-right whitespace-nowrap will-change-transform" 
                 style={{ animationDuration: '32s' }}
               >
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
                 <div className="flex items-center gap-12 sm:gap-16 md:gap-20 pr-12 sm:pr-16 md:pr-20">
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
-                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">WORK</span>
+                  <span className="text-[14vw] md:text-[13vw] font-light font-[300] uppercase tracking-tight leading-none text-black">
+                    <span className="inline sm:hidden">OUR WORK</span>
+                    <span className="hidden sm:inline">WORK</span>
+                  </span>
                   <DynamicIsotype className="w-[8.5vw] h-[8.5vw] min-w-[50px] min-h-[50px] max-w-[125px] max-h-[125px] text-black" />
                 </div>
               </div>
@@ -4265,46 +4559,63 @@ export const App: React.FC = () => {
             <EditorialStatementText />
 
             {/* PARTE DE LOS FILTROS */}
-            <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pb-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-30">
-              {/* Izquierda: Botón desplegable "All Projects (10)" */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="bg-white hover:bg-gray-50 border border-gray-200/90 rounded-full px-7 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex items-center gap-6 text-[0.95rem] font-medium text-black transition-all cursor-pointer"
-                >
-                  <span>{selectedCategory}</span>
-                  <ChevronDown className={`w-4 h-4 text-black/70 transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
-                </button>
+            <div className="w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pb-14 sm:pb-16 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-6 relative z-30">
+              {/* Filtro: En mobile ocupa casi todo el ancho de la pestaña (w-full dentro de px-6) con diseño estandarizado (hover/selección en negro con texto blanco) */}
+              <div className="relative w-full sm:w-auto z-40">
+                {!isFilterOpen ? (
+                  <button
+                    onClick={() => setIsFilterOpen(true)}
+                    className="w-full sm:w-auto bg-white hover:bg-gray-50 border border-gray-200/90 rounded-full px-7 py-4 sm:py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex items-center justify-between sm:justify-start sm:gap-6 text-[0.95rem] font-medium text-black transition-all cursor-pointer"
+                  >
+                    <span>{selectedCategory}</span>
+                    <ChevronDown className="w-4 h-4 text-black/70 transition-transform duration-200" />
+                  </button>
+                ) : (
+                  <div className="w-full sm:w-64 bg-white border border-gray-200/90 rounded-[26px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] overflow-hidden transition-all">
+                    {/* Header / Cerrar */}
+                    <button
+                      onClick={() => setIsFilterOpen(false)}
+                      className="w-full px-7 py-4 sm:py-3.5 flex items-center justify-between text-[0.95rem] font-medium text-black border-b border-gray-100 bg-white hover:bg-gray-50/70 transition-colors cursor-pointer"
+                    >
+                      <span>{selectedCategory}</span>
+                      <ChevronDown className="w-4 h-4 text-black/70 rotate-180 transition-transform duration-200" />
+                    </button>
 
-                {isFilterOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-40 flex flex-col">
-                    {[
-                      { label: 'All Projects (10)', count: 10 },
-                      { label: 'Branding (3)', count: 3 },
-                      { label: 'Event (3)', count: 3 },
-                      { label: 'Rebrand (2)', count: 2 },
-                      { label: 'Campaign (2)', count: 2 },
-                      { label: 'Digital (1)', count: 1 },
-                    ].map((filter) => (
-                      <button
-                        key={filter.label}
-                        onClick={() => {
-                          setSelectedCategory(filter.label);
-                          setIsFilterOpen(false);
-                        }}
-                        className={`px-6 py-2.5 text-left text-sm transition-colors hover:bg-gray-50 flex items-center justify-between cursor-pointer ${
-                          selectedCategory === filter.label ? 'font-bold text-black bg-gray-50' : 'text-gray-700'
-                        }`}
-                      >
-                        <span>{filter.label}</span>
-                      </button>
-                    ))}
+                    {/* Opciones con hover/selección en negro y texto blanco */}
+                    <div className="flex flex-col w-full">
+                      {[
+                        { label: 'All Projects (11)', count: 11 },
+                        { label: 'Branding (5)', count: 5 },
+                        { label: 'Event (3)', count: 3 },
+                        { label: 'Rebrand (1)', count: 1 },
+                        { label: 'Campaign (2)', count: 2 },
+                        { label: 'Digital (1)', count: 1 },
+                      ].map((filter) => {
+                        const isSelected = selectedCategory === filter.label;
+                        return (
+                          <button
+                            key={filter.label}
+                            onClick={() => {
+                              setSelectedCategory(filter.label);
+                              setIsFilterOpen(false);
+                            }}
+                            className={`w-full px-7 py-3.5 text-left text-[0.95rem] transition-colors duration-150 border-b border-gray-100 last:border-b-0 cursor-pointer flex items-center justify-between ${
+                              isSelected
+                                ? 'bg-[#222222] text-white font-medium'
+                                : 'bg-white text-black hover:bg-[#222222] hover:text-white active:bg-[#222222] active:text-white font-normal'
+                            }`}
+                          >
+                            <span>{filter.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </div>
 
-              {/* Derecha: Segmented control "Grid | Explore | List" */}
-              <div className="bg-white border border-gray-200/90 rounded-full p-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex items-center gap-1">
+              {/* Derecha: Segmented control "Grid | Explore | List" (OCULTO EN MOBILE) */}
+              <div className="hidden sm:flex bg-white border border-gray-200/90 rounded-full p-1.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] items-center gap-1">
                 {(['grid', 'explore', 'list'] as const).map((mode) => {
                   const isActive = viewMode === mode;
                   const label = mode === 'grid' ? 'Grid' : mode === 'explore' ? 'Explore' : 'List';

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
 import { AppView } from '../types';
 
 export const MobileIsologo = ({ className = "w-[28px] h-[28px]", style }: { className?: string, style?: React.CSSProperties }) => {
@@ -82,6 +81,16 @@ const FULL_MENU_ITEMS: FullMenuItem[] = [
   { id: 'work-with-us', num: '05.', label: 'CONTACT', view: 'work-with-us' },
 ];
 
+const SETS_COUNT = 7;
+const REPEATED_ITEMS = Array.from({ length: SETS_COUNT }).flatMap((_, setIdx) =>
+  FULL_MENU_ITEMS.map((item, origIdx) => ({
+    ...item,
+    uniqueKey: `${setIdx}-${item.id}-${origIdx}`,
+    origIdx,
+    setIdx,
+  }))
+);
+
 export const FullScreenMenu: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -114,16 +123,6 @@ export const FullScreenMenu: React.FC<{
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const SETS_COUNT = 7;
-  const REPEATED_ITEMS = Array.from({ length: SETS_COUNT }).flatMap((_, setIdx) =>
-    FULL_MENU_ITEMS.map((item, origIdx) => ({
-      ...item,
-      uniqueKey: `${setIdx}-${item.id}-${origIdx}`,
-      origIdx,
-      setIdx,
-    }))
-  );
 
   const scrollPos = useRef<number>(0);
   const targetScroll = useRef<number>(0);
@@ -485,18 +484,6 @@ export const MainNav: React.FC<{
   const navClasses = `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent text-white ${
     blendMode ? 'mix-blend-difference pointer-events-none' : 'pointer-events-auto'
   } ${isCompact ? 'py-5 sm:py-6 md:py-7' : 'py-7 sm:py-8 md:py-10'}`;
-
-  const [isTabletOrMobile, setIsTabletOrMobile] = useState(() => {
-    return typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsTabletOrMobile(window.innerWidth < 1024);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <>
