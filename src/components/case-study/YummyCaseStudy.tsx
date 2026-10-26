@@ -96,7 +96,7 @@ export const YummyCaseStudy: React.FC<YummyCaseStudyProps> = ({ onNavigate }) =>
         theme={theme}
         onWorkTogetherClick={() => onNavigate('work-with-us')} 
         onNavigate={onNavigate}
-        currentProjectImage="/images/yummy_hero.jpg"
+        currentProjectImage="https://henribarrett.com/assets/site/images/showcases/yummy/henribarrett_yummy_header.webp"
         currentProjectImageAlt="Yummy"
         marqueeWords={["PETCO"]}
         nextProjectTitle="Petco"

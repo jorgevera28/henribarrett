@@ -18,6 +18,7 @@ const CASE_STUDIES: CaseStudyProject[] = [
     title: 'Umana',
     description: 'Architecture & Design',
     image: '/images/umanabyhenribarrett.png',
+    video: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     categories: ['BRANDING', 'TRADE', 'CONTENT'],
   },
   {
@@ -25,6 +26,7 @@ const CASE_STUDIES: CaseStudyProject[] = [
     title: 'Rappi',
     description: 'Event Activation',
     image: '/images/rappi_spinning_kit.jpg',
+    video: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     categories: ['EVENT', 'CAMPAINGS', 'TRADE'],
   },
   {
@@ -38,7 +40,7 @@ const CASE_STUDIES: CaseStudyProject[] = [
     id: 'teclab',
     title: 'Teclab',
     description: 'Brand & Industrial Identity',
-    image: '/images/teclab_hero.jpg',
+    image: '/images/teclabbyhenribarrett.png',
     categories: ['BRANDING', 'TRADE', 'CONTENT'],
   },
   {
@@ -303,22 +305,34 @@ export const ClientCaseStudiesSection: React.FC<ClientCaseStudiesSectionProps> =
               className="w-full max-w-[905px] aspect-[905/902] 2xl:w-[905px] 2xl:h-[902px] bg-[#E2E2E2] overflow-hidden relative shadow-none"
             >
               {project.video ? (
-                <motion.video
-                  key={`video-${activeCategory ?? 'all'}-${project.id}`}
-                  src={project.video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.75,
-                    delay: 0.18 + index * 0.06,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
-                />
+                project.video.includes('vimeo.com') ? (
+                  <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
+                    <iframe
+                      src={project.video}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none transition-transform duration-700 ease-out group-hover:scale-105"
+                      style={{ border: 'none' }}
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      title={project.title}
+                    />
+                  </div>
+                ) : (
+                  <motion.video
+                    key={`video-${activeCategory ?? 'all'}-${project.id}`}
+                    src={project.video}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.75,
+                      delay: 0.18 + index * 0.06,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
+                  />
+                )
               ) : (
                 <motion.img
                   key={`img-${activeCategory ?? 'all'}-${project.id}`}

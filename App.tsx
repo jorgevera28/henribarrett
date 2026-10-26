@@ -19,6 +19,7 @@ import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/
 import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import { MaskTextReveal } from './src/components/MaskTextReveal';
 import { CookieBanner } from './src/components/CookieBanner';
+import { FooterLogotype } from './src/components/FooterLogotype';
 import type { AppView } from './src/types';
 
 // --- MAIN CODE ---
@@ -39,6 +40,7 @@ const INITIAL_PROJECTS: InitialProject[] = [
     name: 'UMANA', 
     category: 'BRANDING', 
     image: '/images/umanabyhenribarrett.png',
+    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     view: 'case-study-umana'
   },
   { 
@@ -46,6 +48,7 @@ const INITIAL_PROJECTS: InitialProject[] = [
     name: 'RAPPI', 
     category: 'EVENT', 
     image: '/images/rappi_spinning_kit.jpg',
+    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     view: 'case-study-rappi'
   },
   { 
@@ -59,7 +62,7 @@ const INITIAL_PROJECTS: InitialProject[] = [
     id: 4, 
     name: 'TECLAB', 
     category: 'BRANDING', 
-    image: '/images/teclab_hero.jpg',
+    image: '/images/teclabbyhenribarrett.png',
     view: 'case-study-teclab'
   }
 ];
@@ -152,11 +155,11 @@ const HOME_VIDEO_SERVICES: HomeVideoServiceItem[] = [
   },
 ];
 
-const ALL_PROJECTS = [
-  { id: 101, title: 'Umana', category: 'Brand', image: '/images/umanabyhenribarrett.png' },
-  { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg' },
+const ALL_PROJECTS: { id: number; title: string; category: string; image: string; videoUrl?: string }[] = [
+  { id: 101, title: 'Umana', category: 'Brand', image: '/images/umanabyhenribarrett.png', videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1' },
+  { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg', videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1' },
   { id: 107, title: 'Yummy Delivery', category: 'Brand', image: '/images/yummybyhenribarrett.png' },
-  { id: 100, title: 'Teclab', category: 'Brand', image: '/images/teclab_hero.jpg' },
+  { id: 100, title: 'Teclab', category: 'Brand', image: '/images/teclabbyhenribarrett.png' },
   { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: '/images/barrett_sessions_pedestal_sign.jpg' },
   { id: 104, title: 'Petco', category: 'Brand', image: '/images/petco_cannabidol_box.jpg' },
   { id: 105, title: 'Heineken Fest', category: 'Event', image: '/images/heineken_fest_box.jpg' },
@@ -1698,7 +1701,7 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
   return (
     <footer
       ref={footerRef}
-      className={`relative w-full bg-black text-white z-20 pt-20 sm:pt-28 pb-12 px-6 sm:px-10 md:px-14 lg:px-20 ${className}`}
+      className={`relative w-full bg-black text-white z-20 pt-8 sm:pt-28 pb-12 px-6 sm:px-10 md:px-14 lg:px-20 ${className}`}
       style={{ backgroundColor: '#000000' }}
     >
       {/* ============================================================== */}
@@ -1706,12 +1709,10 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
       {/* sin isologo pero con logotipo HENRI BARRETT (según foto)       */}
       {/* ============================================================== */}
       <div className="block md:hidden w-full max-w-[440px] mx-auto text-left">
-        {/* LOGOTIPO HENRI BARRETT (SIN ISOLOGO) */}
+        {/* LOGOTIPO HENRI BARRETT (SVG) */}
         <div className="mb-7">
           <FooterMaskItem isRevealed={isRevealed} delay={0.08} angle={1.5}>
-            <span className="block text-[28px] xs:text-[32px] font-black uppercase tracking-[-0.03em] leading-none text-white">
-              HENRI BARRETT
-            </span>
+            <FooterLogotype className="h-[18px] xs:h-5 sm:h-[22px] w-auto max-w-[200px] xs:max-w-[230px] object-contain" />
           </FooterMaskItem>
         </div>
 
@@ -1884,8 +1885,8 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
       {/* ============================================================== */}
       <div className="hidden md:block w-full max-w-[1400px] mx-auto">
         {/* TOP ROW: SUNBURST® ON LEFT, HENRI BARRETT ON RIGHT */}
-        <div className="flex justify-between items-start w-full">
-          <div className="overflow-hidden pt-1 pb-1">
+        <div className="flex justify-between items-center w-full">
+          <div className="overflow-hidden pt-1 pb-1 flex items-center">
             <button 
               onClick={() => onNavigate?.('home')} 
               className="cursor-pointer hover:opacity-85 transition-opacity flex items-center justify-center will-change-transform" 
@@ -1904,9 +1905,9 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
               </div>
             </button>
           </div>
-          <div className="overflow-hidden pt-1 pb-1">
-            <span 
-              className="inline-block text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] text-right leading-none will-change-transform text-white"
+          <div className="overflow-hidden pt-1 pb-1 flex items-center justify-end">
+            <div 
+              className="inline-flex items-center will-change-transform"
               style={{
                 transform: isRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
                 transformOrigin: '0% 100%',
@@ -1914,8 +1915,8 @@ const Footer: React.FC<{ className?: string; onNavigate?: (view: AppView) => voi
                 transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.8s ease-out 0.08s'
               }}
             >
-              HENRI BARRETT
-            </span>
+              <FooterLogotype className="h-[18px] sm:h-5 md:h-6 lg:h-[26px] w-auto max-w-full object-contain" />
+            </div>
           </div>
         </div>
 
@@ -2085,6 +2086,7 @@ interface RouletteProject {
   name: string;
   category: string;
   image: string;
+  videoUrl?: string;
   client?: string;
 }
 
@@ -2108,6 +2110,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     name: 'UMANA',
     category: 'Brand',
     image: '/images/umanabyhenribarrett.png',
+    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     client: 'Umana Beauty'
   },
   {
@@ -2115,6 +2118,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     name: 'RAPPI',
     category: 'Event',
     image: '/images/rappi_spinning_kit.jpg',
+    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
     client: 'Rappi Fest'
   },
   {
@@ -2135,7 +2139,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     id: 'teclab',
     name: 'TECLAB',
     category: 'Brand',
-    image: '/images/teclab_hero.jpg',
+    image: '/images/teclabbyhenribarrett.png',
     client: 'Teclab Packaging'
   },
   {
@@ -2340,12 +2344,24 @@ const ListRouletteView: React.FC<{
               className="w-full aspect-square bg-[#ececec] overflow-hidden relative shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-black/5 rounded-[2px] cursor-pointer group"
               title="Clic para ver en grande"
             >
-              <img
-                src={displayedProject.image}
-                alt={displayedProject.name}
-                className="w-full h-full object-cover transition-all duration-300 ease-out group-hover:scale-105"
-                key={displayedProject.id}
-              />
+              {displayedProject.videoUrl ? (
+                <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
+                  <iframe
+                    src={displayedProject.videoUrl}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none"
+                    style={{ border: 'none' }}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title={displayedProject.name}
+                  />
+                </div>
+              ) : (
+                <img
+                  src={displayedProject.image}
+                  alt={displayedProject.name}
+                  className="w-full h-full object-cover transition-all duration-300 ease-out group-hover:scale-105"
+                  key={displayedProject.id}
+                />
+              )}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                 <div className="w-9 h-9 rounded-full bg-white/90 shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <MoveUpRight className="w-4 h-4 text-black stroke-[2.5]" />
@@ -2480,7 +2496,19 @@ const ListRouletteView: React.FC<{
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-[16/10] bg-gray-100">
-              <img src={selectedModal.image} alt={selectedModal.name} className="w-full h-full object-cover" />
+              {selectedModal.videoUrl ? (
+                <div className="w-full h-full relative overflow-hidden bg-black">
+                  <iframe
+                    src={selectedModal.videoUrl}
+                    className="w-full h-full pointer-events-none"
+                    style={{ border: 'none' }}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title={selectedModal.name}
+                  />
+                </div>
+              ) : (
+                <img src={selectedModal.image} alt={selectedModal.name} className="w-full h-full object-cover" />
+              )}
               <button
                 onClick={() => setSelectedModal(null)}
                 className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"
@@ -2592,36 +2620,41 @@ const ListRouletteView: React.FC<{
 const EditorialStatementText: React.FC = () => {
   return (
     <div className="w-full relative select-none z-20">
-      {/* Mobile view (< sm): perfectamente alineado a la izquierda, 4 líneas exactas, interlineado compacto y ordenado, sin huecos */}
+      {/* Mobile view (< sm): 3 líneas exactas como en la foto de referencia */}
       <div className="block sm:hidden w-full px-6 pt-6 pb-8">
         <div className="w-fit max-w-full text-left">
           <MaskTextReveal
             as="p"
             splitBy="lines"
-            className="text-[20px] min-[375px]:text-[22px] min-[410px]:text-[24px] leading-[1.18] font-normal tracking-[-0.02em] text-black !text-black text-left normal-case"
+            className="text-[clamp(15px,4.5vw,27px)] leading-[1.2] font-normal tracking-[-0.02em] text-black !text-black text-left normal-case"
             style={{
               fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
             }}
             lines={[
-              'As architects of brand',
-              'narratives, we amplify the voice',
-              'to ensure they don\'t just talk',
-              'but roar.',
+              'As architects of brand narratives, we',
+              "amplify the voice to ensure they don't just",
+              'talk but roar.',
             ]}
             lineClassName="block whitespace-nowrap mb-0 last:mb-0"
           />
         </div>
       </div>
 
-      {/* Desktop view (>= sm): configuración original sin alteraciones */}
+      {/* Desktop view (>= sm): 3 líneas exactas como en la foto de referencia */}
       <div className="hidden sm:block w-full max-w-[1500px] mx-auto px-6 sm:px-10 md:px-16 pt-10 md:pt-16 pb-10 md:pb-14">
         <MaskTextReveal
           as="p"
-          className="text-[32px] sm:text-[46px] md:text-[67px] leading-[38px] sm:leading-[54px] md:leading-[74px] font-normal tracking-[-0.03em] text-black !text-black normal-case max-w-[1240px]"
+          splitBy="lines"
+          className="text-[32px] sm:text-[42px] md:text-[54px] lg:text-[67px] leading-[38px] sm:leading-[50px] md:leading-[64px] lg:leading-[76px] font-normal tracking-[-0.03em] text-black !text-black normal-case max-w-[1300px]"
           style={{
             fontFamily: '"neue-haas-grotesk-display", "neue-haas-grotesk-text", "Helvetica Neue", Helvetica, Arial, sans-serif',
           }}
-          text="As architects of brand narratives, we amplify the voice to ensure they don't just talk but roar."
+          lines={[
+            'As architects of brand narratives, we',
+            "amplify the voice to ensure they don't just",
+            'talk but roar.',
+          ]}
+          lineClassName="block mb-0 last:mb-0"
         />
       </div>
     </div>
@@ -4689,11 +4722,23 @@ export const App: React.FC = () => {
                         }}
                         className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative shadow-sm cursor-none select-none"
                       >
-                        <img
-                          src={work.image}
-                          alt={work.title}
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 pointer-events-none"
-                        />
+                        {work.videoUrl ? (
+                          <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
+                            <iframe
+                              src={work.videoUrl}
+                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none transition-transform duration-1000 ease-out group-hover:scale-105"
+                              style={{ border: 'none' }}
+                              allow="autoplay; fullscreen; picture-in-picture"
+                              title={work.title}
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            src={work.image}
+                            alt={work.title}
+                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 pointer-events-none"
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col mt-4 sm:mt-5">
                         <span className="text-[28px] font-[500] leading-[35px] tracking-[-0.015em] text-black">
@@ -5344,7 +5389,7 @@ export const App: React.FC = () => {
                     paddingLeft: mobileWatchingLeft !== null && mobileWatchingLeft > 0 ? `${mobileWatchingLeft}px` : undefined,
                   }}
                 >
-                    <p className="text-[17px] sm:text-[19px] md:text-[21px] font-light leading-[1.3] tracking-[0.01em] text-left text-black mb-6">
+                    <p className="text-[17px] sm:text-[19px] md:text-[21px] font-light leading-[1.3] tracking-[0.025em] text-left text-black mb-6">
                         Our approach isn't just about<br />
                         producing eye-catching designs,<br />
                         it's about crafting resonant brand<br />
@@ -5355,7 +5400,7 @@ export const App: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCurrentView('services')}
-                      className="text-[15px] sm:text-[16px] font-normal tracking-[0.01em] text-black border-b border-black/40 hover:border-black pb-1 cursor-pointer text-left transition-colors duration-200"
+                      className="text-[15px] sm:text-[16px] font-normal tracking-[0.02em] text-black border-b border-black/40 hover:border-black pb-1 cursor-pointer text-left transition-colors duration-200"
                     >
                       Here's how we can help
                     </button>
@@ -5483,12 +5528,12 @@ export const App: React.FC = () => {
                             alt="Arrow Down"
                             className="w-[36px] h-[56px] md:w-[42px] md:h-[65px] object-contain select-none pointer-events-none group-hover:translate-y-1.5 transition-transform duration-300 ease-out"
                           />
-                          <span className="animated-underline group-hover-animated-underline text-[15px] md:text-[16px] font-normal tracking-tight text-black pb-0.5">
+                          <span className="animated-underline group-hover-animated-underline text-[15px] md:text-[16px] font-normal tracking-[0.02em] text-black pb-0.5">
                             Here's how we can help
                           </span>
                         </button>
                     </div>
-                    <p className="text-2xl md:text-[2vw] text-center max-w-[none] font-light leading-[1.1] tracking-tight flex-1 px-4">
+                    <p className="approach-statement-text text-2xl md:text-[2vw] [@media(min-width:1750px)]:text-[1.8vw] min-[1750px]:text-[1.8vw] min-[1920px]:text-[1.8vw] text-center max-w-[none] font-light leading-[1.18] tracking-[0.025em] flex-1 px-4">
                         <span ref={approachFirstLineRef} className="inline">
                           Our approach isn't just about producing eye-catching designs, it's about crafting
                         </span>{' '}
@@ -5752,7 +5797,7 @@ export const App: React.FC = () => {
                     <WhoIsBarrettSection onNavigate={setCurrentView} />
 
                 {/* FOOTER */}
-                <Footer onNavigate={setCurrentView} className="mt-4 sm:mt-24 md:mt-32" />
+                <Footer onNavigate={setCurrentView} className="mt-0 sm:mt-24 md:mt-32" />
             </div>
         </div>
 

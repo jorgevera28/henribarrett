@@ -1,11 +1,6 @@
 import React from 'react';
 import { AppView } from '../../types';
-import {
-  YummyPatternBannerOne,
-  YummyIconGrid,
-  YummyPatternBannerTwo,
-  YummyThreePhonesMockup,
-} from './YummyProjectModules';
+import { InViewVimeoVideo } from './InViewVimeoVideo';
 
 interface YummyReadingViewProps {
   theme?: "dark" | "light";
@@ -32,34 +27,59 @@ export const YummyReadingView: React.FC<YummyReadingViewProps> = ({
               ========================================================================= */}
           <div className="w-full md:w-[46%] lg:w-[44%] xl:w-[42%] flex flex-col gap-5 sm:gap-6 shrink-0">
             
-            {/* 1. Friends Dining Table */}
-            <div className="w-full overflow-hidden shadow-sm bg-[#C5B4E3]">
-              <img 
-                src="/images/yummy_friends_dining.jpg" 
-                alt="Friends eating Yummy takeout food around table"
-                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.01]"
-                loading="lazy"
+            {/* 1. Friends Dining Table (Vimeo 796349281) */}
+            <div className="w-full">
+              <InViewVimeoVideo
+                videoId="796349281"
+                poster="https://i.vimeocdn.com/video/1604606073-02c0ebf2c21f8c6ccb08c4c9e9cfb5b286ab8e19de8e5f01523d4777664648e5-d_1280x720"
+                aspectRatio="aspect-[362/240]"
+                bgColor="bg-[#C5B4E3]"
+                title="Yummy - Situación Grupal Oficina Almuerzo"
               />
             </div>
 
-            {/* 2. Pattern Banner One */}
+            {/* 2. Pattern Banner One (Vimeo 796368901) */}
             <div className="w-full">
-              <YummyPatternBannerOne />
+              <InViewVimeoVideo
+                videoId="796368901"
+                poster="https://i.vimeocdn.com/video/1604645016-4ebd5d6ec208bbe928a0c155c11c1e3f921de96672659cb49d6fef80c0570c7b-d_1280x720"
+                aspectRatio="aspect-[426/192]"
+                bgColor="bg-[#582C83]"
+                title="Yummy - Brand Composition Patterns"
+              />
             </div>
 
-            {/* 3. Icon Grid */}
+            {/* 3. Icon Grid (Vimeo 797173508) */}
             <div className="w-full">
-              <YummyIconGrid />
+              <InViewVimeoVideo
+                videoId="797173508"
+                poster="https://i.vimeocdn.com/video/1606475909-69e8e24665cb3301c92f639903879381fd6a475dd20a3d37a940e5bc16779c18-d_1280x720"
+                aspectRatio="aspect-[374/240]"
+                bgColor="bg-[#D4C8EB]"
+                title="Yummy - Brand Iconography Grid"
+              />
             </div>
 
-            {/* 4. Pattern Banner Two */}
+            {/* 4. Pattern Banner Two (Vimeo 796368901) */}
             <div className="w-full">
-              <YummyPatternBannerTwo />
+              <InViewVimeoVideo
+                videoId="796368901"
+                poster="https://i.vimeocdn.com/video/1604645016-4ebd5d6ec208bbe928a0c155c11c1e3f921de96672659cb49d6fef80c0570c7b-d_1280x720"
+                aspectRatio="aspect-[426/192]"
+                bgColor="bg-[#E83B25]"
+                title="Yummy - Brand Composition Patterns Secondary"
+              />
             </div>
 
-            {/* 5. Three Phones Mockup */}
+            {/* 5. Three Phones Mockup (Vimeo 796360697) */}
             <div className="w-full">
-              <YummyThreePhonesMockup />
+              <InViewVimeoVideo
+                videoId="796360697"
+                poster="https://i.vimeocdn.com/video/1604628865-aa0cf778c5bdbfa303bf330914ecde82ddb6866dd50aa5c79307e1b770ab37a1-d_1280x720"
+                aspectRatio="aspect-[362/240]"
+                bgColor="bg-[#E8E4DD]"
+                title="Yummy - Mobile App Screens Mockup"
+              />
             </div>
 
             {/* 6. Guy Eating Burger */}

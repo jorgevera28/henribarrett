@@ -1,11 +1,6 @@
 import React from 'react';
 import { AppView } from '../../types';
-import {
-  YummyPatternBannerOne,
-  YummyIconGrid,
-  YummyPatternBannerTwo,
-  YummyThreePhonesMockup,
-} from './YummyProjectModules';
+import { InViewVimeoVideo } from './InViewVimeoVideo';
 
 interface YummyVisualViewProps {
   theme?: "dark" | "light";
@@ -109,34 +104,59 @@ export const YummyVisualView: React.FC<YummyVisualViewProps> = ({
           ========================================================================= */}
       <div className="w-full flex flex-col gap-4 sm:gap-6 px-4 sm:px-8 md:px-12 lg:px-16 max-w-[1800px] mx-auto">
         
-        {/* MODULE 1: Full-Width Friends Dining Around Table */}
-        <section className="w-full overflow-hidden shadow-sm bg-[#C5B4E3]">
-          <img 
-            src="/images/yummy_friends_dining.jpg" 
-            alt="Friends eating Yummy takeout food around table"
-            className="w-full h-auto object-cover max-h-[90vh] transition-transform duration-700 hover:scale-[1.01]"
-            loading="lazy"
+        {/* MODULE 1: Debajo el encabezado (Vimeo 796349281 en loop sin controles) */}
+        <section className="w-full">
+          <InViewVimeoVideo
+            videoId="796349281"
+            poster="https://i.vimeocdn.com/video/1604606073-02c0ebf2c21f8c6ccb08c4c9e9cfb5b286ab8e19de8e5f01523d4777664648e5-d_1280x720"
+            aspectRatio="aspect-[362/240]"
+            bgColor="bg-[#C5B4E3]"
+            title="Yummy - Situación Grupal Oficina Almuerzo"
           />
         </section>
 
-        {/* MODULE 2: Pattern Banner One (Purple chevron, Yellow wave, Red triangles, Orange/teal chevron) */}
+        {/* MODULE 2: Debajo los patrones (Vimeo 796368901 en loop sin controles) */}
         <section className="w-full">
-          <YummyPatternBannerOne />
+          <InViewVimeoVideo
+            videoId="796368901"
+            poster="https://i.vimeocdn.com/video/1604645016-4ebd5d6ec208bbe928a0c155c11c1e3f921de96672659cb49d6fef80c0570c7b-d_1280x720"
+            aspectRatio="aspect-[426/192]"
+            bgColor="bg-[#582C83]"
+            title="Yummy - Brand Composition Patterns"
+          />
         </section>
 
-        {/* MODULE 3: Icon Grid (20 flat food & service icons on lavender) */}
+        {/* MODULE 3: Debajo la iconografía (Vimeo 797173508 en loop sin controles) */}
         <section className="w-full">
-          <YummyIconGrid />
+          <InViewVimeoVideo
+            videoId="797173508"
+            poster="https://i.vimeocdn.com/video/1606475909-69e8e24665cb3301c92f639903879381fd6a475dd20a3d37a940e5bc16779c18-d_1280x720"
+            aspectRatio="aspect-[374/240]"
+            bgColor="bg-[#D4C8EB]"
+            title="Yummy - Brand Iconography Grid"
+          />
         </section>
 
-        {/* MODULE 4: Pattern Banner Two (Red bars, Pink/yellow dots, Purple diagonal, Yellow/magenta chevron) */}
+        {/* MODULE 4: Debajo, debajo los patrones (Vimeo 796368901 en loop sin controles) */}
         <section className="w-full">
-          <YummyPatternBannerTwo />
+          <InViewVimeoVideo
+            videoId="796368901"
+            poster="https://i.vimeocdn.com/video/1604645016-4ebd5d6ec208bbe928a0c155c11c1e3f921de96672659cb49d6fef80c0570c7b-d_1280x720"
+            aspectRatio="aspect-[426/192]"
+            bgColor="bg-[#E83B25]"
+            title="Yummy - Brand Composition Patterns Secondary"
+          />
         </section>
 
-        {/* MODULE 5: Three Phones Mockup on Warm Beige Background */}
+        {/* MODULE 5: Debajo los telefonos mobile (Vimeo 796360697 en loop sin controles) */}
         <section className="w-full">
-          <YummyThreePhonesMockup />
+          <InViewVimeoVideo
+            videoId="796360697"
+            poster="https://i.vimeocdn.com/video/1604628865-aa0cf778c5bdbfa303bf330914ecde82ddb6866dd50aa5c79307e1b770ab37a1-d_1280x720"
+            aspectRatio="aspect-[362/240]"
+            bgColor="bg-[#E8E4DD]"
+            title="Yummy - Mobile App Screens Mockup"
+          />
         </section>
 
         {/* MODULE 6: 2-Column Grid (Guy Eating Burger + Phone Mockup on Spaghetti) */}

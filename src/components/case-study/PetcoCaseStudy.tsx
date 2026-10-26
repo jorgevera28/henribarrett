@@ -12,7 +12,7 @@ export interface PetcoCaseStudyProps {
 }
 
 export const PetcoCaseStudy: React.FC<PetcoCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
+  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('visual');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {

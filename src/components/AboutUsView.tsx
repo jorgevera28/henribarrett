@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Download, ArrowRight, Instagram, ArrowDown, Check } from 'lucide-react';
 import { MaskTextReveal } from './MaskTextReveal';
+import { FooterLogotype } from './FooterLogotype';
 
 interface AboutUsViewProps {
   onNavigate: (view: 'home' | 'about' | 'work' | 'services' | 'quicklys' | 'work-with-us') => void;
@@ -796,8 +797,8 @@ Lima, Perú · Global Studio
       >
         <div className="w-full max-w-[1400px] mx-auto">
           {/* Top Brand Bar: Sunburst® + Henri Barrett */}
-          <div className="flex justify-between items-start w-full">
-            <div className="overflow-hidden pt-1 pb-1">
+          <div className="flex justify-between items-center w-full">
+            <div className="overflow-hidden pt-1 pb-1 flex items-center">
               <button 
                 onClick={() => onNavigate('home')} 
                 className="cursor-pointer hover:opacity-85 transition-opacity flex items-center justify-center will-change-transform" 
@@ -816,9 +817,9 @@ Lima, Perú · Global Studio
                 </div>
               </button>
             </div>
-            <div className="overflow-hidden pt-1 pb-1">
-              <span 
-                className="inline-block text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-[-0.03em] text-right leading-none will-change-transform text-white"
+            <div className="overflow-hidden pt-1 pb-1 flex items-center justify-end">
+              <div 
+                className="inline-flex items-center will-change-transform"
                 style={{
                   transform: isFooterRevealed ? 'translate3d(0, 0%, 0) rotate(0deg)' : 'translate3d(0, 125%, 0) rotate(2.5deg)',
                   transformOrigin: '0% 100%',
@@ -826,8 +827,8 @@ Lima, Perú · Global Studio
                   transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.8s ease-out 0.08s'
                 }}
               >
-                HENRI BARRETT
-              </span>
+                <FooterLogotype className="h-[18px] sm:h-5 md:h-6 lg:h-[26px] w-auto max-w-full object-contain" />
+              </div>
             </div>
           </div>
 

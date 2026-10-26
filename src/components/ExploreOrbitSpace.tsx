@@ -7,6 +7,7 @@ export interface ProjectData {
   title: string;
   category: string;
   image: string;
+  videoUrl?: string;
 }
 
 interface ExploreOrbitSpaceProps {
@@ -301,12 +302,24 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
                     : 'border-black/10 group-hover:border-black/30 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.22)]'
                 }`}
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  draggable={false}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none"
-                />
+                {project.videoUrl ? (
+                  <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
+                    <iframe
+                      src={project.videoUrl}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none"
+                      style={{ border: 'none' }}
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      title={project.title}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    draggable={false}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none select-none"
+                  />
+                )}
 
                 {/* Badge visible para casos de estudio */}
                 {isUmana && (
@@ -362,7 +375,19 @@ export const ExploreOrbitSpace: React.FC<ExploreOrbitSpaceProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-[16/10] bg-gray-100">
-              <img src={selectedModalProject.image} alt={selectedModalProject.title} className="w-full h-full object-cover" />
+              {selectedModalProject.videoUrl ? (
+                <div className="w-full h-full relative overflow-hidden bg-black">
+                  <iframe
+                    src={selectedModalProject.videoUrl}
+                    className="w-full h-full pointer-events-none"
+                    style={{ border: 'none' }}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title={selectedModalProject.title}
+                  />
+                </div>
+              ) : (
+                <img src={selectedModalProject.image} alt={selectedModalProject.title} className="w-full h-full object-cover" />
+              )}
               <button
                 onClick={() => setSelectedModalProject(null)}
                 className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors cursor-pointer"

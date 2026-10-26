@@ -12,7 +12,7 @@ export interface HeinekenFestCaseStudyProps {
 }
 
 export const HeinekenFestCaseStudy: React.FC<HeinekenFestCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
+  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('visual');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {

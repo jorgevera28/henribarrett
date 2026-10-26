@@ -12,7 +12,7 @@ export interface BarrettSessionsCaseStudyProps {
 }
 
 export const BarrettSessionsCaseStudy: React.FC<BarrettSessionsCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
+  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('visual');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {

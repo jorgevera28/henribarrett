@@ -12,12 +12,12 @@ export interface UmanaCaseStudyProps {
 }
 
 export const UmanaCaseStudy: React.FC<UmanaCaseStudyProps> = ({ onNavigate }) => {
-  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('reading');
+  const [activeViewMode, setActiveViewMode] = useState<'reading' | 'visual'>('visual');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [activeViewMode]);
 
   return (
     <div className={`w-full min-h-screen relative transition-colors duration-500 ${

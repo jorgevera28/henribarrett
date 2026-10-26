@@ -22,13 +22,13 @@ export const YummyHeader: React.FC<YummyHeaderProps> = ({
       {/* 1. FONDO EN PANTALLA COMPLETA DE LA CASACA LILA Y SMARTPHONE */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#C5B4E3]">
         <img
-          src="/images/yummy_hero.jpg"
+          src="https://henribarrett.com/assets/site/images/showcases/yummy/henribarrett_yummy_header.webp"
           alt="Yummy Super App Puffer Jacket and Phone"
           className="w-full h-full object-cover object-center pointer-events-none"
           referrerPolicy="no-referrer"
           onError={(e) => {
-            // Fallback en caso de que la ruta estática tarde en servirse
-            (e.target as HTMLImageElement).style.opacity = "0.9";
+            // Fallback en caso de que tarde en responder
+            (e.target as HTMLImageElement).src = "/images/yummy_hero.jpg";
           }}
         />
         {/* Sutil viñeta para asegurar legibilidad cristalina del texto blanco */}
