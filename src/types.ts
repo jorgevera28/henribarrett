@@ -11,4 +11,5 @@ export type AppView =
   | 'case-study-petco'
   | 'case-study-yummy'
   | 'case-study-heineken-fest'
-  | 'case-study-teclab';
+  | 'case-study-teclab'
+  | 'case-study-chicha-su-mare';

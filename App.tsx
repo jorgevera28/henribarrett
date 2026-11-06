@@ -13,6 +13,7 @@ import { PetcoCaseStudy } from './src/components/case-study/PetcoCaseStudy';
 import { YummyCaseStudy } from './src/components/case-study/YummyCaseStudy';
 import { HeinekenFestCaseStudy } from './src/components/case-study/HeinekenFestCaseStudy';
 import { TeclabCaseStudy } from './src/components/case-study/TeclabCaseStudy';
+import { ChichaSuMareCaseStudy } from './src/components/case-study/ChichaSuMareCaseStudy';
 import { PageTransitionCurtain, CurtainTheme, CurtainPhase } from './src/components/PageTransitionCurtain';
 import { ExploreOrbitSpace } from './src/components/ExploreOrbitSpace';
 import { MainNav, DynamicIsotype, DynamicLogotype, FullScreenMenu } from './src/components/MainNav';
@@ -20,6 +21,7 @@ import { HomeCharacterLottie } from './src/components/HomeCharacterLottie';
 import { MaskTextReveal } from './src/components/MaskTextReveal';
 import { CookieBanner } from './src/components/CookieBanner';
 import { FooterLogotype } from './src/components/FooterLogotype';
+import { WorkThumbnailVideo } from './src/components/WorkThumbnailVideo';
 import type { AppView } from './src/types';
 
 // --- MAIN CODE ---
@@ -40,7 +42,7 @@ const INITIAL_PROJECTS: InitialProject[] = [
     name: 'UMANA', 
     category: 'BRANDING', 
     image: '/images/umanabyhenribarrett.png',
-    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
+    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k',
     view: 'case-study-umana'
   },
   { 
@@ -48,7 +50,7 @@ const INITIAL_PROJECTS: InitialProject[] = [
     name: 'RAPPI', 
     category: 'EVENT', 
     image: '/images/rappi_spinning_kit.jpg',
-    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
+    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k',
     view: 'case-study-rappi'
   },
   { 
@@ -69,6 +71,13 @@ const INITIAL_PROJECTS: InitialProject[] = [
 
 // Proyectos adicionales que se cargan al pulsar LOAD MORE (los mismos de la pestaña Work sin repetir los 4 primeros)
 const MORE_WORK_PROJECTS: InitialProject[] = [
+  {
+    id: 111,
+    name: 'CHICHA SU MARE',
+    category: 'BRAND, EVENT',
+    image: '/assets/aistudio/SG_ChicaSumare_header_b9cd59aa.png',
+    view: 'case-study-chicha-su-mare'
+  },
   {
     id: 103,
     name: 'BARRETT SESSION',
@@ -156,9 +165,10 @@ const HOME_VIDEO_SERVICES: HomeVideoServiceItem[] = [
 ];
 
 const ALL_PROJECTS: { id: number; title: string; category: string; image: string; videoUrl?: string }[] = [
-  { id: 101, title: 'Umana', category: 'Brand', image: '/images/umanabyhenribarrett.png', videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1' },
-  { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg', videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1' },
+  { id: 101, title: 'Umana', category: 'Brand', image: '/images/umanabyhenribarrett.png', videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k' },
+  { id: 102, title: 'Rappi', category: 'Event', image: '/images/rappi_spinning_kit.jpg', videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k' },
   { id: 107, title: 'Yummy Delivery', category: 'Brand', image: '/images/yummybyhenribarrett.png' },
+  { id: 111, title: 'Chicha Su Mare', category: 'Brand, Event', image: '/assets/aistudio/SG_ChicaSumare_header_b9cd59aa.png' },
   { id: 100, title: 'Teclab', category: 'Brand', image: '/images/teclabbyhenribarrett.png' },
   { id: 103, title: 'Barrett Session', category: 'Brand, Event', image: '/images/barrett_sessions_pedestal_sign.jpg' },
   { id: 104, title: 'Petco', category: 'Brand', image: '/images/petco_cannabidol_box.jpg' },
@@ -2110,7 +2120,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     name: 'UMANA',
     category: 'Brand',
     image: '/images/umanabyhenribarrett.png',
-    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
+    videoUrl: 'https://player.vimeo.com/video/1045858904?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k',
     client: 'Umana Beauty'
   },
   {
@@ -2118,7 +2128,7 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     name: 'RAPPI',
     category: 'Event',
     image: '/images/rappi_spinning_kit.jpg',
-    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1',
+    videoUrl: 'https://player.vimeo.com/video/1229618296?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&quality=4k',
     client: 'Rappi Fest'
   },
   {
@@ -2134,6 +2144,13 @@ const ROULETTE_PROJECTS: RouletteProject[] = [
     category: 'Brand',
     image: '/images/petco_cannabidol_box.jpg',
     client: 'Petco Botanicals'
+  },
+  {
+    id: 'chicha-su-mare',
+    name: 'CHICHA SU MARE',
+    category: 'Brand, Event',
+    image: '/assets/aistudio/SG_ChicaSumare_header_b9cd59aa.png',
+    client: 'Chicha Su Mare Fest'
   },
   {
     id: 'teclab',
@@ -2345,15 +2362,12 @@ const ListRouletteView: React.FC<{
               title="Clic para ver en grande"
             >
               {displayedProject.videoUrl ? (
-                <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
-                  <iframe
-                    src={displayedProject.videoUrl}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none"
-                    style={{ border: 'none' }}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    title={displayedProject.name}
-                  />
-                </div>
+                <WorkThumbnailVideo
+                  videoUrl={displayedProject.videoUrl}
+                  poster={displayedProject.image}
+                  title={displayedProject.name}
+                  containerAspectRatio="square"
+                />
               ) : (
                 <img
                   src={displayedProject.image}
@@ -2449,6 +2463,17 @@ const ListRouletteView: React.FC<{
                     onClick={(e) => {
                       e.stopPropagation();
                       onOpenCaseStudy('case-study-teclab');
+                    }}
+                    className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
+                  >
+                    Ver portfolio →
+                  </button>
+                )}
+                {displayedProject.name.toLowerCase().includes('chicha') && onOpenCaseStudy && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenCaseStudy('case-study-chicha-su-mare');
                     }}
                     className="text-xs font-semibold text-black underline hover:opacity-75 cursor-pointer"
                   >
@@ -2595,6 +2620,17 @@ const ListRouletteView: React.FC<{
                     onClick={() => {
                       setSelectedModal(null);
                       onOpenCaseStudy('case-study-teclab');
+                    }}
+                    className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
+                  >
+                    Ver caso de estudio →
+                  </button>
+                )}
+                {selectedModal.name.toLowerCase().includes('chicha') && onOpenCaseStudy && (
+                  <button 
+                    onClick={() => {
+                      setSelectedModal(null);
+                      onOpenCaseStudy('case-study-chicha-su-mare');
                     }}
                     className="px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-full hover:bg-neutral-800 transition-colors cursor-pointer self-start sm:self-auto flex items-center gap-2"
                   >
@@ -3993,15 +4029,12 @@ const HomeWorkCard: React.FC<HomeWorkCardProps> = ({
     >
       {/* MEDIA (FOTO O VIDEO) */}
       {project.videoUrl ? (
-        <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
-          <iframe
-            src={project.videoUrl}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none transition-transform duration-1000 ease-out group-hover:scale-105"
-            style={{ border: 'none' }}
-            allow="autoplay; fullscreen; picture-in-picture"
-            title={project.name}
-          />
-        </div>
+        <WorkThumbnailVideo
+          videoUrl={project.videoUrl}
+          poster={project.image}
+          title={project.name}
+          containerAspectRatio="wide"
+        />
       ) : (
         <img
           src={project.image}
@@ -4696,6 +4729,8 @@ export const App: React.FC = () => {
                           setCurrentView('case-study-heineken-fest');
                         } else if (work.title.toLowerCase().includes('teclab')) {
                           setCurrentView('case-study-teclab');
+                        } else if (work.title.toLowerCase().includes('chicha')) {
+                          setCurrentView('case-study-chicha-su-mare');
                         }
                       }}
                     >
@@ -4723,15 +4758,12 @@ export const App: React.FC = () => {
                         className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative shadow-sm cursor-none select-none"
                       >
                         {work.videoUrl ? (
-                          <div className="w-full h-full relative overflow-hidden pointer-events-none bg-black">
-                            <iframe
-                              src={work.videoUrl}
-                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] min-w-full min-h-full pointer-events-none transition-transform duration-1000 ease-out group-hover:scale-105"
-                              style={{ border: 'none' }}
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              title={work.title}
-                            />
-                          </div>
+                          <WorkThumbnailVideo
+                            videoUrl={work.videoUrl}
+                            poster={work.image}
+                            title={work.title}
+                            containerAspectRatio="4/5"
+                          />
                         ) : (
                           <img
                             src={work.image}
@@ -5103,6 +5135,10 @@ export const App: React.FC = () => {
 
   if (currentView === 'case-study-teclab') {
     return <TeclabCaseStudy onNavigate={setCurrentView} />;
+  }
+
+  if (currentView === 'case-study-chicha-su-mare') {
+    return <ChichaSuMareCaseStudy onNavigate={setCurrentView} />;
   }
 
   if (currentView === 'about') {
@@ -5769,6 +5805,8 @@ export const App: React.FC = () => {
                               setCurrentView('case-study-heineken-fest');
                             } else if (id === 'teclab') {
                               setCurrentView('case-study-teclab');
+                            } else if (id === 'chicha-su-mare' || id === 'chicha') {
+                              setCurrentView('case-study-chicha-su-mare');
                             }
                           }}
                           onImageHover={(e, isHovering) => {

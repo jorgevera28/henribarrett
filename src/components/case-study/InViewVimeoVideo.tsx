@@ -117,7 +117,7 @@ export const InViewVimeoVideo: React.FC<InViewVimeoVideoProps> = ({
       {isNear && (
         <iframe
           ref={iframeRef}
-          src={`https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&api=1&autopause=0`}
+          src={`https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&playsinline=1&api=1&autopause=0&quality=4k`}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[101%] h-[101%] min-w-full min-h-full pointer-events-none"
           style={{ border: 'none' }}
           allow="autoplay; fullscreen; picture-in-picture"
